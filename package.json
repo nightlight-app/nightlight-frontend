@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@expo-google-fonts/comfortaa": "^0.2.2",
-    "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-firebase/app": "^16.7.0",
     "@react-native-masked-view/masked-view": "0.2.8",
     "@react-navigation/bottom-tabs": "^6.5.4",
@@ -32,7 +31,6 @@
     "expo-location": "^15.0.1",
     "expo-status-bar": "~1.4.2",
     "firebase": "^8.10.1",
-    "native-base": "3.4.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-hook-form": "^7.43.0",
@@ -51,7 +49,7 @@
     "@types/react-native": "~0.70.6",
     "prettier": "^2.8.3",
     "react-native-dotenv": "^3.4.7",
-    "typescript": "^4.6.3"
+    "typescript": "^4.9.5"
   },
   "private": true
 }
