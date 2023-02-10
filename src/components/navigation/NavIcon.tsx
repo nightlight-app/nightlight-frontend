@@ -1,17 +1,17 @@
-import React from "react";
-import { View } from "react-native";
+import React from 'react';
+import { View } from 'react-native';
 
-import { Entypo } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Entypo } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 enum Route {
-  MAP = "Map",
-  SOCIAL = "Social",
-  EXPLORE = "Explore",
-  PROFILE = "Profile",
+  MAP = 'Map',
+  SOCIAL = 'Social',
+  EXPLORE = 'Explore',
+  PROFILE = 'Profile',
 }
 
 interface Props {
@@ -26,15 +26,15 @@ const NavIcon = ({
   route,
   isFocused,
   size = 30,
-  color = "#FFFFFF",
-  focusColor = "#4A86E8",
+  color = '#FFFFFF',
+  focusColor = '#4A86E8',
 }: Props) => {
   const renderIcon = (route: Route) => {
     switch (route) {
       case Route.MAP:
         return (
           <Entypo
-            name="map"
+            name='map'
             size={size}
             color={isFocused ? focusColor : color}
           />
@@ -42,7 +42,7 @@ const NavIcon = ({
       case Route.SOCIAL:
         return (
           <MaterialCommunityIcons
-            name="account-group"
+            name='account-group'
             size={size}
             color={isFocused ? focusColor : color}
           />
@@ -50,7 +50,7 @@ const NavIcon = ({
       case Route.EXPLORE:
         return (
           <Ionicons
-            name="search"
+            name='search'
             size={size}
             color={isFocused ? focusColor : color}
           />
@@ -58,14 +58,14 @@ const NavIcon = ({
       case Route.PROFILE:
         return (
           <FontAwesome
-            name="id-card"
+            name='id-card'
             size={size}
             color={isFocused ? focusColor : color}
           />
         );
       default:
         return (
-          <MaterialIcons name="disabled-by-default" size={size} color={color} />
+          <MaterialIcons name='disabled-by-default' size={size} color={color} />
         );
     }
   };
@@ -79,8 +79,7 @@ const NavIcon = ({
           shadowOpacity: 0.5,
           shadowRadius: 4,
         }
-      }
-    >
+      }>
       {renderIcon(route)}
     </View>
   );

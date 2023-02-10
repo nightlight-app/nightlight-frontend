@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Pressable, StyleSheet, SafeAreaView } from "react-native";
-import NavIcon from "./NavIcon";
-import CenterButton from "./CenterButton";
-import NavbarSvg from "../../../assets/icons/NavbarSvg";
+import React from 'react';
+import { View, Pressable, StyleSheet, SafeAreaView } from 'react-native';
+import NavIcon from './NavIcon';
+import CenterButton from './CenterButton';
+import NavbarSvg from '../../../assets/icons/NavbarSvg';
 
 const TabBar = ({ state, descriptors, navigation }: any) => {
   return (
@@ -11,7 +11,7 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
         <View style={styles.routesContainer}>
           {state.routes.map((route: any, index: number) => {
             // Uniquely handles the center button space
-            if (route.name == "Placeholder") {
+            if (route.name == 'Placeholder') {
               return (
                 <View key={index} style={styles.centerButtonContainer}>
                   {/* TODO: E-Button! */}
@@ -35,7 +35,7 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
             // Only navigate if the route is not focused
             const onPress = () => {
               const event = navigation.emit({
-                type: "tabPress",
+                type: 'tabPress',
                 target: route.key,
               });
 
@@ -50,8 +50,7 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
                 onPress={onPress}
                 style={{
                   ...styles.routeButton,
-                }}
-              >
+                }}>
                 <NavIcon route={label} isFocused={isFocused} />
               </Pressable>
             );
@@ -68,42 +67,42 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
 
 const styles = StyleSheet.create({
   navbarContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center',
   },
   navbar: {
     height: 80,
     width: 390,
     bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   backgroundSvgContainer: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
   },
   routesContainer: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-evenly",
-    alignItems: "center",
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
     zIndex: 1,
   },
   routeButton: {
     height: 50,
     width: 50,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   centerButtonContainer: {
     width: 100,
     height: 100,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     bottom: 40,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 0,
@@ -112,12 +111,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   dangerZoneFill: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -34,
     height: 34,
-    width: "100%",
-    backgroundColor: "#212121",
-    borderColor: "#141414",
+    width: '100%',
+    backgroundColor: '#212121',
+    borderColor: '#141414',
     borderLeftWidth: 2,
     borderRightWidth: 2,
   },

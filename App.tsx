@@ -1,9 +1,9 @@
-import React from "react";
-import { SafeAreaView, Text } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React from 'react';
+import { SafeAreaView, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import TabBar from "./src/components/navigation/TabBar";
+import TabBar from './src/components/navigation/TabBar';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,15 +51,14 @@ const App = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Map"
+        initialRouteName='Map'
         screenOptions={{ headerShown: false }}
-        tabBar={(props: any) => <TabBar {...props} />}
-      >
-        <Tab.Screen name="Map" component={MapScreen} />
-        <Tab.Screen name="Social" component={SocialScreen} />
-        <Tab.Screen name="Placeholder" component={PlaceholderScreen} />
-        <Tab.Screen name="Explore" component={ExploreScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        tabBar={(props: any) => <TabBar {...props} />}>
+        <Tab.Screen name='Map' component={MapScreen} />
+        <Tab.Screen name='Social' component={SocialScreen} />
+        <Tab.Screen name='Placeholder' component={PlaceholderScreen} />
+        <Tab.Screen name='Explore' component={ExploreScreen} />
+        <Tab.Screen name='Profile' component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
