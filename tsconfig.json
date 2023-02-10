@@ -6,9 +6,10 @@
     "baseUrl": ".",
     "paths": {
       // This needs to be mirrored in babel.config.js
-      "components/*": ["src/components/*"],
-      "screen/*": ["src/screen/*"],
-      "src/*": ["src/*"]
+      "@components/*": ["src/components/*"],
+      "@screen/*": ["src/screen/*"],
+      "@assets/*": ["assets/*"],
+      "@src/*": ["src/*"]
     }
   }
 }
