@@ -3,7 +3,8 @@ import { SafeAreaView, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import TabBar from './src/components/navigation/TabBar';
+import TabBar from 'components/navigation/TabBar';
+import { Route } from 'src/types';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,14 +52,14 @@ const App = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName='Map'
+        initialRouteName={Route.MAP}
         screenOptions={{ headerShown: false }}
         tabBar={(props: any) => <TabBar {...props} />}>
-        <Tab.Screen name='Map' component={MapScreen} />
-        <Tab.Screen name='Social' component={SocialScreen} />
+        <Tab.Screen name={Route.MAP} component={MapScreen} />
+        <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
         <Tab.Screen name='Placeholder' component={PlaceholderScreen} />
-        <Tab.Screen name='Explore' component={ExploreScreen} />
-        <Tab.Screen name='Profile' component={ProfileScreen} />
+        <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
+        <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
