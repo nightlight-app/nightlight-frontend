@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Pressable, StyleSheet, SafeAreaView } from 'react-native';
 import NavIcon from './NavIcon';
 import CenterButton from './CenterButton';
-import NavbarSvg from '../../../assets/icons/NavbarSvg';
+import NavbarSvg from '@assets/icons/NavbarSvg';
 
 const TabBar = ({ state, descriptors, navigation }: any) => {
   return (
