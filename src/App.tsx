@@ -1,4 +1,5 @@
 // External dependencies
+import { registerRootComponent } from 'expo';
 import React from 'react';
 import { SafeAreaView, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -75,5 +76,7 @@ const App = () => {
     </NavigationContainer>
   );
 };
+
+registerRootComponent(App);
 
 export default App;
