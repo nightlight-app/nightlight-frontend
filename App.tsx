@@ -3,8 +3,8 @@ import { SafeAreaView, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import TabBar from 'components/navigation/TabBar';
-import { Route } from 'src/types';
+import TabBar from '@nightlight/components/navigation/TabBar';
+import { Route } from '@nightlight/src/types';
 
 const Tab = createBottomTabNavigator();
 
