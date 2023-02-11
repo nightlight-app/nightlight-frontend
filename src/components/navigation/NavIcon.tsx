@@ -1,28 +1,25 @@
 import React from 'react';
 import { View } from 'react-native';
-
 import { Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Route } from '@nightlight/src/types';
 
-interface Props {
-  route: Route;
-  isFocused: boolean;
-  size?: number;
-  color?: string;
-  focusColor?: string;
-}
+import { Route, NavIconProps } from '@nightlight/src/types';
+
+import {
+  NIGHTLIGHT_BLUE,
+  NIGHTLIGHT_WHITE,
+} from '@nightlight/src/global.styles';
 
 const NavIcon = ({
   route,
   isFocused,
   size = 30,
-  color = '#FFFFFF',
-  focusColor = '#4A86E8',
-}: Props) => {
+  color = NIGHTLIGHT_WHITE,
+  focusColor = NIGHTLIGHT_BLUE,
+}: NavIconProps) => {
   const renderIcon = (route: Route) => {
     switch (route) {
       case Route.MAP:

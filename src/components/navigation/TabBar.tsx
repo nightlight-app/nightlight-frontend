@@ -1,21 +1,25 @@
 import React from 'react';
-import { View, Pressable, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Pressable, SafeAreaView } from 'react-native';
+
+import { Route } from '@nightlight/src/types';
+
 import NavIcon from '@nightlight/components/navigation/NavIcon';
-import CenterButton from '@nightlight/components/navigation/CenterButton';
+import EmergencyButton from '@nightlight/components/navigation/EmergencyButton';
 import NavbarSvg from '@nightlight/assets/icons/NavbarSvg';
+
+import tabBarStyles from '@nightlight/components/navigation/TabBar.styles';
 
 const TabBar = ({ state, descriptors, navigation }: any) => {
   return (
-    <SafeAreaView style={styles.navbarContainer}>
-      <View style={styles.navbar}>
-        <View style={styles.routesContainer}>
+    <SafeAreaView style={tabBarStyles.navbarContainer}>
+      <View style={tabBarStyles.navbar}>
+        <View style={tabBarStyles.routesContainer}>
           {state.routes.map((route: any, index: number) => {
-            // Uniquely handles the center button space
-            if (route.name == 'Placeholder') {
+            // Uniquely handles the emergency button space
+            if (route.name == Route.EMERGENCY) {
               return (
-                <View key={index} style={styles.centerButtonContainer}>
-                  {/* TODO: E-Button! */}
-                  <CenterButton />
+                <View key={index} style={tabBarStyles.emergencyButtonContainer}>
+                  <EmergencyButton />
                 </View>
               );
             }
@@ -48,78 +52,19 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
               <Pressable
                 key={index}
                 onPress={onPress}
-                style={{
-                  ...styles.routeButton,
-                }}>
+                style={tabBarStyles.routeButton}>
                 <NavIcon route={label} isFocused={isFocused} />
               </Pressable>
             );
           })}
         </View>
-        <View style={styles.backgroundSvgContainer}>
+        <View style={tabBarStyles.backgroundSvgContainer}>
           <NavbarSvg />
-          <View style={styles.dangerZoneFill} />
+          <View style={tabBarStyles.dangerZoneFill} />
         </View>
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  navbarContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    alignItems: 'center',
-  },
-  navbar: {
-    height: 80,
-    width: 390,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  backgroundSvgContainer: {
-    position: 'absolute',
-    bottom: 0,
-  },
-  routesContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    zIndex: 1,
-  },
-  routeButton: {
-    height: 50,
-    width: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  centerButtonContainer: {
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    bottom: 40,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-  },
-  dangerZoneFill: {
-    position: 'absolute',
-    bottom: -34,
-    height: 34,
-    width: '100%',
-    backgroundColor: '#212121',
-    borderColor: '#141414',
-    borderLeftWidth: 2,
-    borderRightWidth: 2,
-  },
-});
 
 export default TabBar;
