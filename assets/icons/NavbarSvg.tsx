@@ -1,13 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import Svg, { type SvgProps, Path } from 'react-native-svg';
-/* SVGR has dropped some elements not supported by react-native-svg: filter */
-
-interface ISvgProps extends SvgProps {
-  xmlns?: string;
-  xmlnsXlink?: string;
-  xmlSpace?: string;
-}
+import Svg, { Path } from 'react-native-svg';
+import { ISvgProps } from '@nightlight/src/types';
 
 const NavbarSvg = (props: ISvgProps) => (
   <Svg
@@ -15,8 +9,8 @@ const NavbarSvg = (props: ISvgProps) => (
     width={390}
     height={80}
     fill='none'
-    style={styles.shadow}
-    {...props}>
+    {...props}
+    style={{ ...styles.shadow, ...props.style }}>
     <Path
       fill='#212121'
       stroke='#141414'
@@ -29,7 +23,7 @@ const NavbarSvg = (props: ISvgProps) => (
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: '#000',
+    shadowColor: '#141414',
     shadowOffset: {
       width: 0,
       height: -4,

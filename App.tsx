@@ -4,17 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import TabBar from '@nightlight/components/navigation/TabBar';
+import MapScreen from '@nightlight/screens/map/MapScreen'; // TODO: help TS is yelling at me :(
 import { Route } from '@nightlight/src/types';
 
 const Tab = createBottomTabNavigator();
-
-const MapScreen = () => {
-  return (
-    <SafeAreaView>
-      <Text>Map</Text>
-    </SafeAreaView>
-  );
-};
 
 const SocialScreen = () => {
   return (
