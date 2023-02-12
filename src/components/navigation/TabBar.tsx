@@ -1,20 +1,19 @@
 import React from 'react';
 import { View, Pressable, SafeAreaView } from 'react-native';
-
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Route } from '@nightlight/src/types';
-
 import NavIcon from '@nightlight/components/navigation/NavIcon';
 import EmergencyButton from '@nightlight/components/navigation/EmergencyButton';
 import NavbarSvg from '@nightlight/assets/icons/NavbarSvg';
-
 import tabBarStyles from '@nightlight/components/navigation/TabBar.styles';
 
-const TabBar = ({ state, descriptors, navigation }: any) => {
+const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   return (
     <SafeAreaView style={tabBarStyles.navbarContainer}>
       <View style={tabBarStyles.navbar}>
         <View style={tabBarStyles.routesContainer}>
           {state.routes.map((route: any, index: number) => {
+            // TODO: Fix type 'any' above (useful ref?: https://reactnavigation.org/docs/typescript/)
             // Uniquely handles the emergency button space
             if (route.name == Route.EMERGENCY) {
               return (
@@ -41,6 +40,7 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
               const event = navigation.emit({
                 type: 'tabPress',
                 target: route.key,
+                canPreventDefault: true,
               });
 
               if (!isFocused && !event.defaultPrevented) {

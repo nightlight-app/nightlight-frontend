@@ -1,18 +1,12 @@
 import { StyleSheet } from 'react-native';
-
-import {
-  NIGHTLIGHT_BLUE,
-  NIGHTLIGHT_GRAY,
-  NIGHTLIGHT_BLACK,
-  NIGHTLIGHT_WHITE,
-} from '@nightlight/src/global.styles';
+import { COLORS } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
   base: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: NIGHTLIGHT_GRAY,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -21,7 +15,7 @@ export default StyleSheet.create({
     width: 65,
     height: 65,
     borderRadius: 32.5,
-    borderColor: NIGHTLIGHT_WHITE,
+    borderColor: COLORS.WHITE,
     borderWidth: 3,
   },
   blueDot: {
@@ -29,8 +23,8 @@ export default StyleSheet.create({
     width: 17,
     height: 17,
     borderRadius: 8.5,
-    backgroundColor: NIGHTLIGHT_BLUE,
-    shadowColor: NIGHTLIGHT_BLUE,
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    shadowColor: COLORS.NIGHTLIGHT_BLUE,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -40,7 +34,7 @@ export default StyleSheet.create({
   },
   whiteNotch: {
     position: 'absolute',
-    backgroundColor: NIGHTLIGHT_WHITE,
+    backgroundColor: COLORS.WHITE,
     width: 15,
     height: 35,
     borderRadius: 7.5,
@@ -52,6 +46,18 @@ export default StyleSheet.create({
     height: 80,
     borderRadius: 40,
     borderWidth: 2,
-    borderColor: NIGHTLIGHT_BLACK,
+    borderColor: COLORS.NIGHTLIGHT_BLACK,
+  },
+  maskedView: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+  },
+  maskElement: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#000000',
   },
 });

@@ -1,4 +1,5 @@
 import { SvgProps } from 'react-native-svg';
+import { ParamListBase, TabNavigationState } from '@react-navigation/native';
 
 export enum Route {
   MAP = 'Map',

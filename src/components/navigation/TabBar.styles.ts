@@ -1,11 +1,5 @@
 import { StyleSheet } from 'react-native';
-
-import {
-  NIGHTLIGHT_BLUE,
-  NIGHTLIGHT_GRAY,
-  NIGHTLIGHT_BLACK,
-  NIGHTLIGHT_WHITE,
-} from '@nightlight/src/global.styles';
+import { COLORS } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
   navbarContainer: {
@@ -44,7 +38,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     bottom: 40,
-    shadowColor: NIGHTLIGHT_BLACK,
+    shadowColor: COLORS.NIGHTLIGHT_BLACK,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -57,8 +51,8 @@ export default StyleSheet.create({
     bottom: -34,
     height: 34,
     width: '100%',
-    backgroundColor: NIGHTLIGHT_GRAY,
-    borderColor: NIGHTLIGHT_BLACK,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    borderColor: COLORS.NIGHTLIGHT_BLACK,
     borderLeftWidth: 2,
     borderRightWidth: 2,
   },

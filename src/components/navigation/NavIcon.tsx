@@ -5,20 +5,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-
 import { Route, NavIconProps } from '@nightlight/src/types';
-
-import {
-  NIGHTLIGHT_BLUE,
-  NIGHTLIGHT_WHITE,
-} from '@nightlight/src/global.styles';
+import { COLORS } from '@nightlight/src/global.styles';
 
 const NavIcon = ({
   route,
   isFocused,
   size = 30,
-  color = NIGHTLIGHT_WHITE,
-  focusColor = NIGHTLIGHT_BLUE,
+  color = COLORS.WHITE,
+  focusColor = COLORS.NIGHTLIGHT_BLUE,
 }: NavIconProps) => {
   const renderIcon = (route: Route) => {
     switch (route) {

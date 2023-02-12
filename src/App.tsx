@@ -1,17 +1,11 @@
-// External dependencies
 import { registerRootComponent } from 'expo';
 import React from 'react';
 import { SafeAreaView, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-// Internal dependencies
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Route } from '@nightlight/src/types';
-
-// Components
 import TabBar from '@nightlight/components/navigation/TabBar';
-
-// Styles
 
 const Tab = createBottomTabNavigator();
 
@@ -66,7 +60,7 @@ const App = () => {
       <Tab.Navigator
         initialRouteName={Route.MAP}
         screenOptions={{ headerShown: false }}
-        tabBar={(props: any) => <TabBar {...props} />}>
+        tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
         <Tab.Screen name={Route.MAP} component={MapScreen} />
         <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
         <Tab.Screen name={Route.EMERGENCY} component={EmergencyScreen} />
