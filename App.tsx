@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBar from 'components/navigation/TabBar';
 import { Route } from 'src/types';
 
+import ExploreScreen from 'src/screens/explore/ExploreScreen';
+
 const Tab = createBottomTabNavigator();
 
 const MapScreen = () => {
@@ -32,13 +34,13 @@ const PlaceholderScreen = () => {
   );
 };
 
-const ExploreScreen = () => {
-  return (
-    <SafeAreaView>
-      <Text>Explore</Text>
-    </SafeAreaView>
-  );
-};
+// const ExploreScreen = () => {
+//   return (
+//     <SafeAreaView>
+//       <ExploreScreen></ExploreScreen>
+//     </SafeAreaView>
+//   );
+// };
 
 const ProfileScreen = () => {
   return (
