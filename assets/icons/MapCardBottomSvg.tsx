@@ -2,11 +2,12 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import Svg, { Mask, Path } from 'react-native-svg';
 import { MapCardBottomSvgProps } from '@nightlight/src/types';
+import { COLORS } from '@nightlight/src/global.styles';
 
 // TODO: Fix Figma to have width of 370px and export again
 
 const MapCardBottomSvg = ({
-  borderColor = '#141414',
+  borderColor = COLORS.NIGHTLIGHT_BLACK,
   ...props
 }: MapCardBottomSvgProps) => (
   <Svg
@@ -16,8 +17,7 @@ const MapCardBottomSvg = ({
     fill='none'
     {...{ ...props, borderColor: undefined }}
     style={{ ...styles.shadow, ...props.style }}>
-    <Mask id='b' fill='#FFFFFF'>
-      {/* Mask fill above should be hardcoded */}
+    <Mask id='b' fill={COLORS.WHITE}>
       <Path
         fillRule='evenodd'
         d='M370-95c0-8.284-6.716-15-15-15H15c-8.284 0-15 6.716-15 15V25c0 8.284 6.716 15 15 15h108.696c6.902 0 12.708-4.848 15.884-10.976C147.901 12.97 164.669 2 184 2c19.331 0 36.099 10.97 44.42 27.024C231.596 35.152 237.402 40 244.304 40H354c8.284 0 15-6.716 15-15V-95Z'
@@ -25,7 +25,7 @@ const MapCardBottomSvg = ({
       />
     </Mask>
     <Path
-      fill='#212121'
+      fill={COLORS.NIGHTLIGHT_GRAY}
       fillRule='evenodd'
       d='M369-95c0-8.284-6.716-15-15-15H15c-8.284 0-15 6.716-15 15V25c0 8.284 6.716 15 15 15h108.696c6.902 0 12.708-4.848 15.884-10.976C147.901 12.97 164.669 2 184 2c19.331 0 36.099 10.97 44.42 27.024C231.596 35.152 237.402 40 244.304 40H354c8.284 0 15-6.716 15-15V-95Z'
       clipRule='evenodd'
@@ -40,7 +40,7 @@ const MapCardBottomSvg = ({
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: '#141414',
+    shadowColor: COLORS.NIGHTLIGHT_BLACK,
     shadowOffset: {
       width: 0,
       height: 4,

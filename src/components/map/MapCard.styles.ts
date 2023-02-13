@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
   container: {
@@ -8,7 +9,7 @@ export default StyleSheet.create({
     width: 369,
   },
   contentContainer: {
-    backgroundColor: '#212121',
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     borderWidth: 2,
     borderBottomWidth: 0,
     borderTopLeftRadius: 15,

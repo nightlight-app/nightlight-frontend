@@ -4,6 +4,7 @@ import mapScreenStyles from '@nightlight/screens/map/MapScreen.styles'; // TODO:
 import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
 import { Venue, User } from '@nightlight/src/types';
+import { COLORS } from '@nightlight/src/global.styles';
 
 const TEST_VENUE: Venue = {
   _id: '5f9f1b9b0b1b9c0017a1b1a1',
@@ -74,12 +75,22 @@ const MapScreen = () => {
       <Text>activeMapCardType: {JSON.stringify(activeMapCardType)}</Text>
       <Pressable
         onPress={handleShowVenueCard}
-        style={{ backgroundColor: '#0000ff', padding: 10, width: 150 }}>
+        style={{
+          backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+          padding: 10,
+          width: 150,
+          borderRadius: 10,
+        }}>
         <Text>Show Venue Card</Text>
       </Pressable>
       <Pressable
         onPress={handleShowUserCard}
-        style={{ backgroundColor: '#00f000', padding: 10, width: 150 }}>
+        style={{
+          backgroundColor: COLORS.GREEN,
+          padding: 10,
+          width: 150,
+          borderRadius: 10,
+        }}>
         <Text>Show User Card</Text>
       </Pressable>
     </SafeAreaView>
