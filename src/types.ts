@@ -8,6 +8,11 @@ export enum Route {
   PROFILE = 'Profile',
 }
 
+export enum MapCardTypes {
+  VENUE = 'venue',
+  USER = 'user',
+}
+
 export interface Venue {
   _id: string;
   name: string;

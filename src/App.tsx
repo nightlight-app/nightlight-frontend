@@ -8,7 +8,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import { Route } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
-import MapScreen from '@nightlight/screens/map/MapScreen'; // TODO: help TS is yelling at me :(
+import MapScreen from '@nightlight/screens/map/MapScreen';
 
 const Tab = createBottomTabNavigator();
 

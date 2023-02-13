@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Pressable, SafeAreaView, Text } from 'react-native';
-import mapScreenStyles from '@nightlight/screens/map/MapScreen.styles'; // TODO: help :(
+import mapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
-import { Venue, User } from '@nightlight/src/types';
+import { MapCardTypes, Venue, User } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 
 const TEST_VENUE: Venue = {
@@ -32,35 +32,27 @@ const TEST_USER: User = {
 };
 
 const MapScreen = () => {
-  const [showMapCard, setShowMapCard] = useState(false);
-  const [activeMapCardType, setActiveMapCardType] = useState('');
-
-  // Reset activeMapCardType when map card is hidden
-  useEffect(() => {
-    if (!showMapCard) setActiveMapCardType('');
-  }, [showMapCard]);
+  const [activeMapCardType, setActiveMapCardType] = useState<
+    MapCardTypes | undefined
+  >(undefined);
 
   const handleShowVenueCard = () => {
-    setActiveMapCardType('venue');
-    setShowMapCard(true);
+    setActiveMapCardType(MapCardTypes.VENUE);
   };
 
   const handleShowUserCard = () => {
-    setActiveMapCardType('user');
-    setShowMapCard(true);
+    setActiveMapCardType(MapCardTypes.USER);
   };
 
   const handleCloseMapCard = () => {
-    setShowMapCard(false);
+    setActiveMapCardType(undefined);
   };
 
-  // TODO: is this the best way to do this?
-  // TODO: export consts for match cases?
-  const renderMapCard = (type: string) => {
+  const renderMapCard = (type: MapCardTypes) => {
     switch (type) {
-      case 'venue':
+      case MapCardTypes.VENUE:
         return <VenueCard venue={TEST_VENUE} onClose={handleCloseMapCard} />;
-      case 'user':
+      case MapCardTypes.USER:
         return <UserCard user={TEST_USER} onClose={handleCloseMapCard} />;
       default:
         return <></>;
@@ -69,9 +61,8 @@ const MapScreen = () => {
 
   return (
     <SafeAreaView style={mapScreenStyles.container}>
-      {showMapCard && renderMapCard(activeMapCardType)}
+      {activeMapCardType && renderMapCard(activeMapCardType)}
       <Text>MapScreen</Text>
-      <Text>showMapCard: {showMapCard ? 'true' : 'false'}</Text>
       <Text>activeMapCardType: {JSON.stringify(activeMapCardType)}</Text>
       <Pressable
         onPress={handleShowVenueCard}
