@@ -21,7 +21,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
         return (
           <View key={index} style={{ flexDirection: 'row' }}>
             <Text style={{ color: '#fff', fontWeight: 'bold' }}>{field}: </Text>
-            <Text style={{ color: '#00ff00' }}>{JSON.stringify(value)}</Text>
+            <Text style={{ color: '#00ff00', flex: 1 }}>{JSON.stringify(value)}</Text>
           </View>
         );
       })}
