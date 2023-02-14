@@ -120,7 +120,7 @@ const VenueCard = ({ venue, onClose }: VenueCardProps) => {
               fontFamily: Fonts.COMFORTAA_REGULAR,
               marginBottom: 10,
             }}>
-            0.3 miles away
+            0.3 miles
           </Text>
           <View style={{ flexDirection: 'row', maxWidth: '100%' }}>
             {Object.keys(venue.reactions).map((emoji, index) =>

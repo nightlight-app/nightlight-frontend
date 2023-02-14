@@ -11,8 +11,8 @@ const TEST_VENUE: Venue = {
   name: 'The Bitter End',
   address: '147 Bleecker St, New York, NY 10012',
   location: {
-    longitude: -73.994,
     latitude: 40.729,
+    longitude: -73.994,
   },
   reactions: {
     '🔥': {
@@ -45,12 +45,12 @@ const TEST_USER: User = {
   lastName: 'Hemingway',
   lastActive: {
     location: {
-      longitude: -73.994,
-      latitude: 40.729,
+      latitude: 24.294,
+      longitude: 51.853,
     },
     time: new Date(),
   },
-  phoneNumber: '555-555-5555',
+  phoneNumber: '615-555-5555',
 };
 
 const MapScreen = () => {
