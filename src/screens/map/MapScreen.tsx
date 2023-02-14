@@ -14,6 +14,28 @@ const TEST_VENUE: Venue = {
     longitude: -73.994,
     latitude: 40.729,
   },
+  reactions: {
+    '🔥': {
+      count: 21,
+      didReact: true,
+    },
+    '⚠️': {
+      count: 4,
+      didReact: false,
+    },
+    '🛡️': {
+      count: 54,
+      didReact: true,
+    },
+    '💩': {
+      count: 1,
+      didReact: true,
+    },
+    '🎉': {
+      count: 12,
+      didReact: false,
+    },
+  },
 };
 
 const TEST_USER: User = {

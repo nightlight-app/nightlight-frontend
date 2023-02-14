@@ -13,6 +13,19 @@ export enum MapCardTypes {
   USER = 'user',
 }
 
+export enum ReactionEmoji {
+  FIRE = '🔥',
+  WARNING = '⚠️',
+  SHIELD = '🛡️',
+  POOP = '💩',
+  PARTY = '🎉',
+}
+
+export interface Reaction {
+  count: number;
+  didReact: boolean;
+}
+
 export interface Venue {
   _id: string;
   name: string;
@@ -21,6 +34,23 @@ export interface Venue {
     latitude: number;
     longitude: number;
   };
+  reactions: {
+    [ReactionEmoji.FIRE]: Reaction;
+    [ReactionEmoji.WARNING]: Reaction;
+    [ReactionEmoji.SHIELD]: Reaction;
+    [ReactionEmoji.POOP]: Reaction;
+    [ReactionEmoji.PARTY]: Reaction;
+  };
+}
+
+export interface Location {
+  latitude: number;
+  longitude: number;
+}
+
+export interface LastActive {
+  location: Location;
+  time: Date;
 }
 
 // TODO: Add more fields
@@ -29,13 +59,7 @@ export interface User {
   imgUrlProfileSmall?: string;
   firstName: string;
   lastName: string;
-  lastActive: {
-    location: {
-      longitude: number;
-      latitude: number;
-    };
-    time: Date;
-  };
+  lastActive: LastActive;
   phoneNumber: string;
 }
 
