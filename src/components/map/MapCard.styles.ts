@@ -4,9 +4,8 @@ import { COLORS } from '@nightlight/src/global.styles';
 export default StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 127,
+    bottom: 80 + 34 + 15, // navbar height + safe area bottom margin + gap
     alignSelf: 'center',
-    width: 369,
   },
   contentContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
