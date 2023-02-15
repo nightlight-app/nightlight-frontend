@@ -18,12 +18,16 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "test": "jest --watch"
+    "test": "jest --coverage --collectCoverageFrom='./src/**'"
   },
   "jest": {
     "preset": "jest-expo/universal",
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+    ],
+    "collectCoverage": true,
+    "coverageReporters": [
+      "html"
     ]
   },
   "dependencies": {
