@@ -78,7 +78,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
           style={{
             height: 40,
             width: 40,
-            backgroundColor: COLORS.DARK_GRAY,
+            backgroundColor: COLORS.GRAY,
             borderColor: COLORS.GREEN,
             borderWidth: 2,
             borderRadius: 20,
@@ -90,6 +90,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
             style={{
               textAlign: 'center',
               color: COLORS.WHITE,
+              opacity: 0.8,
               fontFamily: Fonts.COMFORTAA_BOLD,
               fontSize: 16,
             }}>
