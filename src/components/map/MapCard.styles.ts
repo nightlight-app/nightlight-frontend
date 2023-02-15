@@ -6,6 +6,7 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 80 + 34 + 15, // navbar height + safe area bottom margin + gap
     alignSelf: 'center',
+    width: 370,
     shadowOffset: {
       width: 0,
       height: 0,

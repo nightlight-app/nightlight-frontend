@@ -11,6 +11,7 @@ export enum Route {
 export enum MapCardTypes {
   VENUE = 'venue',
   USER = 'user',
+  ERROR = 'error',
 }
 
 export enum ReactionEmoji {
@@ -84,7 +85,7 @@ export interface MapCardBottomSvgProps extends ISvgProps {
 
 export interface MapCardProps {
   children?: React.ReactNode;
-  borderColor: string;
+  borderColor?: string;
   shadowColor?: string;
   onClose: () => void;
 }
@@ -102,5 +103,10 @@ export interface VenueCardProps {
 
 export interface UserCardProps {
   user: User;
+  onClose: () => void;
+}
+
+export interface ErrorCardProps {
+  message?: string;
   onClose: () => void;
 }

@@ -3,6 +3,7 @@ import { Pressable, SafeAreaView, Text } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
+import ErrorCard from '@nightlight/components/map/ErrorCard';
 import { MapCardTypes, Venue, User } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 
@@ -66,6 +67,10 @@ const MapScreen = () => {
     setActiveMapCardType(MapCardTypes.USER);
   };
 
+  const handleShowErrorCard = () => {
+    setActiveMapCardType(MapCardTypes.ERROR);
+  };
+
   const handleCloseMapCard = () => {
     setActiveMapCardType(undefined);
   };
@@ -77,7 +82,7 @@ const MapScreen = () => {
       case MapCardTypes.USER:
         return <UserCard user={TEST_USER} onClose={handleCloseMapCard} />;
       default:
-        return <></>;
+        return <ErrorCard onClose={handleCloseMapCard} />;
     }
   };
 
@@ -105,6 +110,16 @@ const MapScreen = () => {
           borderRadius: 10,
         }}>
         <Text>Show User Card</Text>
+      </Pressable>
+      <Pressable
+        onPress={handleShowErrorCard}
+        style={{
+          backgroundColor: COLORS.RED,
+          padding: 10,
+          width: 150,
+          borderRadius: 10,
+        }}>
+        <Text>Show Error Card</Text>
       </Pressable>
     </SafeAreaView>
   );
