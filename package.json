@@ -18,7 +18,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "test": "jest --coverage --collectCoverageFrom='./src/**'"
+    "test": "jest --watch",
+    "test:coverage": "jest --coverage --collectCoverageFrom='./src/**'"
   },
   "dependencies": {
     "@expo-google-fonts/comfortaa": "^0.2.2",
@@ -32,7 +33,7 @@
     "expo-location": "^15.0.1",
     "expo-status-bar": "~1.4.2",
     "firebase": "^8.10.1",
-    "react": "18.1.0",
+    "react": "^18.1.0",
     "react-dom": "18.1.0",
     "react-hook-form": "^7.43.0",
     "react-native": "0.70.5",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
+    "@testing-library/react-native": "^11.5.2",
     "@types/jest": "^29.4.0",
     "@types/react": "~18.0.24",
     "@types/react-native": "~0.70.6",

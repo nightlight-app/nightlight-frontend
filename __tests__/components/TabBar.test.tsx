@@ -1,10 +1,20 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react-native';
 
-import TabBar from '@nightlight/components/navigation/TabBar';
+import App from '@nightlight/src/App';
+
+// mock registerRootComponent to resolve error
+jest.mock('expo', () => ({
+  registerRootComponent: (component: React.ComponentType) => component,
+}));
 
 describe('Component <TabBar />', () => {
-  test('it should have a safe area view', () => {});
+  test('it should have a safe area view', () => {
+    // render the app
+    render(<App />);
 
-  test('it should ', () => {});
+    // TODO: check safe area view exists
+  });
+
+  test('it should... ', () => {});
 });
