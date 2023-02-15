@@ -1,0 +1,19 @@
+name: Format code with Prettier
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    name: Format code with Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install packages
+        run: npm ci
+      - name: Run formatter
+        run: npm run format
+      - uses: stefanzweifel/git-auto-commit-action@v4.16.0
+        with:
+          commit_message: Apply Prettier formatting
