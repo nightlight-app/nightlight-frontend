@@ -33,26 +33,20 @@ describe('Component <App />', () => {
       // render the app
       render(<App />);
 
-      // find the pressable to the route
-      const pressable = await screen.findByLabelText(route);
-
-      // expect pressable to exist
-      expect(pressable).not.toBeNull();
+      // get the pressable to the route (throws error if no exist)
+      const pressable = screen.getByLabelText(route);
 
       // click on the pressable
       fireEvent(pressable, 'press');
 
-      // expect the corresponding screen to render
-      const expectedScreen = await screen.queryByTestId(route);
-
-      // expect screen is rendered and not null
-      expect(expectedScreen).not.toBeNull();
+      // get the corresponding screen (throws error if no exist)
+      screen.getByTestId(route);
 
       // expect all other screens to not be rendered
       routes.forEach(async otherRoute => {
         // only test for other routes
         if (route !== otherRoute) {
-          const shouldNotRenderScreen = await screen.queryByTestId(otherRoute);
+          const shouldNotRenderScreen = screen.queryByTestId(otherRoute);
 
           // expect not to be rendered
           expect(shouldNotRenderScreen).toBeNull();
