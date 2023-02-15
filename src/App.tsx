@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 // TEMP
 const MapScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView testID='MapScreen'>
       <Text>Map</Text>
     </SafeAreaView>
   );
@@ -21,7 +21,7 @@ const MapScreen = () => {
 // TEMP
 const SocialScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView testID='SocialScreen'>
       <Text>Social</Text>
     </SafeAreaView>
   );
@@ -30,7 +30,7 @@ const SocialScreen = () => {
 // TEMP
 const EmergencyScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView testID='EmergencyScreen'>
       <Text>Emergency</Text>
     </SafeAreaView>
   );
@@ -39,7 +39,7 @@ const EmergencyScreen = () => {
 // TEMP
 const ExploreScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView testID='ExploreScreen'>
       <Text>Explore</Text>
     </SafeAreaView>
   );
@@ -48,7 +48,7 @@ const ExploreScreen = () => {
 // TEMP
 const ProfileScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView testID='ProfileScreen'>
       <Text>Profile</Text>
     </SafeAreaView>
   );

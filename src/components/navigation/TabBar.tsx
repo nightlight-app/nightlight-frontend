@@ -50,6 +50,7 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 
             return (
               <Pressable
+                accessibilityLabel={route.name}
                 key={index}
                 onPress={onPress}
                 style={tabBarStyles.routeButton}>
