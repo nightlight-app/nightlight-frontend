@@ -1,4 +1,4 @@
-name: Format code with Prettier
+name: Format code with Prettier and run tests
 on:
   push:
   pull_request:
