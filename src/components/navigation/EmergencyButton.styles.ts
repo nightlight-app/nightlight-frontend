@@ -9,6 +9,13 @@ export default StyleSheet.create({
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: COLORS.NIGHTLIGHT_BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
   },
   whiteRing: {
     position: 'absolute',
