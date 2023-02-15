@@ -14,7 +14,10 @@ const EmergencyButton = () => {
   };
 
   return (
-    <Pressable style={emergencyButtonStyles.base} onPress={handlePress}>
+    <Pressable
+      accessibilityLabel={Route.EMERGENCY}
+      style={emergencyButtonStyles.base}
+      onPress={handlePress}>
       <View style={emergencyButtonStyles.whiteRing} />
       <View style={emergencyButtonStyles.blueDot} />
       <MaskedView
