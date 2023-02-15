@@ -20,16 +20,6 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "test": "jest --coverage --collectCoverageFrom='./src/**'"
   },
-  "jest": {
-    "preset": "jest-expo/universal",
-    "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
-    ],
-    "collectCoverage": true,
-    "coverageReporters": [
-      "html"
-    ]
-  },
   "dependencies": {
     "@expo-google-fonts/comfortaa": "^0.2.2",
     "@react-native-firebase/app": "^16.7.0",
@@ -52,7 +42,8 @@
     "react-native-screens": "~3.18.0",
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.7",
-    "socket.io-client": "^4.5.4"
+    "socket.io-client": "^4.5.4",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
