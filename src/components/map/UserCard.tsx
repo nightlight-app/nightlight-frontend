@@ -5,7 +5,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import MapCard from '@nightlight/components/map/MapCard';
 import { UserCardProps, Location } from '@nightlight/src/types';
-import { COLORS, Fonts } from '@nightlight/src/global.styles';
+import { COLORS } from '@nightlight/src/global.styles';
+import UserCardStyles from './UserCard.styles';
 
 // TODO: Get user from Firebase auth
 const myUser = {
@@ -68,169 +69,45 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
 
   return (
     <MapCard onClose={onClose} borderColor={COLORS.GREEN}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: 2,
-        }}>
-        <View
-          style={{
-            height: 40,
-            width: 40,
-            backgroundColor: COLORS.GRAY,
-            borderColor: COLORS.GREEN,
-            borderWidth: 2,
-            borderRadius: 20,
-            marginRight: 5,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              color: COLORS.WHITE,
-              opacity: 0.8,
-              fontFamily: Fonts.COMFORTAA_BOLD,
-              fontSize: 16,
-            }}>
+      <View style={UserCardStyles.userHeaderContainer}>
+        <View style={UserCardStyles.userProfilePic}>
+          <Text style={UserCardStyles.userProfilePicText}>
             {user.firstName[0]}
             {user.lastName[0]}
           </Text>
         </View>
-        <Text
-          style={{
-            color: COLORS.WHITE,
-            fontSize: 20,
-            fontFamily: Fonts.COMFORTAA_BOLD,
-            marginRight: 10,
-            maxWidth: '70%',
-          }}>
+        <Text style={UserCardStyles.userName}>
           {user.firstName} {user.lastName}
         </Text>
         {isFriend && (
           <FontAwesome5 name='user-friends' size={16} color={COLORS.GRAY} />
         )}
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 8,
-        }}>
+      <View style={UserCardStyles.userDetailsContainer}>
         <View>
-          <Text
-            style={{
-              color: COLORS.GRAY,
-              fontSize: 12,
-              fontFamily: Fonts.COMFORTAA_REGULAR,
-              marginBottom: 4,
-            }}>
+          <Text style={UserCardStyles.lastActiveText}>
             Active {getRelativeTimeString(time)} ago
           </Text>
-          <Text
-            style={{
-              color: COLORS.GRAY,
-              fontSize: 12,
-              fontFamily: Fonts.COMFORTAA_REGULAR,
-            }}>
-            {user.phoneNumber}
-          </Text>
+          <Text style={UserCardStyles.phoneNumber}>{user.phoneNumber}</Text>
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text
-            style={{
-              color: COLORS.GRAY,
-              fontSize: 12,
-              fontFamily: Fonts.COMFORTAA_REGULAR,
-              textAlign: 'center',
-              marginRight: 5,
-              maxWidth: 50,
-            }}>
-            0.3 miles
-          </Text>
+        <View style={UserCardStyles.navigationDetailsContainer}>
+          <Text style={UserCardStyles.navigationDistanceText}>0.3 miles</Text>
           <Pressable
             onPress={() => handleStartNavigation(location)}
-            style={{
-              backgroundColor: COLORS.GREEN,
-              borderColor: COLORS.DARK_GREEN,
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingVertical: 15,
-              paddingHorizontal: 15,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{
-                color: COLORS.WHITE,
-                fontSize: 20,
-                fontFamily: Fonts.COMFORTAA_BOLD,
-                textAlign: 'center',
-              }}>
-              GO
-            </Text>
+            style={UserCardStyles.navigationButton}>
+            <Text style={UserCardStyles.navigationButtonText}>GO</Text>
           </Pressable>
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          position: 'absolute',
-          width: '105%',
-          alignSelf: 'center',
-          bottom: -30,
-        }}>
-        <Pressable
-          onPress={handleCallUser}
-          style={{
-            flex: 1,
-            backgroundColor: COLORS.GREEN,
-            borderColor: COLORS.DARK_GREEN,
-            borderWidth: 2,
-            borderRadius: 10,
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingVertical: 12,
-            flexDirection: 'row',
-          }}>
+      <View style={UserCardStyles.actionButtonsContainer}>
+        <Pressable onPress={handleCallUser} style={UserCardStyles.callButton}>
           <FontAwesome name='phone' size={18} color={COLORS.WHITE} />
-          <Text
-            style={{
-              color: COLORS.WHITE,
-              fontFamily: Fonts.COMFORTAA_BOLD,
-              fontSize: 16,
-              marginLeft: 5,
-            }}>
-            Call
-          </Text>
+          <Text style={UserCardStyles.callButtonText}>Call</Text>
         </Pressable>
-        <View style={{ width: 100, marginHorizontal: 10 }} />
-        <Pressable
-          onPress={handlePingUser}
-          style={{
-            flex: 1,
-            backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-            borderColor: COLORS.DARK_BLUE,
-            borderWidth: 2,
-            borderRadius: 10,
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingVertical: 12,
-            flexDirection: 'row',
-          }}>
+        <View style={UserCardStyles.actionButtonsDivider} />
+        <Pressable onPress={handlePingUser} style={UserCardStyles.pingButton}>
           <Feather name='radio' size={18} color={COLORS.WHITE} />
-          <Text
-            style={{
-              color: COLORS.WHITE,
-              fontFamily: Fonts.COMFORTAA_BOLD,
-              fontSize: 16,
-              marginLeft: 5,
-            }}>
-            Ping
-          </Text>
+          <Text style={UserCardStyles.pingButtonText}>Ping</Text>
         </Pressable>
       </View>
     </MapCard>

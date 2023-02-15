@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Pressable, SafeAreaView, Text } from 'react-native';
-import mapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
+import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
 import { MapCardTypes, Venue, User } from '@nightlight/src/types';
@@ -82,7 +82,7 @@ const MapScreen = () => {
   };
 
   return (
-    <SafeAreaView style={mapScreenStyles.container}>
+    <SafeAreaView style={MapScreenStyles.container}>
       {activeMapCardType && renderMapCard(activeMapCardType)}
       <Text>MapScreen</Text>
       <Text>activeMapCardType: {JSON.stringify(activeMapCardType)}</Text>

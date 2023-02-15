@@ -3,7 +3,7 @@ import { View, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Route } from '@nightlight/src/types';
-import emergencyButtonStyles from '@nightlight/components/navigation/EmergencyButton.styles';
+import EmergencyButtonStyles from '@nightlight/components/navigation/EmergencyButton.styles';
 
 const EmergencyButton = () => {
   const navigation = useNavigation();
@@ -14,15 +14,15 @@ const EmergencyButton = () => {
   };
 
   return (
-    <Pressable style={emergencyButtonStyles.base} onPress={handlePress}>
-      <View style={emergencyButtonStyles.whiteRing} />
-      <View style={emergencyButtonStyles.blueDot} />
+    <Pressable style={EmergencyButtonStyles.base} onPress={handlePress}>
+      <View style={EmergencyButtonStyles.whiteRing} />
+      <View style={EmergencyButtonStyles.blueDot} />
       <MaskedView
-        style={emergencyButtonStyles.maskedView}
-        maskElement={<View style={emergencyButtonStyles.maskElement} />}>
-        <View style={emergencyButtonStyles.whiteNotch} />
+        style={EmergencyButtonStyles.maskedView}
+        maskElement={<View style={EmergencyButtonStyles.maskElement} />}>
+        <View style={EmergencyButtonStyles.whiteNotch} />
       </MaskedView>
-      <View style={emergencyButtonStyles.outline} />
+      <View style={EmergencyButtonStyles.outline} />
     </Pressable>
   );
 };

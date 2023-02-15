@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import MapCardBottomSvg from '@nightlight/assets/icons/MapCardBottomSvg';
-import mapCardStyles from '@nightlight/components/map/MapCard.styles';
+import MapCardStyles from '@nightlight/components/map/MapCard.styles';
 import CloseButton from '@nightlight/components/CloseButton';
 import { MapCardProps } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
@@ -12,19 +12,19 @@ const MapCard = ({
   onClose,
 }: MapCardProps) => {
   return (
-    <View style={mapCardStyles.container}>
+    <View style={MapCardStyles.container}>
       <View
         style={{
-          ...mapCardStyles.contentContainer,
+          ...MapCardStyles.contentContainer,
           borderColor,
         }}>
         {children}
       </View>
       <MapCardBottomSvg
         borderColor={borderColor}
-        style={mapCardStyles.cardBottom}
+        style={MapCardStyles.cardBottom}
       />
-      <CloseButton style={mapCardStyles.closeButton} onPress={onClose} />
+      <CloseButton style={MapCardStyles.closeButton} onPress={onClose} />
     </View>
   );
 };
