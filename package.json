@@ -18,7 +18,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "test": "jest --watchAll",
+    "test": "jest",
     "test:coverage": "jest --coverage --collectCoverageFrom='./src/**'"
   },
   "dependencies": {
