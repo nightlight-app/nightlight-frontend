@@ -7,44 +7,36 @@ import MapCard from '@nightlight/components/map/MapCard';
 import { UserCardProps, Location } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import UserCardStyles from './UserCard.styles';
+import {
+  getRelativeTimeString,
+  getStatusColor,
+} from '@nightlight/src/utils/utils';
 
 // TODO: Get user from Firebase auth
 const myUser = {
   friends: ['5f9f1b9b0b1b9c0017a1b1a2'],
 };
 
-const getRelativeTimeString = (date: Date) => {
-  const now = new Date();
-  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(months / 12);
-
-  if (years > 0) {
-    return `${years} year${years !== 1 ? 's' : ''}`;
-  } else if (months > 0) {
-    return `${months} month${months !== 1 ? 's' : ''}`;
-  } else if (days > 0) {
-    return `${days} day${days !== 1 ? 's' : ''}`;
-  } else if (hours > 0) {
-    return `${hours} hour${hours !== 1 ? 's' : ''}`;
-  } else if (minutes > 0) {
-    return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
-  } else {
-    return `${seconds} second${seconds !== 1 ? 's' : ''}`;
-  }
-};
-
 const UserCard = ({ user, onClose }: UserCardProps) => {
-  const [lastActive, setLastActive] = useState(user.lastActive);
+  const [lastActive, setLastActive] = useState(user.lastActive); // TODO: setLastActive when user is active?
   const [location, setLocation] = useState(user.lastActive.location);
-  const [time, setTime] = useState(user.lastActive.time);
+  const [relativeTimeString, setRelativeTimeString] = useState('...');
+  const [statusColor, setStatusColor] = useState(COLORS.NIGHTLIGHT_GRAY);
 
+  // Update relative time string and status color every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRelativeTimeString(getRelativeTimeString(lastActive.time));
+      setStatusColor(getStatusColor(lastActive.time));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Update location and status color when lastActive changes
   useEffect(() => {
     setLocation(lastActive.location);
-    setTime(lastActive.time);
+    setRelativeTimeString(getRelativeTimeString(lastActive.time));
+    setStatusColor(getStatusColor(lastActive.time));
   }, [lastActive]);
 
   const isFriend = myUser.friends.includes(user._id);
@@ -68,9 +60,16 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
   };
 
   return (
-    <MapCard onClose={onClose} borderColor={COLORS.GREEN}>
+    <MapCard
+      onClose={onClose}
+      borderColor={statusColor}
+      shadowColor={statusColor}>
       <View style={UserCardStyles.userHeaderContainer}>
-        <View style={UserCardStyles.userProfilePic}>
+        <View
+          style={{
+            ...UserCardStyles.userProfilePic,
+            borderColor: statusColor,
+          }}>
           <Text style={UserCardStyles.userProfilePicText}>
             {user.firstName[0]}
             {user.lastName[0]}
@@ -86,7 +85,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
       <View style={UserCardStyles.userDetailsContainer}>
         <View>
           <Text style={UserCardStyles.lastActiveText}>
-            Active {getRelativeTimeString(time)} ago
+            Active {relativeTimeString} ago
           </Text>
           <Text style={UserCardStyles.phoneNumber}>{user.phoneNumber}</Text>
         </View>

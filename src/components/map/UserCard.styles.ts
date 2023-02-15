@@ -11,7 +11,6 @@ export default StyleSheet.create({
     height: 40,
     width: 40,
     backgroundColor: COLORS.GRAY,
-    borderColor: COLORS.GREEN,
     borderWidth: 2,
     borderRadius: 20,
     marginRight: 5,

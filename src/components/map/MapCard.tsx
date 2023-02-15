@@ -9,10 +9,16 @@ import { COLORS } from '@nightlight/src/global.styles';
 const MapCard = ({
   children,
   borderColor = COLORS.NIGHTLIGHT_BLACK,
+  shadowColor,
   onClose,
 }: MapCardProps) => {
   return (
-    <View style={MapCardStyles.container}>
+    <View
+      style={{
+        ...MapCardStyles.container,
+        shadowOpacity: shadowColor ? 1 : 0,
+        shadowColor,
+      }}>
       <View
         style={{
           ...MapCardStyles.contentContainer,

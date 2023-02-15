@@ -85,6 +85,7 @@ export interface MapCardBottomSvgProps extends ISvgProps {
 export interface MapCardProps {
   children?: React.ReactNode;
   borderColor: string;
+  shadowColor?: string;
   onClose: () => void;
 }
 
