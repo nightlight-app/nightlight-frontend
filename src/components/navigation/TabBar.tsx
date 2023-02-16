@@ -5,19 +5,19 @@ import { Route } from '@nightlight/src/types';
 import NavIcon from '@nightlight/components/navigation/NavIcon';
 import EmergencyButton from '@nightlight/components/navigation/EmergencyButton';
 import NavbarSvg from '@nightlight/assets/icons/NavbarSvg';
-import tabBarStyles from '@nightlight/components/navigation/TabBar.styles';
+import TabBarStyles from '@nightlight/components/navigation/TabBar.styles';
 
 const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   return (
-    <SafeAreaView style={tabBarStyles.navbarContainer}>
-      <View style={tabBarStyles.navbar}>
-        <View style={tabBarStyles.routesContainer}>
+    <SafeAreaView style={TabBarStyles.navbarContainer}>
+      <View style={TabBarStyles.navbar}>
+        <View style={TabBarStyles.routesContainer}>
           {state.routes.map((route: any, index: number) => {
             // TODO: Fix type 'any' above (useful ref?: https://reactnavigation.org/docs/typescript/)
             // Uniquely handles the emergency button space
             if (route.name == Route.EMERGENCY) {
               return (
-                <View key={index} style={tabBarStyles.emergencyButtonContainer}>
+                <View key={index} style={TabBarStyles.emergencyButtonContainer}>
                   <EmergencyButton />
                 </View>
               );
@@ -52,15 +52,15 @@ const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
               <Pressable
                 key={index}
                 onPress={onPress}
-                style={tabBarStyles.routeButton}>
+                style={TabBarStyles.routeButton}>
                 <NavIcon route={label} isFocused={isFocused} />
               </Pressable>
             );
           })}
         </View>
-        <View style={tabBarStyles.backgroundSvgContainer}>
+        <View style={TabBarStyles.backgroundSvgContainer}>
           <NavbarSvg />
-          <View style={tabBarStyles.dangerZoneFill} />
+          <View style={TabBarStyles.dangerZoneFill} />
         </View>
       </View>
     </SafeAreaView>
