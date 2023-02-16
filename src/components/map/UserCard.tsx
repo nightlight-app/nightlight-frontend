@@ -92,6 +92,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
         <View style={UserCardStyles.navigationDetailsContainer}>
           <Text style={UserCardStyles.navigationDistanceText}>0.3 miles</Text>
           <Pressable
+            accessibilityLabel='StartNavigation'
             onPress={() => handleStartNavigation(location)}
             style={UserCardStyles.navigationButton}>
             <Text style={UserCardStyles.navigationButtonText}>GO</Text>
@@ -99,12 +100,18 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
         </View>
       </View>
       <View style={UserCardStyles.actionButtonsContainer}>
-        <Pressable onPress={handleCallUser} style={UserCardStyles.callButton}>
+        <Pressable
+          accessibilityLabel='CallUser'
+          onPress={handleCallUser}
+          style={UserCardStyles.callButton}>
           <FontAwesome name='phone' size={18} color={COLORS.WHITE} />
           <Text style={UserCardStyles.callButtonText}>Call</Text>
         </Pressable>
         <View style={UserCardStyles.actionButtonsDivider} />
-        <Pressable onPress={handlePingUser} style={UserCardStyles.pingButton}>
+        <Pressable
+          accessibilityLabel='PingUser'
+          onPress={handlePingUser}
+          style={UserCardStyles.pingButton}>
           <Feather name='radio' size={18} color={COLORS.WHITE} />
           <Text style={UserCardStyles.pingButtonText}>Ping</Text>
         </Pressable>
