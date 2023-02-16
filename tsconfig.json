@@ -11,5 +11,6 @@
       "@nightlight/assets/*": ["assets/*"],
       "@nightlight/*": ["*"]
     }
-  }
+  },
+  "typeRoots": ["./env.d.ts", "./node_modules/@types"]
 }
