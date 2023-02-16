@@ -1,5 +1,10 @@
 import { COLORS } from '@nightlight/src/global.styles';
 
+/*
+ * Determine the relative time string from a given date.
+ * @param {Date} date - The date to determine the relative time string from.
+ * @returns {string} The relative time string.
+ */
 export const getRelativeTimeString = (date: Date) => {
   const now = new Date();
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
@@ -24,6 +29,14 @@ export const getRelativeTimeString = (date: Date) => {
   }
 };
 
+/*
+ * Determine the color of the status indicator based on the last active time.
+ *  - Green if active in the last minute
+ *  - Yellow if active in the last hour
+ *  - Red if active more than an hour ago
+ * @param {Date} lastActiveTime - The last active time of a user to determine the color from.
+ * @returns {string} The color of the status indicator.
+ */
 export const getStatusColor = (lastActiveTime: Date) => {
   const now = new Date();
   const seconds = Math.floor((now.getTime() - lastActiveTime.getTime()) / 1000);

@@ -8,7 +8,7 @@ export enum Route {
   PROFILE = 'Profile',
 }
 
-export enum MapCardTypes {
+export enum MapCardType {
   VENUE = 'venue',
   USER = 'user',
   ERROR = 'error',
