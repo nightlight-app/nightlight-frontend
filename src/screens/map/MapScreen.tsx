@@ -4,7 +4,7 @@ import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
 import ErrorCard from '@nightlight/components/map/ErrorCard';
-import { MapCardTypes, Venue, User } from '@nightlight/src/types';
+import { MapCardType, Venue, User } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 
 const TEST_VENUE: Venue = {
@@ -56,30 +56,30 @@ const TEST_USER: User = {
 
 const MapScreen = () => {
   const [activeMapCardType, setActiveMapCardType] = useState<
-    MapCardTypes | undefined
+    MapCardType | undefined
   >(undefined);
 
   const handleShowVenueCard = () => {
-    setActiveMapCardType(MapCardTypes.VENUE);
+    setActiveMapCardType(MapCardType.VENUE);
   };
 
   const handleShowUserCard = () => {
-    setActiveMapCardType(MapCardTypes.USER);
+    setActiveMapCardType(MapCardType.USER);
   };
 
   const handleShowErrorCard = () => {
-    setActiveMapCardType(MapCardTypes.ERROR);
+    setActiveMapCardType(MapCardType.ERROR);
   };
 
   const handleCloseMapCard = () => {
     setActiveMapCardType(undefined);
   };
 
-  const renderMapCard = (type: MapCardTypes) => {
+  const renderMapCard = (type: MapCardType) => {
     switch (type) {
-      case MapCardTypes.VENUE:
+      case MapCardType.VENUE:
         return <VenueCard venue={TEST_VENUE} onClose={handleCloseMapCard} />;
-      case MapCardTypes.USER:
+      case MapCardType.USER:
         return <UserCard user={TEST_USER} onClose={handleCloseMapCard} />;
       default:
         return <ErrorCard onClose={handleCloseMapCard} />;
