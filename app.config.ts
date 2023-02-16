@@ -20,6 +20,7 @@ module.exports = {
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
+      bundleIdentifier: 'com.nightlight.nightlight',
     },
     android: {
       adaptiveIcon: {
@@ -33,6 +34,14 @@ module.exports = {
     entryPoint: './src/App.tsx',
     plugins: [
       [
+        'expo-build-properties',
+        {
+          ios: {
+            useFrameworks: 'static',
+          },
+        },
+      ],
+      [
         '@rnmapbox/maps',
         {
           RNMapboxMapsImpl: 'mapbox',
@@ -40,5 +49,10 @@ module.exports = {
         },
       ],
     ],
+    extra: {
+      eas: {
+        projectId: 'b0551e2a-d649-43d8-8bed-697ddce3d0fd',
+      },
+    },
   },
 };
