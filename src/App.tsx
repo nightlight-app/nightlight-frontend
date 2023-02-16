@@ -72,9 +72,7 @@ const App = () => {
   }, [fontsLoaded]);
 
   // Prevent rendering until the font has loaded
-  if (!fontsLoaded) {
-    return null;
-  }
+  if (!fontsLoaded) return null;
 
   return (
     <NavigationContainer>
