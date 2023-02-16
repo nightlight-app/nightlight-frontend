@@ -75,6 +75,7 @@ const VenueCard = ({ venue, onClose }: VenueCardProps) => {
           </View>
         </View>
         <Pressable
+          accessibilityLabel='VenueCardStartNavigation'
           onPress={() => handleStartNavigation(venue.location)}
           style={VenueCardStyles.navigateButton}>
           <Text style={VenueCardStyles.navigateButtonText}>GO</Text>

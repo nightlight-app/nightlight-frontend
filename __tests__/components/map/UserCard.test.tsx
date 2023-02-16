@@ -59,7 +59,7 @@ describe('<UserCard />', () => {
     // render the component
     render(<UserCard user={dummyUser} onClose={() => {}} />);
 
-    // getfor user's name (throw error if no exist)
+    // get user name (throw error if no exist)
     screen.getByText(firstName + ' ' + lastName);
 
     // get phone number (throw error if no exist)
@@ -88,9 +88,9 @@ describe('<UserCard />', () => {
     render(<UserCard user={dummyUser} onClose={() => {}} />);
 
     // get the pressables (throw error if no exist)
-    const press1 = screen.getByLabelText('StartNavigation');
-    const press2 = screen.getByLabelText('CallUser');
-    const press3 = screen.getByLabelText('PingUser');
+    const press1 = screen.getByLabelText('UserCardStartNavigation');
+    const press2 = screen.getByLabelText('UserCardCallUser');
+    const press3 = screen.getByLabelText('UserCardPingUser');
 
     // click on the pressables
     fireEvent(press1, 'press');
