@@ -85,24 +85,21 @@ export interface CloseButtonProps {
   style?: Object;
 }
 
-export interface GenericCardProps {
+export interface MapCardProps {
   onClose: () => void;
-}
-
-export interface MapCardProps extends GenericCardProps {
   children?: React.ReactNode;
   borderColor?: string;
   shadowColor?: string;
 }
 
-export interface VenueCardProps extends GenericCardProps {
+export interface VenueCardProps extends MapCardProps {
   venue: Venue;
 }
 
-export interface UserCardProps extends GenericCardProps {
+export interface UserCardProps extends MapCardProps {
   user: User;
 }
 
-export interface ErrorCardProps extends GenericCardProps {
+export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
