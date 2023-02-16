@@ -7,7 +7,7 @@
     "paths": {
       // This needs to be mirrored in babel.config.js
       "@nightlight/components/*": ["src/components/*"],
-      "@nightlight/screens/*": ["src/screen/*"],
+      "@nightlight/screens/*": ["src/screens/*"],
       "@nightlight/assets/*": ["assets/*"],
       "@nightlight/*": ["*"]
     }

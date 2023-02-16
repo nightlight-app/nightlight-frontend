@@ -3,6 +3,7 @@ export const COLORS = {
   NIGHTLIGHT_GRAY: '#212121',
   NIGHTLIGHT_BLACK: '#141414',
   WHITE: '#FFFFFF',
+  BLACK: '#000000',
   GREEN: '#64A338',
   YELLOW: '#FFCC00',
   RED: '#E03B24',
@@ -10,4 +11,10 @@ export const COLORS = {
   DARK_GREEN: '#2E491B',
   DARK_BLUE: '#203A64',
   DARK_RED: '#732014',
+  DARK_GRAY: '#484848',
 };
+
+export enum Fonts {
+  COMFORTAA_REGULAR = 'Comfortaa_400Regular',
+  COMFORTAA_BOLD = 'Comfortaa_700Bold',
+}

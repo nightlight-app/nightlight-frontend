@@ -10,8 +10,8 @@ const NavbarSvg = (props: ISvgProps) => (
     width={390}
     height={80}
     fill='none'
-    style={styles.shadow}
-    {...props}>
+    {...props}
+    style={{ ...styles.shadow, ...props.style }}>
     <Path
       fill={COLORS.NIGHTLIGHT_GRAY}
       stroke={COLORS.NIGHTLIGHT_BLACK}
