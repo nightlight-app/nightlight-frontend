@@ -6,6 +6,7 @@ import { CloseButtonProps } from '@nightlight/src/types';
 const CloseButton = ({ onPress, size = 15, style }: CloseButtonProps) => {
   return (
     <Pressable
+      accessibilityLabel='CloseButton'
       style={{ ...CloseButtonStyles.container, ...style }}
       onPress={onPress}>
       <View
