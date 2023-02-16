@@ -36,11 +36,7 @@ export interface Venue {
     longitude: number;
   };
   reactions: {
-    [ReactionEmoji.FIRE]: Reaction;
-    [ReactionEmoji.WARNING]: Reaction;
-    [ReactionEmoji.SHIELD]: Reaction;
-    [ReactionEmoji.POOP]: Reaction;
-    [ReactionEmoji.PARTY]: Reaction;
+    [key in ReactionEmoji]: Reaction;
   };
 }
 

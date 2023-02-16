@@ -59,21 +59,13 @@ const MapScreen = () => {
     MapCardType | undefined
   >(undefined);
 
-  const handleShowVenueCard = () => {
-    setActiveMapCardType(MapCardType.VENUE);
-  };
+  const handleShowVenueCard = () => setActiveMapCardType(MapCardType.VENUE);
 
-  const handleShowUserCard = () => {
-    setActiveMapCardType(MapCardType.USER);
-  };
+  const handleShowUserCard = () => setActiveMapCardType(MapCardType.USER);
 
-  const handleShowErrorCard = () => {
-    setActiveMapCardType(MapCardType.ERROR);
-  };
+  const handleShowErrorCard = () => setActiveMapCardType(MapCardType.ERROR);
 
-  const handleCloseMapCard = () => {
-    setActiveMapCardType(undefined);
-  };
+  const handleCloseMapCard = () => setActiveMapCardType(undefined);
 
   const renderMapCard = (type: MapCardType) => {
     switch (type) {
