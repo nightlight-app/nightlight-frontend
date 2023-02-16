@@ -83,30 +83,30 @@ export interface MapCardBottomSvgProps extends ISvgProps {
   borderColor?: string;
 }
 
-export interface MapCardProps {
-  children?: React.ReactNode;
-  borderColor?: string;
-  shadowColor?: string;
-  onClose: () => void;
-}
-
 export interface CloseButtonProps {
   onPress: () => void;
   size?: number;
   style?: Object;
 }
 
-export interface VenueCardProps {
+export interface GenericCardProps {
+  onClose: () => void;
+}
+
+export interface MapCardProps extends GenericCardProps {
+  children?: React.ReactNode;
+  borderColor?: string;
+  shadowColor?: string;
+}
+
+export interface VenueCardProps extends GenericCardProps {
   venue: Venue;
-  onClose: () => void;
 }
 
-export interface UserCardProps {
+export interface UserCardProps extends GenericCardProps {
   user: User;
-  onClose: () => void;
 }
 
-export interface ErrorCardProps {
+export interface ErrorCardProps extends GenericCardProps {
   message?: string;
-  onClose: () => void;
 }
