@@ -1,5 +1,10 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react-native';
 
 import App from '@nightlight/src/App';
 import { SafeAreaView } from 'react-native';
@@ -8,6 +13,12 @@ import { Route } from '@nightlight/src/types';
 // mock registerRootComponent to resolve error
 jest.mock('expo', () => ({
   registerRootComponent: (component: React.ComponentType) => component,
+}));
+
+// mock useFonts so that it is loaded right away
+jest.mock('@expo-google-fonts/comfortaa', () => ({
+  // useFonts will return [true] right away
+  useFonts: ({}) => [true],
 }));
 
 describe('Component <App />', () => {

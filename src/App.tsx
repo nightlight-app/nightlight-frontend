@@ -1,24 +1,23 @@
 import { registerRootComponent } from 'expo';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, Text } from 'react-native';
+import {
+  useFonts,
+  Comfortaa_400Regular,
+  Comfortaa_700Bold,
+} from '@expo-google-fonts/comfortaa';
+import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import {
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import { Route } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
+import MapScreen from '@nightlight/screens/map/MapScreen';
 
 const Tab = createBottomTabNavigator();
 
-// TEMP
-const MapScreen = () => {
-  return (
-    <SafeAreaView testID={Route.MAP}>
-      <Text>Map</Text>
-    </SafeAreaView>
-  );
-};
-
-// TEMP
 const SocialScreen = () => {
   return (
     <SafeAreaView testID={Route.SOCIAL}>
@@ -54,7 +53,24 @@ const ProfileScreen = () => {
   );
 };
 
+// Prevent hiding the splash screen
+preventAutoHideAsync();
+
 const App = () => {
+  // Load fonts
+  const [fontsLoaded] = useFonts({
+    Comfortaa_400Regular,
+    Comfortaa_700Bold,
+  });
+
+  useEffect(() => {
+    // Hide the splash screen after the fonts have loaded and the UI is ready.
+    if (fontsLoaded) hideAsync();
+  }, [fontsLoaded]);
+
+  // Prevent rendering until the font has loaded
+  if (!fontsLoaded) return null;
+
   return (
     <NavigationContainer>
       <Tab.Navigator
