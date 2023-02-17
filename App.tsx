@@ -34,13 +34,6 @@ const PlaceholderScreen = () => {
   );
 };
 
-// const ExploreScreen = () => {
-//   return (
-//     <SafeAreaView>
-//       <ExploreScreen></ExploreScreen>
-//     </SafeAreaView>
-//   );
-// };
 
 const ProfileScreen = () => {
   return (

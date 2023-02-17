@@ -7,8 +7,6 @@ const styles = StyleSheet.create({
       borderWidth: 2,
       textAlign: 'center',
       borderRadius: 5,
-      // height: 120,
-      flexDirection: 'column',
       marginBottom: 10,
       display: 'flex'
     },

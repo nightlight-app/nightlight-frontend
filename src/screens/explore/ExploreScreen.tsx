@@ -1,32 +1,13 @@
 import { useFonts, Comfortaa_400Regular } from '@expo-google-fonts/comfortaa';
 import { useEffect, useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import styles from './ExploreScreen.styles';
 import ExploreCard from "components/explore/ExploreCard";
-import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 
 
 const ExploreScreen = () => {
   const [venues, setVenues] = useState([]);
-
-  // useEffect(() => {
-  //   let options = {
-  //     // headers: {
-  //     //   Authorization:
-  //     //     'Bearer ZzBZjUbtVGqDJf9_jkyLrazXSh_iGyfGbznPiPVMOPFCv9nHIzlCn3OK7L40JPSvwmNGLNZNKjJzoE-2UmDIM_I_zU7O-NvNsYH9nJsyjOyLCdv1Zm3z-oddfjPbY3Yx',
-  //     // },
-  //   };
-  //   fetch(
-  //     'https://localhost:6060/venue',
-  //     options
-  //   )
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data)
-  //       setClubs(data.businesses);
-  //     });
-  // }, []);
 
   useEffect(() => {
     axios( {
