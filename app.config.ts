@@ -3,8 +3,8 @@ dotenv.config();
 
 module.exports = {
   expo: {
-    name: 'nightlight-frontend',
-    slug: 'nightlight-frontend',
+    name: 'nightlight',
+    slug: 'nightlight',
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
