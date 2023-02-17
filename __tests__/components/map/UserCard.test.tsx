@@ -48,7 +48,7 @@ describe('<UserCard />', () => {
       </UserCard>
     );
 
-    // query for the childrne
+    // query for the children
     const children = screen.queryByText('Hello');
 
     // expect children to not exist
