@@ -82,7 +82,10 @@ const MapScreen = () => {
 
   return (
     <View testID={Route.MAP} style={MapScreenStyles.container}>
+      {/* The one and only nightlight map, by the one and only nightlight team */}
       <NightlightMap />
+
+      {/* MapCards */}
       {activeMapCardType && renderMapCard(activeMapCardType)}
 
       {/* Interactable Buttons */}
