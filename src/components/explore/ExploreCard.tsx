@@ -5,13 +5,13 @@ import {
   Comfortaa_600SemiBold,
   Comfortaa_700Bold,
 } from '@expo-google-fonts/comfortaa';
-import VenueReaction from 'components/venue-reaction/VenueReaction';
+import VenueReaction from '@nightlight/components/venue-reaction/VenueReaction';
 
 type Props = {
-    name: string,
-    address: string,
-    distance: string
-}
+  name: string;
+  address: string;
+  lat: string;
+};
 
 const ExploreCard = (Props: Props) => {
     let [fontsLoaded] = useFonts({
@@ -40,13 +40,12 @@ const ExploreCard = (Props: Props) => {
                 <Text style={styles.goButtonText}>GO</Text>
                 <Text style={styles.goButtonSubText}>{Props.lat}</Text>
               </Pressable>
-            </View>
-          </View>
-        ) 
-    } else {
-        return null;
-    };
-}
+        </View>
+      </View>
+    );
+  } else {
+    return null;
+  }
+};
 
 export default ExploreCard;
-

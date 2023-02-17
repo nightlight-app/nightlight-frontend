@@ -1,9 +1,10 @@
 import { useFonts, Comfortaa_400Regular } from '@expo-google-fonts/comfortaa';
 import { useEffect, useState } from 'react';
-import { FlatList, ScrollView, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { FlatList, ScrollView, Text, View, SafeAreaView } from 'react-native';
 import styles from './ExploreScreen.styles';
-import ExploreCard from "components/explore/ExploreCard";
+import ExploreCard from "@nightlight/components/explore/ExploreCard";
 import axios from 'axios';
+
 
 
 const ExploreScreen = () => {
@@ -21,11 +22,6 @@ const ExploreScreen = () => {
     }); 
   }, []);
 
-  let [fontsLoaded] = useFonts({
-    Comfortaa_400Regular
-  });
-
-  if (fontsLoaded) {
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeview}>
@@ -35,7 +31,7 @@ const ExploreScreen = () => {
             <Text style={styles.searchText}>Click to explore...</Text>
           </View>
           <View style={styles.trendbox}>
-            <Text style={styles.trendingText}>🔥 Trending </Text> 
+            <Text style={styles.trendingText}>🔥 Trending </Text>
             <View style={styles.reactionContainer}>
               <View style={styles.reactionBox}>
                 <Text style={styles.allText}>All</Text>
@@ -58,26 +54,30 @@ const ExploreScreen = () => {
             </View>
           </View>
           <View style={styles.trending}>
-          <ExploreCard name='Jason Aldeans' address='10 Broadway'distance='0.1m' ></ExploreCard>
-          <ExploreCard name='Tin Roof' address='134 Demonbreun St'distance='0.1m'  ></ExploreCard>
-          <View style={styles.seeMore}>
-            <Text style={styles.seeMoreText}>See more...</Text>
+            <ExploreCard
+              name='Jason Aldeans'
+              address='10 Broadway'
+              lat='0.1m'></ExploreCard>
+            <ExploreCard
+              name='Tin Roof'
+              address='134 Demonbreun St'
+              lat='0.1m'></ExploreCard>
+            <View style={styles.seeMore}>
+              <Text style={styles.seeMoreText}>See more...</Text>
+            </View>
           </View>
-        </View>
           <View style={styles.barContainer}>
           {
-                      venues.map((item: {name: string, address: string, lat: string, long: string}) => (
+                      venues.map((item: {name: string, address: string, lat: string, long: string, location: {latitude: string, longitude: string}}) => (
                         <ExploreCard name={item.name} address={item.address} lat={item.location.latitude} long={item.location.longitude}></ExploreCard>
                       ))
                   }
                   
           </View> 
         </ScrollView>
-        </SafeAreaView>
-     </View>
+      </SafeAreaView>
+    </View>
   );
 };
-}
 
 export default ExploreScreen;
-
