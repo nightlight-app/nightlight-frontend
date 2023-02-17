@@ -1,4 +1,4 @@
-module.exports = function (api) {
+module.exports = api => {
   api.cache(true);
   return {
     presets: ['babel-preset-expo'],
@@ -7,9 +7,10 @@ module.exports = function (api) {
         'module-resolver',
         {
           alias: {
-            components: './src/components',
-            screens: './src/screens',
-            src: './src',
+            '@nightlight/components': './src/components',
+            '@nightlight/screens': './src/screens',
+            '@nightlight/assets': './assets',
+            '@nightlight': '.',
           },
         },
       ],
