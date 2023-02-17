@@ -22,7 +22,7 @@ export default StyleSheet.create({
     width: 65,
     height: 65,
     borderRadius: 32.5,
-    borderColor: COLORS.WHITE,
+    // borderColor: COLORS.WHITE,
     borderWidth: 3,
   },
   blueDot: {
@@ -30,8 +30,8 @@ export default StyleSheet.create({
     width: 17,
     height: 17,
     borderRadius: 8.5,
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    shadowColor: COLORS.NIGHTLIGHT_BLUE,
+    // backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    // shadowColor: COLORS.NIGHTLIGHT_BLUE,
     shadowOffset: {
       width: 0,
       height: 0,
@@ -41,7 +41,7 @@ export default StyleSheet.create({
   },
   whiteNotch: {
     position: 'absolute',
-    backgroundColor: COLORS.WHITE,
+    // backgroundColor: COLORS.WHITE,
     width: 15,
     height: 35,
     borderRadius: 7.5,
