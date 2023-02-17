@@ -82,10 +82,10 @@ const MapScreen = () => {
   return (
     <View style={MapScreenStyles.container}>
       <NightlightMap />
+      {activeMapCardType && renderMapCard(activeMapCardType)}
 
       {/* For development purpose */}
       <View style={{ position: 'absolute', top: 44, left: 10 }}>
-        {activeMapCardType && renderMapCard(activeMapCardType)}
         <Text>MapScreen</Text>
         <Text>activeMapCardType: {JSON.stringify(activeMapCardType)}</Text>
         <Pressable
