@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-
+import { Fonts } from '@nightlight/src/global.styles'
 const styles = StyleSheet.create({
     container: {
       width: '98%',
@@ -11,14 +11,14 @@ const styles = StyleSheet.create({
       display: 'flex'
     },
     venueTitle: {
-      fontFamily: 'Comfortaa_600SemiBold',
+      fontFamily: Fonts.COMFORTAA_BOLD,
       fontSize: 20,
       color: 'white',
       paddingLeft: 20,
       paddingTop: 20,
     },
     venueAddress: {
-      fontFamily: 'Comfortaa_600SemiBold',
+      fontFamily: Fonts.COMFORTAA_BOLD,
       fontSize: 14,
       color: 'grey',
       paddingLeft: 20,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     goButtonText: {
       color: 'white',
-      fontFamily: 'Comfortaa_700Bold',
+      fontFamily: Fonts.COMFORTAA_BOLD,
       fontSize: 26,
       paddingTop: 2,
     },
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     },
     goButtonSubText: {
       color: 'white',
-      fontFamily: 'Comfortaa_700Bold',
+      fontFamily: Fonts.COMFORTAA_BOLD,
       fontSize: 10,
     },
   });
