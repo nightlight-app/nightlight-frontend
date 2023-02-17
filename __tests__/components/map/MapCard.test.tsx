@@ -1,4 +1,5 @@
 import MapCard from '@nightlight/components/map/MapCard';
+import { TestingLabel } from '@nightlight/src/types';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
@@ -11,7 +12,7 @@ describe('<MapCard />', () => {
     render(<MapCard onClose={mockOnClose} />);
 
     // get the pressable (throw error if no exist)
-    const pressable = screen.getByLabelText('CloseButton');
+    const pressable = screen.getByLabelText(TestingLabel.CloseButton);
 
     // click on the pressable
     fireEvent(pressable, 'press');

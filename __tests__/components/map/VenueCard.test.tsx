@@ -1,5 +1,5 @@
 import VenueCard from '@nightlight/components/map/VenueCard';
-import { Location, User, Venue } from '@nightlight/src/types';
+import { Location, TestingLabel, User, Venue } from '@nightlight/src/types';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
@@ -33,7 +33,7 @@ describe('<VenueCard />', () => {
     render(<VenueCard venue={dummyVenue} onClose={mockOnClose} />);
 
     // get the pressable (throw error if no exist)
-    const pressable = screen.getByLabelText('CloseButton');
+    const pressable = screen.getByLabelText(TestingLabel.CloseButton);
 
     // click on the pressable
     fireEvent(pressable, 'press');
@@ -78,7 +78,7 @@ describe('<VenueCard />', () => {
     render(<VenueCard venue={dummyVenue} onClose={() => {}} />);
 
     // get the pressables (throw error if no exist)
-    const press1 = screen.getByLabelText('VenueCardStartNavigation');
+    const press1 = screen.getByLabelText(TestingLabel.VenueCardStartNavigation);
 
     // click on the pressables
     fireEvent(press1, 'press');

@@ -1,5 +1,5 @@
 import UserCard from '@nightlight/components/map/UserCard';
-import { User } from '@nightlight/src/types';
+import { TestingLabel, User } from '@nightlight/src/types';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
@@ -31,7 +31,7 @@ describe('<UserCard />', () => {
     render(<UserCard user={dummyUser} onClose={mockOnClose} />);
 
     // get the pressable (throw error if no exist)
-    const pressable = screen.getByLabelText('CloseButton');
+    const pressable = screen.getByLabelText(TestingLabel.CloseButton);
 
     // click on the pressable
     fireEvent(pressable, 'press');
@@ -88,9 +88,9 @@ describe('<UserCard />', () => {
     render(<UserCard user={dummyUser} onClose={() => {}} />);
 
     // get the pressables (throw error if no exist)
-    const press1 = screen.getByLabelText('UserCardStartNavigation');
-    const press2 = screen.getByLabelText('UserCardCallUser');
-    const press3 = screen.getByLabelText('UserCardPingUser');
+    const press1 = screen.getByLabelText(TestingLabel.UserCardStartNavigation);
+    const press2 = screen.getByLabelText(TestingLabel.UserCardCallUser);
+    const press3 = screen.getByLabelText(TestingLabel.UserCardPingUser);
 
     // click on the pressables
     fireEvent(press1, 'press');

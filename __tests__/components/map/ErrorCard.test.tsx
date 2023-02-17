@@ -1,4 +1,5 @@
 import ErrorCard from '@nightlight/components/map/ErrorCard';
+import { TestingLabel } from '@nightlight/src/types';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 describe('Component <ErrorCard />', () => {
@@ -10,7 +11,7 @@ describe('Component <ErrorCard />', () => {
     render(<ErrorCard onClose={mockOnClose} />);
 
     // get the pressable (throw error if no exist)
-    const pressable = screen.getByLabelText('CloseButton');
+    const pressable = screen.getByLabelText(TestingLabel.CloseButton);
 
     // click on the pressable
     fireEvent(pressable, 'press');
