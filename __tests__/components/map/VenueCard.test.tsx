@@ -50,7 +50,7 @@ describe('<VenueCard />', () => {
       </VenueCard>
     );
 
-    // query for the childrne
+    // query for the children
     const children = screen.queryByText('Hello');
 
     // expect children to not exist
