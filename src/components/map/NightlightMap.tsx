@@ -1,4 +1,4 @@
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
 import MapboxGL, {
   Camera,
   CameraStop,
@@ -45,11 +45,23 @@ const NightlightMap = () => {
             if (!mapView && m) setMapView(mapView);
           }}
           {...mapviewProps}>
-          {/* TODO: Add markers over */}
+          {/* Camera */}
           <Camera
             ref={c => {
               if (!camera && c) setCamera(c);
-            }}></Camera>
+            }}
+          />
+
+          {/* UserMarker */}
+          <MapboxGL.UserLocation
+            showsUserHeadingIndicator={true}
+            renderMode={'native'}
+            visible={true}
+            onUpdate={p => {
+              console.log('here: ', p);
+            }}>
+            <MapboxGL.CircleLayer id='myUser' />
+          </MapboxGL.UserLocation>
         </MapboxGL.MapView>
       </View>
     </View>

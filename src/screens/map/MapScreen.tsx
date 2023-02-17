@@ -7,6 +7,7 @@ import ErrorCard from '@nightlight/components/map/ErrorCard';
 import { MapCardType, Venue, User, Route } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMap from '@nightlight/components/map/NightlightMap';
+import { Ionicons } from '@expo/vector-icons';
 
 const TEST_VENUE: Venue = {
   _id: '5f9f1b9b0b1b9c0017a1b1a1',
@@ -83,6 +84,22 @@ const MapScreen = () => {
     <View testID={Route.MAP} style={MapScreenStyles.container}>
       <NightlightMap />
       {activeMapCardType && renderMapCard(activeMapCardType)}
+
+      {/* Interactable Buttons */}
+      <Pressable
+        style={[
+          MapScreenStyles.mapControlButton,
+          MapScreenStyles.currentLocationButton,
+        ]}>
+        <Ionicons name='md-navigate' size={32} color={COLORS.NIGHTLIGHT_BLUE} />
+      </Pressable>
+      <Pressable
+        style={[
+          MapScreenStyles.mapControlButton,
+          MapScreenStyles.orientMapButton,
+        ]}>
+        <Ionicons name='md-compass' size={32} color={COLORS.WHITE} />
+      </Pressable>
 
       {/* For development purpose */}
       <View style={{ position: 'absolute', top: 44, left: 10 }}>
