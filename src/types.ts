@@ -103,3 +103,19 @@ export interface UserCardProps extends MapCardProps {
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
+
+/**
+ * used for querying elements when using jest test
+ *
+ * extracted out into an enum for easier query and readability
+ *
+ * note: not all testing labels live in this enum.
+ * for example, Routes are also used as labels.
+ */
+export enum TestingLabel {
+  CloseButton = 'CloseButton',
+  UserCardStartNavigation = 'UserCardStartNavigation',
+  UserCardCallUser = 'UserCardCallUser',
+  UserCardPingUser = 'UserCardPingUser',
+  VenueCardStartNavigation = 'VenueCardStartNavigation',
+}

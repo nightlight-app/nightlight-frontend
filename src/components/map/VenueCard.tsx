@@ -6,6 +6,7 @@ import {
   Venue,
   ReactionEmoji,
   Location,
+  TestingLabel,
 } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import VenueCardStyles from '@nightlight/components/map/VenueCard.styles';
@@ -75,7 +76,7 @@ const VenueCard = ({ venue, onClose }: VenueCardProps) => {
           </View>
         </View>
         <Pressable
-          accessibilityLabel='VenueCardStartNavigation'
+          accessibilityLabel={TestingLabel.VenueCardStartNavigation}
           onPress={() => handleStartNavigation(venue.location)}
           style={VenueCardStyles.navigateButton}>
           <Text style={VenueCardStyles.navigateButtonText}>GO</Text>

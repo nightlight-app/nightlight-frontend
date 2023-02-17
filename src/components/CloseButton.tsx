@@ -1,12 +1,12 @@
 import React from 'react';
 import { Pressable, View } from 'react-native';
 import CloseButtonStyles from '@nightlight/components/CloseButton.styles';
-import { CloseButtonProps } from '@nightlight/src/types';
+import { CloseButtonProps, TestingLabel } from '@nightlight/src/types';
 
 const CloseButton = ({ onPress, size = 15, style }: CloseButtonProps) => {
   return (
     <Pressable
-      accessibilityLabel='CloseButton'
+      accessibilityLabel={TestingLabel.CloseButton}
       style={{ ...CloseButtonStyles.container, ...style }}
       onPress={onPress}>
       <View
