@@ -2,24 +2,20 @@ import { useFonts, Comfortaa_400Regular } from '@expo-google-fonts/comfortaa';
 import { useEffect, useState } from 'react';
 import { FlatList, ScrollView, Text, View, SafeAreaView } from 'react-native';
 import styles from './ExploreScreen.styles';
-import ExploreCard from "@nightlight/components/explore/ExploreCard";
+import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
-
-
 
 const ExploreScreen = () => {
   const [venues, setVenues] = useState([]);
 
   useEffect(() => {
-    axios( {
+    axios({
       method: 'get',
-      url: `http://localhost:6060/venue`
-    })
-    .then(function(response) {
-      console.log(response.data)
-      setVenues(response.data.venues)
-
-    }); 
+      url: `http://localhost:6060/venue`,
+    }).then(function (response) {
+      console.log(response.data);
+      setVenues(response.data.venues);
+    });
   }, []);
 
   return (
@@ -67,13 +63,21 @@ const ExploreScreen = () => {
             </View>
           </View>
           <View style={styles.barContainer}>
-          {
-                      venues.map((item: {name: string, address: string, lat: string, long: string, location: {latitude: string, longitude: string}}) => (
-                        <ExploreCard name={item.name} address={item.address} lat={item.location.latitude} long={item.location.longitude}></ExploreCard>
-                      ))
-                  }
-                  
-          </View> 
+            {venues.map(
+              (item: {
+                name: string;
+                address: string;
+                lat: string;
+                long: string;
+                location: { latitude: string; longitude: string };
+              }) => (
+                <ExploreCard
+                  name={item.name}
+                  address={item.address}
+                  lat={item.location.latitude}></ExploreCard>
+              )
+            )}
+          </View>
         </ScrollView>
       </SafeAreaView>
     </View>
