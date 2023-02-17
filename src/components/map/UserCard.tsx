@@ -4,7 +4,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import MapCard from '@nightlight/components/map/MapCard';
-import { UserCardProps, Location } from '@nightlight/src/types';
+import { UserCardProps, Location, TestingLabel } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import UserCardStyles from './UserCard.styles';
 import {
@@ -92,6 +92,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
         <View style={UserCardStyles.navigationDetailsContainer}>
           <Text style={UserCardStyles.navigationDistanceText}>0.3 miles</Text>
           <Pressable
+            accessibilityLabel={TestingLabel.USER_CARD_START_NAVIGATION}
             onPress={() => handleStartNavigation(location)}
             style={UserCardStyles.navigationButton}>
             <Text style={UserCardStyles.navigationButtonText}>GO</Text>
@@ -99,12 +100,18 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
         </View>
       </View>
       <View style={UserCardStyles.actionButtonsContainer}>
-        <Pressable onPress={handleCallUser} style={UserCardStyles.callButton}>
+        <Pressable
+          accessibilityLabel={TestingLabel.USER_CARD_CALL_USER}
+          onPress={handleCallUser}
+          style={UserCardStyles.callButton}>
           <FontAwesome name='phone' size={18} color={COLORS.WHITE} />
           <Text style={UserCardStyles.callButtonText}>Call</Text>
         </Pressable>
         <View style={UserCardStyles.actionButtonsDivider} />
-        <Pressable onPress={handlePingUser} style={UserCardStyles.pingButton}>
+        <Pressable
+          accessibilityLabel={TestingLabel.USER_CARD_PING_USER}
+          onPress={handlePingUser}
+          style={UserCardStyles.pingButton}>
           <Feather name='radio' size={18} color={COLORS.WHITE} />
           <Text style={UserCardStyles.pingButtonText}>Ping</Text>
         </Pressable>

@@ -51,3 +51,10 @@ export const getStatusColor = (lastActiveTime: Date) => {
     return COLORS.RED;
   }
 };
+
+/**
+ * Capitalizes the first letter of the word
+ */
+export const capitalizeFirstLetter = (word: string) => {
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+};

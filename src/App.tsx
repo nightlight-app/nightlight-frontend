@@ -6,7 +6,7 @@ import {
   Comfortaa_400Regular,
   Comfortaa_700Bold,
 } from '@expo-google-fonts/comfortaa';
-import * as SplashScreen from 'expo-splash-screen';
+import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import {
   BottomTabBarProps,
@@ -20,7 +20,7 @@ const Tab = createBottomTabNavigator();
 
 const SocialScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView testID={Route.SOCIAL}>
       <Text>Social</Text>
     </SafeAreaView>
   );
@@ -29,7 +29,7 @@ const SocialScreen = () => {
 // TEMP
 const EmergencyScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView testID={Route.EMERGENCY}>
       <Text>Emergency</Text>
     </SafeAreaView>
   );
@@ -38,7 +38,7 @@ const EmergencyScreen = () => {
 // TEMP
 const ExploreScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView testID={Route.EXPLORE}>
       <Text>Explore</Text>
     </SafeAreaView>
   );
@@ -47,14 +47,14 @@ const ExploreScreen = () => {
 // TEMP
 const ProfileScreen = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView testID={Route.PROFILE}>
       <Text>Profile</Text>
     </SafeAreaView>
   );
 };
 
 // Prevent hiding the splash screen
-SplashScreen.preventAutoHideAsync();
+preventAutoHideAsync();
 
 const App = () => {
   // Load fonts
@@ -64,11 +64,8 @@ const App = () => {
   });
 
   useEffect(() => {
-    if (fontsLoaded) {
-      // Hide the splash screen after the fonts have loaded and the
-      // UI is ready.
-      SplashScreen.hideAsync();
-    }
+    // Hide the splash screen after the fonts have loaded and the UI is ready.
+    if (fontsLoaded) hideAsync();
   }, [fontsLoaded]);
 
   // Prevent rendering until the font has loaded
