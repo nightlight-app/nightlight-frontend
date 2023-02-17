@@ -9,9 +9,9 @@ export enum Route {
 }
 
 export enum MapCardType {
-  VENUE = 'venue',
-  USER = 'user',
-  ERROR = 'error',
+  VENUE = 'Venue',
+  USER = 'User',
+  ERROR = 'Error',
 }
 
 export enum ReactionEmoji {
@@ -113,9 +113,9 @@ export interface ErrorCardProps extends MapCardProps {
  * for example, Routes are also used as labels.
  */
 export enum TestingLabel {
-  CloseButton = 'CloseButton',
-  UserCardStartNavigation = 'UserCardStartNavigation',
-  UserCardCallUser = 'UserCardCallUser',
-  UserCardPingUser = 'UserCardPingUser',
-  VenueCardStartNavigation = 'VenueCardStartNavigation',
+  CLOSE_BUTTON = 'CloseButton',
+  USER_CARD_START_NAVIGATION = 'UserCardStartNavigation',
+  USER_CARD_CALL_USER = 'UserCardCallUser',
+  USER_CARD_PING_USER = 'UserCardPingUser',
+  VENUE_CARD_START_NAVIGATION = 'VenueCardStartNavigation',
 }

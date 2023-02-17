@@ -31,7 +31,7 @@ describe('<UserCard />', () => {
     render(<UserCard user={dummyUser} onClose={mockOnClose} />);
 
     // get the pressable (throw error if no exist)
-    const pressable = screen.getByLabelText(TestingLabel.CloseButton);
+    const pressable = screen.getByLabelText(TestingLabel.CLOSE_BUTTON);
 
     // click on the pressable
     fireEvent(pressable, 'press');
@@ -88,9 +88,11 @@ describe('<UserCard />', () => {
     render(<UserCard user={dummyUser} onClose={() => {}} />);
 
     // get the pressables (throw error if no exist)
-    const press1 = screen.getByLabelText(TestingLabel.UserCardStartNavigation);
-    const press2 = screen.getByLabelText(TestingLabel.UserCardCallUser);
-    const press3 = screen.getByLabelText(TestingLabel.UserCardPingUser);
+    const press1 = screen.getByLabelText(
+      TestingLabel.USER_CARD_START_NAVIGATION
+    );
+    const press2 = screen.getByLabelText(TestingLabel.USER_CARD_CALL_USER);
+    const press3 = screen.getByLabelText(TestingLabel.USER_CARD_PING_USER);
 
     // click on the pressables
     fireEvent(press1, 'press');

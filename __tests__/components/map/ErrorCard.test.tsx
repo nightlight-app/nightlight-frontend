@@ -11,7 +11,7 @@ describe('Component <ErrorCard />', () => {
     render(<ErrorCard onClose={mockOnClose} />);
 
     // get the pressable (throw error if no exist)
-    const pressable = screen.getByLabelText(TestingLabel.CloseButton);
+    const pressable = screen.getByLabelText(TestingLabel.CLOSE_BUTTON);
 
     // click on the pressable
     fireEvent(pressable, 'press');

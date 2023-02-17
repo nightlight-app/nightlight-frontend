@@ -33,7 +33,7 @@ describe('<VenueCard />', () => {
     render(<VenueCard venue={dummyVenue} onClose={mockOnClose} />);
 
     // get the pressable (throw error if no exist)
-    const pressable = screen.getByLabelText(TestingLabel.CloseButton);
+    const pressable = screen.getByLabelText(TestingLabel.CLOSE_BUTTON);
 
     // click on the pressable
     fireEvent(pressable, 'press');
@@ -78,7 +78,9 @@ describe('<VenueCard />', () => {
     render(<VenueCard venue={dummyVenue} onClose={() => {}} />);
 
     // get the pressables (throw error if no exist)
-    const press1 = screen.getByLabelText(TestingLabel.VenueCardStartNavigation);
+    const press1 = screen.getByLabelText(
+      TestingLabel.VENUE_CARD_START_NAVIGATION
+    );
 
     // click on the pressables
     fireEvent(press1, 'press');
