@@ -7,13 +7,14 @@ const styles = StyleSheet.create({
       borderWidth: 2,
       textAlign: 'center',
       borderRadius: 5,
-      height: 120,
+      // height: 120,
       flexDirection: 'column',
-      marginBottom: 10
+      marginBottom: 10,
+      display: 'flex'
     },
     venueTitle: {
       fontFamily: 'Comfortaa_600SemiBold',
-      fontSize: 25,
+      fontSize: 20,
       color: 'white',
       paddingLeft: 20,
       paddingTop: 20,
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     reactionView: {
       display: 'flex',
       flexDirection: 'row',
-      paddingTop: 10,
+      paddingTop: 5,
       paddingLeft: 20,
     },
     goButton: {
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
       height: 60,
       width: 70,
       marginRight: 10,
+      marginBottom: 10
     },
     goButtonText: {
       color: 'white',
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'row',
       paddingLeft: 18,
-      paddingTop: 15,
+      paddingTop: 8,
     },
     closeButton: {
       marginTop: 16,

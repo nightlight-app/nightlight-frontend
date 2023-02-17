@@ -9,7 +9,7 @@ interface Props {
   active: boolean;
 }
 
-const VenueReaction = ({ emoji, value, active }: Props) => {
+const VenueReaction =({ emoji, value, active }: Props) => {
   const [isActive, setIsActive] = useState(active);
 
   let [fontsLoaded] = useFonts({

@@ -11,68 +11,67 @@ import {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        display: "flex",
+        flexGrow: 1,
         backgroundColor: "#212121",
         alignItems: "center",
-        justifyContent: "center",
-        flexDirection: 'column'
+        justifyContent: "flex-start",
+        flexDirection: 'column',
+      },
+      safeview: {
+        marginBottom: 114
       },
     title: {
-        position: 'absolute',
         fontFamily: "Comfortaa_400Regular",
         fontStyle: "normal",
         fontWeight: "700",
         fontSize: 24,
         color: '#FFFFFF',
-        top: '8%'
+        alignSelf: "center",
+        padding: 10
     },
     trending: {
-        position: 'absolute',
         display: 'flex',
-        flexDirection: 'column',
-        width: '97%',
-        height: '35%',
-        top: '17%',
+        width: '98%',
         alignItems: 'center',
         borderRadius: 10,
         borderColor: '#E07324',
         borderWidth: 1,
-        justifyContent:'space-evenly'
+        marginTop: 3,
+        paddingTop: 7,
+        paddingBottom: 7
     },
     seeMore: {
         width: '95%',
-        height: '8%',
         backgroundColor: '#3D3D3D',
         borderRadius: 5,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     seeMoreText: {
         fontFamily: "Comfortaa_400Regular",
         fontStyle: "normal",
         fontWeight: "700",
-        fontSize: 12,
+        fontSize: 14,
         color: 'rgba(144, 144, 144, 1)',
     },
     barContainer: {
-        position: 'absolute',
         display: 'flex',
         flexDirection: 'column',
         width: '97%',
         alignItems: 'center',
-        top: '53%'
+        marginTop: 7
     },
     search: {
-        position: 'absolute',
-        width: '93%',
-        height: '4%',
+        width: '90%',
+        alignSelf: "center",
+        height: '1%',
         backgroundColor: 'white',
         borderRadius: 10,
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
-        top: '12%'
     },
     searchText: {
     fontFamily: "Comfortaa_400Regular",
@@ -81,6 +80,41 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#A0A0A0',
     marginLeft: 10
+    },
+    trendbox: {
+        display: 'flex',
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    reactionContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginRight: 5
+    },
+    trendingText: {
+        color: '#E07324',
+        fontFamily: "Comfortaa_400Regular",
+        fontStyle: "normal",
+        fontWeight: "700",
+        fontSize: 16
+    },
+    reactionBox: {
+        backgroundColor: '#525252',
+        borderRadius: 10,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 3,
+        padding: 2
+    },
+    allText: {
+        color: 'white',
+        fontFamily: "Comfortaa_400Regular",
+        fontStyle: "normal",
+        fontWeight: "700",
+        fontSize: 15,
+        margin: 3
     }
   });
 

@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import styles from './ExploreScreen.styles';
 import ExploreCard from "components/explore/ExploreCard";
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+
 
 const ExploreScreen = () => {
-  const [clubs, setClubs] = useState();
+  const [clubs, setClubs] = useState([]);
 
   useEffect(() => {
     let options = {
@@ -29,30 +32,55 @@ const ExploreScreen = () => {
   });
 
   if (fontsLoaded) {
-    //TODO MAKE FONT SMALLER IF ABOVE A CERTAIN # OF CHARS
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.search}>
-        <Text style={styles.searchText}>Click to explore...</Text>
-      </View>
-      <Text style={styles.title}>Explore</Text>
-      <View style={styles.trending}>
-        <ExploreCard name='Jason Aldeans' address='10 Broadway'distance='0.1m' ></ExploreCard>
-        <ExploreCard name='Tin Roof' address='134 Demonbreun St'distance='0.1m'  ></ExploreCard>
-        <View style={styles.seeMore}>
-          <Text style={styles.seeMoreText}>See more...</Text>
+    <View style={styles.container}>
+      <SafeAreaView style={styles.safeview}>
+        <ScrollView>
+          <Text style={styles.title}>Explore</Text>
+          <View style={styles.search}>
+            <Text style={styles.searchText}>Click to explore...</Text>
+          </View>
+          <View style={styles.trendbox}>
+            <Text style={styles.trendingText}>🔥 Trending </Text> 
+            <View style={styles.reactionContainer}>
+              <View style={styles.reactionBox}>
+                <Text style={styles.allText}>All</Text>
+              </View>
+              <View style={styles.reactionBox}>
+                <Text>🔥</Text>
+              </View>
+              <View style={styles.reactionBox}>
+                <Text>⛨</Text>
+              </View>
+              <View style={styles.reactionBox}>
+                <Text>🎉</Text>
+              </View>
+              <View style={styles.reactionBox}>
+                <Text>⚠️</Text>
+              </View>
+              <View style={styles.reactionBox}>
+                <Text>💩</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.trending}>
+          <ExploreCard name='Jason Aldeans' address='10 Broadway'distance='0.1m' ></ExploreCard>
+          <ExploreCard name='Tin Roof' address='134 Demonbreun St'distance='0.1m'  ></ExploreCard>
+          <View style={styles.seeMore}>
+            <Text style={styles.seeMoreText}>See more...</Text>
+          </View>
         </View>
-      </View>
-       <View style={styles.barContainer}>
-       <FlatList
-        data={clubs}
-        renderItem={({ item }) => (
-          <ExploreCard name={item.name} address={item.location.address1} distance={'na'}></ExploreCard>
-        )}
-        keyExtractor={item => item.name}
-      />
-       </View>
-    </ScrollView>
+          <View style={styles.barContainer}>
+          {
+                      clubs.map((item: {name: string, location: string, distance: string}) => (
+                        <ExploreCard name={item.name} address={item.location.address1} distance={'na'}></ExploreCard>
+                      ))
+                  }
+                  
+          </View> 
+        </ScrollView>
+        </SafeAreaView>
+     </View>
   );
 };
 }
