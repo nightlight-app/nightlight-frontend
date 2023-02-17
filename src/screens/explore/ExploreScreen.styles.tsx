@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   search: {
     width: '90%',
     alignSelf: 'center',
-    height: '1%',
+    height: '5%',
     backgroundColor: 'white',
     borderRadius: 10,
     display: 'flex',
