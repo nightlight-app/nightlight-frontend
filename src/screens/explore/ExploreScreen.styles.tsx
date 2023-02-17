@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     search: {
         width: '90%',
         alignSelf: "center",
-        height: '1%',
+        height: 25,
         backgroundColor: 'white',
         borderRadius: 10,
         display: 'flex',

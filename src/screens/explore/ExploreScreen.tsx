@@ -4,27 +4,40 @@ import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import styles from './ExploreScreen.styles';
 import ExploreCard from "components/explore/ExploreCard";
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import axios from 'axios';
 
 
 const ExploreScreen = () => {
-  const [clubs, setClubs] = useState([]);
+  const [venues, setVenues] = useState([]);
+
+  // useEffect(() => {
+  //   let options = {
+  //     // headers: {
+  //     //   Authorization:
+  //     //     'Bearer ZzBZjUbtVGqDJf9_jkyLrazXSh_iGyfGbznPiPVMOPFCv9nHIzlCn3OK7L40JPSvwmNGLNZNKjJzoE-2UmDIM_I_zU7O-NvNsYH9nJsyjOyLCdv1Zm3z-oddfjPbY3Yx',
+  //     // },
+  //   };
+  //   fetch(
+  //     'https://localhost:6060/venue',
+  //     options
+  //   )
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log(data)
+  //       setClubs(data.businesses);
+  //     });
+  // }, []);
 
   useEffect(() => {
-    let options = {
-      headers: {
-        Authorization:
-          'Bearer ZzBZjUbtVGqDJf9_jkyLrazXSh_iGyfGbznPiPVMOPFCv9nHIzlCn3OK7L40JPSvwmNGLNZNKjJzoE-2UmDIM_I_zU7O-NvNsYH9nJsyjOyLCdv1Zm3z-oddfjPbY3Yx',
-      },
-    };
-    fetch(
-      'https://api.yelp.com/v3/businesses/search?term=clubs&latitude=36.144151&longitude=-86.800949&limit=30',
-      options
-    )
-      .then(res => res.json())
-      .then(data => {
-        setClubs(data.businesses);
-      });
+    axios( {
+      method: 'get',
+      url: `http://localhost:6060/venue`
+    })
+    .then(function(response) {
+      console.log(response.data)
+      setVenues(response.data.venues)
+
+    }); 
   }, []);
 
   let [fontsLoaded] = useFonts({
@@ -72,8 +85,8 @@ const ExploreScreen = () => {
         </View>
           <View style={styles.barContainer}>
           {
-                      clubs.map((item: {name: string, location: string, distance: string}) => (
-                        <ExploreCard name={item.name} address={item.location.address1} distance={'na'}></ExploreCard>
+                      venues.map((item: {name: string, address: string, lat: string, long: string}) => (
+                        <ExploreCard name={item.name} address={item.address} lat={item.location.latitude} long={item.location.longitude}></ExploreCard>
                       ))
                   }
                   

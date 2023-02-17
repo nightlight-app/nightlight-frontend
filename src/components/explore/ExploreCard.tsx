@@ -36,10 +36,9 @@ const ExploreCard = (Props: Props) => {
                   <VenueReaction emoji='💩' value={11} active={false} />
                 </View>
               </View>
-    
               <Pressable style={styles.goButton}>
                 <Text style={styles.goButtonText}>GO</Text>
-                <Text style={styles.goButtonSubText}>0.2 miles</Text>
+                <Text style={styles.goButtonSubText}>{Props.lat}</Text>
               </Pressable>
             </View>
           </View>
