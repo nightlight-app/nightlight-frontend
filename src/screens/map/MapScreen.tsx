@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Pressable, SafeAreaView as View, Text } from 'react-native';
+import { Pressable, View, Text } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
 import ErrorCard from '@nightlight/components/map/ErrorCard';
-import { MapCardType, Venue, User } from '@nightlight/src/types';
+import { MapCardType, Venue, User, Route } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMap from '@nightlight/components/map/NightlightMap';
 
@@ -80,7 +80,7 @@ const MapScreen = () => {
   };
 
   return (
-    <View style={MapScreenStyles.container}>
+    <View testID={Route.MAP} style={MapScreenStyles.container}>
       <NightlightMap />
       {activeMapCardType && renderMapCard(activeMapCardType)}
 
