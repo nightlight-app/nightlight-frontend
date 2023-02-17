@@ -23,6 +23,8 @@ import { COLORS } from '@nightlight/src/global.styles';
 const { height }: ScaledSize = Dimensions.get('window');
 
 const EmergencyButton = () => {
+  
+
   /* The maximum offset of the button from its original position.
    * At this offset, the top of the button is aligned with the middle of the window height.
    * -------------------------
@@ -41,6 +43,8 @@ const EmergencyButton = () => {
   const scale: SharedValue<number> = useSharedValue<number>(1); // scale of button
 
   const isPressed: SharedValue<boolean> = useSharedValue<boolean>(false); // is button pressed?
+
+  let emergencyStartTime: Date | null = null; // time when emergency button is at the max offset
 
   const whiteToRedInterpolation: SharedValue<number> =
     useSharedValue<number>(0); // fraction of white -> red
@@ -127,6 +131,12 @@ const EmergencyButton = () => {
         // Within bounds: update offset to new offset
         offset.value = newOffset;
       }
+
+      if (offset.value === maxOffset) {
+        if (!emergencyStartTime) emergencyStartTime = new Date();
+      } else {
+        emergencyStartTime = null;
+      }
     })
     .onEnd(() => {
       // On touch release, reset position of button
@@ -134,6 +144,7 @@ const EmergencyButton = () => {
         duration: 500,
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
       });
+      emergencyStartTime = null;
     });
 
   const longPressGesture: LongPressGesture = Gesture.LongPress()
