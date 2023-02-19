@@ -9,13 +9,15 @@ const ExploreScreen = () => {
   const [venues, setVenues] = useState([]);
 
   useEffect(() => {
-    axios({
-      method: 'get',
-      url: `http://localhost:6060/venue`,
-    }).then(function (response) {
+    console.log('here')
+    axios.get(`http://localhost:6060/venues`)
+    .then((response) => {
       console.log(response.data);
       setVenues(response.data.venues);
-    });
+    })
+  .catch ((e) => {
+    console.log('Error: ',e);
+  })
   }, []);
 
   return (
