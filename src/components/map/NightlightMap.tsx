@@ -47,10 +47,14 @@ const NightlightMap = () => {
     camera.current?.setCamera(initialCamera);
   }, [camera.current]);
 
-  // reset camera to user position
+  /**
+   * Toggle the isCameraFollowingUser variable
+   */
   const toggleCameraFollow = () => setIsCameraFollowingUser(prev => !prev);
 
-  // reset camera heading to north
+  /**
+   * Reset the camera's heading to point to North
+   */
   const resetCameraHeadingToNorth = () => {
     if (camera.current) {
       camera.current.setCamera({
@@ -63,6 +67,12 @@ const NightlightMap = () => {
 
   /**
    * Handle the onUserTrackingModeChange event emitted by Mapbox Camera.
+   *
+   * When userTrackingMode is string, the camera is currently tracking
+   * the user. This function should do nothing.
+   *
+   * When userTrackingMode is null, the camera no longer tracks the
+   * user. This function should set isCameraFollowingUser to false.
    */
   const handleUserTrackingModeChange = (event: {
     nativeEvent: { payload: { followUserMode: string | null } };
