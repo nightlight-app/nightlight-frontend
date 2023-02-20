@@ -14,3 +14,6 @@ web-build/
 
 #env variables
 .env
+
+# testing
+coverage/

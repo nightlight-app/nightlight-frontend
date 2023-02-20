@@ -1,6 +1,15 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    // Path alias config
+    "baseUrl": ".",
+    "paths": {
+      // This needs to be mirrored in babel.config.js
+      "@nightlight/components/*": ["src/components/*"],
+      "@nightlight/screens/*": ["src/screens/*"],
+      "@nightlight/assets/*": ["assets/*"],
+      "@nightlight/*": ["*"]
+    }
   }
 }
