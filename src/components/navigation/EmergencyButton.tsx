@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Dimensions, ScaledSize } from 'react-native';
+import React, { useState } from 'react';
+import { View, Dimensions, ScaledSize, Alert, Text } from 'react-native';
 import {
   GestureDetector,
   Gesture,
@@ -15,6 +15,7 @@ import Animated, {
   Easing,
   SharedValue,
   interpolateColor,
+  runOnJS,
 } from 'react-native-reanimated';
 import MaskedView from '@react-native-masked-view/masked-view';
 import EmergencyButtonStyles from '@nightlight/components/navigation/EmergencyButton.styles';
@@ -22,8 +23,12 @@ import { COLORS } from '@nightlight/src/global.styles';
 
 const { height }: ScaledSize = Dimensions.get('window');
 
+const COUNTDOWN_DURATION: number = 3000; // 3 seconds
+
 const EmergencyButton = () => {
-  
+  const [displayedCountdown, setDisplayedCountdown] = useState<number>(
+    COUNTDOWN_DURATION / 1000
+  );
 
   /* The maximum offset of the button from its original position.
    * At this offset, the top of the button is aligned with the middle of the window height.
@@ -43,8 +48,6 @@ const EmergencyButton = () => {
   const scale: SharedValue<number> = useSharedValue<number>(1); // scale of button
 
   const isPressed: SharedValue<boolean> = useSharedValue<boolean>(false); // is button pressed?
-
-  let emergencyStartTime: Date | null = null; // time when emergency button is at the max offset
 
   const whiteToRedInterpolation: SharedValue<number> =
     useSharedValue<number>(0); // fraction of white -> red
@@ -118,6 +121,65 @@ const EmergencyButton = () => {
       : {}
   );
 
+  const triggerEmergency = () => {
+    // TODO: Notify emergency contacts
+    didTriggerEmergency.value = true;
+    Alert.alert('ALERT!', 'Notifying your emergency contacts...');
+  };
+
+  // Identifies if countdown is active
+  const isCountdownActive: SharedValue<boolean> =
+    useSharedValue<boolean>(false);
+
+  // Identifies if emergency has been triggered
+  const didTriggerEmergency: SharedValue<boolean> =
+    useSharedValue<boolean>(false);
+
+  // JS thread countdown function
+  const countdown = () => {
+    let secondsElapsed = 0; // can't use state because state is updated async
+
+    // run every second
+    const interval = setInterval(() => {
+      if (isCountdownActive.value) {
+        // if countdown is still active...
+        secondsElapsed += 1;
+        setDisplayedCountdown(prev => prev - 1);
+        if (secondsElapsed >= COUNTDOWN_DURATION / 1000) {
+          // if countdown is finished...
+          clearInterval(interval);
+          triggerEmergency();
+          setDisplayedCountdown(COUNTDOWN_DURATION / 1000);
+        }
+      } else {
+        // if countdown is cancelled...
+        clearInterval(interval);
+        setDisplayedCountdown(COUNTDOWN_DURATION / 1000);
+      }
+    }, 1000);
+  };
+
+  // Start countdown if not started
+  const startCountdown = () => {
+    'worklet';
+    if (!isCountdownActive.value && !didTriggerEmergency.value) {
+      console.log('starting countdown...');
+      isCountdownActive.value = true;
+      // running on JS thread allows for setInterval and setState to work as exected
+      runOnJS(countdown)();
+    }
+  };
+
+  // Cancel countdown if started
+  const cancelCountdown = () => {
+    'worklet';
+    if (isCountdownActive.value) {
+      console.log('cancelling countdown...');
+      isCountdownActive.value = false;
+    }
+  };
+
+  // Gesture handler for slide animation
   const panGesture: PanGesture = Gesture.Pan()
     .onUpdate(e => {
       const newOffset = e.translationY;
@@ -133,9 +195,11 @@ const EmergencyButton = () => {
       }
 
       if (offset.value === maxOffset) {
-        if (!emergencyStartTime) emergencyStartTime = new Date();
+        // Start countdown if button is at max offset
+        startCountdown();
       } else {
-        emergencyStartTime = null;
+        // Cancel countdown if button is not at max offset
+        cancelCountdown();
       }
     })
     .onEnd(() => {
@@ -144,9 +208,14 @@ const EmergencyButton = () => {
         duration: 500,
         easing: Easing.bezier(0.25, 0.1, 0.25, 1),
       });
-      emergencyStartTime = null;
+
+      // Cancel countdown if released
+      cancelCountdown();
+
+      didTriggerEmergency.value = false;
     });
 
+  // Gesture handler for detecting if button is pressed
   const longPressGesture: LongPressGesture = Gesture.LongPress()
     .minDuration(0)
     .maxDistance(height) // weird behavior-value pairing...?
@@ -156,11 +225,13 @@ const EmergencyButton = () => {
       scale.value = withTiming(1.1, { duration: 100 }); // scale up
       whiteToRedInterpolation.value = withTiming(1); // white -> red
       blueToRedInterpolation.value = withTiming(1); // blue -> red
+
+      // Blink red
       redInterpolation.value = withRepeat(
-        withTiming(1, { duration: 300 }), // duration is time for half of a cycle
+        withTiming(1, { duration: 500 }), // duration is time for half of a cycle
         -1,
         true
-      ); // blink red
+      );
     })
     .onEnd(() => {
       // At end of long press...
@@ -178,6 +249,7 @@ const EmergencyButton = () => {
 
   return (
     <View>
+      <Text style={{ position: 'absolute' }}>{displayedCountdown}</Text>
       <GestureDetector gesture={simultaneousGesture}>
         <Animated.View
           style={[EmergencyButtonStyles.base, slideScaleAnimation]}>
