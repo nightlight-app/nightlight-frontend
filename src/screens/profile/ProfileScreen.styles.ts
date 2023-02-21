@@ -1,209 +1,161 @@
+import { COLORS, Fonts } from '@nightlight/src/global.styles';
 import { Dimensions, StyleSheet } from 'react-native';
+
+const { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#212121',
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     alignItems: 'center',
-    justifyContent: 'center',
+    overflowY: 'scroll',
   },
-  profileInfo: {
+
+  // background image
+  backgroundImageContainer: {
     position: 'absolute',
-    height: '8%',
-    top: '38%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '80%',
-  },
-  secondRow: {
-    position: 'absolute',
-    height: '8%',
-    top: '45%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  backgroundImage: {
-    position: 'absolute',
-    width: '100%',
-    height: '45%',
     left: 0,
     top: 0,
+    width: width,
+    height: height * 0.25,
+    display: 'flex',
+    alignItems: 'flex-end',
+  },
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+  },
+  settingsSVG: {
+    position: 'absolute',
+    top: '20%',
+    right: '5%',
+  },
+  photoSvg: {
+    position: 'absolute',
+    bottom: '5%',
+    left: '5%',
+  },
+  pencilSVG: {
+    marginTop: 10,
+    marginRight: 10,
+  },
+
+  // profile info
+  profileInfoContainer: {
+    position: 'relative',
+    marginTop: height * 0.19,
+    width: width,
+    display: 'flex',
+    alignItems: 'center',
   },
   profileImage: {
-    position: 'absolute',
-    resizeMode: 'contain',
-    top: '11%',
-    border: '3px solid #FFFFFF',
-    // filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)',
-    borderRadius:
-      Math.round(
-        Dimensions.get('window').width + Dimensions.get('window').height
-      ) / 2,
-    width: (Dimensions.get('window').width * 0.5) / 1.5,
-    height: (Dimensions.get('window').width * 0.5) / 1.5,
+    width: height * 0.15,
+    height: height * 0.15,
+    borderRadius: (height * 0.15) / 2,
+    marginTop: -(height * 0.15 * 0.5),
+    borderWidth: 3,
+    borderColor: COLORS.WHITE,
   },
   name: {
-    position: 'absolute',
-    alignItems: 'center',
-    top: '30%',
-    fontFamily: 'Comfortaa_400Regular',
-    fontStyle: 'normal',
-    fontWeight: '700',
+    fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 24,
-    lineHeight: 27,
-    display: 'flex',
-    textAlign: 'center',
-    color: '#FFFFFF',
+    color: COLORS.WHITE,
+    marginTop: 5,
   },
   number: {
-    position: 'absolute',
-    top: '34%',
-    fontFamily: 'Comfortaa_400Regular',
-    fontStyle: 'normal',
-    fontWeight: '700',
+    fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
-    display: 'flex',
-    textAlign: 'center',
     color: '#A6A6A6',
-    textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    marginTop: 2,
   },
-  emergencyView: {
-    position: 'absolute',
-    zIndex: -1,
-    width: '100%',
-    height: 242,
-    top: 700,
-    backgroundColor: '#141414',
-    // box-shadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.25)'
+
+  // profile statistics
+  scrollView: {
+    display: 'flex',
+    width: width,
   },
-  button: {
-    alignItems: 'center',
+  profileStatisticsContainer: {
+    position: 'relative',
+    flexDirection: 'row',
     justifyContent: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderRadius: 4,
-    top: 250,
-    backgroundColor: '#4A86E8',
-    borderTopRightRadius: 15,
-    borderTopLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    borderBottomLeftRadius: 15,
-  },
-  buttonText: {
-    fontFamily: 'Comfortaa_400Regular',
-    fontSize: 13,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'white',
-  },
-  numberText: {
-    fontFamily: 'Comfortaa_400Regular',
-    fontSize: 36,
-    fontWeight: '700',
-    letterSpacing: 0.25,
-    color: 'white',
-  },
-  bdayText: {
-    fontFamily: 'Comfortaa_400Regular',
-    fontSize: 20,
-    fontWeight: '700',
-    letterSpacing: 0.25,
-    color: 'white',
-    top: '15%',
-  },
-  smallText: {
-    fontFamily: 'Comfortaa_400Regular',
-    fontSize: 15,
-    fontWeight: '700',
-    letterSpacing: 0.25,
-    color: 'rgba(255, 255, 255, 0.4)',
-  },
-  smallerText: {
-    fontFamily: 'Comfortaa_400Regular',
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 0.25,
-    color: 'rgba(255, 255, 255, 0.4)',
-    top: '25%',
-  },
-  alternativeSmallText: {
-    fontFamily: 'Comfortaa_400Regular',
-    fontSize: 12,
-    fontWeight: '700',
-    letterSpacing: 0.25,
-    color: 'rgba(255, 255, 255, 0.4)',
-    top: '5%',
+    alignItems: 'center',
+    height: 80,
+    marginTop: 10,
   },
   box: {
-    flex: 1,
     alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 10,
   },
-  box1: {
-    flex: 1,
-    alignItems: 'flex-start',
+  numberText: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 32,
+    color: COLORS.WHITE,
   },
+  smallText: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 15,
+    color: COLORS.GRAY,
+  },
+
+  // favorite bar
   favoriteBar: {
-    position: 'absolute',
-    width: '90%',
-    height: '10%',
-    top: '50%',
+    width: '100%',
     display: 'flex',
-    justifyContent: 'space-evenly',
     flexDirection: 'row',
+    marginTop: 10,
+  },
+  partySvg: {
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  barInfo: {
+    display: 'flex',
+    justifyContent: 'center',
   },
   barText: {
-    fontFamily: 'Comfortaa_400Regular',
-    fontSize: 15,
-    fontWeight: '700',
-    letterSpacing: 0.25,
-    color: 'white',
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 20,
+    color: COLORS.WHITE,
+    marginBottom: 2,
   },
-  svg: {
-    // flex: 1,
-  },
+
+  // calendar views
   calendarView: {
-    position: 'absolute',
-    // backgroundColor: '#141414',
-    width: '90%',
-    height: '15%',
-    top: '60%',
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    borderRadius: 15,
+    width: width,
+    height: 100,
+    marginTop: 20,
     display: 'flex',
-    borderTopRightRadius: 15,
-    borderTopLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    borderBottomLeftRadius: 15,
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    // alignItems: 'center'
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   monthView: {
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   monthText: {
-    fontFamily: 'Comfortaa_400Regular',
+    fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 13,
-    fontWeight: '700',
-    letterSpacing: 0.25,
-    color: 'white',
-    flex: 2,
+    color: COLORS.WHITE,
   },
-  bottleSVG: {
-    flex: 1,
+
+  // emergency contacts button
+  emergencyView: {
+    position: 'relative',
+    width: width,
+    height: height * 0.3,
+    display: 'flex',
+    alignItems: 'center',
   },
-  pencilSVG: {
-    left: '44%',
-    top: '-21%',
-  },
-  settingsSVG: {
-    left: '44%',
-    top: '-42%',
-  },
-  photoSvg: {
-    right: '46%',
-    top: '-31%',
+  button: {
+    width: width * 0.8,
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    marginTop: 20,
   },
 });
