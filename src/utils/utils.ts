@@ -1,4 +1,6 @@
 import { COLORS } from '@nightlight/src/global.styles';
+import MapboxGL from '@rnmapbox/maps';
+import { Position } from '@turf/helpers/dist/js/lib/geojson';
 
 /*
  * Determine the relative time string from a given date.
@@ -58,3 +60,11 @@ export const getStatusColor = (lastActiveTime: Date) => {
 export const capitalizeFirstLetter = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 };
+
+/**
+ * Converts the MapboxGL coordinate {latitude: number, longitude: number}
+ * into Position [longitude, latitude]
+ */
+export const convertCoordinateToPosition = (
+  coor: MapboxGL.Coordinates
+): Position => [coor.longitude, coor.latitude];
