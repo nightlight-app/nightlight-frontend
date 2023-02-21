@@ -68,6 +68,8 @@ const EmergencyButton = () => {
     useSharedValue<boolean>(false);
   const didTriggerEmergency: SharedValue<boolean> =
     useSharedValue<boolean>(false);
+  const countdownInterval: SharedValue<NodeJS.Timer | null> =
+    useSharedValue<NodeJS.Timer | null>(null); // countdown interval
 
   /***
    * SIDE EFFECTS
@@ -176,33 +178,41 @@ const EmergencyButton = () => {
   /***
    * HELPERS
    ***/
+  // function to run on triggered emergency
   const triggerEmergency = () => {
     // TODO: Notify emergency contacts
+    setDisplayedCountdown(0);
     didTriggerEmergency.value = true;
     Alert.alert('ALERT!', 'Notifying your emergency contacts...');
   };
 
+  // JS thread function to clear countdown interval
+  const stopCountdown = () => {
+    clearInterval(countdownInterval.value as NodeJS.Timer);
+    countdownInterval.value = null;
+    setDisplayedCountdown(COUNTDOWN_DURATION / 1000);
+  };
+
   // JS thread countdown function
   const countdown = () => {
+    if (countdownInterval.value !== null) return; // if countdown is already running, do nothing
+
     let secondsElapsed = 0; // can't use state because state is updated async
 
     // run every second
-    // TODO: need to find a way to clear the interval when isCountdownActive changes to false
-    const interval = setInterval(() => {
-      if (isCountdownActive.value) {
+    countdownInterval.value = setInterval(() => {
+      if (isCountdownActive.value && countdownInterval.value !== null) {
         // if countdown is still active...
         secondsElapsed += 1;
         setDisplayedCountdown(prev => prev - 1);
         if (secondsElapsed >= COUNTDOWN_DURATION / 1000) {
           // if countdown is finished...
-          clearInterval(interval);
+          stopCountdown();
           triggerEmergency();
-          setDisplayedCountdown(COUNTDOWN_DURATION / 1000);
         }
       } else {
         // if countdown is cancelled...
-        clearInterval(interval);
-        setDisplayedCountdown(COUNTDOWN_DURATION / 1000);
+        stopCountdown();
       }
     }, 1000);
   };
@@ -211,9 +221,7 @@ const EmergencyButton = () => {
   const startCountdown = () => {
     'worklet';
     if (!isCountdownActive.value && !didTriggerEmergency.value) {
-      console.log('starting countdown...');
       isCountdownActive.value = true;
-      // running on JS thread allows for setInterval and setState to work as exected
       runOnJS(countdown)();
     }
   };
@@ -222,8 +230,8 @@ const EmergencyButton = () => {
   const cancelCountdown = () => {
     'worklet';
     if (isCountdownActive.value) {
-      console.log('cancelling countdown...');
       isCountdownActive.value = false;
+      runOnJS(stopCountdown)();
     }
   };
 
@@ -250,7 +258,7 @@ const EmergencyButton = () => {
         startCountdown();
       } else {
         // Cancel countdown if button is not at max offset
-        cancelCountdown();
+        if (!didTriggerEmergency.value) cancelCountdown();
       }
     })
     .onEnd(() => {
@@ -263,6 +271,7 @@ const EmergencyButton = () => {
       // Cancel countdown if released
       cancelCountdown();
 
+      // Reset boolean that tracks if emergency was triggered
       didTriggerEmergency.value = false;
     });
 
