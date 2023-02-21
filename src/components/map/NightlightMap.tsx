@@ -116,22 +116,28 @@ const NightlightMap = () => {
       </View>
 
       {/* Interactable Buttons */}
-      <Pressable
-        onPress={resetCameraHeadingToNorth}
-        style={[
-          MapScreenStyles.mapControlButton,
-          MapScreenStyles.orientMapButton,
-        ]}>
-        <Ionicons name='md-compass' size={32} color={COLORS.WHITE} />
-      </Pressable>
-      <Pressable
-        onPress={toggleCameraFollow}
-        style={[
-          MapScreenStyles.mapControlButton,
-          MapScreenStyles.currentLocationButton,
-        ]}>
-        <Ionicons name='md-navigate' size={32} color={COLORS.NIGHTLIGHT_BLUE} />
-      </Pressable>
+      <View style={MapScreenStyles.mapControlContainer}>
+        <Pressable
+          onPress={resetCameraHeadingToNorth}
+          style={[
+            MapScreenStyles.mapControlButton,
+            MapScreenStyles.orientMapButton,
+          ]}>
+          <Ionicons name='md-compass' size={32} color={COLORS.WHITE} />
+        </Pressable>
+        <Pressable
+          onPress={toggleCameraFollow}
+          style={[
+            MapScreenStyles.mapControlButton,
+            MapScreenStyles.currentLocationButton,
+          ]}>
+          <Ionicons
+            name='md-navigate'
+            size={32}
+            color={COLORS.NIGHTLIGHT_BLUE}
+          />
+        </Pressable>
+      </View>
     </View>
   );
 };
