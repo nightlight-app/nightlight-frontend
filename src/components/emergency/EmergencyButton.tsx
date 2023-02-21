@@ -229,7 +229,7 @@ const EmergencyButton = () => {
   // Cancel countdown if started
   const cancelCountdown = () => {
     'worklet';
-    if (isCountdownActive.value) {
+    if (isCountdownActive.value && !didTriggerEmergency.value) {
       isCountdownActive.value = false;
       runOnJS(stopCountdown)();
     }
@@ -258,7 +258,7 @@ const EmergencyButton = () => {
         startCountdown();
       } else {
         // Cancel countdown if button is not at max offset
-        if (!didTriggerEmergency.value) cancelCountdown();
+        cancelCountdown();
       }
     })
     .onEnd(() => {

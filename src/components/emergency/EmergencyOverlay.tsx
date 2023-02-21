@@ -8,10 +8,10 @@ const EmergencyOverlay = ({ countdown }: EmergencyOverlayProps) => {
     <View style={EmergencyOverlayStyles.container}>
       <View style={EmergencyOverlayStyles.textContainer}>
         <Text style={EmergencyOverlayStyles.text}>Slide up and hold for</Text>
-        <Text style={EmergencyOverlayStyles.countdown}>{countdown}</Text>
-        <Text style={EmergencyOverlayStyles.text}>
-          second{countdown === 1 ? '' : 's'} to notify your
+        <Text style={EmergencyOverlayStyles.countdown}>
+          {countdown} second{countdown === 1 ? '' : 's'}{' '}
         </Text>
+        <Text style={EmergencyOverlayStyles.text}>to notify your</Text>
         <Text style={EmergencyOverlayStyles.emergencyContactsText}>
           EMERGENCY CONTACTS
         </Text>
