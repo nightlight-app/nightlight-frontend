@@ -1,10 +1,7 @@
-import * as React from 'react';
-import Svg, { SvgProps, Path } from 'react-native-svg';
+import { ISvgProps } from '@nightlight/src/types';
+import React from 'react';
+import Svg, { Path } from 'react-native-svg';
 
-interface ISvgProps extends SvgProps {
-  xmlns?: string;
-  xmlSpace?: string;
-}
 const BottleSvg = (props: ISvgProps) => (
   <Svg
     fill={'white'}

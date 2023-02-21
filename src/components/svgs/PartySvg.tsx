@@ -1,20 +1,7 @@
+import { ISvgProps } from '@nightlight/src/types';
 import React from 'react';
-import { ImageSourcePropType, StyleSheet } from 'react-native';
-import Svg, {
-  type SvgProps,
-  Path,
-  Defs,
-  Pattern,
-  Use,
-  Image,
-} from 'react-native-svg';
+import Svg, { Path, Defs, Pattern, Use, Image } from 'react-native-svg';
 /* SVGR has dropped some elements not supported by react-native-svg: filter */
-
-interface ISvgProps extends SvgProps {
-  xmlns?: string;
-  xmlnsXlink?: string;
-  xmlSpace?: string;
-}
 
 const PartySvg = (props: ISvgProps) => (
   <Svg
