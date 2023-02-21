@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ImageBackground,
   Text,
@@ -7,11 +7,11 @@ import {
   Button,
   Dimensions,
   Image,
-} from "react-native";
-import Svg, { type SvgProps, Path } from "react-native-svg";
-import PartySvg from "../../../src/components/svgs/PartySvg";
-import BottleSvg from "../../../src/components/svgs/BottleSvg";
-import PencilSvg from "../../../src/components/svgs/PencilSvg";
+} from 'react-native';
+import Svg, { type SvgProps, Path } from 'react-native-svg';
+import PartySvg from '../../../src/components/svgs/PartySvg';
+import BottleSvg from '../../../src/components/svgs/BottleSvg';
+import PencilSvg from '../../../src/components/svgs/PencilSvg';
 import {
   useFonts,
   Comfortaa_300Light,
@@ -19,9 +19,9 @@ import {
   Comfortaa_500Medium,
   Comfortaa_600SemiBold,
   Comfortaa_700Bold,
-} from "@expo-google-fonts/comfortaa";
-import SettingsSvg from "../../components/svgs/SettingsSvg";
-import PhotoSvg from "../../components/svgs/PhotoSvg";
+} from '@expo-google-fonts/comfortaa';
+import SettingsSvg from '../../components/svgs/SettingsSvg';
+import PhotoSvg from '../../components/svgs/PhotoSvg';
 
 interface ISvgProps extends SvgProps {
   xmlns?: string;
@@ -32,208 +32,208 @@ interface ISvgProps extends SvgProps {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#212121",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#212121',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   profileInfo: {
-    position: "absolute",
-    height: "8%",
-    top: "38%",
-    flexDirection: "row",
-    justifyContent: "center",
-    width: "80%",
+    position: 'absolute',
+    height: '8%',
+    top: '38%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '80%',
   },
   secondRow: {
-    position: "absolute",
-    height: "8%",
-    top: "45%",
-    flexDirection: "row",
-    justifyContent: "center",
+    position: 'absolute',
+    height: '8%',
+    top: '45%',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   backgroundImage: {
-    position: "absolute",
-    width: "100%",
-    height: "45%",
+    position: 'absolute',
+    width: '100%',
+    height: '45%',
     left: 0,
     top: 0,
   },
   profileImage: {
-    position: "absolute",
-    resizeMode: "contain",
-    top: "11%",
-    border: "3px solid #FFFFFF",
+    position: 'absolute',
+    resizeMode: 'contain',
+    top: '11%',
+    border: '3px solid #FFFFFF',
     // filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)',
     borderRadius:
       Math.round(
-        Dimensions.get("window").width + Dimensions.get("window").height
+        Dimensions.get('window').width + Dimensions.get('window').height
       ) / 2,
-    width: (Dimensions.get("window").width * 0.5) / 1.5,
-    height: (Dimensions.get("window").width * 0.5) / 1.5,
+    width: (Dimensions.get('window').width * 0.5) / 1.5,
+    height: (Dimensions.get('window').width * 0.5) / 1.5,
   },
   name: {
-    position: "absolute",
-    alignItems: "center",
-    top: "30%",
-    fontFamily: "Comfortaa_400Regular",
-    fontStyle: "normal",
-    fontWeight: "700",
+    position: 'absolute',
+    alignItems: 'center',
+    top: '30%',
+    fontFamily: 'Comfortaa_400Regular',
+    fontStyle: 'normal',
+    fontWeight: '700',
     fontSize: 24,
     lineHeight: 27,
-    display: "flex",
-    textAlign: "center",
-    color: "#FFFFFF",
+    display: 'flex',
+    textAlign: 'center',
+    color: '#FFFFFF',
   },
   number: {
-    position: "absolute",
-    top: "34%",
-    fontFamily: "Comfortaa_400Regular",
-    fontStyle: "normal",
-    fontWeight: "700",
+    position: 'absolute',
+    top: '34%',
+    fontFamily: 'Comfortaa_400Regular',
+    fontStyle: 'normal',
+    fontWeight: '700',
     fontSize: 14,
-    display: "flex",
-    textAlign: "center",
-    color: "#A6A6A6",
-    textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+    display: 'flex',
+    textAlign: 'center',
+    color: '#A6A6A6',
+    textShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
   },
   emergencyView: {
-    position: "absolute",
+    position: 'absolute',
     zIndex: -1,
-    width: "100%",
+    width: '100%',
     height: 242,
     top: 700,
-    backgroundColor: "#141414",
+    backgroundColor: '#141414',
     // box-shadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.25)'
   },
   button: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 15,
     paddingHorizontal: 15,
     borderRadius: 4,
     top: 250,
-    backgroundColor: "#4A86E8",
+    backgroundColor: '#4A86E8',
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
   },
   buttonText: {
-    fontFamily: "Comfortaa_400Regular",
+    fontFamily: 'Comfortaa_400Regular',
     fontSize: 13,
     lineHeight: 21,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: "white",
+    color: 'white',
   },
   numberText: {
-    fontFamily: "Comfortaa_400Regular",
+    fontFamily: 'Comfortaa_400Regular',
     fontSize: 36,
-    fontWeight: "700",
+    fontWeight: '700',
     letterSpacing: 0.25,
-    color: "white",
+    color: 'white',
   },
   bdayText: {
-    fontFamily: "Comfortaa_400Regular",
+    fontFamily: 'Comfortaa_400Regular',
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: '700',
     letterSpacing: 0.25,
-    color: "white",
-    top: "15%",
+    color: 'white',
+    top: '15%',
   },
   smallText: {
-    fontFamily: "Comfortaa_400Regular",
+    fontFamily: 'Comfortaa_400Regular',
     fontSize: 15,
-    fontWeight: "700",
+    fontWeight: '700',
     letterSpacing: 0.25,
-    color: "rgba(255, 255, 255, 0.4)",
+    color: 'rgba(255, 255, 255, 0.4)',
   },
   smallerText: {
-    fontFamily: "Comfortaa_400Regular",
+    fontFamily: 'Comfortaa_400Regular',
     fontSize: 12,
-    fontWeight: "700",
+    fontWeight: '700',
     letterSpacing: 0.25,
-    color: "rgba(255, 255, 255, 0.4)",
-    top: "25%",
+    color: 'rgba(255, 255, 255, 0.4)',
+    top: '25%',
   },
   alternativeSmallText: {
-    fontFamily: "Comfortaa_400Regular",
+    fontFamily: 'Comfortaa_400Regular',
     fontSize: 12,
-    fontWeight: "700",
+    fontWeight: '700',
     letterSpacing: 0.25,
-    color: "rgba(255, 255, 255, 0.4)",
-    top: "5%",
+    color: 'rgba(255, 255, 255, 0.4)',
+    top: '5%',
   },
   box: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
   box1: {
     flex: 1,
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   favoriteBar: {
-    position: "absolute",
-    width: "90%",
-    height: "10%",
-    top: "50%",
-    display: "flex",
-    justifyContent: "space-evenly",
-    flexDirection: "row",
+    position: 'absolute',
+    width: '90%',
+    height: '10%',
+    top: '50%',
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
   },
   barText: {
-    fontFamily: "Comfortaa_400Regular",
+    fontFamily: 'Comfortaa_400Regular',
     fontSize: 15,
-    fontWeight: "700",
+    fontWeight: '700',
     letterSpacing: 0.25,
-    color: "white",
+    color: 'white',
   },
   svg: {
     // flex: 1,
   },
   calendarView: {
-    position: "absolute",
+    position: 'absolute',
     // backgroundColor: '#141414',
-    width: "90%",
-    height: "15%",
-    top: "60%",
-    display: "flex",
+    width: '90%',
+    height: '15%',
+    top: '60%',
+    display: 'flex',
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     // alignItems: 'center'
   },
   monthView: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   monthText: {
-    fontFamily: "Comfortaa_400Regular",
+    fontFamily: 'Comfortaa_400Regular',
     fontSize: 13,
-    fontWeight: "700",
+    fontWeight: '700',
     letterSpacing: 0.25,
-    color: "white",
+    color: 'white',
     flex: 2,
   },
   bottleSVG: {
     flex: 1,
   },
   pencilSVG: {
-    left: "44%",
-    top: "-21%",
+    left: '44%',
+    top: '-21%',
   },
   settingsSVG: {
-    left: "44%",
-    top: "-42%",
+    left: '44%',
+    top: '-42%',
   },
   photoSvg: {
-    right: "46%",
-    top: "-31%",
+    right: '46%',
+    top: '-31%',
   },
 });
 
@@ -258,11 +258,11 @@ const ProfileScreen = () => {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={require("../../assets/images/image1.png")}
+          source={require('../../assets/images/image1.png')}
           style={styles.backgroundImage}
         />
         <Image
-          source={require("../../assets/images/anon.png")}
+          source={require('../../assets/images/anon.png')}
           style={styles.profileImage}
         />
         <PencilSvg style={styles.pencilSVG}></PencilSvg>
@@ -295,21 +295,21 @@ const ProfileScreen = () => {
           </View>
         </View>
         <View style={styles.calendarView}>
-          <Month month="Jan"></Month>
-          <Month month="2"></Month>
-          <Month month="3"></Month>
-          <Month month="4"></Month>
-          <Month month="5"></Month>
-          <Month month="6"></Month>
-          <Month month="7"></Month>
-          <Month month="8"></Month>
-          <Month month="9"></Month>
-          <Month month="10"></Month>
-          <Month month="11"></Month>
-          <Month month="Dec"></Month>
+          <Month month='Jan'></Month>
+          <Month month='2'></Month>
+          <Month month='3'></Month>
+          <Month month='4'></Month>
+          <Month month='5'></Month>
+          <Month month='6'></Month>
+          <Month month='7'></Month>
+          <Month month='8'></Month>
+          <Month month='9'></Month>
+          <Month month='10'></Month>
+          <Month month='11'></Month>
+          <Month month='Dec'></Month>
         </View>
         <View style={styles.button}>
-          <Button color={"white"} title="View Emergency Contacts" />
+          <Button color={'white'} title='View Emergency Contacts' />
         </View>
         <View style={styles.emergencyView}></View>
       </View>
