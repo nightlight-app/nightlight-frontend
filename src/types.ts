@@ -1,6 +1,4 @@
-import MapboxGL, { MapViewProps } from '@rnmapbox/maps';
 import { SvgProps } from 'react-native-svg';
-import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
 
 export enum Route {
   MAP = 'Map',
@@ -121,14 +119,3 @@ export enum TestingLabel {
   USER_CARD_PING_USER = 'UserCardPingUser',
   VENUE_CARD_START_NAVIGATION = 'VenueCardStartNavigation',
 }
-
-// the map view props to pass into
-export const mapviewProps: MapViewProps = {
-  scaleBarEnabled: false,
-  style: NightlightMapStyles.map,
-  styleURL: MapboxGL.StyleURL.Dark,
-  scrollEnabled: true,
-  pitchEnabled: true,
-  rotateEnabled: true,
-  compassEnabled: true,
-};

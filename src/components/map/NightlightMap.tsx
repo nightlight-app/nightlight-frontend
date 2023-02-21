@@ -7,7 +7,6 @@ import { COLORS } from '@nightlight/src/global.styles';
 import { Ionicons } from '@expo/vector-icons';
 import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
-import { mapviewProps } from '@nightlight/src/types';
 
 // initial camera settings
 const initialCamera: CameraStop = {
@@ -88,7 +87,13 @@ const NightlightMap = () => {
           ref={m => {
             if (!mapView && m) setMapView(mapView);
           }}
-          {...mapviewProps}>
+          scaleBarEnabled={false}
+          style={NightlightMapStyles.map}
+          styleURL={MapboxGL.StyleURL.Dark}
+          scrollEnabled={true}
+          pitchEnabled={true}
+          rotateEnabled={true}
+          compassEnabled={true}>
           {/* Camera */}
           <Camera
             ref={camera}
