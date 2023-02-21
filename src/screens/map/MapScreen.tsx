@@ -4,7 +4,7 @@ import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
 import ErrorCard from '@nightlight/components/map/ErrorCard';
-import { MapCardType, Venue, User } from '@nightlight/src/types';
+import { MapCardType, Venue, User, Route } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 
 const TEST_VENUE: Venue = {
@@ -79,7 +79,7 @@ const MapScreen = () => {
   };
 
   return (
-    <SafeAreaView style={MapScreenStyles.container}>
+    <SafeAreaView testID={Route.MAP} style={MapScreenStyles.container}>
       {activeMapCardType && renderMapCard(activeMapCardType)}
       <Text>MapScreen</Text>
       <Text>activeMapCardType: {JSON.stringify(activeMapCardType)}</Text>

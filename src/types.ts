@@ -10,9 +10,9 @@ export enum Route {
 }
 
 export enum MapCardType {
-  VENUE = 'venue',
-  USER = 'user',
-  ERROR = 'error',
+  VENUE = 'Venue',
+  USER = 'User',
+  ERROR = 'Error',
 }
 
 export enum ReactionEmoji {
@@ -103,6 +103,21 @@ export interface UserCardProps extends MapCardProps {
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
+}
+/**
+ * used for querying elements when using jest test
+ *
+ * extracted out into an enum for easier query and readability
+ *
+ * note: not all testing labels live in this enum.
+ * for example, Routes are also used as labels.
+ */
+export enum TestingLabel {
+  CLOSE_BUTTON = 'CloseButton',
+  USER_CARD_START_NAVIGATION = 'UserCardStartNavigation',
+  USER_CARD_CALL_USER = 'UserCardCallUser',
+  USER_CARD_PING_USER = 'UserCardPingUser',
+  VENUE_CARD_START_NAVIGATION = 'VenueCardStartNavigation',
 }
 
 export interface EmergencyOverlayProps {
