@@ -1,8 +1,7 @@
-import { StyleSheet, View, Text, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, View, Dimensions, Pressable } from 'react-native';
 import MapboxGL, {
   Camera,
   CameraStop,
-  MapboxGLEvent,
   MapView,
   MapViewProps,
 } from '@rnmapbox/maps';

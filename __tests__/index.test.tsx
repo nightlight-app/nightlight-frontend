@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import App from '@nightlight/src/App';
 import { SafeAreaView } from 'react-native';
 import { Route } from '@nightlight/src/types';
