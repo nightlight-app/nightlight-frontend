@@ -30,14 +30,9 @@ const { height }: ScaledSize = Dimensions.get('window');
 const COUNTDOWN_DURATION: number = 3000; // 3 seconds
 
 const EmergencyButton = () => {
-  const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false); // is overlay visible?
-  const [displayedCountdown, setDisplayedCountdown] = useState<number>(
-    COUNTDOWN_DURATION / 1000
-  );
-
-  const showOverlay = () => setIsOverlayVisible(true);
-  const hideOverlay = () => setIsOverlayVisible(false);
-
+  /***
+   * VARIABLES
+   ***/
   /* The maximum offset of the button from its original position.
    * At this offset, the top of the button is aligned with the middle of the window height.
    * -------------------------
@@ -52,16 +47,39 @@ const EmergencyButton = () => {
    */
   const maxOffset: number = -(height * 0.5 - 34 - 80 - 2 - 40 - 2 - 2);
 
-  const offset: SharedValue<number> = useSharedValue<number>(0); // offset from original position
-  const scale: SharedValue<number> = useSharedValue<number>(1); // scale of button
+  /***
+   * STATE
+   ***/
+  const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false); // is overlay visible?
+  const [displayedCountdown, setDisplayedCountdown] = useState<number>(
+    COUNTDOWN_DURATION / 1000
+  );
 
-  const isPressed: SharedValue<boolean> = useSharedValue<boolean>(false); // is button pressed?
+  const showOverlay = () => setIsOverlayVisible(true);
+  const hideOverlay = () => setIsOverlayVisible(false);
 
+  /***
+   * SHARED VALUES
+   ***/
+  const offset: SharedValue<number> = useSharedValue<number>(0); // button offset from original position
+  const scale: SharedValue<number> = useSharedValue<number>(1); // button scale
+  const isPressed: SharedValue<boolean> = useSharedValue<boolean>(false);
+  const isCountdownActive: SharedValue<boolean> =
+    useSharedValue<boolean>(false);
+  const didTriggerEmergency: SharedValue<boolean> =
+    useSharedValue<boolean>(false);
+
+  /***
+   * SIDE EFFECTS
+   ***/
   // Update state when shared value changes
   useDerivedValue(() => {
     runOnJS(isPressed.value ? showOverlay : hideOverlay)();
   });
 
+  /***
+   * ANIMATIONS
+   ***/
   const whiteToRedInterpolation: SharedValue<number> =
     useSharedValue<number>(0); // fraction of white -> red
   const blueToRedInterpolation: SharedValue<number> = useSharedValue<number>(0); // fraction of blue -> red
@@ -155,14 +173,9 @@ const EmergencyButton = () => {
     opacity: withTiming(Number(isPressed.value)),
   }));
 
-  // Identifies if countdown is active
-  const isCountdownActive: SharedValue<boolean> =
-    useSharedValue<boolean>(false);
-
-  // Identifies if emergency has been triggered
-  const didTriggerEmergency: SharedValue<boolean> =
-    useSharedValue<boolean>(false);
-
+  /***
+   * HELPERS
+   ***/
   const triggerEmergency = () => {
     // TODO: Notify emergency contacts
     didTriggerEmergency.value = true;
@@ -214,6 +227,9 @@ const EmergencyButton = () => {
     }
   };
 
+  /***
+   * GESTURE HANDLERS
+   ***/
   // Gesture handler for slide animation
   const panGesture: PanGesture = Gesture.Pan()
     .onUpdate(e => {
@@ -282,6 +298,9 @@ const EmergencyButton = () => {
     longPressGesture
   );
 
+  /***
+   * RENDER
+   ***/
   return (
     <View>
       {isOverlayVisible && (
