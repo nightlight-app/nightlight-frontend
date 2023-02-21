@@ -16,7 +16,7 @@ import {
 import { Route } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
-import LoginScreen from '@nightlight/screens/login/LoginScreen';
+import RegisterScreen from './screens/register/RegisterScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -81,7 +81,7 @@ const App = () => {
         screenOptions={{ headerShown: false }}
         tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
         <Tab.Screen name={Route.MAP} component={MapScreen} />
-        <Tab.Screen name={Route.LOGIN} component={LoginScreen} />
+        <Tab.Screen name={Route.REGISTER} component={RegisterScreen} />
         <Tab.Screen name={Route.EMERGENCY} component={EmergencyScreen} />
         <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
         <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
