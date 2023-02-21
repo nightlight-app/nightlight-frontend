@@ -5,6 +5,7 @@ module.exports = {
   expo: {
     name: 'nightlight',
     slug: 'nightlight',
+    owner: 'nightlight-app',
     version: '1.0.0',
     orientation: 'portrait',
     icon: './assets/icon.png',
@@ -51,7 +52,7 @@ module.exports = {
     ],
     extra: {
       eas: {
-        projectId: 'e39bb1cc-b91d-4eea-86ef-83ee8a819896',
+        projectId: '3f0b5802-1b61-4a4b-82dc-d9ef2a0762ba',
       },
     },
   },
