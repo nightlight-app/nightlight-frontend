@@ -6,6 +6,7 @@ import {
   Comfortaa_400Regular,
   Comfortaa_700Bold,
 } from '@expo-google-fonts/comfortaa';
+import { Roboto_500Medium } from '@expo-google-fonts/roboto';
 import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import {
@@ -15,6 +16,7 @@ import {
 import { Route } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
+import LoginScreen from '@nightlight/screens/login/LoginScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -61,6 +63,7 @@ const App = () => {
   const [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
     Comfortaa_700Bold,
+    Roboto_500Medium,
   });
 
   useEffect(() => {
@@ -78,7 +81,7 @@ const App = () => {
         screenOptions={{ headerShown: false }}
         tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
         <Tab.Screen name={Route.MAP} component={MapScreen} />
-        <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
+        <Tab.Screen name={Route.LOGIN} component={LoginScreen} />
         <Tab.Screen name={Route.EMERGENCY} component={EmergencyScreen} />
         <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
         <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />

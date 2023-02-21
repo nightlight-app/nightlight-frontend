@@ -6,6 +6,7 @@ export enum Route {
   EMERGENCY = 'Emergency',
   EXPLORE = 'Explore',
   PROFILE = 'Profile',
+  LOGIN = 'Login',
 }
 
 export enum MapCardType {
