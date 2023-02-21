@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Pressable, SafeAreaView, Text } from 'react-native';
+import { Pressable, View, Text } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
 import ErrorCard from '@nightlight/components/map/ErrorCard';
 import { MapCardType, Venue, User, Route } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
+import NightlightMap from '@nightlight/components/map/NightlightMap';
 
 const TEST_VENUE: Venue = {
   _id: '5f9f1b9b0b1b9c0017a1b1a1',
@@ -79,41 +80,49 @@ const MapScreen = () => {
   };
 
   return (
-    <SafeAreaView testID={Route.MAP} style={MapScreenStyles.container}>
+    <View testID={Route.MAP} style={MapScreenStyles.container}>
+      {/* The one and only nightlight map, by the one and only nightlight team */}
+      <NightlightMap />
+
+      {/* MapCards */}
       {activeMapCardType && renderMapCard(activeMapCardType)}
-      <Text>MapScreen</Text>
-      <Text>activeMapCardType: {JSON.stringify(activeMapCardType)}</Text>
-      <Pressable
-        onPress={handleShowVenueCard}
-        style={{
-          backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-          padding: 10,
-          width: 150,
-          borderRadius: 10,
-        }}>
-        <Text>Show Venue Card</Text>
-      </Pressable>
-      <Pressable
-        onPress={handleShowUserCard}
-        style={{
-          backgroundColor: COLORS.GREEN,
-          padding: 10,
-          width: 150,
-          borderRadius: 10,
-        }}>
-        <Text>Show User Card</Text>
-      </Pressable>
-      <Pressable
-        onPress={handleShowErrorCard}
-        style={{
-          backgroundColor: COLORS.RED,
-          padding: 10,
-          width: 150,
-          borderRadius: 10,
-        }}>
-        <Text>Show Error Card</Text>
-      </Pressable>
-    </SafeAreaView>
+
+      {/* For development purpose */}
+      <View style={{ position: 'absolute', top: 44, left: 10 }}>
+        <Text>MapScreen</Text>
+        <Text>activeMapCardType: {JSON.stringify(activeMapCardType)}</Text>
+        <Pressable
+          onPress={handleShowVenueCard}
+          style={{
+            backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+            padding: 10,
+            width: 150,
+            borderRadius: 10,
+          }}>
+          <Text>Show Venue Card</Text>
+        </Pressable>
+        <Pressable
+          onPress={handleShowUserCard}
+          style={{
+            backgroundColor: COLORS.GREEN,
+            padding: 10,
+            width: 150,
+            borderRadius: 10,
+          }}>
+          <Text>Show User Card</Text>
+        </Pressable>
+        <Pressable
+          onPress={handleShowErrorCard}
+          style={{
+            backgroundColor: COLORS.RED,
+            padding: 10,
+            width: 150,
+            borderRadius: 10,
+          }}>
+          <Text>Show Error Card</Text>
+        </Pressable>
+      </View>
+    </View>
   );
 };
 
