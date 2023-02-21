@@ -1,6 +1,8 @@
 name: Format code with Prettier and run tests
 on:
   push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
