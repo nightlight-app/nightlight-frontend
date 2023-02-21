@@ -11,11 +11,15 @@ const ExploreScreen = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: `http://localhost:6060/venue`,
-    }).then(function (response) {
-      console.log(response.data);
-      setVenues(response.data.venues);
-    });
+      url: `http://localhost:6060/venues`,
+    })
+      .then(response => {
+        console.log(response.data);
+        setVenues(response.data.venues);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   return (
