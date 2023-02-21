@@ -1,11 +1,19 @@
 import React from 'react';
-import { ImageBackground, Text, View, Button, Image } from 'react-native';
+import {
+  ImageBackground,
+  Text,
+  View,
+  Button,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 import ProfileScreenStyles from '@nightlight/screens/profile/ProfileScreen.styles';
 import PartySvg from '@nightlight/components/svgs/PartySvg';
 import BottleSvg from '@nightlight/components/svgs/BottleSvg';
 import PencilSvg from '@nightlight/components/svgs/PencilSvg';
 import SettingsSvg from '@nightlight/components/svgs/SettingsSvg';
 import PhotoSvg from '@nightlight/components/svgs/PhotoSvg';
+import { Route } from '@nightlight/src/types';
 
 type MonthProps = {
   month: string;
@@ -22,7 +30,7 @@ const Month = (props: MonthProps) => {
 
 const ProfileScreen = () => {
   return (
-    <View style={ProfileScreenStyles.container}>
+    <SafeAreaView testID={Route.PROFILE} style={ProfileScreenStyles.container}>
       <ImageBackground
         source={require('@nightlight/assets/images/image1.png')}
         style={ProfileScreenStyles.backgroundImage}
@@ -78,7 +86,7 @@ const ProfileScreen = () => {
         <Button color={'white'} title='View Emergency Contacts' />
       </View>
       <View style={ProfileScreenStyles.emergencyView}></View>
-    </View>
+    </SafeAreaView>
   );
 };
 
