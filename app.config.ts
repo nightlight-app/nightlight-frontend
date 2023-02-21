@@ -51,7 +51,7 @@ module.exports = {
     ],
     extra: {
       eas: {
-        projectId: 'b0551e2a-d649-43d8-8bed-697ddce3d0fd',
+        projectId: 'e39bb1cc-b91d-4eea-86ef-83ee8a819896',
       },
     },
   },

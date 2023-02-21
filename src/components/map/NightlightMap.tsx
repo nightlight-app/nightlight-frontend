@@ -11,13 +11,12 @@ import React from 'react';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import { COLORS } from '@nightlight/src/global.styles';
 import { Ionicons } from '@expo/vector-icons';
+import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
 
 const { width, height } = Dimensions.get('window');
 
 // initial camera settings
 const initialCamera: CameraStop = {
-  // centered at Vanderbilt University [longitude, latitude]
-  centerCoordinate: [-86.78472854186322, 36.157845061262364],
   animationDuration: 0,
   zoomLevel: 16,
   pitch: 50,
@@ -41,9 +40,13 @@ const NightlightMap = () => {
   const [isCameraFollowingUser, setIsCameraFollowingUser] =
     useState<boolean>(false);
 
-  // set the initial camera on first load
+  // set the initial camera to user's location on first load
   useEffect(() => {
-    camera.current?.setCamera(initialCamera);
+    if (userLocation)
+      camera.current?.setCamera({
+        ...initialCamera,
+        centerCoordinate: convertCoordinateToPosition(userLocation.coords),
+      });
   }, [camera.current]);
 
   /**
