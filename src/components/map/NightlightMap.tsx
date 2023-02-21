@@ -1,19 +1,13 @@
-import { StyleSheet, View, Dimensions, Pressable } from 'react-native';
-import MapboxGL, {
-  Camera,
-  CameraStop,
-  MapView,
-  MapViewProps,
-} from '@rnmapbox/maps';
 import { MAPBOX_API_KEY } from '@env';
-import { useEffect, useRef, useState } from 'react';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Pressable } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
+import MapboxGL, { Camera, CameraStop, MapView } from '@rnmapbox/maps';
 import { COLORS } from '@nightlight/src/global.styles';
 import { Ionicons } from '@expo/vector-icons';
 import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
-
-const { width, height } = Dimensions.get('window');
+import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
+import { mapviewProps } from '@nightlight/src/types';
 
 // initial camera settings
 const initialCamera: CameraStop = {
@@ -88,8 +82,8 @@ const NightlightMap = () => {
   };
 
   return (
-    <View style={styles.page}>
-      <View style={styles.container}>
+    <View style={NightlightMapStyles.page}>
+      <View style={NightlightMapStyles.container}>
         <MapboxGL.MapView
           ref={m => {
             if (!mapView && m) setMapView(mapView);
@@ -135,32 +129,6 @@ const NightlightMap = () => {
       </Pressable>
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    height: height,
-    width: width,
-  },
-  map: {
-    height: height,
-  },
-});
-
-// the map view props to pass into
-const mapviewProps: MapViewProps = {
-  scaleBarEnabled: false,
-  style: styles.map,
-  styleURL: MapboxGL.StyleURL.Dark,
-  scrollEnabled: true,
-  pitchEnabled: true,
-  rotateEnabled: true,
-  compassEnabled: true,
 };
 
 export default NightlightMap;
