@@ -1,4 +1,5 @@
 import { SvgProps } from 'react-native-svg';
+import { SharedValue } from 'react-native-reanimated';
 
 export enum Route {
   MAP = 'Map',
@@ -102,4 +103,10 @@ export interface UserCardProps extends MapCardProps {
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
+}
+
+export interface EmergencyOverlayProps {
+  countdown: number;
+  buttonOffset: SharedValue<number>;
+  maxOffset: number;
 }

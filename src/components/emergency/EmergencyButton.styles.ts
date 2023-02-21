@@ -2,6 +2,13 @@ import { StyleSheet } from 'react-native';
 import { COLORS } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
+  slider: {
+    position: 'absolute',
+    bottom: 0,
+    width: 80,
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    borderRadius: 40,
+  },
   base: {
     width: 80,
     height: 80,

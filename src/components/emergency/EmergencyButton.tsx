@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Dimensions, ScaledSize, Alert, Text } from 'react-native';
+import { View, Dimensions, ScaledSize, Alert } from 'react-native';
 import {
   GestureDetector,
   Gesture,
@@ -16,9 +16,13 @@ import Animated, {
   SharedValue,
   interpolateColor,
   runOnJS,
+  useDerivedValue,
+  FadeIn,
+  FadeOut,
 } from 'react-native-reanimated';
 import MaskedView from '@react-native-masked-view/masked-view';
-import EmergencyButtonStyles from '@nightlight/components/navigation/EmergencyButton.styles';
+import EmergencyButtonStyles from '@nightlight/components/emergency/EmergencyButton.styles';
+import EmergencyOverlay from '@nightlight/components/emergency/EmergencyOverlay';
 import { COLORS } from '@nightlight/src/global.styles';
 
 const { height }: ScaledSize = Dimensions.get('window');
@@ -26,9 +30,13 @@ const { height }: ScaledSize = Dimensions.get('window');
 const COUNTDOWN_DURATION: number = 3000; // 3 seconds
 
 const EmergencyButton = () => {
+  const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false); // is overlay visible?
   const [displayedCountdown, setDisplayedCountdown] = useState<number>(
     COUNTDOWN_DURATION / 1000
   );
+
+  const showOverlay = () => setIsOverlayVisible(true);
+  const hideOverlay = () => setIsOverlayVisible(false);
 
   /* The maximum offset of the button from its original position.
    * At this offset, the top of the button is aligned with the middle of the window height.
@@ -48,6 +56,11 @@ const EmergencyButton = () => {
   const scale: SharedValue<number> = useSharedValue<number>(1); // scale of button
 
   const isPressed: SharedValue<boolean> = useSharedValue<boolean>(false); // is button pressed?
+
+  // Update state when shared value changes
+  useDerivedValue(() => {
+    runOnJS(isPressed.value ? showOverlay : hideOverlay)();
+  });
 
   const whiteToRedInterpolation: SharedValue<number> =
     useSharedValue<number>(0); // fraction of white -> red
@@ -121,11 +134,26 @@ const EmergencyButton = () => {
       : {}
   );
 
-  const triggerEmergency = () => {
-    // TODO: Notify emergency contacts
-    didTriggerEmergency.value = true;
-    Alert.alert('ALERT!', 'Notifying your emergency contacts...');
-  };
+  // Dark red -> red shadow color animation
+  const redShadowAnimation = useAnimatedStyle(() =>
+    isPressed.value
+      ? {
+          shadowColor: interpolateColor(
+            redInterpolation.value,
+            [0, 1],
+            [COLORS.DARK_RED, COLORS.RED]
+          ),
+        }
+      : {}
+  );
+
+  // Slider animation
+  const sliderAnimation = useAnimatedStyle(() => ({
+    height: -offset.value + 80,
+    backgroundColor:
+      offset.value === maxOffset ? COLORS.RED : COLORS.NIGHTLIGHT_BLUE,
+    opacity: withTiming(Number(isPressed.value)),
+  }));
 
   // Identifies if countdown is active
   const isCountdownActive: SharedValue<boolean> =
@@ -135,11 +163,18 @@ const EmergencyButton = () => {
   const didTriggerEmergency: SharedValue<boolean> =
     useSharedValue<boolean>(false);
 
+  const triggerEmergency = () => {
+    // TODO: Notify emergency contacts
+    didTriggerEmergency.value = true;
+    Alert.alert('ALERT!', 'Notifying your emergency contacts...');
+  };
+
   // JS thread countdown function
   const countdown = () => {
     let secondsElapsed = 0; // can't use state because state is updated async
 
     // run every second
+    // TODO: need to find a way to clear the interval when isCountdownActive changes to false
     const interval = setInterval(() => {
       if (isCountdownActive.value) {
         // if countdown is still active...
@@ -221,7 +256,7 @@ const EmergencyButton = () => {
     .maxDistance(height) // weird behavior-value pairing...?
     .onStart(() => {
       // At start of long press...
-      isPressed.value = true; // doesn't work in onBegin() for some reason
+      isPressed.value = true;
       scale.value = withTiming(1.1, { duration: 100 }); // scale up
       whiteToRedInterpolation.value = withTiming(1); // white -> red
       blueToRedInterpolation.value = withTiming(1); // blue -> red
@@ -239,7 +274,7 @@ const EmergencyButton = () => {
       whiteToRedInterpolation.value = withTiming(0); // reset white colors
       blueToRedInterpolation.value = withTiming(0); // reset blue colors
       redInterpolation.value = withTiming(0.25); // reset red colors
-      isPressed.value = false; // could be in onFinalize()?
+      isPressed.value = false;
     });
 
   const simultaneousGesture: SimultaneousGesture = Gesture.Simultaneous(
@@ -249,7 +284,16 @@ const EmergencyButton = () => {
 
   return (
     <View>
-      <Text style={{ position: 'absolute' }}>{displayedCountdown}</Text>
+      {isOverlayVisible && (
+        <Animated.View entering={FadeIn} exiting={FadeOut}>
+          <EmergencyOverlay
+            countdown={displayedCountdown}
+            buttonOffset={offset}
+            maxOffset={maxOffset}
+          />
+        </Animated.View>
+      )}
+      <Animated.View style={[EmergencyButtonStyles.slider, sliderAnimation]} />
       <GestureDetector gesture={simultaneousGesture}>
         <Animated.View
           style={[EmergencyButtonStyles.base, slideScaleAnimation]}>
@@ -266,6 +310,7 @@ const EmergencyButton = () => {
               blueRedBGAnimation,
               blueRedShadowAnimation,
               redBGAnimation,
+              redShadowAnimation,
             ]}
           />
           <MaskedView
