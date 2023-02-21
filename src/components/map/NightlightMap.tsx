@@ -38,7 +38,7 @@ const NightlightMap = () => {
 
   // whether the camera is following user (both location and device heading)
   const [isCameraFollowingUser, setIsCameraFollowingUser] =
-    useState<boolean>(false);
+    useState<boolean>(true);
 
   // set the initial camera to user's location on first load
   useEffect(() => {
