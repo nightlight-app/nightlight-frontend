@@ -122,10 +122,20 @@ export default StyleSheet.create({
 
   // calendar views
   calendarView: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
-    borderRadius: 15,
     width: width,
     height: 100,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  calendarContainer: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    borderRadius: 15,
+    width: width * 0.9,
+    height: '100%',
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 4,
+    paddingBottom: 4,
     marginTop: 20,
     display: 'flex',
     flexDirection: 'row',
@@ -149,6 +159,7 @@ export default StyleSheet.create({
     height: height * 0.3,
     display: 'flex',
     alignItems: 'center',
+    marginTop: 20,
   },
   button: {
     width: width * 0.8,

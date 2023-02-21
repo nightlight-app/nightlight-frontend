@@ -88,14 +88,16 @@ const ProfileScreen = () => {
           </View>
         </View>
 
-        {/* Calendar views */}
+        {/* Calendar */}
         <View style={ProfileScreenStyles.calendarView}>
-          {months.map(month => (
-            <View key={month} style={ProfileScreenStyles.monthView}>
-              <BottleSvg />
-              <Text style={ProfileScreenStyles.monthText}>{month}</Text>
-            </View>
-          ))}
+          <View style={ProfileScreenStyles.calendarContainer}>
+            {months.map(month => (
+              <View key={month} style={ProfileScreenStyles.monthView}>
+                <BottleSvg />
+                <Text style={ProfileScreenStyles.monthText}>{month}</Text>
+              </View>
+            ))}
+          </View>
         </View>
 
         {/* Emergency Contacts button */}
