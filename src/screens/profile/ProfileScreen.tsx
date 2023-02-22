@@ -107,9 +107,6 @@ const ProfileScreen = () => {
             </Text>
           </Pressable>
         </View>
-
-        {/* Empty space to enable scrolling */}
-        <View style={ProfileScreenStyles.emptyVerical} />
       </ScrollView>
     </View>
   );

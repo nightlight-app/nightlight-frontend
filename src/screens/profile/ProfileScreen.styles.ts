@@ -71,7 +71,6 @@ export default StyleSheet.create({
     width: width,
   },
   profileStatisticsContainer: {
-    position: 'relative',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -99,6 +98,7 @@ export default StyleSheet.create({
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'center',
     marginTop: 10,
   },
   partySvg: {
@@ -126,6 +126,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     borderRadius: 15,
     width: width * 0.9,
+    maxWidth: 500,
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 4,
@@ -151,6 +152,7 @@ export default StyleSheet.create({
   emergencyView: {
     width: width,
     alignItems: 'center',
+    marginBottom: 34 + 80 + 40,
   },
   emergencyPressable: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
@@ -161,9 +163,5 @@ export default StyleSheet.create({
   emergencyText: {
     color: COLORS.WHITE,
     fontSize: 16,
-  },
-
-  emptyVerical: {
-    height: height * 0.3,
   },
 });
