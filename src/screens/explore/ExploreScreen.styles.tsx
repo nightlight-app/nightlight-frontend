@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Fonts } from '@nightlight/src/global.styles';
 import { COLORS } from '@nightlight/src/global.styles';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,9 +16,8 @@ const styles = StyleSheet.create({
     marginBottom: 114,
   },
   title: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontFamily: Fonts.COMFORTAA_BOLD,
     fontStyle: 'normal',
-    fontWeight: '700',
     fontSize: 24,
     color: COLORS.WHITE,
     alignSelf: 'center',
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     width: '98%',
     alignItems: 'center',
     borderRadius: 10,
-    borderColor: '#E07324',
+    borderColor: COLORS.ORANGE,
     borderWidth: 1,
     marginTop: 3,
     paddingTop: 7,
@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
   },
   seeMoreText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
-    fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 14,
     color: COLORS.GRAY,
@@ -69,9 +68,8 @@ const styles = StyleSheet.create({
   searchText: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontStyle: 'normal',
-    fontWeight: '700',
     fontSize: 14,
-    color: '#A0A0A0',
+    color: COLORS.GRAY,
     marginLeft: 10,
   },
   trendbox: {
@@ -86,10 +84,9 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   trendingText: {
-    color: '#E07324',
+    color: COLORS.ORANGE,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontStyle: 'normal',
-    fontWeight: '700',
     fontSize: 16,
   },
   reactionBox: {
@@ -102,7 +99,7 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   allText: {
-    color: 'white',
+    color: COLORS.WHITE,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontStyle: 'normal',
     fontWeight: '700',
