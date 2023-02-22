@@ -15,6 +15,7 @@ import {
 import { Route } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
+import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,15 +41,6 @@ const ExploreScreen = () => {
   return (
     <SafeAreaView testID={Route.EXPLORE}>
       <Text>Explore</Text>
-    </SafeAreaView>
-  );
-};
-
-// TEMP
-const ProfileScreen = () => {
-  return (
-    <SafeAreaView testID={Route.PROFILE}>
-      <Text>Profile</Text>
     </SafeAreaView>
   );
 };
