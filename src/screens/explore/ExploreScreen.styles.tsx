@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   reactionBox: {
-    backgroundColor: '#525252',
+    backgroundColor: COLORS.GRAY,
     borderRadius: 10,
     display: 'flex',
     alignItems: 'center',
