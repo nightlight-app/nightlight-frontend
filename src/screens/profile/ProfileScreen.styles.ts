@@ -13,9 +13,6 @@ export default StyleSheet.create({
 
   // background image
   backgroundImageContainer: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
     width: width,
     height: height * 0.25,
     display: 'flex',
@@ -43,7 +40,6 @@ export default StyleSheet.create({
   // profile info
   profileInfoContainer: {
     position: 'relative',
-    marginTop: height * 0.19,
     width: width,
     display: 'flex',
     alignItems: 'center',

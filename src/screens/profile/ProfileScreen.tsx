@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-  SafeAreaView,
   ScrollView,
   Pressable,
 } from 'react-native';
@@ -34,7 +33,7 @@ const ProfileScreen = () => {
   ];
 
   return (
-    <SafeAreaView testID={Route.PROFILE} style={ProfileScreenStyles.container}>
+    <View testID={Route.PROFILE} style={ProfileScreenStyles.container}>
       {/* Background image */}
       <View style={ProfileScreenStyles.backgroundImageContainer}>
         <ImageBackground
@@ -112,7 +111,7 @@ const ProfileScreen = () => {
         {/* Empty space to enable scrolling */}
         <View style={ProfileScreenStyles.emptyVerical} />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
