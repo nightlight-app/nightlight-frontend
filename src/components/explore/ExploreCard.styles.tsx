@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Fonts } from '@nightlight/src/global.styles';
+import { Fonts, COLORS } from '@nightlight/src/global.styles';
 const styles = StyleSheet.create({
   container: {
     width: '98%',
@@ -9,18 +9,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     display: 'flex',
+    paddingLeft: 10,
+    paddingRight: 10
   },
   venueTitle: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 20,
-    color: 'white',
+    color: COLORS.WHITE,
     paddingLeft: 20,
     paddingTop: 20,
   },
   venueAddress: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 14,
-    color: 'grey',
+    color: COLORS.GRAY,
     paddingLeft: 20,
     paddingTop: 5,
   },
@@ -29,24 +31,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 5,
     paddingLeft: 20,
+  
   },
   goButton: {
     padding: 10,
-    backgroundColor: '#64A338',
+    backgroundColor: COLORS.GREEN,
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#2E491B',
+    borderColor: COLORS.DARK_GREEN,
     borderWidth: 2,
     borderRadius: 10,
-    height: 60,
-    width: 70,
     marginRight: 10,
-    marginBottom: 10,
+    marginLeft: 10,
+    marginBottom:  10,
   },
   goButtonText: {
-    color: 'white',
+    color: COLORS.WHITE,
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 26,
     paddingTop: 2,
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   lowerContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
   },
   reactionContainer: {
     display: 'flex',
@@ -70,28 +71,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 18,
     paddingTop: 8,
-  },
-  closeButton: {
-    marginTop: 16,
-    marginRight: 8,
-    marginLeft: 8,
-    marginBottom: 16,
-    height: 16,
-    width: 16,
-  },
-  xLeft: {
-    position: 'absolute',
-    width: 2,
-    height: 16,
-    backgroundColor: 'white',
-    transform: [{ rotate: '45deg' }],
-  },
-  xRight: {
-    position: 'absolute',
-    width: 2,
-    height: 16,
-    backgroundColor: 'white',
-    transform: [{ rotate: '-45deg' }],
   },
   distanceContainer: {
     display: 'flex',

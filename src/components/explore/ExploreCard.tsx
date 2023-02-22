@@ -1,25 +1,9 @@
 import { View, Text, Pressable } from 'react-native';
 import styles from './ExploreCard.styles';
-import {
-  useFonts,
-  Comfortaa_600SemiBold,
-  Comfortaa_700Bold,
-} from '@expo-google-fonts/comfortaa';
 import VenueReaction from '@nightlight/components/venue-reaction/VenueReaction';
+import { ExploreCardProps } from '@nightlight/src/types';
 
-type Props = {
-  name: string;
-  address: string;
-  lat: string;
-};
-
-const ExploreCard = (Props: Props) => {
-  let [fontsLoaded] = useFonts({
-    Comfortaa_600SemiBold,
-    Comfortaa_700Bold,
-  });
-
-  if (fontsLoaded) {
+const ExploreCard = (Props: ExploreCardProps) => {
     return (
       <View style={styles.container}>
         <View style={styles.titleContainer}>
@@ -36,16 +20,13 @@ const ExploreCard = (Props: Props) => {
               <VenueReaction emoji='💩' value={11} active={false} />
             </View>
           </View>
-          <Pressable style={styles.goButton}>
+          <Pressable style={styles.goButton} onPress={()=>console.log("latitude: ", Props.lat, "longitude: ", Props.long )}>
             <Text style={styles.goButtonText}>GO</Text>
-            <Text style={styles.goButtonSubText}>{Props.lat}</Text>
+            <Text style={styles.goButtonSubText}>0.1m</Text>
           </Pressable>
         </View>
       </View>
     );
-  } else {
-    return null;
-  }
-};
+  };
 
 export default ExploreCard;

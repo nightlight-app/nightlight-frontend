@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   seeMoreText: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontFamily: Fonts.COMFORTAA_BOLD,
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 14,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   search: {
     width: '90%',
     alignSelf: 'center',
-    height: 20,
+    height: 25,
     backgroundColor: 'white',
     borderRadius: 10,
     display: 'flex',

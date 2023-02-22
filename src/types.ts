@@ -92,6 +92,13 @@ export interface MapCardProps {
   shadowColor?: string;
 }
 
+export interface ExploreCardProps {
+    name: string;
+    address: string;
+    lat: string;
+    long: string
+}
+
 export interface VenueCardProps extends MapCardProps {
   venue: Venue;
 }
@@ -103,6 +110,8 @@ export interface UserCardProps extends MapCardProps {
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
+
+
 
 /**
  * used for querying elements when using jest test
