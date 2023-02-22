@@ -3,7 +3,7 @@ import { Fonts, COLORS } from '@nightlight/src/global.styles';
 const styles = StyleSheet.create({
   container: {
     width: '98%',
-    borderColor: '#3D3D3D',
+    borderColor: COLORS.DARK_GRAY,
     borderWidth: 2,
     textAlign: 'center',
     borderRadius: 5,
@@ -82,10 +82,10 @@ const styles = StyleSheet.create({
   },
   centeredText: {
     textAlign: 'center',
-    color: 'grey',
+    color: COLORS.GRAY,
   },
   goButtonSubText: {
-    color: 'white',
+    color: COLORS.WHITE,
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 10,
   },
