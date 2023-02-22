@@ -11,6 +11,7 @@ import {
 import styles from './ExploreScreen.styles';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
+import { Route } from '@nightlight/src/types';
 
 const ExploreScreen = () => {
   const [venues, setVenues] = useState([]);
@@ -28,7 +29,7 @@ const ExploreScreen = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View testID={Route.EXPLORE} style={styles.container}>
       <SafeAreaView style={styles.safeview}>
         <ScrollView>
           <Text style={styles.title}>Explore</Text>
