@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
+
+const { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -12,6 +14,20 @@ export default StyleSheet.create({
   },
   safeview: {
     marginBottom: 114,
+    width: '100%',
+    maxWidth: 650,
+    height: height,
+  },
+  headerContainer: {
+    paddingBottom: 15,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    shadowColor: COLORS.BLACK,
+    shadowOffset: {
+      height: 4,
+      width: 0,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ScrollView, Text, View, SafeAreaView, TextInput } from 'react-native';
-import styles from './ExploreScreen.styles';
+import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
 import { Route } from '@nightlight/src/types';
@@ -14,6 +14,7 @@ const ExploreScreen = () => {
 
   // fetch venues on first render
   useEffect(() => {
+    // TODO: figure out backend and fallback response if no venues received
     axios
       .get(`http://localhost:6060/venues`)
       .then(response => {
@@ -25,56 +26,67 @@ const ExploreScreen = () => {
   }, []);
 
   return (
-    <View testID={Route.EXPLORE} style={styles.container}>
-      <SafeAreaView style={styles.safeview}>
-        <ScrollView>
-          <Text style={styles.title}>Explore</Text>
-          <View style={styles.search}>
+    <View testID={Route.EXPLORE} style={ExploreScreenStyles.container}>
+      <SafeAreaView style={ExploreScreenStyles.safeview}>
+        {/* Title and search */}
+        <View style={ExploreScreenStyles.headerContainer}>
+          <Text style={ExploreScreenStyles.title}>Explore</Text>
+          <View style={ExploreScreenStyles.search}>
             <TextInput
               value={searchInput}
               onChangeText={(text: string) => setSearchInput(text)}
-              style={styles.searchText}
+              style={ExploreScreenStyles.searchText}
               placeholder='Click to explore...'></TextInput>
           </View>
-          <View style={styles.trendbox}>
-            <Text style={styles.trendingText}>🔥 Trending </Text>
-            <View style={styles.reactionContainer}>
-              <View style={styles.reactionBox}>
-                <Text style={styles.allText}>All</Text>
+        </View>
+
+        {/* Scrollable view */}
+        <ScrollView>
+          <View style={ExploreScreenStyles.trendbox}>
+            <Text style={ExploreScreenStyles.trendingText}>🔥 Trending </Text>
+            <View style={ExploreScreenStyles.reactionContainer}>
+              <View style={ExploreScreenStyles.reactionBox}>
+                <Text style={ExploreScreenStyles.allText}>All</Text>
               </View>
-              <View style={styles.reactionBox}>
+              <View style={ExploreScreenStyles.reactionBox}>
                 <Text>🔥</Text>
               </View>
-              <View style={styles.reactionBox}>
+              <View style={ExploreScreenStyles.reactionBox}>
                 <Text>🕺</Text>
               </View>
-              <View style={styles.reactionBox}>
+              <View style={ExploreScreenStyles.reactionBox}>
                 <Text>🎉</Text>
               </View>
-              <View style={styles.reactionBox}>
+              <View style={ExploreScreenStyles.reactionBox}>
                 <Text>⚠️</Text>
               </View>
-              <View style={styles.reactionBox}>
+              <View style={ExploreScreenStyles.reactionBox}>
                 <Text>💩</Text>
               </View>
             </View>
           </View>
-          <View style={styles.trending}>
+          <View style={ExploreScreenStyles.trending}>
+            {/* TODO: currently hard coding explore cards */}
             <ExploreCard
               name='Jason Aldeans'
               address='10 Broadway'
               lat='0.1m'
-              long='0.1m'></ExploreCard>
+              long='0.1m'
+            />
             <ExploreCard
               name='Tin Roof'
               address='134 Demonbreun St'
               lat='0.1m'
-              long='0.1m'></ExploreCard>
-            <View style={styles.seeMore}>
-              <Text style={styles.seeMoreText}>See more...</Text>
+              long='0.1m'
+            />
+            {/* TODO: turn this into a pressable */}
+            <View style={ExploreScreenStyles.seeMore}>
+              <Text style={ExploreScreenStyles.seeMoreText}>See more...</Text>
             </View>
           </View>
-          <View style={styles.barContainer}>
+
+          {/* Filter venues by search */}
+          <View style={ExploreScreenStyles.barContainer}>
             {venues
               .filter(
                 (item: {
@@ -84,13 +96,11 @@ const ExploreScreen = () => {
                   long: string;
                   location: { latitude: string; longitude: string };
                 }) => {
-                  if (searchInput === '') {
-                    return item;
-                  } else if (
+                  if (searchInput === '') return item;
+                  else if (
                     item.name.toLowerCase().includes(searchInput.toLowerCase())
-                  ) {
+                  )
                     return item;
-                  }
                 }
               )
               .map(
