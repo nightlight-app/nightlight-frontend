@@ -8,6 +8,8 @@ export default StyleSheet.create({
     width: 80,
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
     borderRadius: 40,
+    borderColor: COLORS.NIGHTLIGHT_BLACK,
+    borderWidth: 2,
   },
   base: {
     width: 80,

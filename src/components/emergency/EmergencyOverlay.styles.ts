@@ -41,8 +41,12 @@ export default StyleSheet.create({
   sliderContainer: {
     width: 80,
     height: height / 2 - 80,
-    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    backgroundColor: '#181818',
     marginBottom: 34 + 40,
     borderRadius: 40,
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    borderColor: COLORS.NIGHTLIGHT_BLACK,
+    borderWidth: 2,
   },
 });
