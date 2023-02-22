@@ -19,6 +19,8 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
     paddingLeft: 20,
     paddingTop: 20,
+    display: 'flex',
+    alignItems: 'center',
   },
   venueAddress: {
     fontFamily: Fonts.COMFORTAA_BOLD,
