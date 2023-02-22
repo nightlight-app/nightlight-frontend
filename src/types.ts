@@ -93,10 +93,10 @@ export interface MapCardProps {
 }
 
 export interface ExploreCardProps {
-    name: string;
-    address: string;
-    lat: string;
-    long: string
+  name: string;
+  address: string;
+  lat: string;
+  long: string;
 }
 
 export interface VenueCardProps extends MapCardProps {

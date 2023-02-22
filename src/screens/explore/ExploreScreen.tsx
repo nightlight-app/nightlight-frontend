@@ -1,6 +1,13 @@
 import { useFonts, Comfortaa_400Regular } from '@expo-google-fonts/comfortaa';
 import { useEffect, useState } from 'react';
-import { FlatList, ScrollView, Text, View, SafeAreaView, TextInput } from 'react-native';
+import {
+  FlatList,
+  ScrollView,
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+} from 'react-native';
 import styles from './ExploreScreen.styles';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
@@ -10,13 +17,14 @@ const ExploreScreen = () => {
   const [input, setInput] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:6060/venues`)
-    .then((response) => {
-      setVenues(response.data.venues);
-    })
-  .catch ((e) => {
-    console.log('Error: ',e);
-  })
+    axios
+      .get(`http://localhost:6060/venues`)
+      .then(response => {
+        setVenues(response.data.venues);
+      })
+      .catch(e => {
+        console.log('Error: ', e);
+      });
   }, []);
 
   return (
@@ -25,7 +33,11 @@ const ExploreScreen = () => {
         <ScrollView>
           <Text style={styles.title}>Explore</Text>
           <View style={styles.search}>
-            <TextInput value={input} onChangeText={(text:string)=>setInput(text)} style={styles.searchText} placeholder="Click to explore..."></TextInput>
+            <TextInput
+              value={input}
+              onChangeText={(text: string) => setInput(text)}
+              style={styles.searchText}
+              placeholder='Click to explore...'></TextInput>
           </View>
           <View style={styles.trendbox}>
             <Text style={styles.trendingText}>🔥 Trending </Text>
@@ -54,42 +66,51 @@ const ExploreScreen = () => {
             <ExploreCard
               name='Jason Aldeans'
               address='10 Broadway'
-              lat='0.1m' long='0.1m'></ExploreCard>
+              lat='0.1m'
+              long='0.1m'></ExploreCard>
             <ExploreCard
               name='Tin Roof'
               address='134 Demonbreun St'
-              lat='0.1m' long='0.1m'></ExploreCard>
+              lat='0.1m'
+              long='0.1m'></ExploreCard>
             <View style={styles.seeMore}>
               <Text style={styles.seeMoreText}>See more...</Text>
             </View>
           </View>
           <View style={styles.barContainer}>
-            {venues.filter(
-              (item: {
-                name: string;
-                address: string;
-                lat: string;
-                long: string;
-                location: { latitude: string; longitude: string };
-              }) => {
-                if (input === "") {
-                  return item;
-                } else if (item.name.toLowerCase().includes(input.toLowerCase())) {
-                  return item;
+            {venues
+              .filter(
+                (item: {
+                  name: string;
+                  address: string;
+                  lat: string;
+                  long: string;
+                  location: { latitude: string; longitude: string };
+                }) => {
+                  if (input === '') {
+                    return item;
+                  } else if (
+                    item.name.toLowerCase().includes(input.toLowerCase())
+                  ) {
+                    return item;
+                  }
                 }
-              }).map((item: {
-                name: string;
-                address: string;
-                lat: string;
-                long: string;
-                location: { latitude: string; longitude: string };
-              })=> (
+              )
+              .map(
+                (item: {
+                  name: string;
+                  address: string;
+                  lat: string;
+                  long: string;
+                  location: { latitude: string; longitude: string };
+                }) => (
                   <ExploreCard
                     name={item.name}
                     address={item.address}
-                    lat={item.location.latitude} long={item.location.longitude}></ExploreCard>
-              ))
-              }
+                    lat={item.location.latitude}
+                    long={item.location.longitude}></ExploreCard>
+                )
+              )}
           </View>
         </ScrollView>
       </SafeAreaView>
