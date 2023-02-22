@@ -1,22 +1,18 @@
-import { useFonts, Comfortaa_400Regular } from '@expo-google-fonts/comfortaa';
 import { useEffect, useState } from 'react';
-import {
-  FlatList,
-  ScrollView,
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-} from 'react-native';
+import { ScrollView, Text, View, SafeAreaView, TextInput } from 'react-native';
 import styles from './ExploreScreen.styles';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
 import { Route } from '@nightlight/src/types';
 
 const ExploreScreen = () => {
+  // keep track of list of venues queried
   const [venues, setVenues] = useState([]);
-  const [input, setInput] = useState('');
 
+  // keep track of user's search input
+  const [searchInput, setSearchInput] = useState<string>('');
+
+  // fetch venues on first render
   useEffect(() => {
     axios
       .get(`http://localhost:6060/venues`)
@@ -35,8 +31,8 @@ const ExploreScreen = () => {
           <Text style={styles.title}>Explore</Text>
           <View style={styles.search}>
             <TextInput
-              value={input}
-              onChangeText={(text: string) => setInput(text)}
+              value={searchInput}
+              onChangeText={(text: string) => setSearchInput(text)}
               style={styles.searchText}
               placeholder='Click to explore...'></TextInput>
           </View>
@@ -88,10 +84,10 @@ const ExploreScreen = () => {
                   long: string;
                   location: { latitude: string; longitude: string };
                 }) => {
-                  if (input === '') {
+                  if (searchInput === '') {
                     return item;
                   } else if (
-                    item.name.toLowerCase().includes(input.toLowerCase())
+                    item.name.toLowerCase().includes(searchInput.toLowerCase())
                   ) {
                     return item;
                   }

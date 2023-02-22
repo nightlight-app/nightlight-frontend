@@ -111,6 +111,12 @@ export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
 
+export interface VenueReactionProps {
+  emoji: string;
+  value: number;
+  active: boolean;
+}
+
 /**
  * used for querying elements when using jest test
  *

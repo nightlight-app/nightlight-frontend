@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Fonts } from '@nightlight/src/global.styles';
-import { COLORS } from '@nightlight/src/global.styles';
+import { Fonts, COLORS } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
   container: {
@@ -16,7 +15,6 @@ export default StyleSheet.create({
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
-    fontStyle: 'normal',
     fontSize: 24,
     color: COLORS.WHITE,
     alignSelf: 'center',
@@ -43,7 +41,6 @@ export default StyleSheet.create({
   },
   seeMoreText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
-    fontWeight: '700',
     fontSize: 14,
     color: COLORS.GRAY,
   },
@@ -66,7 +63,6 @@ export default StyleSheet.create({
   },
   searchText: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontStyle: 'normal',
     fontSize: 14,
     color: COLORS.GRAY,
     marginLeft: 10,
@@ -85,7 +81,6 @@ export default StyleSheet.create({
   trendingText: {
     color: COLORS.ORANGE,
     fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontStyle: 'normal',
     fontSize: 16,
   },
   reactionBox: {
@@ -100,8 +95,6 @@ export default StyleSheet.create({
   allText: {
     color: COLORS.WHITE,
     fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontStyle: 'normal',
-    fontWeight: '700',
     fontSize: 15,
     margin: 3,
   },
