@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
-const styles = StyleSheet.create({
+
+export default StyleSheet.create({
   container: {
     width: '98%',
     borderColor: COLORS.DARK_GRAY,
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     display: 'flex',
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
   },
   venueTitle: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingTop: 5,
     paddingLeft: 20,
-  
   },
   goButton: {
     padding: 10,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 10,
     marginLeft: 10,
-    marginBottom:  10,
+    marginBottom: 10,
   },
   goButtonText: {
     color: COLORS.WHITE,
@@ -90,5 +90,3 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
 });
-
-export default styles;

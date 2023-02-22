@@ -111,8 +111,6 @@ export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
 
-
-
 /**
  * used for querying elements when using jest test
  *

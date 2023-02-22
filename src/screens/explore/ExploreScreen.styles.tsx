@@ -1,9 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { Fonts } from '@nightlight/src/global.styles';
 import { COLORS } from '@nightlight/src/global.styles';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-const styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     display: 'flex',
     flexGrow: 1,
@@ -107,5 +106,3 @@ const styles = StyleSheet.create({
     margin: 3,
   },
 });
-
-export default styles;
