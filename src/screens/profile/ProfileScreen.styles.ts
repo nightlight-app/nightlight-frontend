@@ -65,7 +65,7 @@ export default StyleSheet.create({
   number: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
-    color: '#A6A6A6',
+    color: COLORS.GRAY,
     marginTop: 2,
   },
 
@@ -123,7 +123,6 @@ export default StyleSheet.create({
   // calendar views
   calendarView: {
     width: width,
-    height: 100,
     display: 'flex',
     alignItems: 'center',
   },
@@ -131,12 +130,12 @@ export default StyleSheet.create({
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     borderRadius: 15,
     width: width * 0.9,
-    height: '100%',
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 4,
-    paddingBottom: 4,
+    paddingBottom: 6,
     marginTop: 20,
+    marginBottom: 20,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -154,19 +153,21 @@ export default StyleSheet.create({
 
   // emergency contacts button
   emergencyView: {
-    position: 'relative',
     width: width,
-    height: height * 0.3,
-    display: 'flex',
     alignItems: 'center',
-    marginTop: 20,
   },
-  button: {
-    width: width * 0.8,
+  emergencyPressable: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    paddingHorizontal: 30,
     paddingVertical: 7,
-    paddingHorizontal: 10,
-    borderRadius: 15,
-    marginTop: 20,
+    borderRadius: 8,
+  },
+  emergencyText: {
+    color: COLORS.WHITE,
+    fontSize: 16,
+  },
+
+  emptyVerical: {
+    height: height * 0.3,
   },
 });

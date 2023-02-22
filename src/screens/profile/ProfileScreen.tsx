@@ -3,10 +3,10 @@ import {
   ImageBackground,
   Text,
   View,
-  Button,
   Image,
   SafeAreaView,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import ProfileScreenStyles from '@nightlight/screens/profile/ProfileScreen.styles';
 import PartySvg from '@nightlight/components/svgs/PartySvg';
@@ -102,10 +102,15 @@ const ProfileScreen = () => {
 
         {/* Emergency Contacts button */}
         <View style={ProfileScreenStyles.emergencyView}>
-          <View style={ProfileScreenStyles.button}>
-            <Button color={'white'} title='View Emergency Contacts' />
-          </View>
+          <Pressable style={ProfileScreenStyles.emergencyPressable}>
+            <Text style={ProfileScreenStyles.emergencyText}>
+              See Emergency Contacts
+            </Text>
+          </Pressable>
         </View>
+
+        {/* Empty space to enable scrolling */}
+        <View style={ProfileScreenStyles.emptyVerical} />
       </ScrollView>
     </SafeAreaView>
   );
