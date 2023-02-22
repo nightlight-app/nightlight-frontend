@@ -13,26 +13,80 @@ import LoginScreenStyles from './LoginScreen.styles';
 import { Entypo } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
 import { useState } from 'react';
+import { LoginCardProps, LoginFormData } from '@nightlight/src/types';
+import {
+  handleLogin,
+  handleSignOut,
+} from '@nightlight/src/config/firebaseConfig';
+import { Controller, useForm } from 'react-hook-form';
 
-const LoginScreen = () => {
+const LoginScreen = ({ setIsLogin }: LoginCardProps) => {
+  // state for password hiding (passwords are hidden by default)
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+
+  // react hook form creation
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<LoginFormData>();
+
+  /**
+   * Logs in a user from the data in the fields after it passes the validation from react hook forms.
+   * After successful or unsuccessful login, resets the text fields to be empty and persists the login.
+   *
+   * @param data object containing fields from each input wrapped by a controller
+   */
+  const onSubmit = (data: any) => {
+    console.log('handling login', data);
+    handleLogin(data.email, data.password).then(() => {
+      reset({
+        email: '',
+        password: '',
+      });
+    });
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={LoginScreenStyles.container}>
         <View style={LoginScreenStyles.logoDot}></View>
         <View style={LoginScreenStyles.logoBody}></View>
+        <Text style={LoginScreenStyles.h1}>
+          Hey there<Text style={LoginScreenStyles.blueText}>.</Text>
+        </Text>
+        <Text style={LoginScreenStyles.h2}>We're glad you're back.</Text>
         <View style={LoginScreenStyles.emailContainer}>
-          <TextInput
-            style={LoginScreenStyles.emailInput}
-            onChangeText={() => {}}
-            placeholder='Email'
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={LoginScreenStyles.emailInput}
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+                placeholder='Email'
+              />
+            )}
+            name='email'
+            rules={{ required: true }}
           />
           <View style={LoginScreenStyles.passwordContainer}>
-            <TextInput
-              style={LoginScreenStyles.passwordInput}
-              onChangeText={() => {}}
-              placeholder='Password'
-              secureTextEntry={isPasswordHidden}
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  style={LoginScreenStyles.passwordInput}
+                  onBlur={onBlur}
+                  onChangeText={value => onChange(value)}
+                  value={value}
+                  placeholder='Password'
+                  secureTextEntry={isPasswordHidden}
+                />
+              )}
+              name='password'
+              rules={{ required: true }}
             />
             <Pressable
               style={LoginScreenStyles.viewPasswordButton}
@@ -54,7 +108,9 @@ const LoginScreen = () => {
               Forgot password?
             </Text>
           </View>
-          <Pressable style={LoginScreenStyles.signInButton}>
+          <Pressable
+            style={LoginScreenStyles.signInButton}
+            onPress={handleSubmit(onSubmit)}>
             <Text style={LoginScreenStyles.signInButtonText}>Sign In</Text>
           </Pressable>
           <Text style={LoginScreenStyles.continueWithText}>
@@ -73,7 +129,7 @@ const LoginScreen = () => {
             <Text style={LoginScreenStyles.notMemberText}>
               Not a member?&nbsp;&nbsp;
               <Text
-                onPress={() => Linking.openURL('www.google.com')}
+                onPress={() => setIsLogin(false)}
                 style={LoginScreenStyles.notMemberLink}>
                 Register now
               </Text>

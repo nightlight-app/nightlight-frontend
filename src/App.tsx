@@ -1,5 +1,5 @@
 import { registerRootComponent } from 'expo';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text } from 'react-native';
 import {
   useFonts,
@@ -17,6 +17,9 @@ import { Route } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import RegisterScreen from './screens/register/RegisterScreen';
+import firebase from 'firebase';
+import LoginScreen from './screens/login/LoginScreen';
+import ProfileScreen from './screens/profile/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,19 +49,25 @@ const ExploreScreen = () => {
   );
 };
 
-// TEMP
-const ProfileScreen = () => {
-  return (
-    <SafeAreaView testID={Route.PROFILE}>
-      <Text>Profile</Text>
-    </SafeAreaView>
-  );
-};
-
 // Prevent hiding the splash screen
 preventAutoHideAsync();
 
 const App = () => {
+  // state variable for if the user is logged in through firebase
+  const [isUser, setIsUser] = useState<boolean | undefined>(undefined);
+
+  // state variable for if the page is login or register
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+
+  // check if user is logged in and set appropriate state variable accordingly
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+    }
+  });
+
   // Load fonts
   const [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
@@ -67,26 +76,30 @@ const App = () => {
   });
 
   useEffect(() => {
-    // Hide the splash screen after the fonts have loaded and the UI is ready.
-    if (fontsLoaded) hideAsync();
-  }, [fontsLoaded]);
+    // Hide the splash screen after the fonts have loaded, the user is identified, and the UI is ready.
+    if (fontsLoaded && isUser !== undefined) hideAsync();
+  }, [fontsLoaded, isUser]);
 
-  // Prevent rendering until the font has loaded
-  if (!fontsLoaded) return null;
+  // Prevent rendering until the font has loaded and user has been identified
+  if (!fontsLoaded || isUser === undefined) return null;
 
-  return (
+  return isUser ? (
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName={Route.MAP}
         screenOptions={{ headerShown: false }}
         tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
         <Tab.Screen name={Route.MAP} component={MapScreen} />
-        <Tab.Screen name={Route.REGISTER} component={RegisterScreen} />
+        <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
         <Tab.Screen name={Route.EMERGENCY} component={EmergencyScreen} />
         <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
         <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
+  ) : isLogin ? (
+    <LoginScreen setIsLogin={setIsLogin} />
+  ) : (
+    <RegisterScreen setIsLogin={setIsLogin} />
   );
 };
 

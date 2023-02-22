@@ -165,4 +165,12 @@ export default StyleSheet.create({
     color: COLORS.GRAY,
     textDecorationLine: 'underline',
   },
+  hasAccountText: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    color: COLORS.WHITE,
+  },
+  hasAccountLink: {
+    color: COLORS.NIGHTLIGHT_BLUE,
+    textDecorationLine: 'underline',
+  },
 });

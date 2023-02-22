@@ -1,5 +1,17 @@
 import { SvgProps } from 'react-native-svg';
 
+export type RegisterFormData = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phone: string;
+};
+
+export type LoginFormData = {
+  email: string;
+  password: string;
+};
+
 export enum Route {
   MAP = 'Map',
   SOCIAL = 'Social',
@@ -104,6 +116,14 @@ export interface UserCardProps extends MapCardProps {
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
+}
+
+export interface LoginCardProps {
+  setIsLogin: (value: boolean) => void;
+}
+
+export interface RegisterCardProps {
+  setIsLogin: (value: boolean) => void;
 }
 
 /**
