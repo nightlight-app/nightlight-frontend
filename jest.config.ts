@@ -14,7 +14,7 @@ const config: Config = {
   collectCoverage: true,
   coverageReporters: ['html'],
   // specify the jest setup file which is run before every test file
-  setupFilesAfterEnv: ['<rootDir>/jestSetup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   // specify the module path to be used for resolving modules
   modulePaths: ['<rootDir>'],
 };

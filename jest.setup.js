@@ -4,9 +4,7 @@ import { setUpTests } from 'react-native-reanimated/lib/reanimated2/jestUtils';
 setUpTests();
 
 // mock registerRootComponent to resolve error
-jest.mock('expo', () => ({
-  registerRootComponent: component => component,
-}));
+jest.mock('expo');
 
 // mock useFonts so that it is loaded right away
 jest.mock('@expo-google-fonts/comfortaa', () => ({
@@ -18,4 +16,4 @@ jest.mock('@expo-google-fonts/comfortaa', () => ({
 jest.mock('@nightlight/components/map/NightlightMap', () => '');
 
 // mock the react native mapbox
-jest.mock('@rnmapbox/maps', () => '');
+jest.mock('@rnmapbox/maps');
