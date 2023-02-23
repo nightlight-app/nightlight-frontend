@@ -4,20 +4,6 @@ import App from '@nightlight/src/App';
 import { SafeAreaView } from 'react-native';
 import { Route } from '@nightlight/src/types';
 
-// mock registerRootComponent to resolve error
-jest.mock('expo', () => ({
-  registerRootComponent: (component: React.ComponentType) => component,
-}));
-
-// mock useFonts so that it is loaded right away
-jest.mock('@expo-google-fonts/comfortaa', () => ({
-  // useFonts will return [true] right away
-  useFonts: ({}) => [true],
-}));
-
-// mock the NightlightMap component so there are no issues with import
-jest.mock('@nightlight/components/map/NightlightMap', () => '');
-
 describe('Component <App />', () => {
   // define the list of routes to iterate through
   const routes = Object.values(Route);
