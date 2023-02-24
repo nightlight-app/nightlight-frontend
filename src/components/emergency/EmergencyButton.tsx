@@ -242,24 +242,17 @@ const EmergencyButton = () => {
   const panGesture: PanGesture = Gesture.Pan()
     .onUpdate(e => {
       const newOffset = e.translationY;
-      if (newOffset > 0) {
-        // Below start point: fix at original position
-        offset.value = 0;
-      } else if (newOffset < maxOffset) {
-        // Past max offset: fix at max offset
-        offset.value = maxOffset;
-      } else {
-        // Within bounds: update offset to new offset
-        offset.value = newOffset;
-      }
+      // Below start point: fix at original position
+      if (newOffset > 0) offset.value = 0;
+      // Past max offset: fix at max offset
+      else if (newOffset < maxOffset) offset.value = maxOffset;
+      // Within bounds: update offset to new offset
+      else offset.value = newOffset;
 
-      if (offset.value === maxOffset) {
-        // Start countdown if button is at max offset
-        startCountdown();
-      } else {
-        // Cancel countdown if button is not at max offset
-        cancelCountdown();
-      }
+      // Start countdown if button is at max offset
+      if (offset.value === maxOffset) startCountdown();
+      // Cancel countdown if button is not at max offset
+      else cancelCountdown();
     })
     .onEnd(() => {
       // On touch release, reset position of button
