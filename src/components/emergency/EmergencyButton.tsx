@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Dimensions, ScaledSize, Alert } from 'react-native';
+import { View, Dimensions, ScaledSize, Alert, Text } from 'react-native';
 import {
   GestureDetector,
   Gesture,
+  TapGesture,
   PanGesture,
   LongPressGesture,
   SimultaneousGesture,
+  ExclusiveGesture,
 } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
@@ -27,7 +29,10 @@ import { COLORS } from '@nightlight/src/global.styles';
 
 const { height }: ScaledSize = Dimensions.get('window');
 
+// Should be exported into app config file???
 const COUNTDOWN_DURATION: number = 3000; // 3 seconds
+const EMERGENCY_TIME_THRESHOLD: number = 100; // 100 milliseconds
+const MOOD_EMOJIS = ['🥳', '😰', '😬', '🤮', '🚫'];
 
 const EmergencyButton = () => {
   /***
@@ -50,13 +55,16 @@ const EmergencyButton = () => {
   /***
    * STATE
    ***/
-  const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false); // is overlay visible?
+  const [showOverlay, setShowOverlay] = useState<boolean>(false);
   const [displayedCountdown, setDisplayedCountdown] = useState<number>(
     COUNTDOWN_DURATION / 1000
   );
+  const [showMoods, setShowMoods] = useState<boolean>(false);
 
-  const showOverlay = () => setIsOverlayVisible(true);
-  const hideOverlay = () => setIsOverlayVisible(false);
+  const showOverlayHandler = () => setShowOverlay(true);
+  const hideOverlayHandler = () => setShowOverlay(false);
+  const toggleMoodsHandler = () => setShowMoods(prev => !prev);
+  const hideMoodsHandler = () => setShowMoods(false);
 
   /***
    * SHARED VALUES
@@ -76,7 +84,7 @@ const EmergencyButton = () => {
    ***/
   // Update state when shared value changes
   useDerivedValue(() => {
-    runOnJS(isPressed.value ? showOverlay : hideOverlay)();
+    runOnJS(isPressed.value ? showOverlayHandler : hideOverlayHandler)();
   });
 
   /***
@@ -238,6 +246,13 @@ const EmergencyButton = () => {
   /***
    * GESTURE HANDLERS
    ***/
+  // Gesture handler for emoji moods
+  const tapGesture: TapGesture = Gesture.Tap()
+    .maxDuration(EMERGENCY_TIME_THRESHOLD)
+    .onStart(() => {
+      runOnJS(toggleMoodsHandler)();
+    });
+
   // Gesture handler for slide animation
   const panGesture: PanGesture = Gesture.Pan()
     .onUpdate(e => {
@@ -270,10 +285,11 @@ const EmergencyButton = () => {
 
   // Gesture handler for detecting if button is pressed
   const longPressGesture: LongPressGesture = Gesture.LongPress()
-    .minDuration(0)
+    .minDuration(EMERGENCY_TIME_THRESHOLD)
     .maxDistance(height) // weird behavior-value pairing...?
     .onStart(() => {
       // At start of long press...
+      runOnJS(hideMoodsHandler)();
       isPressed.value = true;
       scale.value = withTiming(1.1, { duration: 100 }); // scale up
       whiteToRedInterpolation.value = withTiming(1); // white -> red
@@ -300,12 +316,42 @@ const EmergencyButton = () => {
     longPressGesture
   );
 
+  const exclusiveGesture: ExclusiveGesture = Gesture.Exclusive(
+    tapGesture,
+    simultaneousGesture
+  );
+
   /***
    * RENDER
    ***/
   return (
     <View>
-      {isOverlayVisible && (
+      {showMoods && (
+        <Animated.View style={EmergencyButtonStyles.moodsContainer}>
+          {MOOD_EMOJIS.map((emoji, index) => {
+            // y = sqrt(r^2 - (x - r)^2)
+            const yOffset =
+              Math.sqrt(
+                (MOOD_EMOJIS.length / 2) ** 2 - // r^2
+                  (index - (MOOD_EMOJIS.length - 1) / 2) ** 2 // (x - r)^2
+              ) * 40 - 50;
+
+            console.log(index, yOffset);
+
+            return (
+              <Animated.View
+                style={{
+                  ...EmergencyButtonStyles.mood,
+                  bottom: yOffset,
+                }}
+                key={index}>
+                <Text style={EmergencyButtonStyles.moodEmoji}>{emoji}</Text>
+              </Animated.View>
+            );
+          })}
+        </Animated.View>
+      )}
+      {showOverlay && (
         <Animated.View entering={FadeIn} exiting={FadeOut}>
           <EmergencyOverlay
             countdown={displayedCountdown}
@@ -315,7 +361,7 @@ const EmergencyButton = () => {
         </Animated.View>
       )}
       <Animated.View style={[EmergencyButtonStyles.slider, sliderAnimation]} />
-      <GestureDetector gesture={simultaneousGesture}>
+      <GestureDetector gesture={exclusiveGesture}>
         <Animated.View
           style={[EmergencyButtonStyles.base, slideScaleAnimation]}>
           <Animated.View
