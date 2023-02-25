@@ -1,6 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '@nightlight/src/global.styles';
-import { EMERGENCY_BUTTON_RADIUS, NAVBAR_HEIGHT, NAVBAR_WIDTH, SAFE_AREA_BOTTOM_MARGIN } from '@nightlight/src/constants';
+import {
+  NAVBAR_HEIGHT,
+  NAVBAR_WIDTH,
+  SAFE_AREA_BOTTOM_MARGIN,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   navbarContainer: {
@@ -38,7 +42,7 @@ export default StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    bottom: EMERGENCY_BUTTON_RADIUS,
+    bottom: NAVBAR_HEIGHT / 2,
     shadowColor: COLORS.NIGHTLIGHT_BLACK,
     shadowOffset: {
       width: 0,
