@@ -52,13 +52,13 @@ const EmergencyButton = () => {
    * Value Breakdown:
    * -------------------------
    * slide UP = negative offset
-   * TODO: figure out if the following is correct/necessary
+   * TODO: figure out if the stoke widths are correct/necessary
    * navbar stroke width = 2
    * button stroke width = 2 * 2 = 4
    */
   const maxOffset: number = -(
     (
-      DEVICE_HEIGHT * 0.5 -
+      DEVICE_HEIGHT / 2 -
       SAFE_AREA_BOTTOM_MARGIN -
       NAVBAR_HEIGHT -
       // 2 -
@@ -199,31 +199,70 @@ const EmergencyButton = () => {
     opacity: withTiming(Number(isPressed.value)),
   }));
 
-  // Mood button animations
-  const moodButtonAnimations = MOOD_EMOJIS.map((_, index) => {
-    const xOffset =
+  const moodButtonEnteringAnimations = MOOD_EMOJIS.map((_, index) => {
+    const xOffset: number =
       -MOODS_ARC_RADIUS *
       Math.cos(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
-    const yOffset =
+    const yOffset: number =
       MOODS_ARC_RADIUS *
       Math.sin(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
 
-    const springOptions = { stiffness: 50, mass: 0.5 };
+    const springOptions = { stiffness: 100, mass: 0.75 };
 
-    return useAnimatedStyle(() => ({
-      transform: [
-        {
-          translateX: showMoods
-            ? withDelay(index * 75, withSpring(xOffset, springOptions))
-            : withDelay((MOOD_EMOJIS.length - index) * 75, withTiming(0)),
-        },
-        {
-          translateY: showMoods
-            ? withDelay(index * 75, withSpring(-yOffset, springOptions))
-            : withDelay((MOOD_EMOJIS.length - index) * 75, withTiming(0)),
-        },
-      ],
-    }));
+    const FanOut = () => {
+      'worklet';
+      const animations = {
+        transform: [
+          {
+            translateX: withDelay(
+              index * 50,
+              withSpring(xOffset, springOptions)
+            ),
+          },
+          {
+            translateY: withDelay(
+              index * 50,
+              withSpring(-yOffset, springOptions)
+            ),
+          },
+        ],
+      };
+      const initialValues = {
+        // initial values for animations
+        transform: [{ translateX: 0 }, { translateY: 0 }],
+      };
+      return { initialValues, animations };
+    };
+
+    return FanOut;
+  });
+
+  const moodButtonExitingAnimations = MOOD_EMOJIS.map((_, index) => {
+    const Retract = () => {
+      'worklet';
+      const animations = {
+        transform: [
+          {
+            translateX: withDelay(
+              (MOOD_EMOJIS.length - index) * 75,
+              withTiming(0)
+            ),
+          },
+          {
+            translateY: withDelay(
+              (MOOD_EMOJIS.length - index) * 75,
+              withTiming(0)
+            ),
+          },
+        ],
+      };
+      const initialValues = {
+        // initial values for animations
+      };
+      return { animations, initialValues };
+    };
+
+    return Retract;
   });
 
   /***
@@ -375,21 +414,25 @@ const EmergencyButton = () => {
    ***/
   return (
     <View>
-      <Animated.View style={EmergencyButtonStyles.moodsContainer}>
-        {MOOD_EMOJIS.map((emoji, index) => {
-          return (
-            <Animated.View
-              style={[EmergencyButtonStyles.mood, moodButtonAnimations[index]]}
-              key={index}>
-              <Pressable
-                style={EmergencyButtonStyles.moodPressable}
-                onPress={() => handleMoodPress(emoji)}>
-                <Text style={EmergencyButtonStyles.moodEmoji}>{emoji}</Text>
-              </Pressable>
-            </Animated.View>
-          );
-        })}
-      </Animated.View>
+      {showMoods && (
+        <View style={EmergencyButtonStyles.moodsContainer}>
+          {MOOD_EMOJIS.map((emoji, index) => {
+            return (
+              <Animated.View
+                entering={moodButtonEnteringAnimations[index]}
+                exiting={moodButtonExitingAnimations[index]}
+                style={EmergencyButtonStyles.mood}
+                key={index}>
+                <Pressable
+                  style={EmergencyButtonStyles.moodPressable}
+                  onPress={() => handleMoodPress(emoji)}>
+                  <Text style={EmergencyButtonStyles.moodEmoji}>{emoji}</Text>
+                </Pressable>
+              </Animated.View>
+            );
+          })}
+        </View>
+      )}
       {showOverlay && (
         <Animated.View entering={FadeIn} exiting={FadeOut}>
           <EmergencyOverlay
