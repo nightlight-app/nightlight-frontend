@@ -1,86 +1,123 @@
-import { useFonts, Comfortaa_400Regular } from '@expo-google-fonts/comfortaa';
 import { useEffect, useState } from 'react';
-import { FlatList, ScrollView, Text, View, SafeAreaView } from 'react-native';
-import styles from './ExploreScreen.styles';
+import { ScrollView, Text, View, SafeAreaView, TextInput } from 'react-native';
+import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
+import { Route } from '@nightlight/src/types';
 
 const ExploreScreen = () => {
+  // keep track of list of venues queried
   const [venues, setVenues] = useState([]);
 
+  // keep track of user's search input
+  const [searchInput, setSearchInput] = useState<string>('');
+
+  // fetch venues on first render
   useEffect(() => {
-    axios({
-      method: 'get',
-      url: `http://localhost:6060/venues`,
-    })
+    // TODO: figure out backend and fallback response if no venues received
+    axios
+      .get(`http://localhost:6060/venues`)
       .then(response => {
-        console.log(response.data);
         setVenues(response.data.venues);
       })
-      .catch(error => {
-        console.log(error);
+      .catch(e => {
+        console.log('Error: ', e);
       });
   }, []);
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.safeview}>
-        <ScrollView>
-          <Text style={styles.title}>Explore</Text>
-          <View style={styles.search}>
-            <Text style={styles.searchText}>Click to explore...</Text>
+    <View testID={Route.EXPLORE} style={ExploreScreenStyles.container}>
+      <SafeAreaView style={ExploreScreenStyles.safeview}>
+        {/* Title and search */}
+        <View style={ExploreScreenStyles.headerContainer}>
+          <Text style={ExploreScreenStyles.title}>Explore</Text>
+          <View style={ExploreScreenStyles.search}>
+            <TextInput
+              value={searchInput}
+              onChangeText={(text: string) => setSearchInput(text)}
+              style={ExploreScreenStyles.searchText}
+              placeholder='Click to explore...'></TextInput>
           </View>
-          <View style={styles.trendbox}>
-            <Text style={styles.trendingText}>🔥 Trending </Text>
-            <View style={styles.reactionContainer}>
-              <View style={styles.reactionBox}>
-                <Text style={styles.allText}>All</Text>
+        </View>
+
+        {/* Scrollable view */}
+        <ScrollView>
+          <View style={ExploreScreenStyles.trendbox}>
+            <Text style={ExploreScreenStyles.trendingText}>🔥 Trending </Text>
+            <View style={ExploreScreenStyles.reactionContainer}>
+              <View style={ExploreScreenStyles.reactionBox}>
+                <Text style={ExploreScreenStyles.allText}>All</Text>
               </View>
-              <View style={styles.reactionBox}>
+              <View style={ExploreScreenStyles.reactionBox}>
                 <Text>🔥</Text>
               </View>
-              <View style={styles.reactionBox}>
-                <Text>⛨</Text>
+              <View style={ExploreScreenStyles.reactionBox}>
+                <Text>🕺</Text>
               </View>
-              <View style={styles.reactionBox}>
+              <View style={ExploreScreenStyles.reactionBox}>
                 <Text>🎉</Text>
               </View>
-              <View style={styles.reactionBox}>
+              <View style={ExploreScreenStyles.reactionBox}>
                 <Text>⚠️</Text>
               </View>
-              <View style={styles.reactionBox}>
+              <View style={ExploreScreenStyles.reactionBox}>
                 <Text>💩</Text>
               </View>
             </View>
           </View>
-          <View style={styles.trending}>
+          <View style={ExploreScreenStyles.trending}>
+            {/* TODO: currently hard coding explore cards */}
             <ExploreCard
               name='Jason Aldeans'
               address='10 Broadway'
-              lat='0.1m'></ExploreCard>
+              lat='0.1m'
+              long='0.1m'
+            />
             <ExploreCard
               name='Tin Roof'
               address='134 Demonbreun St'
-              lat='0.1m'></ExploreCard>
-            <View style={styles.seeMore}>
-              <Text style={styles.seeMoreText}>See more...</Text>
+              lat='0.1m'
+              long='0.1m'
+            />
+            {/* TODO: turn this into a pressable */}
+            <View style={ExploreScreenStyles.seeMore}>
+              <Text style={ExploreScreenStyles.seeMoreText}>See more...</Text>
             </View>
           </View>
-          <View style={styles.barContainer}>
-            {venues.map(
-              (item: {
-                name: string;
-                address: string;
-                lat: string;
-                long: string;
-                location: { latitude: string; longitude: string };
-              }) => (
-                <ExploreCard
-                  name={item.name}
-                  address={item.address}
-                  lat={item.location.latitude}></ExploreCard>
+
+          {/* Filter venues by search */}
+          <View style={ExploreScreenStyles.barContainer}>
+            {venues
+              .filter(
+                (item: {
+                  name: string;
+                  address: string;
+                  lat: string;
+                  long: string;
+                  location: { latitude: string; longitude: string };
+                }) => {
+                  if (searchInput === '') return item;
+                  else if (
+                    item.name.toLowerCase().includes(searchInput.toLowerCase())
+                  )
+                    return item;
+                }
               )
-            )}
+              .map(
+                (item: {
+                  name: string;
+                  address: string;
+                  lat: string;
+                  long: string;
+                  location: { latitude: string; longitude: string };
+                }) => (
+                  <ExploreCard
+                    name={item.name}
+                    address={item.address}
+                    lat={item.location.latitude}
+                    long={item.location.longitude}></ExploreCard>
+                )
+              )}
           </View>
         </ScrollView>
       </SafeAreaView>

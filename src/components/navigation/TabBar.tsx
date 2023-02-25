@@ -4,7 +4,7 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Route } from '@nightlight/src/types';
 import NavIcon from '@nightlight/components/navigation/NavIcon';
 import EmergencyButton from '@nightlight/components/navigation/EmergencyButton';
-import NavbarSvg from '@nightlight/assets/icons/NavbarSvg';
+import NavbarSvg from '@nightlight/components/svgs/NavbarSvg';
 import TabBarStyles from '@nightlight/components/navigation/TabBar.styles';
 
 const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {

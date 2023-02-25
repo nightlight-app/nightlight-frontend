@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import MapCardBottomSvg from '@nightlight/assets/icons/MapCardBottomSvg';
+import MapCardBottomSvg from '@nightlight/components/svgs/MapCardBottomSvg';
 import MapCardStyles from '@nightlight/components/map/MapCard.styles';
 import CloseButton from '@nightlight/components/CloseButton';
 import { MapCardProps } from '@nightlight/src/types';
