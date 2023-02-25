@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '@nightlight/src/global.styles';
 
+// TODO: Move this to app config
+export const MOODS_ARC_DIAMETER = 140;
+
 export default StyleSheet.create({
   slider: {
     position: 'absolute',
@@ -79,10 +82,12 @@ export default StyleSheet.create({
   moodsContainer: {
     position: 'absolute',
     flexDirection: 'row',
-    // backgroundColor: 'red',
     alignSelf: 'center',
     alignItems: 'flex-end',
-    bottom: -40,
+    justifyContent: 'center',
+    bottom: '50%',
+    width: MOODS_ARC_DIAMETER,
+    marginBottom: 30, // adjust this
   },
   mood: {
     width: 40,
@@ -91,8 +96,9 @@ export default StyleSheet.create({
     backgroundColor: COLORS.GRAY,
     opacity: 0.8,
     justifyContent: 'center',
-    marginHorizontal: 2,
-    position: 'relative',
+    position: 'absolute',
+    bottom: -20, // helps specify origin of the arc
+    left: MOODS_ARC_DIAMETER / 2 - 20, // helps specify origin of the arc
   },
   moodEmoji: {
     fontSize: 20,

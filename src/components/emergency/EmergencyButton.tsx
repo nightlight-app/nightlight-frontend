@@ -29,10 +29,12 @@ import { COLORS } from '@nightlight/src/global.styles';
 
 const { height }: ScaledSize = Dimensions.get('window');
 
-// Should be exported into app config file???
+// TODO: Should be exported into app config file???
 const COUNTDOWN_DURATION: number = 3000; // 3 seconds
 const EMERGENCY_TIME_THRESHOLD: number = 100; // 100 milliseconds
 const MOOD_EMOJIS = ['🥳', '😰', '😬', '🤮', '🚫'];
+const MOOD_ANGLE_RADIANS = Math.PI / (MOOD_EMOJIS.length - 1);
+import { MOODS_ARC_DIAMETER } from '@nightlight/components/emergency/EmergencyButton.styles';
 
 const EmergencyButton = () => {
   /***
@@ -329,19 +331,16 @@ const EmergencyButton = () => {
       {showMoods && (
         <Animated.View style={EmergencyButtonStyles.moodsContainer}>
           {MOOD_EMOJIS.map((emoji, index) => {
-            // y = sqrt(r^2 - (x - r)^2)
+            const xOffset =
+              -(MOODS_ARC_DIAMETER / 2) * Math.cos(index * MOOD_ANGLE_RADIANS);
             const yOffset =
-              Math.sqrt(
-                (MOOD_EMOJIS.length / 2) ** 2 - // r^2
-                  (index - (MOOD_EMOJIS.length - 1) / 2) ** 2 // (x - r)^2
-              ) * 60;
-
-            console.log(index, yOffset);
+              (MOODS_ARC_DIAMETER / 2) * Math.sin(index * MOOD_ANGLE_RADIANS);
 
             return (
               <Animated.View
                 style={{
                   ...EmergencyButtonStyles.mood,
+                  marginLeft: xOffset,
                   marginBottom: yOffset,
                 }}
                 key={index}>
