@@ -18,6 +18,7 @@ export default StyleSheet.create({
     bottom: '50%',
     width: MOODS_ARC_DIAMETER,
     marginBottom: MOOD_ARC_BOTTOM_MARGIN,
+    zIndex: -1,
   },
   mood: {
     width: MOOD_BUTTON_DIAMETER,
