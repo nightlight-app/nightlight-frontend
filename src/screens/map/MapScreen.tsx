@@ -40,7 +40,7 @@ const TEST_VENUE: Venue = {
   },
 };
 
-export const TEST_USER: User = {
+const TEST_USER: User = {
   _id: '5f9f1b9b0b1b9c0017a1b1a2',
   imgUrlProfileSmall: '',
   firstName: 'Graham',
