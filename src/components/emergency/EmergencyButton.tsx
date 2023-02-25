@@ -339,13 +339,11 @@ const EmergencyButton = () => {
     <View>
       {showMoods && <MoodButtons onMoodPress={hideMoodsHandler} />}
       {showOverlay && (
-        <Animated.View entering={FadeIn} exiting={FadeOut}>
-          <EmergencyOverlay
-            countdown={displayedCountdown}
-            buttonOffset={offset}
-            maxOffset={maxOffset}
-          />
-        </Animated.View>
+        <EmergencyOverlay
+          countdown={displayedCountdown}
+          buttonOffset={offset}
+          maxOffset={maxOffset}
+        />
       )}
       <Animated.View style={[EmergencyButtonStyles.slider, sliderAnimation]} />
       <GestureDetector gesture={exclusiveGesture}>
