@@ -1,4 +1,6 @@
 import { Dimensions } from 'react-native';
+import { MoodEmoji } from '@nightlight/src/types';
+import { WithSpringConfig } from 'react-native-reanimated';
 
 export const DEVICE_HEIGHT: number = Dimensions.get('window').height; // height of the device in pixels
 export const DEVICE_WIDTH: number = Dimensions.get('window').width; // width of the device in pixels
@@ -13,12 +15,16 @@ export const EMERGENCY_BUTTON_RADIUS: number = EMERGENCY_BUTTON_DIAMETER / 2; //
 export const COUNTDOWN_DURATION: number = 3000; // duration of the emergency countdown in milliseconds
 export const EMERGENCY_TIME_THRESHOLD: number = 100; // time threshold for the emergency slider to trigger in milliseconds
 
-export const MOOD_EMOJIS = ['🥳', '😰', '😬', '🤮', '🚫']; // available mood emojis
-export const MOOD_BUTTON_DIAMETER = 40; // diameter of the mood button in pixels
-export const MOOD_BUTTON_RADIUS = 20; // radius of the mood button in pixels
-export const MOOD_ANGLE_RANGE_MARGIN = Math.PI / 6; // margin of the mood button arc in radians
-export const MOOD_ANGLE =
-  (Math.PI - MOOD_ANGLE_RANGE_MARGIN) / (MOOD_EMOJIS.length - 1); // angle between each mood button in radians
-export const MOODS_ARC_DIAMETER = 150; // diameter of the mood button arc in pixels
-export const MOODS_ARC_RADIUS = MOODS_ARC_DIAMETER / 2; // radius of the mood button arc in pixels
-export const MOOD_ARC_BOTTOM_MARGIN = 10; // bottom margin of the mood button arc in pixels
+export const NUM_MOODS: number = Object.keys(MoodEmoji).length; // number of available moods
+export const MOOD_BUTTON_DIAMETER: number = 40; // diameter of the mood button in pixels
+export const MOOD_BUTTON_RADIUS: number = 20; // radius of the mood button in pixels
+export const MOOD_ANGLE_RANGE_MARGIN: number = Math.PI / 6; // margin of the mood button arc in radians
+export const MOOD_ANGLE: number =
+  (Math.PI - MOOD_ANGLE_RANGE_MARGIN) / (NUM_MOODS - 1); // angle between each mood button in radians
+export const MOODS_ARC_DIAMETER: number = 150; // diameter of the mood button arc in pixels
+export const MOODS_ARC_RADIUS: number = MOODS_ARC_DIAMETER / 2; // radius of the mood button arc in pixels
+export const MOOD_ARC_BOTTOM_MARGIN: number = 10; // bottom margin of the mood button arc in pixels
+export const MOOD_SPRING_CONFIG: WithSpringConfig = {
+  stiffness: 100,
+  mass: 0.75,
+}; // mood button spring animation config

@@ -23,6 +23,14 @@ export enum ReactionEmoji {
   PARTY = '🎉',
 }
 
+export enum MoodEmoji {
+  PARTY = '🥳',
+  ANXIOUS = '😰',
+  GRIMACING = '😬',
+  PUKING = '🤮',
+  CLEAR = '🚫',
+}
+
 export interface Reaction {
   count: number;
   didReact: boolean;
@@ -138,4 +146,8 @@ export interface EmergencyOverlayProps {
   countdown: number;
   buttonOffset: SharedValue<number>;
   maxOffset: number;
+}
+
+export interface MoodButtonProps {
+  onMoodPress: () => void;
 }

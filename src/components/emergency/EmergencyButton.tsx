@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Alert, Text, Pressable } from 'react-native';
+import { View, Alert } from 'react-native';
 import {
   GestureDetector,
   Gesture,
@@ -21,24 +21,19 @@ import Animated, {
   useDerivedValue,
   FadeIn,
   FadeOut,
-  withSpring,
-  withDelay,
 } from 'react-native-reanimated';
 import MaskedView from '@react-native-masked-view/masked-view';
 import EmergencyButtonStyles from '@nightlight/components/emergency/EmergencyButton.styles';
 import EmergencyOverlay from '@nightlight/components/emergency/EmergencyOverlay';
+import MoodButtons from '@nightlight/components/moods/MoodButtons';
 import { COLORS } from '@nightlight/src/global.styles';
 import {
   DEVICE_HEIGHT,
   SAFE_AREA_BOTTOM_MARGIN,
   COUNTDOWN_DURATION,
   EMERGENCY_TIME_THRESHOLD,
-  MOOD_EMOJIS,
-  MOOD_ANGLE_RANGE_MARGIN,
-  MOOD_ANGLE,
   NAVBAR_HEIGHT,
   EMERGENCY_BUTTON_RADIUS,
-  MOODS_ARC_RADIUS,
   EMERGENCY_BUTTON_DIAMETER,
 } from '@nightlight/src/constants';
 
@@ -199,72 +194,6 @@ const EmergencyButton = () => {
     opacity: withTiming(Number(isPressed.value)),
   }));
 
-  const moodButtonEnteringAnimations = MOOD_EMOJIS.map((_, index) => {
-    const xOffset: number =
-      -MOODS_ARC_RADIUS *
-      Math.cos(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
-    const yOffset: number =
-      MOODS_ARC_RADIUS *
-      Math.sin(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
-
-    const springOptions = { stiffness: 100, mass: 0.75 };
-
-    const FanOut = () => {
-      'worklet';
-      const animations = {
-        transform: [
-          {
-            translateX: withDelay(
-              index * 50,
-              withSpring(xOffset, springOptions)
-            ),
-          },
-          {
-            translateY: withDelay(
-              index * 50,
-              withSpring(-yOffset, springOptions)
-            ),
-          },
-        ],
-      };
-      const initialValues = {
-        // initial values for animations
-        transform: [{ translateX: 0 }, { translateY: 0 }],
-      };
-      return { initialValues, animations };
-    };
-
-    return FanOut;
-  });
-
-  const moodButtonExitingAnimations = MOOD_EMOJIS.map((_, index) => {
-    const Retract = () => {
-      'worklet';
-      const animations = {
-        transform: [
-          {
-            translateX: withDelay(
-              (MOOD_EMOJIS.length - index) * 75,
-              withTiming(0)
-            ),
-          },
-          {
-            translateY: withDelay(
-              (MOOD_EMOJIS.length - index) * 75,
-              withTiming(0)
-            ),
-          },
-        ],
-      };
-      const initialValues = {
-        // initial values for animations
-      };
-      return { animations, initialValues };
-    };
-
-    return Retract;
-  });
-
   /***
    * HELPERS
    ***/
@@ -323,12 +252,6 @@ const EmergencyButton = () => {
       isCountdownActive.value = false;
       runOnJS(stopCountdown)();
     }
-  };
-
-  const handleMoodPress = (emoji: string) => {
-    if (emoji == MOOD_EMOJIS[MOOD_EMOJIS.length - 1])
-      Alert.alert('clearing mood');
-    else Alert.alert(`i'm feeling ${emoji}`);
   };
 
   /***
@@ -414,25 +337,7 @@ const EmergencyButton = () => {
    ***/
   return (
     <View>
-      {showMoods && (
-        <View style={EmergencyButtonStyles.moodsContainer}>
-          {MOOD_EMOJIS.map((emoji, index) => {
-            return (
-              <Animated.View
-                entering={moodButtonEnteringAnimations[index]}
-                exiting={moodButtonExitingAnimations[index]}
-                style={EmergencyButtonStyles.mood}
-                key={index}>
-                <Pressable
-                  style={EmergencyButtonStyles.moodPressable}
-                  onPress={() => handleMoodPress(emoji)}>
-                  <Text style={EmergencyButtonStyles.moodEmoji}>{emoji}</Text>
-                </Pressable>
-              </Animated.View>
-            );
-          })}
-        </View>
-      )}
+      {showMoods && <MoodButtons onMoodPress={hideMoodsHandler} />}
       {showOverlay && (
         <Animated.View entering={FadeIn} exiting={FadeOut}>
           <EmergencyOverlay
