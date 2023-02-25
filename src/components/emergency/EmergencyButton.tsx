@@ -334,7 +334,7 @@ const EmergencyButton = () => {
               Math.sqrt(
                 (MOOD_EMOJIS.length / 2) ** 2 - // r^2
                   (index - (MOOD_EMOJIS.length - 1) / 2) ** 2 // (x - r)^2
-              ) * 40 - 50;
+              ) * 60;
 
             console.log(index, yOffset);
 
@@ -342,7 +342,7 @@ const EmergencyButton = () => {
               <Animated.View
                 style={{
                   ...EmergencyButtonStyles.mood,
-                  bottom: yOffset,
+                  marginBottom: yOffset,
                 }}
                 key={index}>
                 <Text style={EmergencyButtonStyles.moodEmoji}>{emoji}</Text>
