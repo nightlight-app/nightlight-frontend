@@ -1,15 +1,24 @@
-import { StyleSheet, Dimensions, ScaledSize } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-
-const { height, width }: ScaledSize = Dimensions.get('window');
+import {
+  DEVICE_HEIGHT,
+  DEVICE_WIDTH,
+  EMERGENCY_BUTTON_DIAMETER,
+  EMERGENCY_BUTTON_RADIUS,
+  SAFE_AREA_BOTTOM_MARGIN,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
     position: 'absolute',
-    top: -height + 40 + 80 + 34,
-    left: -(width / 2) + 40,
-    height: height,
-    width: width,
+    top:
+      -DEVICE_HEIGHT +
+      EMERGENCY_BUTTON_RADIUS +
+      EMERGENCY_BUTTON_DIAMETER +
+      SAFE_AREA_BOTTOM_MARGIN,
+    left: -(DEVICE_WIDTH / 2) + EMERGENCY_BUTTON_RADIUS,
+    height: DEVICE_HEIGHT,
+    width: DEVICE_WIDTH,
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -39,11 +48,11 @@ export default StyleSheet.create({
     maxWidth: 360,
   },
   sliderContainer: {
-    width: 80,
-    height: height / 2 - 80,
+    width: EMERGENCY_BUTTON_DIAMETER,
+    height: DEVICE_HEIGHT / 2 - EMERGENCY_BUTTON_DIAMETER,
     backgroundColor: '#181818',
-    marginBottom: 34 + 40,
-    borderRadius: 40,
+    marginBottom: SAFE_AREA_BOTTOM_MARGIN + EMERGENCY_BUTTON_RADIUS,
+    borderRadius: EMERGENCY_BUTTON_RADIUS,
     justifyContent: 'space-evenly',
     alignItems: 'center',
     borderColor: COLORS.NIGHTLIGHT_BLACK,

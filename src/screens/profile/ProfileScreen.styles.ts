@@ -1,3 +1,4 @@
+import { EMERGENCY_BUTTON_RADIUS, NAVBAR_HEIGHT, SAFE_AREA_BOTTOM_MARGIN } from '@nightlight/src/constants';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 import { Dimensions, StyleSheet } from 'react-native';
 
@@ -152,7 +153,8 @@ export default StyleSheet.create({
   emergencyView: {
     width: width,
     alignItems: 'center',
-    marginBottom: 34 + 80 + 40,
+    marginBottom:
+      SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS,
   },
   emergencyPressable: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,

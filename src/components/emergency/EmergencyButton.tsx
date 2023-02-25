@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Dimensions, ScaledSize, Alert, Text } from 'react-native';
+import { View, Alert, Text } from 'react-native';
 import {
   GestureDetector,
   Gesture,
@@ -26,15 +26,20 @@ import MaskedView from '@react-native-masked-view/masked-view';
 import EmergencyButtonStyles from '@nightlight/components/emergency/EmergencyButton.styles';
 import EmergencyOverlay from '@nightlight/components/emergency/EmergencyOverlay';
 import { COLORS } from '@nightlight/src/global.styles';
-
-const { height }: ScaledSize = Dimensions.get('window');
-
-// TODO: Should be exported into app config file???
-const COUNTDOWN_DURATION: number = 3000; // 3 seconds
-const EMERGENCY_TIME_THRESHOLD: number = 100; // 100 milliseconds
-const MOOD_EMOJIS = ['🥳', '😰', '😬', '🤮', '🚫'];
-const MOOD_ANGLE_RADIANS = Math.PI / (MOOD_EMOJIS.length - 1);
-import { MOODS_ARC_DIAMETER } from '@nightlight/components/emergency/EmergencyButton.styles';
+import {
+  DEVICE_HEIGHT,
+  SAFE_AREA_BOTTOM_MARGIN,
+  COUNTDOWN_DURATION,
+  EMERGENCY_TIME_THRESHOLD,
+  MOOD_EMOJIS,
+  MOOD_ANGLE_RANGE_MARGIN,
+  MOOD_ANGLE,
+  MOODS_ARC_DIAMETER,
+  NAVBAR_HEIGHT,
+  EMERGENCY_BUTTON_RADIUS,
+  MOODS_ARC_RADIUS,
+  EMERGENCY_BUTTON_DIAMETER,
+} from '@nightlight/src/constants';
 
 const EmergencyButton = () => {
   /***
@@ -46,13 +51,19 @@ const EmergencyButton = () => {
    * Value Breakdown:
    * -------------------------
    * slide UP = negative offset
-   * danger zone height = 34
-   * navbar height = 80
+   * TODO: figure out if the following is correct/necessary
    * navbar stroke width = 2
-   * button radius = 40
    * button stroke width = 2 * 2 = 4
    */
-  const maxOffset: number = -(height * 0.5 - 34 - 80 - 2 - 40 - 2 - 2);
+  const maxOffset: number = -(
+    DEVICE_HEIGHT * 0.5 -
+    SAFE_AREA_BOTTOM_MARGIN -
+    NAVBAR_HEIGHT -
+    // 2 -
+    EMERGENCY_BUTTON_RADIUS
+    // 2 -
+    // 2
+  );
 
   /***
    * STATE
@@ -179,7 +190,7 @@ const EmergencyButton = () => {
 
   // Slider animation
   const sliderAnimation = useAnimatedStyle(() => ({
-    height: -offset.value + 80,
+    height: -offset.value + EMERGENCY_BUTTON_DIAMETER,
     backgroundColor:
       offset.value === maxOffset ? COLORS.RED : COLORS.NIGHTLIGHT_BLUE,
     opacity: withTiming(Number(isPressed.value)),
@@ -288,7 +299,7 @@ const EmergencyButton = () => {
   // Gesture handler for detecting if button is pressed
   const longPressGesture: LongPressGesture = Gesture.LongPress()
     .minDuration(EMERGENCY_TIME_THRESHOLD)
-    .maxDistance(height) // weird behavior-value pairing...?
+    .maxDistance(DEVICE_HEIGHT) // weird behavior-value pairing...?
     .onStart(() => {
       // At start of long press...
       runOnJS(hideMoodsHandler)();
@@ -332,9 +343,11 @@ const EmergencyButton = () => {
         <Animated.View style={EmergencyButtonStyles.moodsContainer}>
           {MOOD_EMOJIS.map((emoji, index) => {
             const xOffset =
-              -(MOODS_ARC_DIAMETER / 2) * Math.cos(index * MOOD_ANGLE_RADIANS);
+              -MOODS_ARC_RADIUS *
+              Math.cos(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
             const yOffset =
-              (MOODS_ARC_DIAMETER / 2) * Math.sin(index * MOOD_ANGLE_RADIANS);
+              MOODS_ARC_RADIUS *
+              Math.sin(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
 
             return (
               <Animated.View

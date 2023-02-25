@@ -1,23 +1,29 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '@nightlight/src/global.styles';
-
-// TODO: Move this to app config
-export const MOODS_ARC_DIAMETER = 140;
+import {
+  EMERGENCY_BUTTON_DIAMETER,
+  EMERGENCY_BUTTON_RADIUS,
+  MOODS_ARC_DIAMETER,
+  MOODS_ARC_RADIUS,
+  MOOD_ARC_BOTTOM_MARGIN,
+  MOOD_BUTTON_DIAMETER,
+  MOOD_BUTTON_RADIUS,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   slider: {
     position: 'absolute',
     bottom: 0,
-    width: 80,
+    width: EMERGENCY_BUTTON_DIAMETER,
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    borderRadius: 40,
+    borderRadius: EMERGENCY_BUTTON_RADIUS,
     borderColor: COLORS.NIGHTLIGHT_BLACK,
     borderWidth: 2,
   },
   base: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: EMERGENCY_BUTTON_DIAMETER,
+    height: EMERGENCY_BUTTON_DIAMETER,
+    borderRadius: EMERGENCY_BUTTON_RADIUS,
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     justifyContent: 'center',
     alignItems: 'center',
@@ -61,9 +67,9 @@ export default StyleSheet.create({
   },
   outline: {
     position: 'absolute',
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: EMERGENCY_BUTTON_DIAMETER,
+    height: EMERGENCY_BUTTON_DIAMETER,
+    borderRadius: EMERGENCY_BUTTON_RADIUS,
     borderWidth: 2,
     borderColor: COLORS.NIGHTLIGHT_BLACK,
   },
@@ -74,9 +80,9 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   maskElement: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: EMERGENCY_BUTTON_DIAMETER,
+    height: EMERGENCY_BUTTON_DIAMETER,
+    borderRadius: EMERGENCY_BUTTON_RADIUS,
     backgroundColor: COLORS.BLACK,
   },
   moodsContainer: {
@@ -87,18 +93,18 @@ export default StyleSheet.create({
     justifyContent: 'center',
     bottom: '50%',
     width: MOODS_ARC_DIAMETER,
-    marginBottom: 30, // adjust this
+    marginBottom: MOOD_ARC_BOTTOM_MARGIN,
   },
   mood: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: MOOD_BUTTON_DIAMETER,
+    height: MOOD_BUTTON_DIAMETER,
+    borderRadius: MOOD_BUTTON_RADIUS,
     backgroundColor: COLORS.GRAY,
     opacity: 0.8,
     justifyContent: 'center',
     position: 'absolute',
-    bottom: -20, // helps specify origin of the arc
-    left: MOODS_ARC_DIAMETER / 2 - 20, // helps specify origin of the arc
+    bottom: -MOOD_BUTTON_RADIUS, // helps specify origin of the arc
+    left: MOODS_ARC_RADIUS - MOOD_BUTTON_RADIUS, // helps specify origin of the arc
   },
   moodEmoji: {
     fontSize: 20,

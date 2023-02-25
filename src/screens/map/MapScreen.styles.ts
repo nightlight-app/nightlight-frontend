@@ -1,3 +1,4 @@
+import { NAVBAR_HEIGHT, SAFE_AREA_BOTTOM_MARGIN } from '@nightlight/src/constants';
 import { COLORS } from '@nightlight/src/global.styles';
 import { StyleSheet } from 'react-native';
 
@@ -9,7 +10,7 @@ export default StyleSheet.create({
     position: 'absolute',
     width: 50,
     height: 110,
-    bottom: 80 + 34,
+    bottom: NAVBAR_HEIGHT + SAFE_AREA_BOTTOM_MARGIN,
     right: 0,
     marginBottom: 10,
     marginRight: 10,
