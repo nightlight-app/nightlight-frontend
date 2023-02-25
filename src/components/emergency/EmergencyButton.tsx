@@ -19,8 +19,6 @@ import Animated, {
   interpolateColor,
   runOnJS,
   useDerivedValue,
-  FadeIn,
-  FadeOut,
 } from 'react-native-reanimated';
 import MaskedView from '@react-native-masked-view/masked-view';
 import EmergencyButtonStyles from '@nightlight/components/emergency/EmergencyButton.styles';

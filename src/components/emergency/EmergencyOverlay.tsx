@@ -4,8 +4,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import EmergencyOverlayStyles from '@nightlight/components/emergency/EmergencyOverlay.styles';
 import { EmergencyOverlayProps } from '@nightlight/src/types';
 import SliderArrowSvg from '@nightlight/components/svgs/SliderArrowSvg';
-
-const NUM_SLIDER_ARROWS = 5;
+import { NUM_SLIDER_ARROWS } from '@nightlight/src/constants';
 
 const EmergencyOverlay = ({ countdown }: EmergencyOverlayProps) => {
   return (
