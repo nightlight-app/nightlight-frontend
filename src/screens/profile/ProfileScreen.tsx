@@ -32,6 +32,17 @@ const ProfileScreen = () => {
     'Dec',
   ];
 
+  //hard coded profile for now
+  let ProfileInfo = {
+    name: 'John Smith',
+    phone: '(123) 456-7891',
+    friends: 12,
+    nightsOut: 6,
+    birthday: '01.01.2001',
+    favoriteBar: 'Underground'
+  }
+
+
   return (
     <View testID={Route.PROFILE} style={ProfileScreenStyles.container}>
       {/* Background image */}
@@ -52,8 +63,8 @@ const ProfileScreen = () => {
           source={require('@nightlight/assets/images/anon.png')}
           style={ProfileScreenStyles.profileImage}
         />
-        <Text style={ProfileScreenStyles.name}>Your Name</Text>
-        <Text style={ProfileScreenStyles.number}>(805) 657-0708</Text>
+        <Text style={ProfileScreenStyles.name}>{ProfileInfo.name}</Text>
+        <Text style={ProfileScreenStyles.number}>{ProfileInfo.phone}</Text>
       </View>
 
       {/* Scrollable view */}
@@ -63,15 +74,15 @@ const ProfileScreen = () => {
         {/* Profile statistics */}
         <View style={ProfileScreenStyles.profileStatisticsContainer}>
           <View style={ProfileScreenStyles.box}>
-            <Text style={ProfileScreenStyles.numberText}>12</Text>
+            <Text style={ProfileScreenStyles.numberText}>{ProfileInfo.friends}</Text>
             <Text style={ProfileScreenStyles.smallText}>friends</Text>
           </View>
           <View style={ProfileScreenStyles.box}>
-            <Text style={ProfileScreenStyles.numberText}>6</Text>
+            <Text style={ProfileScreenStyles.numberText}>{ProfileInfo.nightsOut}</Text>
             <Text style={ProfileScreenStyles.smallText}>nights out</Text>
           </View>
           <View style={ProfileScreenStyles.box}>
-            <Text style={ProfileScreenStyles.numberText}>02.15.2001</Text>
+            <Text style={ProfileScreenStyles.numberText}>{ProfileInfo.birthday}</Text>
             <Text style={ProfileScreenStyles.smallText}>your special day</Text>
           </View>
         </View>
@@ -80,7 +91,7 @@ const ProfileScreen = () => {
         <View style={ProfileScreenStyles.favoriteBar}>
           <PartySvg style={ProfileScreenStyles.partySvg} />
           <View style={ProfileScreenStyles.barInfo}>
-            <Text style={ProfileScreenStyles.barText}>Underground</Text>
+            <Text style={ProfileScreenStyles.barText}>{ProfileInfo.favoriteBar}</Text>
             <Text style={ProfileScreenStyles.smallText}>
               is your favorite bar these days
             </Text>
