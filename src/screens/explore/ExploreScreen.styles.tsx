@@ -1,7 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
-
-const { height, width } = Dimensions.get('window');
+import { DEVICE_HEIGHT } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
@@ -16,7 +15,7 @@ export default StyleSheet.create({
     marginBottom: 114,
     width: '100%',
     maxWidth: 650,
-    height: height,
+    height: DEVICE_HEIGHT,
   },
   headerContainer: {
     paddingBottom: 15,
