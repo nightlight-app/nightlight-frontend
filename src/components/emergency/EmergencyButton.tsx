@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Alert, Text } from 'react-native';
+import { View, Alert, Text, Pressable } from 'react-native';
 import {
   GestureDetector,
   Gesture,
@@ -21,6 +21,8 @@ import Animated, {
   useDerivedValue,
   FadeIn,
   FadeOut,
+  withSpring,
+  withDelay,
 } from 'react-native-reanimated';
 import MaskedView from '@react-native-masked-view/masked-view';
 import EmergencyButtonStyles from '@nightlight/components/emergency/EmergencyButton.styles';
@@ -34,7 +36,6 @@ import {
   MOOD_EMOJIS,
   MOOD_ANGLE_RANGE_MARGIN,
   MOOD_ANGLE,
-  MOODS_ARC_DIAMETER,
   NAVBAR_HEIGHT,
   EMERGENCY_BUTTON_RADIUS,
   MOODS_ARC_RADIUS,
@@ -56,11 +57,13 @@ const EmergencyButton = () => {
    * button stroke width = 2 * 2 = 4
    */
   const maxOffset: number = -(
-    DEVICE_HEIGHT * 0.5 -
-    SAFE_AREA_BOTTOM_MARGIN -
-    NAVBAR_HEIGHT -
-    // 2 -
-    EMERGENCY_BUTTON_RADIUS
+    (
+      DEVICE_HEIGHT * 0.5 -
+      SAFE_AREA_BOTTOM_MARGIN -
+      NAVBAR_HEIGHT -
+      // 2 -
+      EMERGENCY_BUTTON_RADIUS
+    )
     // 2 -
     // 2
   );
@@ -196,6 +199,33 @@ const EmergencyButton = () => {
     opacity: withTiming(Number(isPressed.value)),
   }));
 
+  // Mood button animations
+  const moodButtonAnimations = MOOD_EMOJIS.map((_, index) => {
+    const xOffset =
+      -MOODS_ARC_RADIUS *
+      Math.cos(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
+    const yOffset =
+      MOODS_ARC_RADIUS *
+      Math.sin(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
+
+    const springOptions = { stiffness: 50, mass: 0.5 };
+
+    return useAnimatedStyle(() => ({
+      transform: [
+        {
+          translateX: showMoods
+            ? withDelay(index * 75, withSpring(xOffset, springOptions))
+            : withDelay((MOOD_EMOJIS.length - index) * 75, withTiming(0)),
+        },
+        {
+          translateY: showMoods
+            ? withDelay(index * 75, withSpring(-yOffset, springOptions))
+            : withDelay((MOOD_EMOJIS.length - index) * 75, withTiming(0)),
+        },
+      ],
+    }));
+  });
+
   /***
    * HELPERS
    ***/
@@ -254,6 +284,12 @@ const EmergencyButton = () => {
       isCountdownActive.value = false;
       runOnJS(stopCountdown)();
     }
+  };
+
+  const handleMoodPress = (emoji: string) => {
+    if (emoji == MOOD_EMOJIS[MOOD_EMOJIS.length - 1])
+      Alert.alert('clearing mood');
+    else Alert.alert(`i'm feeling ${emoji}`);
   };
 
   /***
@@ -339,30 +375,21 @@ const EmergencyButton = () => {
    ***/
   return (
     <View>
-      {showMoods && (
-        <Animated.View style={EmergencyButtonStyles.moodsContainer}>
-          {MOOD_EMOJIS.map((emoji, index) => {
-            const xOffset =
-              -MOODS_ARC_RADIUS *
-              Math.cos(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
-            const yOffset =
-              MOODS_ARC_RADIUS *
-              Math.sin(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
-
-            return (
-              <Animated.View
-                style={{
-                  ...EmergencyButtonStyles.mood,
-                  marginLeft: xOffset,
-                  marginBottom: yOffset,
-                }}
-                key={index}>
+      <Animated.View style={EmergencyButtonStyles.moodsContainer}>
+        {MOOD_EMOJIS.map((emoji, index) => {
+          return (
+            <Animated.View
+              style={[EmergencyButtonStyles.mood, moodButtonAnimations[index]]}
+              key={index}>
+              <Pressable
+                style={EmergencyButtonStyles.moodPressable}
+                onPress={() => handleMoodPress(emoji)}>
                 <Text style={EmergencyButtonStyles.moodEmoji}>{emoji}</Text>
-              </Animated.View>
-            );
-          })}
-        </Animated.View>
-      )}
+              </Pressable>
+            </Animated.View>
+          );
+        })}
+      </Animated.View>
       {showOverlay && (
         <Animated.View entering={FadeIn} exiting={FadeOut}>
           <EmergencyOverlay

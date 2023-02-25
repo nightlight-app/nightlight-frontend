@@ -106,6 +106,12 @@ export default StyleSheet.create({
     bottom: -MOOD_BUTTON_RADIUS, // helps specify origin of the arc
     left: MOODS_ARC_RADIUS - MOOD_BUTTON_RADIUS, // helps specify origin of the arc
   },
+  moodPressable: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   moodEmoji: {
     fontSize: 20,
     textAlign: 'center',

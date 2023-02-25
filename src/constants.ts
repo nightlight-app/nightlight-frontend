@@ -21,4 +21,4 @@ export const MOOD_ANGLE =
   (Math.PI - MOOD_ANGLE_RANGE_MARGIN) / (MOOD_EMOJIS.length - 1); // angle between each mood button in radians
 export const MOODS_ARC_DIAMETER = 150; // diameter of the mood button arc in pixels
 export const MOODS_ARC_RADIUS = MOODS_ARC_DIAMETER / 2; // radius of the mood button arc in pixels
-export const MOOD_ARC_BOTTOM_MARGIN = 20; // bottom margin of the mood button arc in pixels
+export const MOOD_ARC_BOTTOM_MARGIN = 10; // bottom margin of the mood button arc in pixels
