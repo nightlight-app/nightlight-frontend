@@ -1,4 +1,5 @@
 import { SvgProps } from 'react-native-svg';
+import { SharedValue } from 'react-native-reanimated';
 
 export enum Route {
   MAP = 'Map',
@@ -103,7 +104,6 @@ export interface UserCardProps extends MapCardProps {
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
-
 /**
  * used for querying elements when using jest test
  *
@@ -118,4 +118,10 @@ export enum TestingLabel {
   USER_CARD_CALL_USER = 'UserCardCallUser',
   USER_CARD_PING_USER = 'UserCardPingUser',
   VENUE_CARD_START_NAVIGATION = 'VenueCardStartNavigation',
+}
+
+export interface EmergencyOverlayProps {
+  countdown: number;
+  buttonOffset: SharedValue<number>;
+  maxOffset: number;
 }

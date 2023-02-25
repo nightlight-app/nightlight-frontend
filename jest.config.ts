@@ -13,6 +13,8 @@ const config: Config = {
   ],
   collectCoverage: true,
   coverageReporters: ['html'],
+  // specify the jest setup file which is run before every test file
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 };
 
 export default config;
