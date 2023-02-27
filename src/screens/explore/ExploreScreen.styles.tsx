@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { Fonts, COLORS } from '@nightlight/src/global.styles';
-import { DEVICE_HEIGHT } from '@nightlight/src/constants';
+import { Fonts } from '@nightlight/src/global.styles';
+import { COLORS } from '@nightlight/src/global.styles';
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexGrow: 1,
@@ -13,25 +13,13 @@ export default StyleSheet.create({
   },
   safeview: {
     marginBottom: 114,
-    width: '100%',
-    maxWidth: 650,
-    height: DEVICE_HEIGHT,
-  },
-  headerContainer: {
-    paddingBottom: 15,
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    shadowColor: COLORS.BLACK,
-    shadowOffset: {
-      height: 4,
-      width: 0,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.3,
   },
   title: {
-    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontStyle: 'normal',
+    fontWeight: '700',
     fontSize: 24,
-    color: COLORS.WHITE,
+    color: '#FFFFFF',
     alignSelf: 'center',
     padding: 10,
   },
@@ -40,7 +28,7 @@ export default StyleSheet.create({
     width: '98%',
     alignItems: 'center',
     borderRadius: 10,
-    borderColor: COLORS.ORANGE,
+    borderColor: '#E07324',
     borderWidth: 1,
     marginTop: 3,
     paddingTop: 7,
@@ -48,16 +36,18 @@ export default StyleSheet.create({
   },
   seeMore: {
     width: '95%',
-    backgroundColor: COLORS.DARK_GRAY,
+    backgroundColor: '#3D3D3D',
     borderRadius: 5,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
   seeMoreText: {
-    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontStyle: 'normal',
+    fontWeight: '700',
     fontSize: 14,
-    color: COLORS.GRAY,
+    color: 'rgba(144, 144, 144, 1)',
   },
   barContainer: {
     display: 'flex',
@@ -69,8 +59,8 @@ export default StyleSheet.create({
   search: {
     width: '90%',
     alignSelf: 'center',
-    height: 25,
-    backgroundColor: COLORS.WHITE,
+    height: '5%',
+    backgroundColor: 'white',
     borderRadius: 10,
     display: 'flex',
     alignItems: 'flex-start',
@@ -78,8 +68,10 @@ export default StyleSheet.create({
   },
   searchText: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontStyle: 'normal',
+    fontWeight: '700',
     fontSize: 14,
-    color: COLORS.GRAY,
+    color: '#A0A0A0',
     marginLeft: 10,
   },
   trendbox: {
@@ -94,12 +86,14 @@ export default StyleSheet.create({
     marginRight: 5,
   },
   trendingText: {
-    color: COLORS.ORANGE,
+    color: '#E07324',
     fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontStyle: 'normal',
+    fontWeight: '700',
     fontSize: 16,
   },
   reactionBox: {
-    backgroundColor: COLORS.GRAY,
+    backgroundColor: '#525252',
     borderRadius: 10,
     display: 'flex',
     alignItems: 'center',
@@ -108,9 +102,13 @@ export default StyleSheet.create({
     padding: 2,
   },
   allText: {
-    color: COLORS.WHITE,
+    color: 'white',
     fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontStyle: 'normal',
+    fontWeight: '700',
     fontSize: 15,
     margin: 3,
   },
 });
+
+export default styles;

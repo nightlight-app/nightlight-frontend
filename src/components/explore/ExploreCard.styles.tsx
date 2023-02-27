@@ -1,31 +1,26 @@
 import { StyleSheet } from 'react-native';
-import { Fonts, COLORS } from '@nightlight/src/global.styles';
-
-export default StyleSheet.create({
+import { Fonts } from '@nightlight/src/global.styles';
+const styles = StyleSheet.create({
   container: {
     width: '98%',
-    borderColor: COLORS.DARK_GRAY,
+    borderColor: '#3D3D3D',
     borderWidth: 2,
     textAlign: 'center',
     borderRadius: 5,
     marginBottom: 10,
     display: 'flex',
-    paddingLeft: 10,
-    paddingRight: 10,
   },
   venueTitle: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 20,
-    color: COLORS.WHITE,
+    color: 'white',
     paddingLeft: 20,
     paddingTop: 20,
-    display: 'flex',
-    alignItems: 'center',
   },
   venueAddress: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 14,
-    color: COLORS.GRAY,
+    color: 'grey',
     paddingLeft: 20,
     paddingTop: 5,
   },
@@ -37,19 +32,21 @@ export default StyleSheet.create({
   },
   goButton: {
     padding: 10,
-    backgroundColor: COLORS.GREEN,
+    backgroundColor: '#64A338',
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: COLORS.DARK_GREEN,
+    borderColor: '#2E491B',
     borderWidth: 2,
     borderRadius: 10,
+    height: 60,
+    width: 70,
     marginRight: 10,
-    marginLeft: 10,
     marginBottom: 10,
   },
   goButtonText: {
-    color: COLORS.WHITE,
+    color: 'white',
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 26,
     paddingTop: 2,
@@ -62,7 +59,7 @@ export default StyleSheet.create({
   lowerContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
   },
   reactionContainer: {
     display: 'flex',
@@ -74,6 +71,28 @@ export default StyleSheet.create({
     paddingLeft: 18,
     paddingTop: 8,
   },
+  closeButton: {
+    marginTop: 16,
+    marginRight: 8,
+    marginLeft: 8,
+    marginBottom: 16,
+    height: 16,
+    width: 16,
+  },
+  xLeft: {
+    position: 'absolute',
+    width: 2,
+    height: 16,
+    backgroundColor: 'white',
+    transform: [{ rotate: '45deg' }],
+  },
+  xRight: {
+    position: 'absolute',
+    width: 2,
+    height: 16,
+    backgroundColor: 'white',
+    transform: [{ rotate: '-45deg' }],
+  },
   distanceContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -84,11 +103,13 @@ export default StyleSheet.create({
   },
   centeredText: {
     textAlign: 'center',
-    color: COLORS.GRAY,
+    color: 'grey',
   },
   goButtonSubText: {
-    color: COLORS.WHITE,
+    color: 'white',
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 10,
   },
 });
+
+export default styles;
