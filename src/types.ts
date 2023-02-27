@@ -149,5 +149,5 @@ export interface EmergencyOverlayProps {
 }
 
 export interface MoodButtonProps {
-  onMoodPress: () => void;
+  onClose: () => void;
 }

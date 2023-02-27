@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, Pressable, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  Alert,
+  TouchableWithoutFeedback,
+  SafeAreaView,
+} from 'react-native';
 import Animated, {
   EntryExitAnimationFunction,
   LayoutAnimation,
@@ -18,11 +25,11 @@ import {
 import MoodButtonsStyles from '@nightlight/components/moods/MoodButtons.styles';
 import { MoodEmoji, MoodButtonProps } from '@nightlight/src/types';
 
-const MoodButtons = ({ onMoodPress }: MoodButtonProps) => {
+const MoodButtons = ({ onClose }: MoodButtonProps) => {
   const handleMoodPress = (emoji: MoodEmoji): void => {
     if (emoji === MoodEmoji.CLEAR) Alert.alert('clearing mood');
     else Alert.alert(`i'm feeling ${emoji}`);
-    onMoodPress();
+    onClose();
   };
 
   const moodButtonEnteringAnimations: EntryExitAnimationFunction[] = [
@@ -102,11 +109,16 @@ const MoodButtons = ({ onMoodPress }: MoodButtonProps) => {
   );
 
   return (
-    <View style={MoodButtonsStyles.moodsContainer}>
-      {Object.values(MoodEmoji).map((emoji: string, index: number) =>
-        renderMoodButton(emoji as MoodEmoji, index)
-      )}
-    </View>
+    <>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <SafeAreaView style={MoodButtonsStyles.underlayCloseHandler} />
+      </TouchableWithoutFeedback>
+      <View style={MoodButtonsStyles.moodsContainer}>
+        {Object.values(MoodEmoji).map((emoji: string, index: number) =>
+          renderMoodButton(emoji as MoodEmoji, index)
+        )}
+      </View>
+    </>
   );
 };
 

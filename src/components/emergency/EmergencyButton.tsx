@@ -335,7 +335,7 @@ const EmergencyButton = () => {
    ***/
   return (
     <View>
-      {showMoods && <MoodButtons onMoodPress={hideMoodsHandler} />}
+      {showMoods && <MoodButtons onClose={hideMoodsHandler} />}
       {showOverlay && (
         <EmergencyOverlay
           countdown={displayedCountdown}

@@ -5,6 +5,7 @@ import {
   DEVICE_WIDTH,
   EMERGENCY_BUTTON_DIAMETER,
   EMERGENCY_BUTTON_RADIUS,
+  NAVBAR_HEIGHT,
   SAFE_AREA_BOTTOM_MARGIN,
 } from '@nightlight/src/constants';
 
@@ -14,7 +15,7 @@ export default StyleSheet.create({
     top:
       -DEVICE_HEIGHT +
       EMERGENCY_BUTTON_RADIUS +
-      EMERGENCY_BUTTON_DIAMETER +
+      NAVBAR_HEIGHT +
       SAFE_AREA_BOTTOM_MARGIN,
     left: -(DEVICE_WIDTH / 2) + EMERGENCY_BUTTON_RADIUS,
     height: DEVICE_HEIGHT,
