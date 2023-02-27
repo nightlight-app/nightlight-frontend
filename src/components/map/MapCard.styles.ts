@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '@nightlight/src/global.styles';
-import { EMERGENCY_BUTTON_DIAMETER, SAFE_AREA_BOTTOM_MARGIN } from '@nightlight/src/constants';
+import {
+  EMERGENCY_BUTTON_DIAMETER,
+  SAFE_AREA_BOTTOM_MARGIN,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {

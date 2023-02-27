@@ -84,5 +84,5 @@ export default StyleSheet.create({
     height: EMERGENCY_BUTTON_DIAMETER,
     borderRadius: EMERGENCY_BUTTON_RADIUS,
     backgroundColor: COLORS.BLACK,
-  }
+  },
 });

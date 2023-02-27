@@ -1,4 +1,7 @@
-import { NAVBAR_HEIGHT, SAFE_AREA_BOTTOM_MARGIN } from '@nightlight/src/constants';
+import {
+  NAVBAR_HEIGHT,
+  SAFE_AREA_BOTTOM_MARGIN,
+} from '@nightlight/src/constants';
 import { COLORS } from '@nightlight/src/global.styles';
 import { StyleSheet } from 'react-native';
 
