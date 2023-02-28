@@ -12,6 +12,7 @@ export enum Route {
 export enum MapCardType {
   VENUE = 'Venue',
   USER = 'User',
+  CREATE_GROUP = 'CreateGroup',
   ERROR = 'Error',
 }
 
@@ -86,6 +87,10 @@ export interface CloseButtonProps {
   style?: Object;
 }
 
+export interface CreateGroupButtonProps {
+  onPress: () => void;
+}
+
 export interface MapCardProps {
   onClose: () => void;
   children?: React.ReactNode;
@@ -107,6 +112,8 @@ export interface VenueCardProps extends MapCardProps {
 export interface UserCardProps extends MapCardProps {
   user: User;
 }
+
+export interface CreateGroupCardProps extends MapCardProps {}
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;

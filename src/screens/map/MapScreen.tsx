@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Pressable, View, Text } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
+import CreateGroupButton from '@nightlight/components/map/CreateGroupButton';
 import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
+import CreateGroupCard from '@nightlight/components/map/CreateGroupCard';
 import ErrorCard from '@nightlight/components/map/ErrorCard';
 import { MapCardType, Venue, User, Route } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
@@ -56,17 +58,15 @@ const TEST_USER: User = {
 };
 
 const MapScreen = () => {
-  const [activeMapCardType, setActiveMapCardType] = useState<
-    MapCardType | undefined
-  >(undefined);
+  const [activeMapCardType, setActiveMapCardType] =
+    useState<MapCardType | null>(null);
 
   const handleShowVenueCard = () => setActiveMapCardType(MapCardType.VENUE);
-
   const handleShowUserCard = () => setActiveMapCardType(MapCardType.USER);
-
+  const handleShowCreateGroupCard = () =>
+    setActiveMapCardType(MapCardType.CREATE_GROUP);
   const handleShowErrorCard = () => setActiveMapCardType(MapCardType.ERROR);
-
-  const handleCloseMapCard = () => setActiveMapCardType(undefined);
+  const handleCloseMapCard = () => setActiveMapCardType(null);
 
   const renderMapCard = (type: MapCardType) => {
     switch (type) {
@@ -74,6 +74,8 @@ const MapScreen = () => {
         return <VenueCard venue={TEST_VENUE} onClose={handleCloseMapCard} />;
       case MapCardType.USER:
         return <UserCard user={TEST_USER} onClose={handleCloseMapCard} />;
+      case MapCardType.CREATE_GROUP:
+        return <CreateGroupCard onClose={handleCloseMapCard} />;
       default:
         return <ErrorCard onClose={handleCloseMapCard} />;
     }
@@ -84,13 +86,16 @@ const MapScreen = () => {
       {/* The one and only nightlight map, by the one and only nightlight team */}
       <NightlightMap />
 
-      {/* MapCards */}
-      {activeMapCardType && renderMapCard(activeMapCardType)}
-
       {/* For development purpose */}
-      <View style={{ position: 'absolute', top: 44, left: 10 }}>
-        <Text>MapScreen</Text>
-        <Text>activeMapCardType: {JSON.stringify(activeMapCardType)}</Text>
+      <View
+        style={{
+          position: 'absolute',
+          top: 120,
+          left: 10,
+        }}>
+        <Text style={{ color: 'white' }}>
+          activeMapCardType: {JSON.stringify(activeMapCardType)}
+        </Text>
         <Pressable
           onPress={handleShowVenueCard}
           style={{
@@ -122,6 +127,12 @@ const MapScreen = () => {
           <Text>Show Error Card</Text>
         </Pressable>
       </View>
+
+      {/* MapCards */}
+      {activeMapCardType && renderMapCard(activeMapCardType)}
+
+      {/* TODO: Conditionally render group button */}
+      <CreateGroupButton onPress={handleShowCreateGroupCard} />
     </View>
   );
 };
