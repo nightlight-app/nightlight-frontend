@@ -17,7 +17,7 @@ import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
-import EmergencyContactScreen from './screens/emergency-contacts/EmergencyContactScreen';
+import EmergencyContactScreen from '@nightlight/screens/emergency-contacts/EmergencyContactScreen';
 const Tab = createBottomTabNavigator();
 
 const SocialScreen = () => {

@@ -101,9 +101,9 @@ export interface ExploreCardProps {
 }
 
 export interface EmergencyContactProps {
-  name: string,
-  phone: string,
-  index: number
+  name: string;
+  phone: string;
+  index: number;
 }
 
 export interface VenueCardProps extends MapCardProps {

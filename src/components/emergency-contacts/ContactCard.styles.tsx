@@ -9,7 +9,7 @@ export default StyleSheet.create({
     marginTop: '5%',
     marginRight: '5%',
     paddingTop: '2%',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   container2: {
     display: 'flex',
@@ -20,7 +20,7 @@ export default StyleSheet.create({
     paddingTop: '2%',
     paddingBottom: '2%',
     backgroundColor: COLORS.DARKEST_GRAY,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   name: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -33,13 +33,13 @@ export default StyleSheet.create({
     color: COLORS.GRAY,
   },
   blackCard: {
-    backgroundColor: COLORS.BLACK
+    backgroundColor: COLORS.BLACK,
   },
   rightView: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    width: '20%'
-  }
+    width: '20%',
+  },
 });
