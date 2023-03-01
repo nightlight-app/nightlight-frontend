@@ -100,6 +100,12 @@ export interface ExploreCardProps {
   long: string;
 }
 
+export interface EmergencyContactProps {
+  name: string,
+  phone: string,
+  index: number
+}
+
 export interface VenueCardProps extends MapCardProps {
   venue: Venue;
 }

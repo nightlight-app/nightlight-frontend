@@ -17,22 +17,13 @@ import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
-
+import EmergencyContactScreen from './screens/emergency-contacts/EmergencyContactScreen';
 const Tab = createBottomTabNavigator();
 
 const SocialScreen = () => {
   return (
     <SafeAreaView testID={Route.SOCIAL}>
       <Text>Social</Text>
-    </SafeAreaView>
-  );
-};
-
-// TEMP
-const EmergencyScreen = () => {
-  return (
-    <SafeAreaView testID={Route.EMERGENCY}>
-      <Text>Emergency</Text>
     </SafeAreaView>
   );
 };
@@ -63,7 +54,7 @@ const App = () => {
         tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
         <Tab.Screen name={Route.MAP} component={MapScreen} />
         <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
-        <Tab.Screen name={Route.EMERGENCY} component={EmergencyScreen} />
+        <Tab.Screen name={Route.EMERGENCY} component={EmergencyContactScreen} />
         <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
         <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
       </Tab.Navigator>

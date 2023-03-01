@@ -14,8 +14,10 @@ import PencilSvg from '@nightlight/components/svgs/PencilSvg';
 import SettingsSvg from '@nightlight/components/svgs/SettingsSvg';
 import PhotoSvg from '@nightlight/components/svgs/PhotoSvg';
 import { Route } from '@nightlight/src/types';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation: { navigate } }) => {
   // the months to iterate through
   const months = [
     'Jan',
@@ -39,9 +41,8 @@ const ProfileScreen = () => {
     friends: 12,
     nightsOut: 6,
     birthday: '01.01.2001',
-    favoriteBar: 'Underground'
-  }
-
+    favoriteBar: 'Underground',
+  };
 
   return (
     <View testID={Route.PROFILE} style={ProfileScreenStyles.container}>
@@ -74,15 +75,21 @@ const ProfileScreen = () => {
         {/* Profile statistics */}
         <View style={ProfileScreenStyles.profileStatisticsContainer}>
           <View style={ProfileScreenStyles.box}>
-            <Text style={ProfileScreenStyles.numberText}>{ProfileInfo.friends}</Text>
+            <Text style={ProfileScreenStyles.numberText}>
+              {ProfileInfo.friends}
+            </Text>
             <Text style={ProfileScreenStyles.smallText}>friends</Text>
           </View>
           <View style={ProfileScreenStyles.box}>
-            <Text style={ProfileScreenStyles.numberText}>{ProfileInfo.nightsOut}</Text>
+            <Text style={ProfileScreenStyles.numberText}>
+              {ProfileInfo.nightsOut}
+            </Text>
             <Text style={ProfileScreenStyles.smallText}>nights out</Text>
           </View>
           <View style={ProfileScreenStyles.box}>
-            <Text style={ProfileScreenStyles.numberText}>{ProfileInfo.birthday}</Text>
+            <Text style={ProfileScreenStyles.numberText}>
+              {ProfileInfo.birthday}
+            </Text>
             <Text style={ProfileScreenStyles.smallText}>your special day</Text>
           </View>
         </View>
@@ -91,7 +98,9 @@ const ProfileScreen = () => {
         <View style={ProfileScreenStyles.favoriteBar}>
           <PartySvg style={ProfileScreenStyles.partySvg} />
           <View style={ProfileScreenStyles.barInfo}>
-            <Text style={ProfileScreenStyles.barText}>{ProfileInfo.favoriteBar}</Text>
+            <Text style={ProfileScreenStyles.barText}>
+              {ProfileInfo.favoriteBar}
+            </Text>
             <Text style={ProfileScreenStyles.smallText}>
               is your favorite bar these days
             </Text>
@@ -112,7 +121,9 @@ const ProfileScreen = () => {
 
         {/* Emergency Contacts button */}
         <View style={ProfileScreenStyles.emergencyView}>
-          <Pressable style={ProfileScreenStyles.emergencyPressable}>
+          <Pressable
+            style={ProfileScreenStyles.emergencyPressable}
+            onPress={() => navigate(Route.EMERGENCY)}>
             <Text style={ProfileScreenStyles.emergencyText}>
               See Emergency Contacts
             </Text>
