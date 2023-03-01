@@ -1,7 +1,7 @@
 import { Route } from '@nightlight/src/types';
 import { useState } from 'react';
 import { View, SafeAreaView, Text, TextInput, Pressable } from 'react-native';
-import EmergencyContactScreenStyles from './EmergencyContactScreen.styles';
+import EmergencyContactScreenStyles from '@nightlight/screens/emergency-contacts/EmergencyContactScreen.styles';
 import ContactCard from '@nightlight/components/emergency-contacts/ContactCard';
 import { ScrollView } from 'react-native-gesture-handler';
 

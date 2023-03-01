@@ -1,9 +1,9 @@
 import { Pressable, View } from 'react-native';
 import { EmergencyContactProps } from '@nightlight/src/types';
-import ContactCardStyles from './ContactCard.styles';
+import ContactCardStyles from '@nightlight/components/emergency-contacts/ContactCard.styles';
 import { Text } from 'react-native';
-import EllipseSvg from '../svgs/EllipseSvg';
-import PhoneSvg from '../svgs/PhoneSvg';
+import EllipseSvg from '@nightlight/components/svgs/EllipseSvg';
+import PhoneSvg from '@nightlight/components/svgs/PhoneSvg';
 
 const ContactCard = (Props: EmergencyContactProps) => {
   let index = Props.index;

@@ -14,10 +14,14 @@ import PencilSvg from '@nightlight/components/svgs/PencilSvg';
 import SettingsSvg from '@nightlight/components/svgs/SettingsSvg';
 import PhotoSvg from '@nightlight/components/svgs/PhotoSvg';
 import { Route } from '@nightlight/src/types';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
+import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 
-const ProfileScreen = ({ navigation: { navigate } }) => {
+const ProfileScreen = ({
+  navigation,
+}: {
+  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
+}) => {
   // the months to iterate through
   const months = [
     'Jan',
@@ -34,7 +38,7 @@ const ProfileScreen = ({ navigation: { navigate } }) => {
     'Dec',
   ];
 
-  //hard coded profile for now
+  // TODO: query profile rather than hardcoding
   let ProfileInfo = {
     name: 'John Smith',
     phone: '(123) 456-7891',
@@ -123,7 +127,7 @@ const ProfileScreen = ({ navigation: { navigate } }) => {
         <View style={ProfileScreenStyles.emergencyView}>
           <Pressable
             style={ProfileScreenStyles.emergencyPressable}
-            onPress={() => navigate(Route.EMERGENCY)}>
+            onPress={() => navigation.navigate(Route.EMERGENCY)}>
             <Text style={ProfileScreenStyles.emergencyText}>
               See Emergency Contacts
             </Text>
