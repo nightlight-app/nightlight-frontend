@@ -6,56 +6,10 @@ import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
 import CreateGroupCard from '@nightlight/components/map/CreateGroupCard';
 import ErrorCard from '@nightlight/components/map/ErrorCard';
-import { MapCardType, Venue, User, Route } from '@nightlight/src/types';
+import { MapCardType, Route } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMap from '@nightlight/components/map/NightlightMap';
-
-const TEST_VENUE: Venue = {
-  _id: '5f9f1b9b0b1b9c0017a1b1a1',
-  name: 'The Bitter End',
-  address: '147 Bleecker St, New York, NY 10012',
-  location: {
-    latitude: 40.729,
-    longitude: -73.994,
-  },
-  reactions: {
-    '🔥': {
-      count: 21,
-      didReact: true,
-    },
-    '⚠️': {
-      count: 4,
-      didReact: false,
-    },
-    '🛡️': {
-      count: 54,
-      didReact: true,
-    },
-    '💩': {
-      count: 1,
-      didReact: true,
-    },
-    '🎉': {
-      count: 12,
-      didReact: false,
-    },
-  },
-};
-
-const TEST_USER: User = {
-  _id: '5f9f1b9b0b1b9c0017a1b1a2',
-  imgUrlProfileSmall: '',
-  firstName: 'Graham',
-  lastName: 'Hemingway',
-  lastActive: {
-    location: {
-      latitude: 24.294,
-      longitude: 51.853,
-    },
-    time: new Date(),
-  },
-  phoneNumber: '615-555-5555',
-};
+import { TEST_USERS, TEST_VENUES } from '@nightlight/src/testData';
 
 const MapScreen = () => {
   const [activeMapCardType, setActiveMapCardType] =
@@ -71,9 +25,11 @@ const MapScreen = () => {
   const renderMapCard = (type: MapCardType) => {
     switch (type) {
       case MapCardType.VENUE:
-        return <VenueCard venue={TEST_VENUE} onClose={handleCloseMapCard} />;
+        return (
+          <VenueCard venue={TEST_VENUES[0]} onClose={handleCloseMapCard} />
+        );
       case MapCardType.USER:
-        return <UserCard user={TEST_USER} onClose={handleCloseMapCard} />;
+        return <UserCard user={TEST_USERS[0]} onClose={handleCloseMapCard} />;
       case MapCardType.CREATE_GROUP:
         return <CreateGroupCard onClose={handleCloseMapCard} />;
       default:

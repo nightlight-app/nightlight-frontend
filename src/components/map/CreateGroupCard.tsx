@@ -8,6 +8,7 @@ import {
   ListRenderItemInfo,
   Image,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import MapCard from '@nightlight/components/map/MapCard';
@@ -15,9 +16,10 @@ import { CreateGroupCardProps, User } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import CreateGroupCardStyles from '@nightlight/components/map/CreateGroupCard.styles';
 import CloseButton from '@nightlight/components/CloseButton';
+import { TEST_USERS } from '@nightlight/src/testData';
 
 const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
-  const [availableUsers, setAvailableUsers] = useState<User[]>([]);
+  const [availableUsers, setAvailableUsers] = useState<User[]>([]); // TODO: remove test data
   const [displayedAvailableUsers, setDisplayedAvailableUsers] = useState<
     User[]
   >([]);
@@ -26,7 +28,7 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
 
   useEffect(() => {
     // TODO: fetch the list of availble users based on the current user's friends
-    setAvailableUsers([]);
+    // setAvailableUsers([]);
   }, []);
 
   // Filters the list of available users by first name or last name based on the search text
@@ -68,7 +70,9 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
   const handleCreateGroup = () => {
     Alert.alert(
       'TODO: create a group with these users: ',
-      JSON.stringify(selectedUsers)
+      JSON.stringify(
+        selectedUsers.map(user => user.firstName + ' ' + user.lastName)
+      )
     );
     // TODO: close if group creation is successful
     onClose();
@@ -76,7 +80,7 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
 
   const renderSelectedUser = ({ item }: ListRenderItemInfo<User>) => {
     return (
-      <View>
+      <View style={CreateGroupCardStyles.selectedUserContainer}>
         <Image
           style={CreateGroupCardStyles.selectedUserImg}
           source={{ uri: item.imgUrlProfileSmall }}
@@ -90,23 +94,20 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
     );
   };
 
-  const renderSelectedUserSeparator = () => (
-    <View style={CreateGroupCardStyles.selectedUsersListSeparator} />
-  );
-
   const renderAvailableUser = ({ item, index }: ListRenderItemInfo<User>) => {
     const isFirstItem = index === 0;
     const isLastItem = index === availableUsers.length - 1;
     const isSelected = selectedUsers.includes(item);
 
     return (
-      <Pressable
+      <TouchableOpacity
         onPress={() => selectUser(item)}
         style={[
           CreateGroupCardStyles.availableUserContainer,
           isFirstItem && CreateGroupCardStyles.availableUserTopItem,
           isLastItem && CreateGroupCardStyles.availableUserBottomItem,
-        ]}>
+        ]}
+        activeOpacity={0.75}>
         <Image
           style={CreateGroupCardStyles.availableUserImg}
           source={{ uri: item.imgUrlProfileSmall }}
@@ -125,7 +126,7 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
             <View style={CreateGroupCardStyles.selectCheckboxOutline} />
           )}
         </View>
-      </Pressable>
+      </TouchableOpacity>
     );
   };
 
@@ -138,13 +139,14 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
       <Text style={CreateGroupCardStyles.noAvailableUsersText}>
         Well, what are you waiting for? Go make some friends!
       </Text>
-      <Pressable
+      <TouchableOpacity
         onPress={handleAddFriendsPress}
-        style={CreateGroupCardStyles.addFriendsButton}>
+        style={CreateGroupCardStyles.addFriendsButton}
+        activeOpacity={0.75}>
         <Text style={CreateGroupCardStyles.addFriendsButtonText}>
           + Add Friends
         </Text>
-      </Pressable>
+      </TouchableOpacity>
     </>
   );
 
@@ -161,8 +163,8 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
           data={selectedUsers}
           renderItem={renderSelectedUser}
           keyExtractor={(_, index) => index.toString()}
-          ItemSeparatorComponent={renderSelectedUserSeparator}
           scrollEnabled={selectedUsers.length > 0}
+          indicatorStyle='white'
         />
       </View>
       {/* TODO: handle keyboard view stuff */}
@@ -183,11 +185,12 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
         scrollEnabled={availableUsers.length > 0}
         indicatorStyle='white'
       />
-      <Pressable
+      <TouchableOpacity
         onPress={handleCreateGroup}
-        style={CreateGroupCardStyles.createButton}>
+        style={CreateGroupCardStyles.createButton}
+        activeOpacity={0.75}>
         <Text style={CreateGroupCardStyles.createButtonText}>Create</Text>
-      </Pressable>
+      </TouchableOpacity>
     </MapCard>
   );
 };

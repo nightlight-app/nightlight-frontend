@@ -38,7 +38,7 @@ export interface Venue {
     longitude: number;
   };
   reactions: {
-    [key in ReactionEmoji]: Reaction;
+    [key in ReactionEmoji]: Reaction; // TODO: update this
   };
 }
 
@@ -52,14 +52,37 @@ export interface LastActive {
   time: Date;
 }
 
-// TODO: Add more fields
+export interface SavedGroup {
+  name: string;
+  members: string[]; // mongoose ObjectId[]
+}
+
 export interface User {
-  _id: string;
+  _id: string; // mongoose ObjectId
+  firebaseUid: string;
   imgUrlProfileSmall?: string;
+  imgUrlProfileLarge?: string;
+  imgUrlCover?: string;
   firstName: string;
   lastName: string;
+  email: string;
+  phone: string;
+  birthday: Date;
+  currentGroup: string; // mongoose ObjectId
+  friends: string[]; // mongoose ObjectId[]
   lastActive: LastActive;
-  phoneNumber: string;
+  savedGroups: SavedGroup[];
+}
+
+export interface Group {
+  _id: string; // mongoose ObjectId
+  name: string;
+  members: string[]; // mongoose ObjectId[]
+  invitedMembers: string[]; // mongoose ObjectId[]
+  expectedDestination: Location;
+  creationTime: Date;
+  expirationTime: Date;
+  returnTime: Date;
 }
 
 export interface ISvgProps extends SvgProps {

@@ -21,15 +21,15 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   selectedUsersList: {
-    padding: 10,
+    paddingVertical: 10,
     borderColor: COLORS.GRAY,
     borderWidth: 1,
     borderRadius: 10,
     marginBottom: 20,
     minHeight: 82,
   },
-  selectedUsersListSeparator: {
-    width: 10,
+  selectedUserContainer: {
+    marginHorizontal: 10,
   },
   selectedUserImg: {
     height: 60,

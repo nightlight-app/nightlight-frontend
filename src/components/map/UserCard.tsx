@@ -49,7 +49,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
 
   const handleCallUser = () => {
     alert(
-      `TODO: Calling ${user.firstName} ${user.lastName} (Phone #: ${user.phoneNumber})...`
+      `TODO: Calling ${user.firstName} ${user.lastName} (Phone #: ${user.phone})...`
     );
   };
 
@@ -87,7 +87,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
           <Text style={UserCardStyles.lastActiveText}>
             Active {relativeTimeString} ago
           </Text>
-          <Text style={UserCardStyles.phoneNumber}>{user.phoneNumber}</Text>
+          <Text style={UserCardStyles.phoneNumber}>{user.phone}</Text>
         </View>
         <View style={UserCardStyles.navigationDetailsContainer}>
           <Text style={UserCardStyles.navigationDistanceText}>0.3 miles</Text>
