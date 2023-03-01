@@ -5,10 +5,7 @@ export default StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    marginLeft: '5%',
-    marginTop: '5%',
-    marginRight: '5%',
-    paddingTop: '2%',
+    padding: 10,
     justifyContent: 'space-between',
   },
   containerAlt: {
@@ -23,6 +20,7 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
     color: COLORS.GRAY,
+    lineHeight: 24,
   },
   blackCard: {
     backgroundColor: COLORS.BLACK,

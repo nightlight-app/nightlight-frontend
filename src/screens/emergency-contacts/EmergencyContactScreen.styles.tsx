@@ -5,18 +5,15 @@ const { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    display: 'flex',
-    flexGrow: 1,
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
   },
   safeview: {
-    marginBottom: 114,
-    width: '100%',
-    maxWidth: 650,
-    height: height,
+    // marginBottom: 114,
+    // width: '100%',
+    // maxWidth: 650,
+    // height: height,
+    // paddingBottom: 80 + 34 + 20 + 15, // TODO: replace with constant values
+    backgroundColor: 'pink',
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -39,8 +36,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.WHITE,
     borderRadius: 10,
     display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    padding: 15,
     marginTop: 15,
   },
   searchText: {
@@ -49,26 +45,24 @@ export default StyleSheet.create({
     color: COLORS.GRAY,
     marginLeft: 10,
   },
+  contactList: {
+    marginVertical: 20,
+    marginHorizontal: 10,
+  },
   addButton: {
     alignSelf: 'center',
     margin: 30,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    shadowColor: COLORS.NIGHTLIGHT_BLUE,
     borderRadius: 15,
-    width: '35%',
-    height: 35,
     display: 'flex',
     justifyContent: 'center',
     alignContent: 'center',
-    shadowRadius: 5,
   },
   addText: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 14,
     color: COLORS.WHITE,
     alignSelf: 'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.25)',
-    textShadowOffset: { width: 0, height: 4 },
-    textShadowRadius: 4,
   },
 });

@@ -51,7 +51,39 @@ const EmergencyContactScreen = () => {
             style={EmergencyContactScreenStyles.searchText}
             placeholder='Search contacts'></TextInput>
         </View>
-        <ScrollView>
+        <ScrollView style={EmergencyContactScreenStyles.contactList}>
+          {contacts
+            .filter((item: { name: string; phone: string }, index) => {
+              if (searchInput === '') return item;
+              else if (
+                item.name.toLowerCase().includes(searchInput.toLowerCase())
+              )
+                return item;
+            })
+            .map((item: { name: string; phone: string }, index) => (
+              <ContactCard
+                key={index}
+                index={index}
+                name={item.name}
+                phone={item.phone}
+              />
+            ))}
+          {contacts
+            .filter((item: { name: string; phone: string }, index) => {
+              if (searchInput === '') return item;
+              else if (
+                item.name.toLowerCase().includes(searchInput.toLowerCase())
+              )
+                return item;
+            })
+            .map((item: { name: string; phone: string }, index) => (
+              <ContactCard
+                key={index}
+                index={index}
+                name={item.name}
+                phone={item.phone}
+              />
+            ))}
           {contacts
             .filter((item: { name: string; phone: string }, index) => {
               if (searchInput === '') return item;
@@ -72,7 +104,7 @@ const EmergencyContactScreen = () => {
             onPress={addContact}
             style={EmergencyContactScreenStyles.addButton}>
             <Text style={EmergencyContactScreenStyles.addText}>
-              Add new contact
+              Add New Contact
             </Text>
           </Pressable>
         </ScrollView>
