@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   Text,
-  Pressable,
   View,
   FlatList,
   TextInput,
@@ -27,9 +26,28 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
   const [searchText, setSearchText] = useState<string>('');
 
   useEffect(() => {
-    // TODO: fetch the list of availble users based on the current user's friends
-    // setAvailableUsers([]);
+    // TODO: fetch the list of available users based on the current user's friends;
+
+    setAvailableUsers(TEST_USERS); // TODO: remove test data
+
+    // const currentUserId = '63f975e55d2eaffa93fd6491'; // TODO: remove test data
+    // fetch(`http://localhost:6060/users?userId=${currentUserId}`)
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log(data.user);
+    //     setAvailableUsers(data.user?.friends);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //     Alert.alert(
+    //       '⚠️ Error!',
+    //       'An error occurred while fetching your friends list.'
+    //     );
+    //   });
   }, []);
+
+  // If availableUsers changes, update displayedAvailableUsers
+  useEffect(() => setDisplayedAvailableUsers(availableUsers), [availableUsers]);
 
   // Filters the list of available users by first name or last name based on the search text
   useEffect(() => {
@@ -74,7 +92,7 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
         selectedUsers.map(user => user.firstName + ' ' + user.lastName)
       )
     );
-    // TODO: close if group creation is successful
+    // TODO: close if group creation is successful; otherwise, don't
     onClose();
   };
 
@@ -135,8 +153,8 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
   );
 
   const renderEmptyAvailableUsers = () => (
-    <>
-      <Text style={CreateGroupCardStyles.noAvailableUsersText}>
+    <View style={CreateGroupCardStyles.emptyAvailableUsersContainer}>
+      <Text style={CreateGroupCardStyles.emptyAvailableUsersText}>
         Well, what are you waiting for? Go make some friends!
       </Text>
       <TouchableOpacity
@@ -147,11 +165,24 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
           + Add Friends
         </Text>
       </TouchableOpacity>
-    </>
+    </View>
   );
 
   return (
-    <MapCard borderColor={COLORS.GREEN} onClose={onClose}>
+    <MapCard
+      borderColor={COLORS.GREEN}
+      onClose={onClose}
+      // TODO: left button will be for saved groups
+      buttonLeftBackgroundColor={COLORS.RED}
+      buttonLeftBorderColor={COLORS.DARK_RED}
+      ButtonLeftIconComponent={null}
+      buttonLeftText='Cancel'
+      buttonLeftOnPress={onClose}
+      buttonRightBackgroundColor={COLORS.GREEN}
+      buttonRightBorderColor={COLORS.DARK_GREEN}
+      ButtonRightIconComponent={null}
+      buttonRightText='Create'
+      buttonRightOnPress={handleCreateGroup}>
       <Text style={CreateGroupCardStyles.title}>New Group</Text>
       <View>
         <Text style={CreateGroupCardStyles.selectedUsersText}>
@@ -185,12 +216,12 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
         scrollEnabled={availableUsers.length > 0}
         indicatorStyle='white'
       />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={handleCreateGroup}
         style={CreateGroupCardStyles.createButton}
         activeOpacity={0.75}>
         <Text style={CreateGroupCardStyles.createButtonText}>Create</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </MapCard>
   );
 };

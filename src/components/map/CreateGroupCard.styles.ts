@@ -62,7 +62,7 @@ export default StyleSheet.create({
     padding: 10,
   },
   availableUsersList: {
-    maxHeight: DEVICE_HEIGHT * 0.25,
+    height: DEVICE_HEIGHT * 0.35,
   },
   availableUsersListSeparator: {
     height: 2,
@@ -107,7 +107,8 @@ export default StyleSheet.create({
     borderColor: COLORS.NIGHTLIGHT_GRAY,
     borderWidth: 2,
   },
-  noAvailableUsersText: {
+  emptyAvailableUsersContainer: {},
+  emptyAvailableUsersText: {
     color: COLORS.GRAY,
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 14,

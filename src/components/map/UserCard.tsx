@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import MapCard from '@nightlight/components/map/MapCard';
 import { UserCardProps, Location, TestingLabel } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
-import UserCardStyles from './UserCard.styles';
+import UserCardStyles from '@nightlight/components/map/UserCard.styles';
 import {
   getRelativeTimeString,
   getStatusColor,
@@ -63,7 +63,21 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
     <MapCard
       onClose={onClose}
       borderColor={statusColor}
-      shadowColor={statusColor}>
+      shadowColor={statusColor}
+      buttonLeftBackgroundColor={COLORS.GREEN}
+      buttonLeftBorderColor={COLORS.DARK_GREEN}
+      ButtonLeftIconComponent={
+        <FontAwesome name='phone' size={18} color={COLORS.WHITE} />
+      }
+      buttonLeftText='Call'
+      buttonLeftOnPress={handleCallUser}
+      buttonRightBackgroundColor={COLORS.NIGHTLIGHT_BLUE}
+      buttonRightBorderColor={COLORS.DARK_BLUE}
+      ButtonRightIconComponent={
+        <Feather name='radio' size={18} color={COLORS.WHITE} />
+      }
+      buttonRightText='Ping'
+      buttonRightOnPress={handlePingUser}>
       <View style={UserCardStyles.userHeaderContainer}>
         <View
           style={{
@@ -98,23 +112,6 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
             <Text style={UserCardStyles.navigationButtonText}>GO</Text>
           </Pressable>
         </View>
-      </View>
-      <View style={UserCardStyles.actionButtonsContainer}>
-        <Pressable
-          accessibilityLabel={TestingLabel.USER_CARD_CALL_USER}
-          onPress={handleCallUser}
-          style={UserCardStyles.callButton}>
-          <FontAwesome name='phone' size={18} color={COLORS.WHITE} />
-          <Text style={UserCardStyles.callButtonText}>Call</Text>
-        </Pressable>
-        <View style={UserCardStyles.actionButtonsDivider} />
-        <Pressable
-          accessibilityLabel={TestingLabel.USER_CARD_PING_USER}
-          onPress={handlePingUser}
-          style={UserCardStyles.pingButton}>
-          <Feather name='radio' size={18} color={COLORS.WHITE} />
-          <Text style={UserCardStyles.pingButtonText}>Ping</Text>
-        </Pressable>
       </View>
     </MapCard>
   );

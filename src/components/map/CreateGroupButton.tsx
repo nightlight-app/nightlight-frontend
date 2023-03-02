@@ -1,17 +1,19 @@
 import React from 'react';
-import { TouchableOpacity, SafeAreaView, Text } from 'react-native';
+import { TouchableHighlight, SafeAreaView, Text } from 'react-native';
 import { CreateGroupButtonProps } from '@nightlight/src/types';
 import CreateGroupButtonStyles from '@nightlight/components/map/CreateGroupButton.styles';
+import { COLORS } from '@nightlight/src/global.styles';
 
 const CreateGroupButton = ({ onPress }: CreateGroupButtonProps) => {
   return (
     <SafeAreaView style={{ position: 'absolute' }}>
-      <TouchableOpacity
+      <TouchableHighlight
         onPress={onPress}
         style={CreateGroupButtonStyles.button}
-        activeOpacity={0.75}>
+        underlayColor={COLORS.NIGHTLIGHT_GRAY}
+        activeOpacity={0.5}>
         <Text style={CreateGroupButtonStyles.buttonText}>+ Create Group</Text>
-      </TouchableOpacity>
+      </TouchableHighlight>
     </SafeAreaView>
   );
 };

@@ -35,7 +35,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
   },
   lastActiveText: {
     color: COLORS.GRAY,

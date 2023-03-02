@@ -1,3 +1,4 @@
+
 import { SvgProps } from 'react-native-svg';
 import { SharedValue } from 'react-native-reanimated';
 
@@ -119,6 +120,16 @@ export interface MapCardProps {
   children?: React.ReactNode;
   borderColor?: string;
   shadowColor?: string;
+  buttonLeftBackgroundColor?: string;
+  buttonLeftBorderColor?: string;
+  ButtonLeftIconComponent?: React.ReactNode | null;
+  buttonLeftText?: string;
+  buttonLeftOnPress?: () => void;
+  buttonRightBackgroundColor?: string;
+  buttonRightBorderColor?: string;
+  ButtonRightIconComponent?: React.ReactNode | null;
+  buttonRightText?: string;
+  buttonRightOnPress?: () => void;
 }
 
 export interface ExploreCardProps {
