@@ -34,24 +34,23 @@ const EmergencyContactScreen = () => {
   const [searchInput, setSearchInput] = useState<string>('');
 
   return (
-    <View
+    <SafeAreaView
       testID={Route.EMERGENCY}
-      style={EmergencyContactScreenStyles.container}>
-      <SafeAreaView style={EmergencyContactScreenStyles.safeview}>
-        <Text style={EmergencyContactScreenStyles.title}>
-          Emergency Contacts
-        </Text>
-        <Text style={EmergencyContactScreenStyles.subtitle}>
-          Your people, all in one place
-        </Text>
-        <View style={EmergencyContactScreenStyles.search}>
-          <TextInput
-            value={searchInput}
-            onChangeText={(text: string) => setSearchInput(text)}
-            style={EmergencyContactScreenStyles.searchText}
-            placeholder='Search contacts'></TextInput>
-        </View>
-        <ScrollView style={EmergencyContactScreenStyles.contactList}>
+      style={EmergencyContactScreenStyles.safeview}>
+      <Text style={EmergencyContactScreenStyles.title}>Emergency Contacts</Text>
+      <Text style={EmergencyContactScreenStyles.subtitle}>
+        Your people, all in one place
+      </Text>
+      <View style={EmergencyContactScreenStyles.search}>
+        <TextInput
+          value={searchInput}
+          onChangeText={(text: string) => setSearchInput(text)}
+          style={EmergencyContactScreenStyles.searchText}
+          placeholder='Search contacts'></TextInput>
+      </View>
+      <View style={EmergencyContactScreenStyles.contactList}>
+        <ScrollView
+          contentContainerStyle={EmergencyContactScreenStyles.scrollView}>
           {contacts
             .filter((item: { name: string; phone: string }, index) => {
               if (searchInput === '') return item;
@@ -100,16 +99,16 @@ const EmergencyContactScreen = () => {
                 phone={item.phone}
               />
             ))}
-          <Pressable
-            onPress={addContact}
-            style={EmergencyContactScreenStyles.addButton}>
-            <Text style={EmergencyContactScreenStyles.addText}>
-              Add New Contact
-            </Text>
-          </Pressable>
         </ScrollView>
-      </SafeAreaView>
-    </View>
+      </View>
+      <Pressable
+        onPress={addContact}
+        style={EmergencyContactScreenStyles.addButton}>
+        <Text style={EmergencyContactScreenStyles.addText}>
+          Add New Contact
+        </Text>
+      </Pressable>
+    </SafeAreaView>
   );
 };
 

@@ -4,16 +4,10 @@ import { Fonts, COLORS } from '@nightlight/src/global.styles';
 const { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-  },
   safeview: {
-    // marginBottom: 114,
-    // width: '100%',
-    // maxWidth: 650,
-    // height: height,
-    // paddingBottom: 80 + 34 + 20 + 15, // TODO: replace with constant values
-    backgroundColor: 'pink',
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    width: '100%',
+    height: height,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -32,12 +26,12 @@ export default StyleSheet.create({
   search: {
     width: '90%',
     alignSelf: 'center',
-    height: 30,
+    height: 40,
     backgroundColor: COLORS.WHITE,
     borderRadius: 10,
     display: 'flex',
-    padding: 15,
-    marginTop: 15,
+    padding: 12,
+    marginVertical: 15,
   },
   searchText: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
@@ -46,23 +40,23 @@ export default StyleSheet.create({
     marginLeft: 10,
   },
   contactList: {
-    marginVertical: 20,
-    marginHorizontal: 10,
+    height: '50%',
+    marginHorizontal: 20,
+  },
+  scrollView: {
+    // flex: 1,
+    // backgroundColor: 'teal',
   },
   addButton: {
     alignSelf: 'center',
-    margin: 30,
+    marginTop: 30,
     paddingVertical: 15,
     paddingHorizontal: 30,
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
     borderRadius: 15,
-    display: 'flex',
-    justifyContent: 'center',
-    alignContent: 'center',
   },
   addText: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     color: COLORS.WHITE,
-    alignSelf: 'center',
   },
 });
