@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import MapCard from '@nightlight/components/map/MapCard';
 import { UserCardProps, Location, TestingLabel } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
-import UserCardStyles from './UserCard.styles';
+import UserCardStyles from '@nightlight/components/map/UserCard.styles';
 import {
   getRelativeTimeString,
   getStatusColor,

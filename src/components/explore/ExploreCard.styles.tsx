@@ -24,12 +24,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 5,
   },
-  reactionView: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingTop: 5,
-    paddingLeft: 20,
-  },
   goButton: {
     padding: 10,
     backgroundColor: COLORS.GREEN,
@@ -70,40 +64,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 18,
     paddingTop: 8,
-  },
-  closeButton: {
-    marginTop: 16,
-    marginRight: 8,
-    marginLeft: 8,
-    marginBottom: 16,
-    height: 16,
-    width: 16,
-  },
-  xLeft: {
-    position: 'absolute',
-    width: 2,
-    height: 16,
-    backgroundColor: 'white',
-    transform: [{ rotate: '45deg' }],
-  },
-  xRight: {
-    position: 'absolute',
-    width: 2,
-    height: 16,
-    backgroundColor: 'white',
-    transform: [{ rotate: '-45deg' }],
-  },
-  distanceContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignContent: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    paddingBottom: 5,
-  },
-  centeredText: {
-    textAlign: 'center',
-    color: COLORS.GRAY,
   },
   goButtonSubText: {
     color: COLORS.WHITE,
