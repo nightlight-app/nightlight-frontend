@@ -12,6 +12,7 @@ export enum Route {
 export enum MapCardType {
   VENUE = 'Venue',
   USER = 'User',
+  CREATE_GROUP = 'CreateGroup',
   ERROR = 'Error',
 }
 
@@ -45,7 +46,7 @@ export interface Venue {
     longitude: number;
   };
   reactions: {
-    [key in ReactionEmoji]: Reaction;
+    [key in ReactionEmoji]: Reaction; // TODO: update this to match backend
   };
 }
 
@@ -59,14 +60,37 @@ export interface LastActive {
   time: Date;
 }
 
-// TODO: Add more fields
+export interface SavedGroup {
+  name: string;
+  members: string[]; // mongoose ObjectId[]
+}
+
 export interface User {
-  _id: string;
+  _id: string; // mongoose ObjectId
+  firebaseUid: string;
   imgUrlProfileSmall?: string;
+  imgUrlProfileLarge?: string;
+  imgUrlCover?: string;
   firstName: string;
   lastName: string;
+  email: string;
+  phone: string;
+  birthday: Date;
+  currentGroup: string; // mongoose ObjectId
+  friends: string[]; // mongoose ObjectId[]
   lastActive: LastActive;
-  phoneNumber: string;
+  savedGroups: SavedGroup[];
+}
+
+export interface Group {
+  _id: string; // mongoose ObjectId
+  name: string;
+  members: string[]; // mongoose ObjectId[]
+  invitedMembers: string[]; // mongoose ObjectId[]
+  expectedDestination: Location;
+  creationTime: Date;
+  expirationTime: Date;
+  returnTime: Date;
 }
 
 export interface ISvgProps extends SvgProps {
@@ -88,7 +112,7 @@ export interface MapCardBottomSvgProps extends ISvgProps {
   borderColor?: string;
 }
 
-export interface CloseButtonProps {
+export interface ButtonProps {
   onPress: () => void;
   size?: number;
   style?: Object;
@@ -99,6 +123,16 @@ export interface MapCardProps {
   children?: React.ReactNode;
   borderColor?: string;
   shadowColor?: string;
+  buttonLeft?: MapCardButtonProps;
+  buttonRight?: MapCardButtonProps;
+}
+
+export interface MapCardButtonProps {
+  backgroundColor: string;
+  borderColor: string;
+  iconComponent: React.ReactNode | null;
+  text: string;
+  onPress: () => void;
 }
 
 export interface ExploreCardProps {
@@ -115,6 +149,8 @@ export interface VenueCardProps extends MapCardProps {
 export interface UserCardProps extends MapCardProps {
   user: User;
 }
+
+export interface CreateGroupCardProps extends MapCardProps {}
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;

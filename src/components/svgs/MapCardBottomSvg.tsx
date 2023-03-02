@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { MapCardBottomSvgProps } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
+import { MAP_CARD_WIDTH } from '@nightlight/src/constants';
 
 const MapCardBottomSvg = ({
   borderColor = COLORS.NIGHTLIGHT_BLACK,
@@ -10,7 +11,7 @@ const MapCardBottomSvg = ({
 }: MapCardBottomSvgProps) => (
   <Svg
     xmlns='http://www.w3.org/2000/svg'
-    width={370}
+    width={MAP_CARD_WIDTH}
     height={37}
     fill='none'
     {...{ ...props, borderColor: undefined }}
