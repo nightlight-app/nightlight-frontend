@@ -41,24 +41,12 @@ const EmergencyButton = () => {
    ***/
   /* The maximum offset of the button from its original position.
    * At this offset, the top of the button is aligned with the middle of the window height.
-   * -------------------------
-   * Value Breakdown:
-   * -------------------------
-   * slide UP = negative offset
-   * TODO: figure out if the stoke widths are correct/necessary
-   * navbar stroke width = 2
-   * button stroke width = 2 * 2 = 4
    */
   const maxOffset: number = -(
-    (
-      DEVICE_HEIGHT / 2 -
-      SAFE_AREA_BOTTOM_MARGIN -
-      NAVBAR_HEIGHT -
-      // 2 -
-      EMERGENCY_BUTTON_RADIUS
-    )
-    // 2 -
-    // 2
+    DEVICE_HEIGHT / 2 -
+    SAFE_AREA_BOTTOM_MARGIN -
+    NAVBAR_HEIGHT -
+    EMERGENCY_BUTTON_RADIUS
   );
 
   /***
@@ -320,11 +308,13 @@ const EmergencyButton = () => {
       isPressed.value = false;
     });
 
+  // detect press and pan gestures simultaneously
   const simultaneousGesture: SimultaneousGesture = Gesture.Simultaneous(
     panGesture,
     longPressGesture
   );
 
+  // detect tap and simulatensous gestures exclusively
   const exclusiveGesture: ExclusiveGesture = Gesture.Exclusive(
     tapGesture,
     simultaneousGesture

@@ -15,7 +15,7 @@ export const NAVBAR_WIDTH: number = 390; // width of the navbar in pixels
 export const EMERGENCY_BUTTON_DIAMETER: number = 80; // diameter of the emergency button in pixels
 export const EMERGENCY_BUTTON_RADIUS: number = EMERGENCY_BUTTON_DIAMETER / 2; // radius of the emergency button in pixels
 export const COUNTDOWN_DURATION: number = 3000; // duration of the emergency countdown in milliseconds
-export const EMERGENCY_TIME_THRESHOLD: number = 100; // time threshold for the emergency slider to trigger in milliseconds
+export const EMERGENCY_TIME_THRESHOLD: number = 150; // time threshold for the emergency slider to trigger in milliseconds
 export const NUM_SLIDER_ARROWS = 5;
 
 // Mood Buttons

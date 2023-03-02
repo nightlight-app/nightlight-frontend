@@ -3,11 +3,6 @@ import { COLORS } from '@nightlight/src/global.styles';
 import {
   EMERGENCY_BUTTON_DIAMETER,
   EMERGENCY_BUTTON_RADIUS,
-  MOODS_ARC_DIAMETER,
-  MOODS_ARC_RADIUS,
-  MOOD_ARC_BOTTOM_MARGIN,
-  MOOD_BUTTON_DIAMETER,
-  MOOD_BUTTON_RADIUS,
 } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
