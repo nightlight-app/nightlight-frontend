@@ -1,10 +1,14 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '@nightlight/src/global.styles';
+import {
+  EMERGENCY_BUTTON_DIAMETER,
+  SAFE_AREA_BOTTOM_MARGIN,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 80 + 34 + 15, // navbar height + safe area bottom margin + gap
+    bottom: EMERGENCY_BUTTON_DIAMETER + SAFE_AREA_BOTTOM_MARGIN + 15, // navbar height + safe area bottom margin + gap
     alignSelf: 'center',
     width: 370,
     shadowOffset: {

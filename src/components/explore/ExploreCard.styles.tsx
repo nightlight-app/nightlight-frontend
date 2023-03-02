@@ -1,17 +1,14 @@
 import { StyleSheet } from 'react-native';
-import { Fonts, COLORS } from '@nightlight/src/global.styles';
-
-export default StyleSheet.create({
+import { COLORS, Fonts } from '@nightlight/src/global.styles';
+const styles = StyleSheet.create({
   container: {
     width: '98%',
-    borderColor: COLORS.DARK_GRAY,
+    borderColor: '#3D3D3D',
     borderWidth: 2,
     textAlign: 'center',
     borderRadius: 5,
     marginBottom: 10,
     display: 'flex',
-    paddingLeft: 10,
-    paddingRight: 10,
   },
   venueTitle: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -19,8 +16,6 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
     paddingLeft: 20,
     paddingTop: 20,
-    display: 'flex',
-    alignItems: 'center',
   },
   venueAddress: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -29,23 +24,19 @@ export default StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 5,
   },
-  reactionView: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingTop: 5,
-    paddingLeft: 20,
-  },
   goButton: {
     padding: 10,
     backgroundColor: COLORS.GREEN,
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: COLORS.DARK_GREEN,
     borderWidth: 2,
     borderRadius: 10,
+    height: 60,
+    width: 70,
     marginRight: 10,
-    marginLeft: 10,
     marginBottom: 10,
   },
   goButtonText: {
@@ -62,7 +53,7 @@ export default StyleSheet.create({
   lowerContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
   },
   reactionContainer: {
     display: 'flex',
@@ -74,21 +65,11 @@ export default StyleSheet.create({
     paddingLeft: 18,
     paddingTop: 8,
   },
-  distanceContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignContent: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    paddingBottom: 5,
-  },
-  centeredText: {
-    textAlign: 'center',
-    color: COLORS.GRAY,
-  },
   goButtonSubText: {
     color: COLORS.WHITE,
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 10,
   },
 });
+
+export default styles;

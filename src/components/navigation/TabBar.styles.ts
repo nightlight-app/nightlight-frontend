@@ -1,5 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '@nightlight/src/global.styles';
+import {
+  NAVBAR_HEIGHT,
+  NAVBAR_WIDTH,
+  SAFE_AREA_BOTTOM_MARGIN,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   navbarContainer: {
@@ -9,8 +14,8 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   navbar: {
-    height: 80,
-    width: 390,
+    height: NAVBAR_HEIGHT,
+    width: NAVBAR_WIDTH,
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
@@ -37,7 +42,7 @@ export default StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    bottom: 40,
+    bottom: NAVBAR_HEIGHT / 2,
     shadowColor: COLORS.NIGHTLIGHT_BLACK,
     shadowOffset: {
       width: 0,
@@ -49,8 +54,8 @@ export default StyleSheet.create({
   },
   dangerZoneFill: {
     position: 'absolute',
-    bottom: -34,
-    height: 34,
+    bottom: -SAFE_AREA_BOTTOM_MARGIN,
+    height: SAFE_AREA_BOTTOM_MARGIN,
     width: '100%',
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     borderColor: COLORS.NIGHTLIGHT_BLACK,
