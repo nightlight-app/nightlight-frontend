@@ -1,6 +1,7 @@
 import { registerRootComponent } from 'expo';
 import React, { useEffect } from 'react';
 import { SafeAreaView, Text } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import {
   useFonts,
   Comfortaa_400Regular,
@@ -51,6 +52,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
+      <StatusBar style='light' />
       <Tab.Navigator
         initialRouteName={TabRoute.MAP}
         screenOptions={{ headerShown: false }}
