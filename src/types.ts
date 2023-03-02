@@ -1,12 +1,20 @@
 import { SvgProps } from 'react-native-svg';
 import { SharedValue } from 'react-native-reanimated';
+import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
+import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 
-export enum Route {
+export enum TabRoute {
   MAP = 'Map',
   SOCIAL = 'Social',
-  EMERGENCY = 'Emergency',
+  EMERGENCY_BUTTON = 'EmergencyButton',
   EXPLORE = 'Explore',
+  PROFILE_STACK = 'ProfileStack',
+}
+
+export enum ProfileRoute {
   PROFILE = 'Profile',
+  EMERGENCY_CONTACTS = 'EmergencyContacts',
+  SETTINGS = 'Settings',
 }
 
 export enum MapCardType {
@@ -101,7 +109,7 @@ export interface ISvgProps extends SvgProps {
 }
 
 export interface NavIconProps {
-  route: Route;
+  route: TabRoute;
   isFocused: boolean;
   size?: number;
   color?: string;
@@ -192,4 +200,8 @@ export interface EmergencyOverlayProps {
 
 export interface MoodButtonProps {
   onClose: () => void;
+}
+
+export interface ProfileScreenProps {
+  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
 }

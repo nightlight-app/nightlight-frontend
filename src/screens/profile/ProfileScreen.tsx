@@ -13,15 +13,10 @@ import BottleSvg from '@nightlight/components/svgs/BottleSvg';
 import PencilSvg from '@nightlight/components/svgs/PencilSvg';
 import SettingsSvg from '@nightlight/components/svgs/SettingsSvg';
 import PhotoSvg from '@nightlight/components/svgs/PhotoSvg';
-import { Route } from '@nightlight/src/types';
-import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
-import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
+import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
+import { ProfileRoute, ProfileScreenProps } from '@nightlight/src/types';
 
-const ProfileScreen = ({
-  navigation,
-}: {
-  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
-}) => {
+const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
   // the months to iterate through
   const months = [
     'Jan',
@@ -49,7 +44,7 @@ const ProfileScreen = ({
   };
 
   return (
-    <View testID={Route.PROFILE} style={ProfileScreenStyles.container}>
+    <View testID={ProfileRoute.PROFILE} style={ProfileScreenStyles.container}>
       {/* Background image */}
       <View style={ProfileScreenStyles.backgroundImageContainer}>
         <ImageBackground
@@ -127,7 +122,9 @@ const ProfileScreen = ({
         <View style={ProfileScreenStyles.emergencyView}>
           <Pressable
             style={ProfileScreenStyles.emergencyPressable}
-            onPress={() => navigation.navigate(Route.EMERGENCY)}>
+            onPress={() =>
+              navigation.navigate(ProfileRoute.EMERGENCY_CONTACTS)
+            }>
             <Text style={ProfileScreenStyles.emergencyText}>
               See Emergency Contacts
             </Text>
@@ -138,4 +135,24 @@ const ProfileScreen = ({
   );
 };
 
-export default ProfileScreen;
+// Create new stack navigator
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
+const ProfileScreenStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName={ProfileRoute.PROFILE}
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={ProfileRoute.PROFILE} component={ProfileScreen} />
+      <Stack.Screen
+        name={ProfileRoute.EMERGENCY_CONTACTS}
+        component={EmergencyContactsScreen}
+      />
+      {/* <Stack.Screen name={ProfileRoute.SETTINGS} component={SettingsScreen} /> */}
+    </Stack.Navigator>
+  );
+};
+
+export default ProfileScreenStack;

@@ -6,7 +6,7 @@ import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
 import CreateGroupCard from '@nightlight/components/map/CreateGroupCard';
 import ErrorCard from '@nightlight/components/map/ErrorCard';
-import { MapCardType, Route } from '@nightlight/src/types';
+import { MapCardType, TabRoute } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMap from '@nightlight/components/map/NightlightMap';
 import { TEST_USERS, TEST_VENUES } from '@nightlight/src/testData';
@@ -42,7 +42,7 @@ const MapScreen = () => {
   };
 
   return (
-    <View testID={Route.MAP} style={MapScreenStyles.container}>
+    <View testID={TabRoute.MAP} style={MapScreenStyles.container}>
       {/* The one and only nightlight map, by the one and only nightlight team */}
       <NightlightMap />
 

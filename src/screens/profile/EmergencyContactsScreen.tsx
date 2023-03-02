@@ -1,8 +1,8 @@
-import { Route } from '@nightlight/src/types';
+import { ProfileRoute } from '@nightlight/src/types';
 import { useState } from 'react';
 import { View, SafeAreaView, Text, TextInput, Pressable } from 'react-native';
-import EmergencyContactScreenStyles from '@nightlight/screens/emergency-contacts/EmergencyContactScreen.styles';
-import ContactCard from '@nightlight/components/emergency-contacts/ContactCard';
+import EmergencyContactScreenStyles from '@nightlight/screens/profile/EmergencyContactsScreen.styles';
+import ContactCard from '@nightlight/components/profile/ContactCard';
 import { ScrollView } from 'react-native-gesture-handler';
 
 // TODO: hard coded contacts for now, change to pull from backend
@@ -35,7 +35,7 @@ const EmergencyContactScreen = () => {
 
   return (
     <SafeAreaView
-      testID={Route.EMERGENCY}
+      testID={ProfileRoute.EMERGENCY_CONTACTS}
       style={EmergencyContactScreenStyles.safeview}>
       <Text style={EmergencyContactScreenStyles.title}>Emergency Contacts</Text>
       <Text style={EmergencyContactScreenStyles.subtitle}>

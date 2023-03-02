@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import { EmergencyContactProps } from '@nightlight/src/types';
-import ContactCardStyles from '@nightlight/components/emergency-contacts/ContactCard.styles';
+import ContactCardStyles from '@nightlight/components/profile/ContactCard.styles';
 import { Text } from 'react-native';
 import EllipseSvg from '@nightlight/components/svgs/EllipseSvg';
 import PhoneSvg from '@nightlight/components/svgs/PhoneSvg';

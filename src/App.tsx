@@ -12,21 +12,24 @@ import {
   BottomTabBarProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import { Route } from '@nightlight/src/types';
+import { TabRoute } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
-import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
-import EmergencyContactScreen from '@nightlight/screens/emergency-contacts/EmergencyContactScreen';
+import ProfileScreenStack from '@nightlight/screens/profile/ProfileScreen';
+
 const Tab = createBottomTabNavigator();
 
+// TODO: Remove when social screen is implemented
 const SocialScreen = () => {
   return (
-    <SafeAreaView testID={Route.SOCIAL}>
+    <SafeAreaView testID={TabRoute.SOCIAL}>
       <Text>Social</Text>
     </SafeAreaView>
   );
 };
+
+const EmergencyButtonComponentPlaceholder = () => null;
 
 // Prevent hiding the splash screen
 preventAutoHideAsync();
@@ -49,14 +52,23 @@ const App = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName={Route.MAP}
+        initialRouteName={TabRoute.MAP}
         screenOptions={{ headerShown: false }}
         tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
-        <Tab.Screen name={Route.MAP} component={MapScreen} />
-        <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
-        <Tab.Screen name={Route.EMERGENCY} component={EmergencyContactScreen} />
-        <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
-        <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
+        <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
+        <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
+
+        {/* Placeholder to allocate space for emergency button to render in tab bar */}
+        <Tab.Screen
+          name={TabRoute.EMERGENCY_BUTTON}
+          component={EmergencyButtonComponentPlaceholder}
+        />
+
+        <Tab.Screen name={TabRoute.EXPLORE} component={ExploreScreen} />
+        <Tab.Screen
+          name={TabRoute.PROFILE_STACK}
+          component={ProfileScreenStack}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

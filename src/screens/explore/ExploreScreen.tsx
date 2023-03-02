@@ -3,7 +3,7 @@ import { ScrollView, Text, View, SafeAreaView, TextInput } from 'react-native';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
-import { Route } from '@nightlight/src/types';
+import { TabRoute } from '@nightlight/src/types';
 
 const ExploreScreen = () => {
   // keep track of list of venues queried
@@ -26,7 +26,7 @@ const ExploreScreen = () => {
   }, []);
 
   return (
-    <View testID={Route.EXPLORE} style={ExploreScreenStyles.container}>
+    <View testID={TabRoute.EXPLORE} style={ExploreScreenStyles.container}>
       <SafeAreaView style={ExploreScreenStyles.safeview}>
         {/* Title and search */}
         <View style={ExploreScreenStyles.headerContainer}>
