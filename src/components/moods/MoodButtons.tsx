@@ -32,9 +32,11 @@ const MoodButtons = ({ onClose }: MoodButtonProps) => {
     onClose();
   };
 
+  // an array of animation functions for the entrance of each mood button
   const moodButtonEnteringAnimations: EntryExitAnimationFunction[] = [
     ...Array(NUM_MOODS).keys(),
   ].map(index => {
+    // compute the xy offsets of the mood buttons along the mood arc
     const xOffset: number =
       -MOODS_ARC_RADIUS *
       Math.cos(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
@@ -42,6 +44,7 @@ const MoodButtons = ({ onClose }: MoodButtonProps) => {
       MOODS_ARC_RADIUS *
       Math.sin(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
 
+    // dynamically-generated animation for the entrance of each mood buttons
     const FanOut: EntryExitAnimationFunction = (): LayoutAnimation => {
       'worklet';
       const animations = {
@@ -70,9 +73,11 @@ const MoodButtons = ({ onClose }: MoodButtonProps) => {
     return FanOut;
   });
 
+  // an array of animation functions for the exit of each mood button
   const moodButtonExitingAnimations: EntryExitAnimationFunction[] = [
     ...Array(NUM_MOODS).keys(),
   ].map((index): EntryExitAnimationFunction => {
+    // dynamically generated animation for the exit of each mood button
     const Retract: EntryExitAnimationFunction = (): LayoutAnimation => {
       'worklet';
       const animations = {
