@@ -3,12 +3,13 @@ import { StyleSheet } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { ISvgProps } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
+import { NAVBAR_HEIGHT, NAVBAR_WIDTH } from '@nightlight/src/constants';
 
 const NavbarSvg = (props: ISvgProps) => (
   <Svg
     xmlns='http://www.w3.org/2000/svg'
-    width={390}
-    height={80}
+    width={NAVBAR_WIDTH}
+    height={NAVBAR_HEIGHT}
     fill='none'
     {...props}
     style={{ ...styles.shadow, ...props.style }}>

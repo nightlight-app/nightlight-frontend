@@ -1,7 +1,12 @@
+import {
+  DEVICE_HEIGHT,
+  DEVICE_WIDTH,
+  EMERGENCY_BUTTON_RADIUS,
+  NAVBAR_HEIGHT,
+  SAFE_AREA_BOTTOM_MARGIN,
+} from '@nightlight/src/constants';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-import { Dimensions, StyleSheet } from 'react-native';
-
-const { height, width } = Dimensions.get('window');
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -13,8 +18,8 @@ export default StyleSheet.create({
 
   // background image
   backgroundImageContainer: {
-    width: width,
-    height: height * 0.25,
+    width: DEVICE_WIDTH,
+    height: DEVICE_HEIGHT * 0.25,
     display: 'flex',
     alignItems: 'flex-end',
   },
@@ -40,15 +45,15 @@ export default StyleSheet.create({
   // profile info
   profileInfoContainer: {
     position: 'relative',
-    width: width,
+    width: DEVICE_WIDTH,
     display: 'flex',
     alignItems: 'center',
   },
   profileImage: {
-    width: height * 0.15,
-    height: height * 0.15,
-    borderRadius: (height * 0.15) / 2,
-    marginTop: -(height * 0.15 * 0.5),
+    width: DEVICE_HEIGHT * 0.15,
+    height: DEVICE_HEIGHT * 0.15,
+    borderRadius: (DEVICE_HEIGHT * 0.15) / 2,
+    marginTop: -(DEVICE_HEIGHT * 0.15 * 0.5),
     borderWidth: 3,
     borderColor: COLORS.WHITE,
   },
@@ -68,7 +73,7 @@ export default StyleSheet.create({
   // profile statistics
   scrollView: {
     display: 'flex',
-    width: width,
+    width: DEVICE_WIDTH,
   },
   profileStatisticsContainer: {
     flexDirection: 'row',
@@ -118,14 +123,14 @@ export default StyleSheet.create({
 
   // calendar views
   calendarView: {
-    width: width,
+    width: DEVICE_WIDTH,
     display: 'flex',
     alignItems: 'center',
   },
   calendarContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     borderRadius: 15,
-    width: width * 0.9,
+    width: DEVICE_WIDTH * 0.9,
     maxWidth: 500,
     paddingLeft: 10,
     paddingRight: 10,
@@ -150,9 +155,10 @@ export default StyleSheet.create({
 
   // emergency contacts button
   emergencyView: {
-    width: width,
+    width: DEVICE_WIDTH,
     alignItems: 'center',
-    marginBottom: 34 + 80 + 40,
+    marginBottom:
+      SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS,
   },
   emergencyPressable: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,

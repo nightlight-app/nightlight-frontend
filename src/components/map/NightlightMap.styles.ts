@@ -1,6 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
-
-const { width, height } = Dimensions.get('window');
+import { StyleSheet } from 'react-native';
+import { DEVICE_WIDTH, DEVICE_HEIGHT } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   page: {
@@ -9,10 +8,10 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    height: height,
-    width: width,
+    height: DEVICE_HEIGHT,
+    width: DEVICE_WIDTH,
   },
   map: {
-    height: height,
+    height: DEVICE_HEIGHT,
   },
 });

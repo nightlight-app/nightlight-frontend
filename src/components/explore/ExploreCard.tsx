@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from 'react-native';
-import styles from './ExploreCard.styles';
+import styles from '@nightlight/components/explore/ExploreCard.styles';
 import VenueReaction from '@nightlight/components/venue-reaction/VenueReaction';
 import { ExploreCardProps } from '@nightlight/src/types';
 

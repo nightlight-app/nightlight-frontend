@@ -6,7 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import MapCard from '@nightlight/components/map/MapCard';
 import { UserCardProps, Location, TestingLabel } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
-import UserCardStyles from './UserCard.styles';
+import UserCardStyles from '@nightlight/components/map/UserCard.styles';
 import {
   getRelativeTimeString,
   getStatusColor,
@@ -14,7 +14,7 @@ import {
 
 // TODO: Get user from Firebase auth
 const myUser = {
-  friends: ['5f9f1b9b0b1b9c0017a1b1a2'],
+  friends: ['5f9f1b9b0b1b9c0017a1b1a2', '5e9f1c5b0f1c9c0b5c8b4566'],
 };
 
 const UserCard = ({ user, onClose }: UserCardProps) => {
@@ -49,7 +49,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
 
   const handleCallUser = () => {
     alert(
-      `TODO: Calling ${user.firstName} ${user.lastName} (Phone #: ${user.phoneNumber})...`
+      `TODO: Calling ${user.firstName} ${user.lastName} (Phone #: ${user.phone})...`
     );
   };
 
@@ -63,7 +63,24 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
     <MapCard
       onClose={onClose}
       borderColor={statusColor}
-      shadowColor={statusColor}>
+      shadowColor={statusColor}
+      buttonLeft={{
+        backgroundColor: COLORS.GREEN,
+        borderColor: COLORS.DARK_GREEN,
+        iconComponent: (
+          <FontAwesome name='phone' size={18} color={COLORS.WHITE} />
+        ),
+        text: 'Call',
+        onPress: handleCallUser,
+      }}
+      buttonRight={{
+        backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+        borderColor: COLORS.DARK_BLUE,
+        iconComponent: <Feather name='radio' size={18} color={COLORS.WHITE} />,
+        text: 'Ping',
+        onPress: handlePingUser,
+      }}>
+      {/* User Header */}
       <View style={UserCardStyles.userHeaderContainer}>
         <View
           style={{
@@ -82,12 +99,14 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
           <FontAwesome5 name='user-friends' size={16} color={COLORS.GRAY} />
         )}
       </View>
+
+      {/* User Details */}
       <View style={UserCardStyles.userDetailsContainer}>
         <View>
           <Text style={UserCardStyles.lastActiveText}>
             Active {relativeTimeString} ago
           </Text>
-          <Text style={UserCardStyles.phoneNumber}>{user.phoneNumber}</Text>
+          <Text style={UserCardStyles.phoneNumber}>{user.phone}</Text>
         </View>
         <View style={UserCardStyles.navigationDetailsContainer}>
           <Text style={UserCardStyles.navigationDistanceText}>0.3 miles</Text>
@@ -95,26 +114,10 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
             accessibilityLabel={TestingLabel.USER_CARD_START_NAVIGATION}
             onPress={() => handleStartNavigation(location)}
             style={UserCardStyles.navigationButton}>
+            {/* TODO: extract out GO component so it is reusable */}
             <Text style={UserCardStyles.navigationButtonText}>GO</Text>
           </Pressable>
         </View>
-      </View>
-      <View style={UserCardStyles.actionButtonsContainer}>
-        <Pressable
-          accessibilityLabel={TestingLabel.USER_CARD_CALL_USER}
-          onPress={handleCallUser}
-          style={UserCardStyles.callButton}>
-          <FontAwesome name='phone' size={18} color={COLORS.WHITE} />
-          <Text style={UserCardStyles.callButtonText}>Call</Text>
-        </Pressable>
-        <View style={UserCardStyles.actionButtonsDivider} />
-        <Pressable
-          accessibilityLabel={TestingLabel.USER_CARD_PING_USER}
-          onPress={handlePingUser}
-          style={UserCardStyles.pingButton}>
-          <Feather name='radio' size={18} color={COLORS.WHITE} />
-          <Text style={UserCardStyles.pingButtonText}>Ping</Text>
-        </Pressable>
       </View>
     </MapCard>
   );

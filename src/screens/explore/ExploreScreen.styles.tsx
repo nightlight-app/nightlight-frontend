@@ -92,12 +92,13 @@ export default StyleSheet.create({
   reactionContainer: {
     display: 'flex',
     flexDirection: 'row',
-    marginRight: 5,
+    marginRight: 20,
   },
   trendingText: {
     color: COLORS.ORANGE,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 16,
+    marginLeft: 20,
   },
   reactionBox: {
     backgroundColor: COLORS.GRAY,
