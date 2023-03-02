@@ -42,12 +42,14 @@ const MapCard = ({
         {children}
         {hasButtons && (
           <View style={MapCardStyles.actionButtonsContainer}>
+            {/* Left Pressable */}
             <TouchableOpacity
               onPress={buttonLeftOnPress}
               style={{
                 ...MapCardStyles.button,
                 backgroundColor: buttonLeftBackgroundColor,
                 borderColor: buttonLeftBorderColor,
+                borderWidth: !buttonLeftBorderColor ? 0 : 2,
               }}
               activeOpacity={0.75}>
               {ButtonLeftIconComponent && (
@@ -57,12 +59,15 @@ const MapCard = ({
               )}
               <Text style={MapCardStyles.buttonText}>{buttonLeftText}</Text>
             </TouchableOpacity>
+
+            {/* Right Pressable */}
             <TouchableOpacity
               onPress={buttonRightOnPress}
               style={{
                 ...MapCardStyles.button,
                 backgroundColor: buttonRightBackgroundColor,
                 borderColor: buttonRightBorderColor,
+                borderWidth: !buttonRightBorderColor ? 0 : 2,
               }}
               activeOpacity={0.75}>
               {ButtonRightIconComponent && (

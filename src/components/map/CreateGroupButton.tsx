@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableHighlight, SafeAreaView, Text } from 'react-native';
-import { CreateGroupButtonProps } from '@nightlight/src/types';
+import { ButtonProps } from '@nightlight/src/types';
 import CreateGroupButtonStyles from '@nightlight/components/map/CreateGroupButton.styles';
 import { COLORS } from '@nightlight/src/global.styles';
 
-const CreateGroupButton = ({ onPress }: CreateGroupButtonProps) => {
+const CreateGroupButton = ({ onPress }: ButtonProps) => {
   return (
     <SafeAreaView style={{ position: 'absolute' }}>
       <TouchableHighlight

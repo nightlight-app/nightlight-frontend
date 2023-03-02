@@ -112,14 +112,10 @@ export interface MapCardBottomSvgProps extends ISvgProps {
   borderColor?: string;
 }
 
-export interface CloseButtonProps {
+export interface ButtonProps {
   onPress: () => void;
   size?: number;
   style?: Object;
-}
-
-export interface CreateGroupButtonProps {
-  onPress: () => void;
 }
 
 export interface MapCardProps {

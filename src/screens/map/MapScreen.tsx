@@ -12,9 +12,11 @@ import NightlightMap from '@nightlight/components/map/NightlightMap';
 import { TEST_USERS, TEST_VENUES } from '@nightlight/src/testData';
 
 const MapScreen = () => {
+  // keep track of which map card is active
   const [activeMapCardType, setActiveMapCardType] =
     useState<MapCardType | null>(null);
 
+  // handlers for map card buttons
   const handleShowVenueCard = () => setActiveMapCardType(MapCardType.VENUE);
   const handleShowUserCard = () => setActiveMapCardType(MapCardType.USER);
   const handleShowCreateGroupCard = () =>
@@ -22,7 +24,9 @@ const MapScreen = () => {
   const handleShowErrorCard = () => setActiveMapCardType(MapCardType.ERROR);
   const handleCloseMapCard = () => setActiveMapCardType(null);
 
+  // render the selected map card
   const renderMapCard = (type: MapCardType) => {
+    // TODO: switch out TEST_VENUES and TEST_USERS with real data
     switch (type) {
       case MapCardType.VENUE:
         return (

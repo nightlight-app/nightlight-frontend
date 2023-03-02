@@ -43,7 +43,6 @@ export default StyleSheet.create({
   },
   button: {
     width: 120,
-    borderWidth: 2,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',

@@ -14,7 +14,7 @@ import {
 
 // TODO: Get user from Firebase auth
 const myUser = {
-  friends: ['5f9f1b9b0b1b9c0017a1b1a2'],
+  friends: ['5f9f1b9b0b1b9c0017a1b1a2', '5e9f1c5b0f1c9c0b5c8b4566'],
 };
 
 const UserCard = ({ user, onClose }: UserCardProps) => {
@@ -78,6 +78,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
       }
       buttonRightText='Ping'
       buttonRightOnPress={handlePingUser}>
+      {/* User Header */}
       <View style={UserCardStyles.userHeaderContainer}>
         <View
           style={{
@@ -96,6 +97,8 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
           <FontAwesome5 name='user-friends' size={16} color={COLORS.GRAY} />
         )}
       </View>
+
+      {/* User Details */}
       <View style={UserCardStyles.userDetailsContainer}>
         <View>
           <Text style={UserCardStyles.lastActiveText}>
@@ -109,6 +112,7 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
             accessibilityLabel={TestingLabel.USER_CARD_START_NAVIGATION}
             onPress={() => handleStartNavigation(location)}
             style={UserCardStyles.navigationButton}>
+            {/* TODO: extract out GO component so it is reusable */}
             <Text style={UserCardStyles.navigationButtonText}>GO</Text>
           </Pressable>
         </View>
