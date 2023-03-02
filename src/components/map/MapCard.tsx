@@ -10,19 +10,11 @@ const MapCard = ({
   children,
   borderColor = '',
   shadowColor,
-  buttonLeftBackgroundColor = '',
-  buttonLeftBorderColor = '',
-  ButtonLeftIconComponent = null,
-  buttonLeftText = '',
-  buttonLeftOnPress = () => {},
-  buttonRightBackgroundColor = '',
-  buttonRightBorderColor = '',
-  ButtonRightIconComponent = null,
-  buttonRightText = '',
-  buttonRightOnPress = () => {},
+  buttonLeft,
+  buttonRight,
   onClose,
 }: MapCardProps) => {
-  const hasButtons = buttonLeftText || buttonRightText;
+  const hasButtons = buttonLeft?.text || buttonRight?.text;
 
   return (
     <Animated.View
@@ -44,38 +36,38 @@ const MapCard = ({
           <View style={MapCardStyles.actionButtonsContainer}>
             {/* Left Pressable */}
             <TouchableOpacity
-              onPress={buttonLeftOnPress}
+              onPress={buttonLeft?.onPress}
               style={{
                 ...MapCardStyles.button,
-                backgroundColor: buttonLeftBackgroundColor,
-                borderColor: buttonLeftBorderColor,
-                borderWidth: !buttonLeftBorderColor ? 0 : 2,
+                backgroundColor: buttonLeft?.backgroundColor,
+                borderColor: buttonLeft?.borderColor,
+                borderWidth: !buttonLeft?.borderColor ? 0 : 2,
               }}
               activeOpacity={0.75}>
-              {ButtonLeftIconComponent && (
+              {buttonLeft?.iconComponent && (
                 <View style={MapCardStyles.buttonIconContainer}>
-                  {ButtonLeftIconComponent}
+                  {buttonLeft?.iconComponent}
                 </View>
               )}
-              <Text style={MapCardStyles.buttonText}>{buttonLeftText}</Text>
+              <Text style={MapCardStyles.buttonText}>{buttonLeft?.text}</Text>
             </TouchableOpacity>
 
             {/* Right Pressable */}
             <TouchableOpacity
-              onPress={buttonRightOnPress}
+              onPress={buttonRight?.onPress}
               style={{
                 ...MapCardStyles.button,
-                backgroundColor: buttonRightBackgroundColor,
-                borderColor: buttonRightBorderColor,
-                borderWidth: !buttonRightBorderColor ? 0 : 2,
+                backgroundColor: buttonRight?.backgroundColor,
+                borderColor: buttonRight?.borderColor,
+                borderWidth: !buttonRight?.borderColor ? 0 : 2,
               }}
               activeOpacity={0.75}>
-              {ButtonRightIconComponent && (
+              {buttonRight?.iconComponent && (
                 <View style={MapCardStyles.buttonIconContainer}>
-                  {ButtonRightIconComponent}
+                  {buttonRight?.iconComponent}
                 </View>
               )}
-              <Text style={MapCardStyles.buttonText}>{buttonRightText}</Text>
+              <Text style={MapCardStyles.buttonText}>{buttonRight?.text}</Text>
             </TouchableOpacity>
           </View>
         )}

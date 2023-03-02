@@ -123,16 +123,16 @@ export interface MapCardProps {
   children?: React.ReactNode;
   borderColor?: string;
   shadowColor?: string;
-  buttonLeftBackgroundColor?: string;
-  buttonLeftBorderColor?: string;
-  ButtonLeftIconComponent?: React.ReactNode | null;
-  buttonLeftText?: string;
-  buttonLeftOnPress?: () => void;
-  buttonRightBackgroundColor?: string;
-  buttonRightBorderColor?: string;
-  ButtonRightIconComponent?: React.ReactNode | null;
-  buttonRightText?: string;
-  buttonRightOnPress?: () => void;
+  buttonLeft?: MapCardButtonProps;
+  buttonRight?: MapCardButtonProps;
+}
+
+export interface MapCardButtonProps {
+  backgroundColor: string;
+  borderColor: string;
+  iconComponent: React.ReactNode | null;
+  text: string;
+  onPress: () => void;
 }
 
 export interface ExploreCardProps {

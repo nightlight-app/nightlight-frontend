@@ -173,16 +173,20 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
       borderColor={COLORS.GREEN}
       onClose={onClose}
       // TODO: left button will be for saved groups
-      buttonLeftBackgroundColor={COLORS.RED}
-      buttonLeftBorderColor={COLORS.DARK_RED}
-      ButtonLeftIconComponent={null}
-      buttonLeftText='Cancel'
-      buttonLeftOnPress={onClose}
-      buttonRightBackgroundColor={COLORS.GREEN}
-      buttonRightBorderColor={COLORS.DARK_GREEN}
-      ButtonRightIconComponent={null}
-      buttonRightText='Create'
-      buttonRightOnPress={handleCreateGroup}>
+      buttonLeft={{
+        backgroundColor: COLORS.RED,
+        borderColor: COLORS.DARK_RED,
+        iconComponent: null,
+        text: 'Cancel',
+        onPress: onClose,
+      }}
+      buttonRight={{
+        backgroundColor: COLORS.GREEN,
+        borderColor: COLORS.DARK_GREEN,
+        iconComponent: null,
+        text: 'Create',
+        onPress: handleCreateGroup,
+      }}>
       <Text style={CreateGroupCardStyles.title}>New Group</Text>
       <View>
         <Text style={CreateGroupCardStyles.selectedUsersText}>

@@ -64,20 +64,22 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
       onClose={onClose}
       borderColor={statusColor}
       shadowColor={statusColor}
-      buttonLeftBackgroundColor={COLORS.GREEN}
-      buttonLeftBorderColor={COLORS.DARK_GREEN}
-      ButtonLeftIconComponent={
-        <FontAwesome name='phone' size={18} color={COLORS.WHITE} />
-      }
-      buttonLeftText='Call'
-      buttonLeftOnPress={handleCallUser}
-      buttonRightBackgroundColor={COLORS.NIGHTLIGHT_BLUE}
-      buttonRightBorderColor={COLORS.DARK_BLUE}
-      ButtonRightIconComponent={
-        <Feather name='radio' size={18} color={COLORS.WHITE} />
-      }
-      buttonRightText='Ping'
-      buttonRightOnPress={handlePingUser}>
+      buttonLeft={{
+        backgroundColor: COLORS.GREEN,
+        borderColor: COLORS.DARK_GREEN,
+        iconComponent: (
+          <FontAwesome name='phone' size={18} color={COLORS.WHITE} />
+        ),
+        text: 'Call',
+        onPress: handleCallUser,
+      }}
+      buttonRight={{
+        backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+        borderColor: COLORS.DARK_BLUE,
+        iconComponent: <Feather name='radio' size={18} color={COLORS.WHITE} />,
+        text: 'Ping',
+        onPress: handlePingUser,
+      }}>
       {/* User Header */}
       <View style={UserCardStyles.userHeaderContainer}>
         <View
