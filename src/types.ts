@@ -1,4 +1,3 @@
-
 import { SvgProps } from 'react-native-svg';
 import { SharedValue } from 'react-native-reanimated';
 
@@ -47,7 +46,7 @@ export interface Venue {
     longitude: number;
   };
   reactions: {
-    [key in ReactionEmoji]: Reaction; // TODO: update this
+    [key in ReactionEmoji]: Reaction; // TODO: update this to match backend
   };
 }
 
