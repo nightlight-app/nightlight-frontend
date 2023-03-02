@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Dimensions, ScaledSize, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import {
   GestureDetector,
   Gesture,
+  TapGesture,
   PanGesture,
   LongPressGesture,
   SimultaneousGesture,
+  ExclusiveGesture,
 } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
@@ -17,17 +19,21 @@ import Animated, {
   interpolateColor,
   runOnJS,
   useDerivedValue,
-  FadeIn,
-  FadeOut,
 } from 'react-native-reanimated';
 import MaskedView from '@react-native-masked-view/masked-view';
 import EmergencyButtonStyles from '@nightlight/components/emergency/EmergencyButton.styles';
 import EmergencyOverlay from '@nightlight/components/emergency/EmergencyOverlay';
+import MoodButtons from '@nightlight/components/moods/MoodButtons';
 import { COLORS } from '@nightlight/src/global.styles';
-
-const { height }: ScaledSize = Dimensions.get('window');
-
-const COUNTDOWN_DURATION: number = 3000; // 3 seconds
+import {
+  DEVICE_HEIGHT,
+  SAFE_AREA_BOTTOM_MARGIN,
+  COUNTDOWN_DURATION,
+  EMERGENCY_TIME_THRESHOLD,
+  NAVBAR_HEIGHT,
+  EMERGENCY_BUTTON_RADIUS,
+  EMERGENCY_BUTTON_DIAMETER,
+} from '@nightlight/src/constants';
 
 const EmergencyButton = () => {
   /***
@@ -35,28 +41,27 @@ const EmergencyButton = () => {
    ***/
   /* The maximum offset of the button from its original position.
    * At this offset, the top of the button is aligned with the middle of the window height.
-   * -------------------------
-   * Value Breakdown:
-   * -------------------------
-   * slide UP = negative offset
-   * danger zone height = 34
-   * navbar height = 80
-   * navbar stroke width = 2
-   * button radius = 40
-   * button stroke width = 2 * 2 = 4
    */
-  const maxOffset: number = -(height * 0.5 - 34 - 80 - 2 - 40 - 2 - 2);
+  const maxOffset: number = -(
+    DEVICE_HEIGHT / 2 -
+    SAFE_AREA_BOTTOM_MARGIN -
+    NAVBAR_HEIGHT -
+    EMERGENCY_BUTTON_RADIUS
+  );
 
   /***
    * STATE
    ***/
-  const [isOverlayVisible, setIsOverlayVisible] = useState<boolean>(false); // is overlay visible?
+  const [showOverlay, setShowOverlay] = useState<boolean>(false);
   const [displayedCountdown, setDisplayedCountdown] = useState<number>(
     COUNTDOWN_DURATION / 1000
   );
+  const [showMoods, setShowMoods] = useState<boolean>(false);
 
-  const showOverlay = () => setIsOverlayVisible(true);
-  const hideOverlay = () => setIsOverlayVisible(false);
+  const showOverlayHandler = () => setShowOverlay(true);
+  const hideOverlayHandler = () => setShowOverlay(false);
+  const toggleMoodsHandler = () => setShowMoods(prev => !prev);
+  const hideMoodsHandler = () => setShowMoods(false);
 
   /***
    * SHARED VALUES
@@ -76,7 +81,7 @@ const EmergencyButton = () => {
    ***/
   // Update state when shared value changes
   useDerivedValue(() => {
-    runOnJS(isPressed.value ? showOverlay : hideOverlay)();
+    runOnJS(isPressed.value ? showOverlayHandler : hideOverlayHandler)();
   });
 
   /***
@@ -169,7 +174,7 @@ const EmergencyButton = () => {
 
   // Slider animation
   const sliderAnimation = useAnimatedStyle(() => ({
-    height: -offset.value + 80,
+    height: -offset.value + EMERGENCY_BUTTON_DIAMETER,
     backgroundColor:
       offset.value === maxOffset ? COLORS.RED : COLORS.NIGHTLIGHT_BLUE,
     opacity: withTiming(Number(isPressed.value)),
@@ -238,6 +243,13 @@ const EmergencyButton = () => {
   /***
    * GESTURE HANDLERS
    ***/
+  // Gesture handler for emoji moods
+  const tapGesture: TapGesture = Gesture.Tap()
+    .maxDuration(EMERGENCY_TIME_THRESHOLD)
+    .onStart(() => {
+      runOnJS(toggleMoodsHandler)();
+    });
+
   // Gesture handler for slide animation
   const panGesture: PanGesture = Gesture.Pan()
     .onUpdate(e => {
@@ -270,10 +282,11 @@ const EmergencyButton = () => {
 
   // Gesture handler for detecting if button is pressed
   const longPressGesture: LongPressGesture = Gesture.LongPress()
-    .minDuration(0)
-    .maxDistance(height) // weird behavior-value pairing...?
+    .minDuration(EMERGENCY_TIME_THRESHOLD)
+    .maxDistance(DEVICE_HEIGHT) // weird behavior-value pairing...?
     .onStart(() => {
       // At start of long press...
+      runOnJS(hideMoodsHandler)();
       isPressed.value = true;
       scale.value = withTiming(1.1, { duration: 100 }); // scale up
       whiteToRedInterpolation.value = withTiming(1); // white -> red
@@ -295,9 +308,16 @@ const EmergencyButton = () => {
       isPressed.value = false;
     });
 
+  // detect press and pan gestures simultaneously
   const simultaneousGesture: SimultaneousGesture = Gesture.Simultaneous(
     panGesture,
     longPressGesture
+  );
+
+  // detect tap and simulatensous gestures exclusively
+  const exclusiveGesture: ExclusiveGesture = Gesture.Exclusive(
+    tapGesture,
+    simultaneousGesture
   );
 
   /***
@@ -305,17 +325,16 @@ const EmergencyButton = () => {
    ***/
   return (
     <View>
-      {isOverlayVisible && (
-        <Animated.View entering={FadeIn} exiting={FadeOut}>
-          <EmergencyOverlay
-            countdown={displayedCountdown}
-            buttonOffset={offset}
-            maxOffset={maxOffset}
-          />
-        </Animated.View>
+      {showMoods && <MoodButtons onClose={hideMoodsHandler} />}
+      {showOverlay && (
+        <EmergencyOverlay
+          countdown={displayedCountdown}
+          buttonOffset={offset}
+          maxOffset={maxOffset}
+        />
       )}
       <Animated.View style={[EmergencyButtonStyles.slider, sliderAnimation]} />
-      <GestureDetector gesture={simultaneousGesture}>
+      <GestureDetector gesture={exclusiveGesture}>
         <Animated.View
           style={[EmergencyButtonStyles.base, slideScaleAnimation]}>
           <Animated.View
