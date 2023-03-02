@@ -17,22 +17,6 @@ import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContac
 import { ProfileRoute, ProfileScreenProps } from '@nightlight/src/types';
 
 const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
-  // the months to iterate through
-  const months = [
-    'Jan',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    'Dec',
-  ];
-
   // TODO: query profile rather than hardcoding
   let ProfileInfo = {
     name: 'John Smith',
@@ -41,6 +25,17 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
     nightsOut: 6,
     birthday: '01.01.2001',
     favoriteBar: 'Underground',
+  };
+
+  const getMonthText = (index: number) => {
+    switch (index) {
+      case 0:
+        return 'Jan';
+      case 11:
+        return 'Dec';
+      default:
+        return index + 1;
+    }
   };
 
   return (
@@ -109,10 +104,12 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
         {/* Calendar */}
         <View style={ProfileScreenStyles.calendarView}>
           <View style={ProfileScreenStyles.calendarContainer}>
-            {months.map(month => (
-              <View key={month} style={ProfileScreenStyles.monthView}>
+            {[...Array(NUM_MONTHS)].map((_, index) => (
+              <View key={index} style={ProfileScreenStyles.monthView}>
                 <BottleSvg />
-                <Text style={ProfileScreenStyles.monthText}>{month}</Text>
+                <Text style={ProfileScreenStyles.monthText}>
+                  {getMonthText(index)}
+                </Text>
               </View>
             ))}
           </View>
@@ -137,6 +134,7 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
 
 // Create new stack navigator
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NUM_MONTHS } from '@nightlight/src/constants';
 
 const Stack = createNativeStackNavigator();
 

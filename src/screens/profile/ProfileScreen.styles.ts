@@ -151,6 +151,7 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 13,
     color: COLORS.WHITE,
+    textAlign: 'center',
   },
 
   // emergency contacts button
