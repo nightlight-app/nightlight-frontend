@@ -1,10 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-
-// TODO: replace this with consts
-import { Dimensions } from 'react-native';
-const { height: DEVICE_HEIGHT } = Dimensions.get('window');
-// import { DEVICE_HEIGHT } from '@nightlight/src/constants';
+import { DEVICE_HEIGHT } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   title: {
