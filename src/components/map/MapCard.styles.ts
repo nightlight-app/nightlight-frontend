@@ -1,13 +1,17 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
+import {
+  EMERGENCY_BUTTON_DIAMETER,
+  MAP_CARD_WIDTH,
+  SAFE_AREA_BOTTOM_MARGIN,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
     position: 'absolute',
-    // FIXME: this causes problems on phones with home button
-    bottom: 80 + 34 + 15, // TODO: navbar height + safe area bottom margin + gap
+    bottom: EMERGENCY_BUTTON_DIAMETER + SAFE_AREA_BOTTOM_MARGIN + 15, // navbar height + safe area bottom margin + gap
     alignSelf: 'center',
-    width: 370, // TODO: do we need this?
+    width: MAP_CARD_WIDTH,
     shadowOffset: {
       width: 0,
       height: 0,
