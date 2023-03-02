@@ -4,6 +4,7 @@ import MapCardBottomSvg from '@nightlight/components/svgs/MapCardBottomSvg';
 import MapCardStyles from '@nightlight/components/map/MapCard.styles';
 import CloseButton from '@nightlight/components/CloseButton';
 import { MapCardProps } from '@nightlight/src/types';
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
 
 const MapCard = ({
   children,
@@ -24,12 +25,14 @@ const MapCard = ({
   const hasButtons = buttonLeftText || buttonRightText;
 
   return (
-    <View
+    <Animated.View
       style={{
         ...MapCardStyles.container,
         shadowOpacity: shadowColor ? 1 : 0,
         shadowColor,
-      }}>
+      }}
+      entering={SlideInDown.springify().damping(25).stiffness(300)}
+      exiting={SlideOutDown.mass(0.1)}>
       <View
         style={{
           ...MapCardStyles.contentContainer,
@@ -74,7 +77,7 @@ const MapCard = ({
       </View>
       <MapCardBottomSvg borderColor={borderColor} />
       <CloseButton style={MapCardStyles.closeButton} onPress={onClose} />
-    </View>
+    </Animated.View>
   );
 };
 
