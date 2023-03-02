@@ -1,4 +1,5 @@
 import { SvgProps } from 'react-native-svg';
+import { SharedValue } from 'react-native-reanimated';
 
 export interface RegisterFormData {
   email: string;
@@ -24,6 +25,7 @@ export enum Route {
 export enum MapCardType {
   VENUE = 'Venue',
   USER = 'User',
+  CREATE_GROUP = 'CreateGroup',
   ERROR = 'Error',
 }
 
@@ -33,6 +35,14 @@ export enum ReactionEmoji {
   SHIELD = '🛡️',
   POOP = '💩',
   PARTY = '🎉',
+}
+
+export enum MoodEmoji {
+  PARTY = '🥳',
+  ANXIOUS = '😰',
+  GRIMACING = '😬',
+  PUKING = '🤮',
+  CLEAR = '🚫',
 }
 
 export interface Reaction {
@@ -49,7 +59,7 @@ export interface Venue {
     longitude: number;
   };
   reactions: {
-    [key in ReactionEmoji]: Reaction;
+    [key in ReactionEmoji]: Reaction; // TODO: update this to match backend
   };
 }
 
@@ -63,14 +73,37 @@ export interface LastActive {
   time: Date;
 }
 
-// TODO: Add more fields
+export interface SavedGroup {
+  name: string;
+  members: string[]; // mongoose ObjectId[]
+}
+
 export interface User {
-  _id: string;
+  _id: string; // mongoose ObjectId
+  firebaseUid: string;
   imgUrlProfileSmall?: string;
+  imgUrlProfileLarge?: string;
+  imgUrlCover?: string;
   firstName: string;
   lastName: string;
+  email: string;
+  phone: string;
+  birthday: Date;
+  currentGroup: string; // mongoose ObjectId
+  friends: string[]; // mongoose ObjectId[]
   lastActive: LastActive;
-  phoneNumber: string;
+  savedGroups: SavedGroup[];
+}
+
+export interface Group {
+  _id: string; // mongoose ObjectId
+  name: string;
+  members: string[]; // mongoose ObjectId[]
+  invitedMembers: string[]; // mongoose ObjectId[]
+  expectedDestination: Location;
+  creationTime: Date;
+  expirationTime: Date;
+  returnTime: Date;
 }
 
 export interface ISvgProps extends SvgProps {
@@ -92,7 +125,7 @@ export interface MapCardBottomSvgProps extends ISvgProps {
   borderColor?: string;
 }
 
-export interface CloseButtonProps {
+export interface ButtonProps {
   onPress: () => void;
   size?: number;
   style?: Object;
@@ -103,6 +136,23 @@ export interface MapCardProps {
   children?: React.ReactNode;
   borderColor?: string;
   shadowColor?: string;
+  buttonLeft?: MapCardButtonProps;
+  buttonRight?: MapCardButtonProps;
+}
+
+export interface MapCardButtonProps {
+  backgroundColor: string;
+  borderColor: string;
+  iconComponent: React.ReactNode | null;
+  text: string;
+  onPress: () => void;
+}
+
+export interface ExploreCardProps {
+  name: string;
+  address: string;
+  lat: string;
+  long: string;
 }
 
 export interface VenueCardProps extends MapCardProps {
@@ -113,16 +163,25 @@ export interface UserCardProps extends MapCardProps {
   user: User;
 }
 
+export interface CreateGroupCardProps extends MapCardProps {}
+
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
 
+// TODO: refactor this to be more generic
 export interface LoginCardProps {
   setIsLogin: (value: boolean) => void;
 }
 
 export interface RegisterCardProps {
   setIsLogin: (value: boolean) => void;
+}
+
+export interface VenueReactionProps {
+  emoji: string;
+  value: number;
+  active: boolean;
 }
 
 /**
@@ -139,4 +198,14 @@ export enum TestingLabel {
   USER_CARD_CALL_USER = 'UserCardCallUser',
   USER_CARD_PING_USER = 'UserCardPingUser',
   VENUE_CARD_START_NAVIGATION = 'VenueCardStartNavigation',
+}
+
+export interface EmergencyOverlayProps {
+  countdown: number;
+  buttonOffset: SharedValue<number>;
+  maxOffset: number;
+}
+
+export interface MoodButtonProps {
+  onClose: () => void;
 }

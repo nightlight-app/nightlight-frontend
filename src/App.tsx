@@ -16,10 +16,11 @@ import {
 import { Route } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
-import RegisterScreen from './screens/register/RegisterScreen';
+import RegisterScreen from '@nightlight/screens/register/RegisterScreen';
 import firebase from 'firebase';
-import LoginScreen from './screens/login/LoginScreen';
-import ProfileScreen from './screens/profile/ProfileScreen';
+import LoginScreen from '@nightlight/screens/login/LoginScreen';
+import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
+import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,15 +37,6 @@ const EmergencyScreen = () => {
   return (
     <SafeAreaView testID={Route.EMERGENCY}>
       <Text>Emergency</Text>
-    </SafeAreaView>
-  );
-};
-
-// TEMP
-const ExploreScreen = () => {
-  return (
-    <SafeAreaView testID={Route.EXPLORE}>
-      <Text>Explore</Text>
     </SafeAreaView>
   );
 };
