@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import RegisterScreenStyles from './RegisterScreen.styles';
+import RegisterScreenStyles from '@nightlight/screens/register/RegisterScreen.styles';
 import { Controller, useForm } from 'react-hook-form';
 import { Entypo } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
@@ -16,10 +16,17 @@ import { useState } from 'react';
 import { RegisterCardProps, RegisterFormData } from '@nightlight/src/types';
 import { handleSignUp } from '@nightlight/src/config/firebaseConfig';
 
+const GoogleIcon = require('@nightlight/assets/googleIcon.png');
+
 const RegisterScreen = ({ setIsLogin }: RegisterCardProps) => {
   // state for password hiding (passwords are hidden by default)
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true);
+
+  const toggleIsPasswordHidden = () => setIsPasswordHidden(prev => !prev);
+  const toggleIsConfirmPasswordHidden = () =>
+    setIsPasswordHidden(prev => !prev);
+  const handleLoginLinkPress = () => setIsLogin(true);
 
   // react hook form creation
   const {
@@ -89,7 +96,7 @@ const RegisterScreen = ({ setIsLogin }: RegisterCardProps) => {
           />
           <Pressable
             style={RegisterScreenStyles.viewPasswordButton}
-            onPress={() => setIsPasswordHidden(!isPasswordHidden)}>
+            onPress={toggleIsPasswordHidden}>
             {isPasswordHidden ? (
               <Entypo
                 name='eye-with-line'
@@ -120,9 +127,7 @@ const RegisterScreen = ({ setIsLogin }: RegisterCardProps) => {
           />
           <Pressable
             style={RegisterScreenStyles.viewPasswordButton}
-            onPress={() =>
-              setIsConfirmPasswordHidden(!isConfirmPasswordHidden)
-            }>
+            onPress={toggleIsConfirmPasswordHidden}>
             {isConfirmPasswordHidden ? (
               <Entypo
                 name='eye-with-line'
@@ -153,7 +158,7 @@ const RegisterScreen = ({ setIsLogin }: RegisterCardProps) => {
         <Pressable style={RegisterScreenStyles.signInButton}>
           <Text
             style={RegisterScreenStyles.signInButtonText}
-            onPress={handleSubmit(onSubmit)}>
+            onPress={() => handleSubmit(onSubmit)}>
             Sign Up
           </Text>
         </Pressable>
@@ -162,10 +167,7 @@ const RegisterScreen = ({ setIsLogin }: RegisterCardProps) => {
           Or continue with
         </Text>
         <Pressable style={RegisterScreenStyles.googleSignInButton}>
-          <Image
-            source={require('../../../assets/googleIcon.png')}
-            style={RegisterScreenStyles.googleIcon}
-          />
+          <Image source={GoogleIcon} style={RegisterScreenStyles.googleIcon} />
           <Text style={RegisterScreenStyles.googleSignInButtonText}>
             Sign up with Google
           </Text>
@@ -173,7 +175,7 @@ const RegisterScreen = ({ setIsLogin }: RegisterCardProps) => {
         <Text style={RegisterScreenStyles.hasAccountText}>
           Have an account?&nbsp;&nbsp;
           <Text
-            onPress={() => setIsLogin(true)}
+            onPress={handleLoginLinkPress}
             style={RegisterScreenStyles.hasAccountLink}>
             Login now
           </Text>

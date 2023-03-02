@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import {
-  FIREBASE_APIKEY,
+  FIREBASE_API_KEY,
   FIREBASE_AUTHDOMAIN,
   FIREBASE_PROJECTID,
   FIREBASE_STORAGEBUCKET,
@@ -11,7 +11,7 @@ import {
 
 // Configuration constants
 const firebaseConfig = {
-  apiKey: FIREBASE_APIKEY,
+  apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTHDOMAIN,
   projectId: FIREBASE_PROJECTID,
   storageBucket: FIREBASE_STORAGEBUCKET,

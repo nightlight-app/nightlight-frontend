@@ -5,24 +5,25 @@ import {
   TextInput,
   Pressable,
   Image,
-  Linking,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import LoginScreenStyles from './LoginScreen.styles';
+import LoginScreenStyles from '@nightlight/screens/login/LoginScreen.styles';
 import { Entypo } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
 import { useState } from 'react';
 import { LoginCardProps, LoginFormData } from '@nightlight/src/types';
-import {
-  handleLogin,
-  handleSignOut,
-} from '@nightlight/src/config/firebaseConfig';
+import { handleLogin } from '@nightlight/src/config/firebaseConfig';
 import { Controller, useForm } from 'react-hook-form';
+
+const GoogleIcon = require('@nightlight/assets/googleIcon.png');
 
 const LoginScreen = ({ setIsLogin }: LoginCardProps) => {
   // state for password hiding (passwords are hidden by default)
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+
+  const toggleIsPasswordHidden = () => setIsPasswordHidden(prev => !prev);
+  const handleRegisterLinkPress = () => setIsLogin(false);
 
   // react hook form creation
   const {
@@ -51,8 +52,8 @@ const LoginScreen = ({ setIsLogin }: LoginCardProps) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={LoginScreenStyles.container}>
-        <View style={LoginScreenStyles.logoDot}></View>
-        <View style={LoginScreenStyles.logoBody}></View>
+        <View style={LoginScreenStyles.logoDot} />
+        <View style={LoginScreenStyles.logoBody} />
         <Text style={LoginScreenStyles.h1}>
           Hey there<Text style={LoginScreenStyles.blueText}>.</Text>
         </Text>
@@ -90,7 +91,7 @@ const LoginScreen = ({ setIsLogin }: LoginCardProps) => {
             />
             <Pressable
               style={LoginScreenStyles.viewPasswordButton}
-              onPress={() => setIsPasswordHidden(!isPasswordHidden)}>
+              onPress={toggleIsPasswordHidden}>
               {isPasswordHidden ? (
                 <Entypo
                   name='eye-with-line'
@@ -110,26 +111,23 @@ const LoginScreen = ({ setIsLogin }: LoginCardProps) => {
           </View>
           <Pressable
             style={LoginScreenStyles.signInButton}
-            onPress={handleSubmit(onSubmit)}>
+            onPress={() => handleSubmit(onSubmit)}>
             <Text style={LoginScreenStyles.signInButtonText}>Sign In</Text>
           </Pressable>
           <Text style={LoginScreenStyles.continueWithText}>
             Or continue with
           </Text>
           <Pressable style={LoginScreenStyles.googleSignInButton}>
-            <Image
-              source={require('../../../assets/googleIcon.png')}
-              style={LoginScreenStyles.googleIcon}
-            />
+            <Image source={GoogleIcon} style={LoginScreenStyles.googleIcon} />
             <Text style={LoginScreenStyles.googleSignInButtonText}>
               Sign in with Google
             </Text>
           </Pressable>
           <View>
             <Text style={LoginScreenStyles.notMemberText}>
-              Not a member?&nbsp;&nbsp;
+              Not a member?{'  '}
               <Text
-                onPress={() => setIsLogin(false)}
+                onPress={handleRegisterLinkPress}
                 style={LoginScreenStyles.notMemberLink}>
                 Register now
               </Text>

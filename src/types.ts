@@ -1,16 +1,15 @@
 import { SvgProps } from 'react-native-svg';
 
-export type RegisterFormData = {
+export interface RegisterFormData {
   email: string;
   password: string;
   confirmPassword: string;
   phone: string;
-};
-
-export type LoginFormData = {
+}
+export interface LoginFormData {
   email: string;
   password: string;
-};
+}
 
 export enum Route {
   MAP = 'Map',
