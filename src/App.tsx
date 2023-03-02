@@ -17,16 +17,10 @@ import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
+import SocialScreen from './screens/social/SocialScreen';
 
 const Tab = createBottomTabNavigator();
 
-const SocialScreen = () => {
-  return (
-    <SafeAreaView testID={Route.SOCIAL}>
-      <Text>Social</Text>
-    </SafeAreaView>
-  );
-};
 
 // TEMP
 const EmergencyScreen = () => {

@@ -37,4 +37,12 @@ export default StyleSheet.create({
     fontSize: 10,
     color: COLORS.GRAY,
   },
+  ellipse: {
+    margin: 15
+  },
+  rowview: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  }
 });

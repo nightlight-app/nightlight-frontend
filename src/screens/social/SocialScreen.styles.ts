@@ -1,6 +1,7 @@
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 import { Dimensions, StyleSheet } from 'react-native';
 
+
 const { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
@@ -12,11 +13,10 @@ export default StyleSheet.create({
     justifyContent: 'flex-start',
     flexDirection: 'column',
   },
-  view: {
+  safeview: {
     marginBottom: 114,
     width: '100%',
     maxWidth: 650,
-    height: height,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -106,9 +106,22 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 5
   },
+  grayCircle: {
+    width: 20,
+    height: 20, 
+    borderRadius: width/2,
+    backgroundColor: COLORS.GRAY,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 5
+  },
   numberText: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
     color: COLORS.WHITE,
-  }
+  },
+  
+  
+  
+
 });
