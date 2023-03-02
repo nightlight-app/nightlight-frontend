@@ -96,6 +96,7 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
     onClose();
   };
 
+  // function to render the list of selected friends
   const renderSelectedUser = ({ item }: ListRenderItemInfo<User>) => {
     return (
       <View style={CreateGroupCardStyles.selectedUserContainer}>
@@ -112,6 +113,7 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
     );
   };
 
+  // function to render the list of available friends
   const renderAvailableUser = ({ item, index }: ListRenderItemInfo<User>) => {
     const isFirstItem = index === 0;
     const isLastItem = index === availableUsers.length - 1;
@@ -148,10 +150,12 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
     );
   };
 
+  // item separator for the list of available friends
   const renderAvailableUserSeparator = () => (
     <View style={CreateGroupCardStyles.availableUsersListSeparator} />
   );
 
+  // function to render the list of available friends
   const renderEmptyAvailableUsers = () => (
     <View style={CreateGroupCardStyles.emptyAvailableUsersContainer}>
       <Text style={CreateGroupCardStyles.emptyAvailableUsersText}>
@@ -188,6 +192,8 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
         onPress: handleCreateGroup,
       }}>
       <Text style={CreateGroupCardStyles.title}>New Group</Text>
+
+      {/* Select friends */}
       <View>
         <Text style={CreateGroupCardStyles.selectedUsersText}>
           Selected Friends ({selectedUsers.length})
@@ -202,6 +208,7 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
           indicatorStyle='white'
         />
       </View>
+
       {/* TODO: handle keyboard view stuff */}
       <TextInput
         style={CreateGroupCardStyles.searchInput}
@@ -210,6 +217,8 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
         onChangeText={setSearchText}
         value={searchText}
       />
+
+      {/* Available friends */}
       <FlatList
         style={CreateGroupCardStyles.availableUsersList}
         data={displayedAvailableUsers}
@@ -220,12 +229,6 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
         scrollEnabled={availableUsers.length > 0}
         indicatorStyle='white'
       />
-      {/* <TouchableOpacity
-        onPress={handleCreateGroup}
-        style={CreateGroupCardStyles.createButton}
-        activeOpacity={0.75}>
-        <Text style={CreateGroupCardStyles.createButtonText}>Create</Text>
-      </TouchableOpacity> */}
     </MapCard>
   );
 };
