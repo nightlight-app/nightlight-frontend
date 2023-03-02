@@ -4,6 +4,7 @@ import { COLORS, Fonts } from '@nightlight/src/global.styles';
 export default StyleSheet.create({
   container: {
     position: 'absolute',
+    // FIXME: this causes problems on phones with home button
     bottom: 80 + 34 + 15, // TODO: navbar height + safe area bottom margin + gap
     alignSelf: 'center',
     width: 370, // TODO: do we need this?
