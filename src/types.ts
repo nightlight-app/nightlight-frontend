@@ -162,6 +162,12 @@ export interface VenueReactionProps {
   active: boolean;
 }
 
+export interface FriendCardProps {
+  name: string,
+  index: number,
+  inGroup: boolean
+}
+
 /**
  * used for querying elements when using jest test
  *
