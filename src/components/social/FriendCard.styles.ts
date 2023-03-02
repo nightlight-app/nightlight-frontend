@@ -38,11 +38,11 @@ export default StyleSheet.create({
     color: COLORS.GRAY,
   },
   ellipse: {
-    margin: 15
+    margin: 15,
   },
   rowview: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });

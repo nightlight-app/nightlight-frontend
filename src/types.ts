@@ -163,9 +163,9 @@ export interface VenueReactionProps {
 }
 
 export interface FriendCardProps {
-  name: string,
-  index: number,
-  inGroup: boolean
+  name: string;
+  index: number;
+  isInGroup: boolean;
 }
 
 /**
