@@ -101,10 +101,11 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
           {formatPhoneNumber(user.phone)}
         </Text>
 
-        {/* TODO: move this */}
+        {/* TODO: move logout button? */}
         <TouchableOpacity
           onPress={handleSignOut}
-          style={ProfileScreenStyles.logOutButton}>
+          style={ProfileScreenStyles.logOutButton}
+          activeOpacity={0.75}>
           <Text style={ProfileScreenStyles.logOutButtonText}>Logout</Text>
         </TouchableOpacity>
 
