@@ -188,10 +188,6 @@ export interface MoodButtonProps {
   onClose: () => void;
 }
 
-export interface LocationData {
-  latitude: number;
-  longitude: number;
-}
 
 export interface Markers {
   // the title of the marker
