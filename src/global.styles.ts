@@ -13,7 +13,6 @@ export const COLORS = {
   DARK_BLUE: '#203A64',
   DARK_RED: '#732014',
   DARK_GRAY: '#484848',
-  DARKEST_GRAY: '#1E1E1E',
 };
 
 export enum Fonts {
