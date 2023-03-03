@@ -4,6 +4,7 @@ import ContactCardStyles from '@nightlight/components/profile/ContactCard.styles
 import { Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
+import { formatPhoneNumber } from '@nightlight/src/utils/utils';
 
 const ContactCard = ({
   name,
@@ -28,7 +29,7 @@ const ContactCard = ({
       ]}>
       <View>
         <Text style={ContactCardStyles.name}>{name}</Text>
-        <Text style={ContactCardStyles.phone}>{phone}</Text>
+        <Text style={ContactCardStyles.phone}>{formatPhoneNumber(phone)}</Text>
       </View>
       <View style={ContactCardStyles.buttonsContainer}>
         <TouchableOpacity
