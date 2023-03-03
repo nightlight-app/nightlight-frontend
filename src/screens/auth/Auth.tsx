@@ -30,12 +30,7 @@ const AuthScreen = () => {
   const [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true);
 
   // react hook form creation
-  const {
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm<AuthFormData>();
+  const { control, reset, getValues } = useForm<AuthFormData>();
 
   /**
    * If isLogin is true - logs in a user from the data in the fields after it passes the validation from react hook forms.
@@ -208,7 +203,9 @@ const AuthScreen = () => {
           {/* Button to Register/Login */}
           <Pressable
             style={AuthScreenStyles.signInButton}
-            onPress={() => handleSubmit(onSubmit)}>
+            onPress={() => {
+              onSubmit(getValues());
+            }}>
             <Text style={AuthScreenStyles.signInButtonText}>
               {isLoginPage ? 'Sign in' : 'Register'}
             </Text>
