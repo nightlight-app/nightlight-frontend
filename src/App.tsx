@@ -1,6 +1,7 @@
 import { registerRootComponent } from 'expo';
 import React, { useEffect } from 'react';
 import { SafeAreaView, Text } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import {
   useFonts,
   Comfortaa_400Regular,
@@ -12,26 +13,35 @@ import {
   BottomTabBarProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import { Route } from '@nightlight/src/types';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ProfileRoute, TabRoute } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
-import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 import SocialScreen from '@nightlight/screens/social/SocialScreen';
+import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
+import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
 
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// TEMP
-const EmergencyScreen = () => {
-  return (
-    <SafeAreaView testID={Route.EMERGENCY}>
-      <Text>Emergency</Text>
-    </SafeAreaView>
-  );
-};
+const EmergencyButtonComponentPlaceholder = () => null;
 
 // Prevent hiding the splash screen
 preventAutoHideAsync();
+
+const ProfileScreenStack = () => (
+  <Stack.Navigator
+    initialRouteName={ProfileRoute.PROFILE}
+    screenOptions={{ headerShown: false }}>
+    <Stack.Screen name={ProfileRoute.PROFILE} component={ProfileScreen} />
+    <Stack.Screen
+      name={ProfileRoute.EMERGENCY_CONTACTS}
+      component={EmergencyContactsScreen}
+    />
+    {/* <Stack.Screen name={ProfileRoute.SETTINGS} component={SettingsScreen} /> */}
+  </Stack.Navigator>
+);
 
 const App = () => {
   // Load fonts
@@ -50,15 +60,26 @@ const App = () => {
 
   return (
     <NavigationContainer>
+      <StatusBar style='light' />
       <Tab.Navigator
-        initialRouteName={Route.MAP}
+        initialRouteName={TabRoute.MAP}
         screenOptions={{ headerShown: false }}
         tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
-        <Tab.Screen name={Route.MAP} component={MapScreen} />
-        <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
-        <Tab.Screen name={Route.EMERGENCY} component={EmergencyScreen} />
-        <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
-        <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
+        <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
+        <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
+
+        {/* Placeholder to allocate space for emergency button to render in tab bar */}
+        <Tab.Screen
+          name={TabRoute.EMERGENCY_BUTTON}
+          component={EmergencyButtonComponentPlaceholder}
+        />
+
+        <Tab.Screen name={TabRoute.EXPLORE} component={ExploreScreen} />
+        <Tab.Screen
+          name={TabRoute.PROFILE_STACK}
+          component={ProfileScreenStack}
+          initialParams={{ screen: ProfileRoute.PROFILE }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
