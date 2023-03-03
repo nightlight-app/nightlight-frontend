@@ -30,7 +30,6 @@
     "@react-navigation/native": "^6.1.5",
     "@react-navigation/native-stack": "^6.9.9",
     "@rnmapbox/maps": "github:rnmapbox/maps",
-    "@types/firebase": "^3.2.1",
     "axios": "^1.3.3",
     "dotenv": "^16.0.3",
     "expo": "^47.0.13",
