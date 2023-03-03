@@ -128,6 +128,7 @@ const ExploreScreen = () => {
                   location: { latitude: string; longitude: string };
                 }) => (
                   <ExploreCard
+                    key={item.name}
                     name={item.name}
                     address={item.address}
                     lat={item.location.latitude}
