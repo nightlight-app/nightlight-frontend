@@ -2,12 +2,12 @@ import { COLORS } from '@nightlight/src/global.styles';
 import MapboxGL from '@rnmapbox/maps';
 import { Position } from '@turf/helpers/dist/js/lib/geojson';
 
-/*
+/**
  * Determine the relative time string from a given date.
  * @param {Date} date - The date to determine the relative time string from.
  * @returns {string} The relative time string.
  */
-export const getRelativeTimeString = (date: Date) => {
+export const getRelativeTimeString = (date: Date): string => {
   const now = new Date();
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
   const minutes = Math.floor(seconds / 60);
@@ -31,7 +31,7 @@ export const getRelativeTimeString = (date: Date) => {
   }
 };
 
-/*
+/**
  * Determine the color of the status indicator based on the last active time of a user.
  *  - Green if active in the last minute
  *  - Yellow if active in the last hour
@@ -73,9 +73,9 @@ export const convertCoordinateToPosition = (
  * Formats a phone number string. Returns null if input is less than 4 characters or if
  *
  * @param {string} phoneNumberString The phone number string to format
- * @returns A formatted phone number string
+ * @returns {string | null} A formatted phone number string
  */
-export const formatPhoneNumber = (phoneNumberString: string) => {
+export const formatPhoneNumber = (phoneNumberString: string): string | null => {
   const cleaned = phoneNumberString.replace(/\D/g, '');
 
   if (cleaned.length < 4) return null;
@@ -93,16 +93,16 @@ export const formatPhoneNumber = (phoneNumberString: string) => {
 /**
  * Determines the text to display for a given month index on the profile calendar
  *
- * @param index The index of the month (0-11)
- * @returns The string 'Jan' for index 0, 'Dec' for index 11, and the index + 1 for all other indices
+ * @param {number} index The index of the month (0-11)
+ * @returns {string} The string 'Jan' for index 0, 'Dec' for index 11, and the index + 1 for all other indices
  */
-export const getMonthText = (index: number) => {
+export const getMonthText = (index: number): string => {
   switch (index) {
     case 0:
       return 'Jan';
     case 11:
       return 'Dec';
     default:
-      return index + 1;
+      return (index + 1).toString();
   }
 };
