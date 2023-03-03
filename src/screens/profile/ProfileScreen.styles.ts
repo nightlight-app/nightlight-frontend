@@ -20,7 +20,7 @@ export default StyleSheet.create({
   },
   coverPic: {
     width: '100%',
-    height: DEVICE_HEIGHT * 0.25,
+    height: DEVICE_HEIGHT * 0.2,
   },
   changeCoverButton: {
     position: 'absolute',
@@ -44,7 +44,7 @@ export default StyleSheet.create({
     borderColor: COLORS.WHITE,
     alignSelf: 'center',
     position: 'absolute',
-    top: DEVICE_HEIGHT * 0.25 - 150 / 2,
+    top: DEVICE_HEIGHT * 0.2 - 150 / 2,
   },
   profileDetailsContainer: {
     paddingTop: 150 / 2 + 10,
