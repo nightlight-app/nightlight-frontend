@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   ListRenderItemInfo,
+  Alert,
 } from 'react-native';
 import { EmergencyContact, ProfileRoute } from '@nightlight/src/types';
 import EmergencyContactsScreenStyles from '@nightlight/screens/profile/EmergencyContactsScreen.styles';
@@ -34,7 +35,7 @@ const contacts = [
 
 // TODO:
 const addContact = () => {
-  console.log('need add contact page here');
+  Alert.alert('TODO: add contact');
 };
 
 const EmergencyContactsScreen = () => {

@@ -8,12 +8,14 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
 import ProfileScreenStyles from '@nightlight/screens/profile/ProfileScreen.styles';
 import PartySvg from '@nightlight/components/svgs/PartySvg';
 import BottleSvg from '@nightlight/components/svgs/BottleSvg';
-import { ProfileRoute, ProfileScreenProps } from '@nightlight/src/types';
+import {
+  ProfileRoute,
+  ProfileScreenProps,
+  TabRoute,
+} from '@nightlight/src/types';
 import { NUM_MONTHS } from '@nightlight/src/constants';
 import { COLORS } from '@nightlight/src/global.styles';
 import { TEST_USERS } from '@nightlight/src/testData';
@@ -57,7 +59,7 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
 
   return (
     <ScrollView
-      testID={ProfileRoute.PROFILE}
+      testID={TabRoute.PROFILE_STACK}
       contentContainerStyle={ProfileScreenStyles.scrollViewContainer}>
       {/* Cover Picture */}
       <View style={ProfileScreenStyles.coverPicContainer}>
@@ -175,21 +177,4 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
   );
 };
 
-const Stack = createNativeStackNavigator();
-
-const ProfileScreenStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName={ProfileRoute.PROFILE}
-      screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={ProfileRoute.PROFILE} component={ProfileScreen} />
-      <Stack.Screen
-        name={ProfileRoute.EMERGENCY_CONTACTS}
-        component={EmergencyContactsScreen}
-      />
-      {/* <Stack.Screen name={ProfileRoute.SETTINGS} component={SettingsScreen} /> */}
-    </Stack.Navigator>
-  );
-};
-
-export default ProfileScreenStack;
+export default ProfileScreen;

@@ -13,12 +13,15 @@ import {
   BottomTabBarProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import { TabRoute } from '@nightlight/src/types';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ProfileRoute, TabRoute } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
-import ProfileScreenStack from '@nightlight/screens/profile/ProfileScreen';
+import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
+import EmergencyContactsScreen from './screens/profile/EmergencyContactsScreen';
 
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // TODO: Remove when social screen is implemented
@@ -34,6 +37,19 @@ const EmergencyButtonComponentPlaceholder = () => null;
 
 // Prevent hiding the splash screen
 preventAutoHideAsync();
+
+const ProfileScreenStack = () => (
+  <Stack.Navigator
+    initialRouteName={ProfileRoute.PROFILE}
+    screenOptions={{ headerShown: false }}>
+    <Stack.Screen name={ProfileRoute.PROFILE} component={ProfileScreen} />
+    <Stack.Screen
+      name={ProfileRoute.EMERGENCY_CONTACTS}
+      component={EmergencyContactsScreen}
+    />
+    {/* <Stack.Screen name={ProfileRoute.SETTINGS} component={SettingsScreen} /> */}
+  </Stack.Navigator>
+);
 
 const App = () => {
   // Load fonts
@@ -70,6 +86,7 @@ const App = () => {
         <Tab.Screen
           name={TabRoute.PROFILE_STACK}
           component={ProfileScreenStack}
+          initialParams={{ screen: ProfileRoute.PROFILE }}
         />
       </Tab.Navigator>
     </NavigationContainer>
