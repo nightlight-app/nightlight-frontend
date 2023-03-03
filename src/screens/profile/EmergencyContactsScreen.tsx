@@ -1,115 +1,114 @@
-import { ProfileRoute } from '@nightlight/src/types';
 import { useState } from 'react';
-import { View, SafeAreaView, Text, TextInput, Pressable } from 'react-native';
-import EmergencyContactScreenStyles from '@nightlight/screens/profile/EmergencyContactsScreen.styles';
+import {
+  View,
+  SafeAreaView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  ListRenderItemInfo,
+} from 'react-native';
+import { EmergencyContact, ProfileRoute } from '@nightlight/src/types';
+import EmergencyContactsScreenStyles from '@nightlight/screens/profile/EmergencyContactsScreen.styles';
 import ContactCard from '@nightlight/components/profile/ContactCard';
-import { ScrollView } from 'react-native-gesture-handler';
 
 // TODO: hard coded contacts for now, change to pull from backend
 const contacts = [
   {
     name: 'Mom',
-    phone: '(123)-111-2343',
+    phone: '1231112343',
   },
   {
     name: 'Dad',
-    phone: '(123)-232-3485',
+    phone: '1232323485',
   },
   {
     name: 'Roommate',
-    phone: '(918)-846-0185',
+    phone: '9188460185',
   },
   {
     name: 'Zi',
-    phone: '(615)-936-1214',
+    phone: '6159361214',
   },
 ];
 
+// TODO:
 const addContact = () => {
   console.log('need add contact page here');
 };
 
-const EmergencyContactScreen = () => {
+const EmergencyContactsScreen = () => {
   // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
+
+  const handleSearchChange = (text: string) => setSearchInput(text);
+
+  // TODO: fix type?
+  const renderContact = ({
+    item,
+    index,
+  }: ListRenderItemInfo<EmergencyContact>) => {
+    const isFirstItem = index === 0;
+    const isLastItem = index === contacts.length - 1;
+
+    return (
+      <ContactCard
+        name={item.name}
+        phone={item.phone}
+        isFirstItem={isFirstItem}
+        isLastItem={isLastItem}
+      />
+    );
+  };
+
+  const renderContactSeparator = () => (
+    <View style={EmergencyContactsScreenStyles.contactSeparator} />
+  );
+
+  const renderEmptyContacts = () => (
+    <View style={EmergencyContactsScreenStyles.emptyContactsContainer}>
+      <Text style={EmergencyContactsScreenStyles.emptyContactsText}>
+        You haven't specified any emergency contacts yet!
+      </Text>
+    </View>
+  );
 
   return (
     <SafeAreaView
       testID={ProfileRoute.EMERGENCY_CONTACTS}
-      style={EmergencyContactScreenStyles.safeview}>
-      <Text style={EmergencyContactScreenStyles.title}>Emergency Contacts</Text>
-      <Text style={EmergencyContactScreenStyles.subtitle}>
+      style={EmergencyContactsScreenStyles.screenContainer}>
+      <Text style={EmergencyContactsScreenStyles.title}>
+        Emergency Contacts
+      </Text>
+      <Text style={EmergencyContactsScreenStyles.subtitle}>
         Your people, all in one place
       </Text>
-      <View style={EmergencyContactScreenStyles.search}>
-        <TextInput
-          value={searchInput}
-          onChangeText={(text: string) => setSearchInput(text)}
-          style={EmergencyContactScreenStyles.searchText}
-          placeholder='Search contacts'></TextInput>
-      </View>
-      <View style={EmergencyContactScreenStyles.contactList}>
-        <ScrollView
-          contentContainerStyle={EmergencyContactScreenStyles.scrollView}>
-          {contacts
-            .filter((item: { name: string; phone: string }, index) => {
-              if (searchInput === '') return item;
-              else if (
-                item.name.toLowerCase().includes(searchInput.toLowerCase())
-              )
-                return item;
-            })
-            .map((item: { name: string; phone: string }, index) => (
-              <ContactCard
-                key={index}
-                index={index}
-                name={item.name}
-                phone={item.phone}
-              />
-            ))}
-          {contacts
-            .filter((item: { name: string; phone: string }, index) => {
-              if (searchInput === '') return item;
-              else if (
-                item.name.toLowerCase().includes(searchInput.toLowerCase())
-              )
-                return item;
-            })
-            .map((item: { name: string; phone: string }, index) => (
-              <ContactCard
-                key={index}
-                index={index}
-                name={item.name}
-                phone={item.phone}
-              />
-            ))}
-          {contacts
-            .filter((item: { name: string; phone: string }, index) => {
-              if (searchInput === '') return item;
-              else if (
-                item.name.toLowerCase().includes(searchInput.toLowerCase())
-              )
-                return item;
-            })
-            .map((item: { name: string; phone: string }, index) => (
-              <ContactCard
-                key={index}
-                index={index}
-                name={item.name}
-                phone={item.phone}
-              />
-            ))}
-        </ScrollView>
-      </View>
-      <Pressable
+      <TextInput
+        value={searchInput}
+        onChangeText={handleSearchChange}
+        style={EmergencyContactsScreenStyles.searchBar}
+        placeholder='Search contacts'
+      />
+      <FlatList
+        style={EmergencyContactsScreenStyles.contactList}
+        data={contacts}
+        renderItem={renderContact}
+        keyExtractor={(_, index) => index.toString()}
+        ItemSeparatorComponent={renderContactSeparator}
+        ListEmptyComponent={renderEmptyContacts}
+        scrollEnabled={contacts.length > 0}
+        indicatorStyle='white'
+      />
+      <TouchableOpacity
         onPress={addContact}
-        style={EmergencyContactScreenStyles.addButton}>
-        <Text style={EmergencyContactScreenStyles.addText}>
+        activeOpacity={0.75}
+        style={EmergencyContactsScreenStyles.addButton}>
+        <Text style={EmergencyContactsScreenStyles.addText}>
           Add New Contact
         </Text>
-      </Pressable>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
-export default EmergencyContactScreen;
+export default EmergencyContactsScreen;

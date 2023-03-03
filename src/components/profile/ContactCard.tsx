@@ -1,26 +1,48 @@
-import { View } from 'react-native';
-import { EmergencyContactProps } from '@nightlight/src/types';
+import { TouchableOpacity, View, Alert } from 'react-native';
+import { EmergencyContactProps as ContactCardProps } from '@nightlight/src/types';
 import ContactCardStyles from '@nightlight/components/profile/ContactCard.styles';
 import { Text } from 'react-native';
-import EllipseSvg from '@nightlight/components/svgs/EllipseSvg';
-import PhoneSvg from '@nightlight/components/svgs/PhoneSvg';
+import { FontAwesome } from '@expo/vector-icons';
+import { COLORS } from '@nightlight/src/global.styles';
 
-const ContactCard = ({ index, name, phone }: EmergencyContactProps) => {
-  let isEvenIndex = index % 2 === 0;
+const ContactCard = ({
+  name,
+  phone,
+  isFirstItem,
+  isLastItem,
+}: ContactCardProps) => {
+  const handleCall = (phone: string) => {
+    Alert.alert('TODO: Calling', phone);
+  };
+
+  const handleEdit = () => {
+    Alert.alert('TODO: Editing', name);
+  };
 
   return (
     <View
       style={[
-        ContactCardStyles.container,
-        isEvenIndex && ContactCardStyles.containerAlt,
+        ContactCardStyles.contactContainer,
+        isFirstItem && ContactCardStyles.contactTopItem,
+        isLastItem && ContactCardStyles.contactBottomItem,
       ]}>
       <View>
         <Text style={ContactCardStyles.name}>{name}</Text>
         <Text style={ContactCardStyles.phone}>{phone}</Text>
       </View>
-      <View style={ContactCardStyles.rightView}>
-        <PhoneSvg />
-        <EllipseSvg />
+      <View style={ContactCardStyles.buttonsContainer}>
+        <TouchableOpacity
+          onPress={() => handleCall(phone)}
+          activeOpacity={0.75}
+          style={ContactCardStyles.button}>
+          <FontAwesome name='phone' size={24} color={COLORS.GREEN} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleEdit}
+          activeOpacity={0.75}
+          style={ContactCardStyles.button}>
+          <FontAwesome name='pencil' size={24} color={COLORS.WHITE} />
+        </TouchableOpacity>
       </View>
     </View>
   );

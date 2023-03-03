@@ -153,7 +153,8 @@ export interface ExploreCardProps {
 export interface EmergencyContactProps {
   name: string;
   phone: string;
-  index: number;
+  isFirstItem: boolean;
+  isLastItem: boolean;
 }
 
 export interface VenueCardProps extends MapCardProps {
@@ -204,4 +205,9 @@ export interface MoodButtonProps {
 
 export interface ProfileScreenProps {
   navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
+}
+
+export interface EmergencyContact {
+  name: string;
+  phone: string;
 }
