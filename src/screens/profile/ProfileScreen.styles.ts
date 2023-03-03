@@ -1,17 +1,10 @@
 import { StyleSheet } from 'react-native';
-<<<<<<< HEAD
-import { COLORS, Fonts } from '@nightlight/src/global.styles';
-=======
->>>>>>> main
 import {
   DEVICE_HEIGHT,
   EMERGENCY_BUTTON_RADIUS,
   NAVBAR_HEIGHT,
 } from '@nightlight/src/constants';
-<<<<<<< HEAD
-=======
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
->>>>>>> main
 
 export default StyleSheet.create({
   scrollViewContainer: {

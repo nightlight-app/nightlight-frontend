@@ -22,11 +22,10 @@ import firebase from 'firebase';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import SocialScreen from '@nightlight/screens/social/SocialScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
-<<<<<<< HEAD
-import AuthScreen from '@nightlight/screens/auth/Auth';
-=======
 import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
->>>>>>> main
+
+// TODO:
+import AuthScreen from '@nightlight/screens/auth/Auth';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -75,49 +74,33 @@ const App = () => {
   if (!fontsLoaded || isUserLoggedIn === undefined) return null;
 
   return (
-<<<<<<< HEAD
-    <>
-      {isUserLoggedIn && (
-        <NavigationContainer>
-          <Tab.Navigator
-            initialRouteName={Route.MAP}
-            screenOptions={{ headerShown: false }}
-            tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
-            <Tab.Screen name={Route.MAP} component={MapScreen} />
-            <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
-            <Tab.Screen name={Route.EMERGENCY} component={EmergencyScreen} />
-            <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
-            <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      )}
-      {!isUserLoggedIn && <AuthScreen />}
-    </>
-=======
     <NavigationContainer>
       <StatusBar style='light' />
-      <Tab.Navigator
-        initialRouteName={TabRoute.MAP}
-        screenOptions={{ headerShown: false }}
-        tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
-        <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
-        <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
+      {isUserLoggedIn ? (
+        <Tab.Navigator
+          initialRouteName={TabRoute.MAP}
+          screenOptions={{ headerShown: false }}
+          tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
+          <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
+          <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
 
-        {/* Placeholder to allocate space for emergency button to render in tab bar */}
-        <Tab.Screen
-          name={TabRoute.EMERGENCY_BUTTON}
-          component={EmergencyButtonComponentPlaceholder}
-        />
+          {/* Placeholder to allocate space for emergency button to render in tab bar */}
+          <Tab.Screen
+            name={TabRoute.EMERGENCY_BUTTON}
+            component={EmergencyButtonComponentPlaceholder}
+          />
 
-        <Tab.Screen name={TabRoute.EXPLORE} component={ExploreScreen} />
-        <Tab.Screen
-          name={TabRoute.PROFILE_STACK}
-          component={ProfileScreenStack}
-          initialParams={{ screen: ProfileRoute.PROFILE }}
-        />
-      </Tab.Navigator>
+          <Tab.Screen name={TabRoute.EXPLORE} component={ExploreScreen} />
+          <Tab.Screen
+            name={TabRoute.PROFILE_STACK}
+            component={ProfileScreenStack}
+            initialParams={{ screen: ProfileRoute.PROFILE }}
+          />
+        </Tab.Navigator>
+      ) : (
+        <AuthScreen />
+      )}
     </NavigationContainer>
->>>>>>> main
   );
 };
 

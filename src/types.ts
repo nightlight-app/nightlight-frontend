@@ -3,7 +3,6 @@ import { SharedValue } from 'react-native-reanimated';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 
-<<<<<<< HEAD
 export interface AuthFormData {
   email: string;
   password: string;
@@ -11,26 +10,21 @@ export interface AuthFormData {
   phone?: string;
 }
 
-export enum Route {
-=======
 export enum TabRoute {
->>>>>>> main
   MAP = 'Map',
   SOCIAL = 'Social',
   EMERGENCY_BUTTON = 'EmergencyButton',
   EXPLORE = 'Explore',
   PROFILE_STACK = 'ProfileStack',
+  // TODO: organize these
+  LOGIN = 'Login',
+  REGISTER = 'Register',
 }
 
 export enum ProfileRoute {
   PROFILE = 'Profile',
-<<<<<<< HEAD
-  LOGIN = 'Login',
-  REGISTER = 'Register',
-=======
   EMERGENCY_CONTACTS = 'EmergencyContacts',
   SETTINGS = 'Settings',
->>>>>>> main
 }
 
 export enum MapCardType {
