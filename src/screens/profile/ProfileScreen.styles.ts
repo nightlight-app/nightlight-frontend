@@ -142,7 +142,7 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
   },
 
-  // logout button
+  // TODO: refactor logout button
   logOutButton: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
     borderRadius: 10,

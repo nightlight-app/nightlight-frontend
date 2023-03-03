@@ -1,4 +1,3 @@
-import { handleSignOut } from '@nightlight/src/config/firebaseConfig';
 import React from 'react';
 import {
   Text,
@@ -22,6 +21,7 @@ import { NUM_MONTHS } from '@nightlight/src/constants';
 import { COLORS } from '@nightlight/src/global.styles';
 import { TEST_USERS } from '@nightlight/src/testData';
 import { formatPhoneNumber, getMonthText } from '@nightlight/src/utils/utils';
+import { handleSignOut } from '@nightlight/src/config/firebaseConfig';
 
 // TODO: determine logged in user
 const user = TEST_USERS[0];
@@ -45,18 +45,6 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
   const handleNavigateToEmergencyContacts = () => {
     navigation.navigate(ProfileRoute.EMERGENCY_CONTACTS);
   };
-
-  // const ProfileScreen = () => {
-  //   return (
-  //     <SafeAreaView>
-  //       <Pressable style={ProfileScreenStyles.logOutButton}>
-  //         <Text
-  //           style={ProfileScreenStyles.logOutButtonText}
-  //           onPress={() => handleSignOut()}>
-  //           Logout
-  //         </Text>
-  //       </Pressable>
-  //     </SafeAreaView>
 
   return (
     <ScrollView
@@ -112,6 +100,13 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
         <Text style={ProfileScreenStyles.phoneNumber}>
           {formatPhoneNumber(user.phone)}
         </Text>
+
+        {/* TODO: move this */}
+        <TouchableOpacity
+          onPress={handleSignOut}
+          style={ProfileScreenStyles.logOutButton}>
+          <Text style={ProfileScreenStyles.logOutButtonText}>Logout</Text>
+        </TouchableOpacity>
 
         {/* Profile Statistics */}
         <View style={ProfileScreenStyles.profileStatsContainer}>
