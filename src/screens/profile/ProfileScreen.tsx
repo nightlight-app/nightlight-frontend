@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import ProfileScreenStyles from '@nightlight/screens/profile/ProfileScreen.styles';
@@ -44,15 +45,20 @@ const user = TEST_USERS[0];
 
 const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
   // TODO:
-  const handleChangeCoverPicture = () => {};
+  const handleChangeCoverPicture = () => {
+    Alert.alert('TODO: change cover picture');
+  };
 
   // TODO:
-  const handleSettingsPress = () => {};
+  const handleSettingsPress = () => {
+    Alert.alert('TODO: navigate to settings');
+  };
 
   // TODO:
-  const handleEditProfile = () => {};
+  const handleEditProfile = () => {
+    Alert.alert('TODO: make fields editable edit profile');
+  };
 
-  // TODO:
   const handleNavigateToEmergencyContacts = () => {
     navigation.navigate(ProfileRoute.EMERGENCY_CONTACTS);
   };

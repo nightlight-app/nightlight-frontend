@@ -3,16 +3,13 @@ import { Fonts, COLORS } from '@nightlight/src/global.styles';
 import {
   EMERGENCY_BUTTON_RADIUS,
   NAVBAR_HEIGHT,
-  SAFE_AREA_BOTTOM_MARGIN,
 } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   screenContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     minHeight: '100%',
-    // TODO: might have to fix paddingBottom for devices with home buttons
-    paddingBottom:
-      SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS,
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
