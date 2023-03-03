@@ -27,7 +27,7 @@ export default StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: width,
+    width: '100%',
   },
   notifButton: {
     marginLeft: '3%',
@@ -118,5 +118,15 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
     color: COLORS.WHITE,
+  },
+  emptyAvailableUsersText: {
+    color: COLORS.GRAY,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 15,
+    marginHorizontal: 50,
+    lineHeight: 18,
   },
 });

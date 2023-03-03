@@ -22,7 +22,7 @@ const ExploreScreen = () => {
     userID: '64017efe666fed2069564706',
   };
 
-  //TODO IMPORTANT!! make a load more button to continue pagination
+  // TODO: IMPORTANT!! make a load more button to continue pagination
 
   // fetch venues on first render
   useEffect(() => {
@@ -51,7 +51,8 @@ const ExploreScreen = () => {
               value={searchInput}
               onChangeText={(text: string) => setSearchInput(text)}
               style={ExploreScreenStyles.searchText}
-              placeholder='Click to explore...'></TextInput>
+              placeholder='Click to explore...'
+            />
           </View>
         </View>
 
@@ -130,7 +131,8 @@ const ExploreScreen = () => {
                     name={item.name}
                     address={item.address}
                     lat={item.location.latitude}
-                    long={item.location.longitude}></ExploreCard>
+                    long={item.location.longitude}
+                  />
                 )
               )}
           </View>

@@ -205,16 +205,4 @@ export const friends = [
   {
     name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
   },
-  {
-    name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
-  },
-  {
-    name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
-  },
-  {
-    name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
-  },
-  {
-    name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
-  },
 ];

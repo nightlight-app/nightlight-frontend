@@ -26,7 +26,7 @@ const AddFriendsSvg = (props: ISvgProps) => (
       strokeLinecap='round'
       strokeLinejoin='round'
     />
-    <Defs></Defs>
+    <Defs />
   </Svg>
 );
 

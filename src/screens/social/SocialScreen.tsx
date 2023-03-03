@@ -1,11 +1,10 @@
 import FriendCard from '@nightlight/components/social/FriendCard';
 import AddFriendsSvg from '@nightlight/components/svgs/AddFriendsSvg';
 import NotificationSvg from '@nightlight/components/svgs/NotificationSvg';
-import { Route } from '@nightlight/src/types';
+import { TabRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
-import { TEST_USERS } from '@nightlight/src/testData';
 import { activeGroup, friends } from '@nightlight/src/testData';
 
 const SocialScreen = () => {
@@ -20,14 +19,25 @@ const SocialScreen = () => {
     setFriendCount(friends.length);
   });
 
+  // called when there are no active group
+  const renderEmptyGroup = () => (
+    // TODO: figure out what to put here
+    <View>
+      <Text style={SocialScreenStyles.emptyAvailableUsersText}>
+        No active group
+      </Text>
+    </View>
+  );
+
   return (
-    <View testID={Route.SOCIAL} style={SocialScreenStyles.container}>
+    <View testID={TabRoute.SOCIAL} style={SocialScreenStyles.container}>
       <SafeAreaView style={SocialScreenStyles.safeview}>
         <View style={SocialScreenStyles.topRow}>
           <NotificationSvg style={SocialScreenStyles.notifButton} />
           <Text style={SocialScreenStyles.title}>Social</Text>
           <AddFriendsSvg style={SocialScreenStyles.addFriendsButton} />
         </View>
+
         <ScrollView>
           <View style={SocialScreenStyles.rowView}>
             <Text style={SocialScreenStyles.activeGroupText}>Active Group</Text>
@@ -36,16 +46,15 @@ const SocialScreen = () => {
             </View>
           </View>
           <View style={SocialScreenStyles.activeBox}>
-            <View>
-              {activeGroup.map((item: { name: string }, index) => (
-                <FriendCard
-                  key={index}
-                  index={index}
-                  name={item.name}
-                  inGroup
-                />
-              ))}
-            </View>
+            {groupCount === 0 && renderEmptyGroup()}
+            {activeGroup.map((item: { name: string }, index) => (
+              <FriendCard
+                key={index}
+                index={index}
+                name={item.name}
+                isInGroup
+              />
+            ))}
             {/* TODO add glow  */}
             <View style={SocialScreenStyles.glow} />
           </View>

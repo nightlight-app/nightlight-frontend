@@ -40,7 +40,7 @@ const NotificationSvg = (props: ISvgProps) => (
       strokeWidth={1.5}
       strokeMiterlimit={10}
     />
-    <Defs></Defs>
+    <Defs />
   </Svg>
 );
 
