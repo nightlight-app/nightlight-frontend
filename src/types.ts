@@ -1,15 +1,11 @@
 import { SvgProps } from 'react-native-svg';
 import { SharedValue } from 'react-native-reanimated';
 
-export interface RegisterFormData {
+export interface AuthFormData {
   email: string;
   password: string;
-  confirmPassword: string;
-  phone: string;
-}
-export interface LoginFormData {
-  email: string;
-  password: string;
+  confirmPassword?: string;
+  phone?: string;
 }
 
 export enum Route {

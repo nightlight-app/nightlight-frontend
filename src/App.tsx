@@ -16,11 +16,10 @@ import {
 import { Route } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
-import RegisterScreen from '@nightlight/screens/register/RegisterScreen';
 import firebase from 'firebase';
-import LoginScreen from '@nightlight/screens/login/LoginScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
+import AuthScreen from './screens/auth/Auth';
 
 const Tab = createBottomTabNavigator();
 
@@ -88,10 +87,8 @@ const App = () => {
         <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
-  ) : isLogin ? (
-    <LoginScreen setIsLogin={setIsLogin} />
   ) : (
-    <RegisterScreen setIsLogin={setIsLogin} />
+    <AuthScreen />
   );
 };
 
