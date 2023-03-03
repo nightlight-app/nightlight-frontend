@@ -72,5 +72,3 @@ const SocialScreen = () => {
 };
 
 export default SocialScreen;
-
-

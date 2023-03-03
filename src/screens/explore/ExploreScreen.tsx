@@ -19,7 +19,7 @@ const ExploreScreen = () => {
   const params = {
     count: 10,
     page: page,
-    userID: '64017efe666fed2069564706'
+    userID: '64017efe666fed2069564706',
   };
 
   //TODO IMPORTANT!! make a load more button to continue pagination

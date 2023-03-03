@@ -177,7 +177,6 @@ export const TEST_VENUES: Venue[] = [
   },
 ];
 
-
 export const activeGroup = [
   {
     name: TEST_USERS[1].firstName + ' ' + TEST_USERS[1].lastName[0] + '.',
