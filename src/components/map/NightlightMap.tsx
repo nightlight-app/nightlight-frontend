@@ -16,7 +16,7 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 const initialCamera: CameraStop = {
   animationDuration: 0,
   zoomLevel: 16,
-  pitch: 50,
+  pitch: 0, // change later?
   heading: 62,
 };
 
