@@ -19,6 +19,7 @@ export default StyleSheet.create({
     width: '100%',
   },
   coverPic: {
+    width: '100%',
     height: DEVICE_HEIGHT * 0.25,
   },
   changeCoverButton: {

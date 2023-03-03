@@ -7,13 +7,17 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
 import ProfileScreenStyles from '@nightlight/screens/profile/ProfileScreen.styles';
 import PartySvg from '@nightlight/components/svgs/PartySvg';
 import BottleSvg from '@nightlight/components/svgs/BottleSvg';
 import { ProfileRoute, ProfileScreenProps } from '@nightlight/src/types';
+import { NUM_MONTHS } from '@nightlight/src/constants';
+import { COLORS } from '@nightlight/src/global.styles';
+import { TEST_USERS } from '@nightlight/src/testData';
+import { formatPhoneNumber } from '@nightlight/src/utils/utils';
 
 // TODO: should this be in utils?
 /**
@@ -170,13 +174,6 @@ const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
     </ScrollView>
   );
 };
-
-// Create new stack navigator
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NUM_MONTHS } from '@nightlight/src/constants';
-import { COLORS } from '@nightlight/src/global.styles';
-import { TEST_USERS } from '@nightlight/src/testData';
-import { formatPhoneNumber } from '@nightlight/src/utils/utils';
 
 const Stack = createNativeStackNavigator();
 
