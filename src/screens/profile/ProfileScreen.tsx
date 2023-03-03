@@ -20,25 +20,7 @@ import {
 import { NUM_MONTHS } from '@nightlight/src/constants';
 import { COLORS } from '@nightlight/src/global.styles';
 import { TEST_USERS } from '@nightlight/src/testData';
-import { formatPhoneNumber } from '@nightlight/src/utils/utils';
-
-// TODO: should this be in utils?
-/**
- * Determines the text to display for a given month index
- *
- * @param index The index of the month (0-11)
- * @returns The string 'Jan' for index 0, 'Dec' for index 11, and the index + 1 for all other indices
- */
-const getMonthText = (index: number) => {
-  switch (index) {
-    case 0:
-      return 'Jan';
-    case 11:
-      return 'Dec';
-    default:
-      return index + 1;
-  }
-};
+import { formatPhoneNumber, getMonthText } from '@nightlight/src/utils/utils';
 
 // TODO: determine logged in user
 const user = TEST_USERS[0];

@@ -89,3 +89,20 @@ export const formatPhoneNumber = (phoneNumberString: string) => {
 
   return null;
 };
+
+/**
+ * Determines the text to display for a given month index on the profile calendar
+ *
+ * @param index The index of the month (0-11)
+ * @returns The string 'Jan' for index 0, 'Dec' for index 11, and the index + 1 for all other indices
+ */
+export const getMonthText = (index: number) => {
+  switch (index) {
+    case 0:
+      return 'Jan';
+    case 11:
+      return 'Dec';
+    default:
+      return index + 1;
+  }
+};
