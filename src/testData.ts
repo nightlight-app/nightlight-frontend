@@ -181,3 +181,33 @@ export const TEST_VENUES: Venue[] = [
     },
   },
 ];
+
+export const activeGroup = [
+  {
+    name: TEST_USERS[1].firstName + ' ' + TEST_USERS[1].lastName[0] + '.',
+  },
+  {
+    name: TEST_USERS[2].firstName + ' ' + TEST_USERS[2].lastName[0] + '.',
+  },
+  {
+    name: TEST_USERS[3].firstName + ' ' + TEST_USERS[3].lastName[0] + '.',
+  },
+  {
+    name: TEST_USERS[4].firstName + ' ' + TEST_USERS[4].lastName[0] + '.',
+  },
+];
+
+export const friends = [
+  {
+    name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
+  },
+  {
+    name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
+  },
+  {
+    name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
+  },
+  {
+    name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
+  },
+];

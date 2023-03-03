@@ -18,20 +18,12 @@ import { ProfileRoute, TabRoute } from '@nightlight/src/types';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
+import SocialScreen from '@nightlight/screens/social/SocialScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
-import EmergencyContactsScreen from './screens/profile/EmergencyContactsScreen';
+import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-// TODO: Remove when social screen is implemented
-const SocialScreen = () => {
-  return (
-    <SafeAreaView testID={TabRoute.SOCIAL}>
-      <Text>Social</Text>
-    </SafeAreaView>
-  );
-};
 
 const EmergencyButtonComponentPlaceholder = () => null;
 
