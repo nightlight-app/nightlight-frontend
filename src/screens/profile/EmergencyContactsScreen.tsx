@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   SafeAreaView,
@@ -40,6 +40,19 @@ const addContact = () => {
 const EmergencyContactsScreen = () => {
   // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
+  const [displayedContacts, setDisplayedContacts] =
+    useState<EmergencyContact[]>(contacts);
+
+  // TODO: improve search algorithm?
+  useEffect(() => {
+    if (!searchInput) setDisplayedContacts(contacts);
+    else
+      setDisplayedContacts(
+        contacts.filter((contact: EmergencyContact) =>
+          contact.name.toLowerCase().includes(searchInput.toLowerCase())
+        )
+      );
+  }, [searchInput]);
 
   const handleSearchChange = (text: string) => setSearchInput(text);
 
@@ -91,12 +104,12 @@ const EmergencyContactsScreen = () => {
       />
       <FlatList
         style={EmergencyContactsScreenStyles.contactList}
-        data={contacts}
+        data={displayedContacts}
         renderItem={renderContact}
         keyExtractor={(_, index) => index.toString()}
         ItemSeparatorComponent={renderContactSeparator}
         ListEmptyComponent={renderEmptyContacts}
-        scrollEnabled={contacts.length > 0}
+        scrollEnabled={displayedContacts.length > 0}
         indicatorStyle='white'
       />
       <TouchableOpacity
