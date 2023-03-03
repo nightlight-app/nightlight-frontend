@@ -10,7 +10,7 @@ import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles
 import { UserMarkers } from '@nightlight/src/types';
 import { socket } from '@nightlight/src/service/SocketService';
 import { RANDOM_USER, TEST_USERS } from '@nightlight/src/testData';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 
 // initial camera settings
 const initialCamera: CameraStop = {
@@ -230,11 +230,20 @@ const NightlightMap = () => {
             MapScreenStyles.mapControlButton,
             MapScreenStyles.currentLocationButton,
           ]}>
-          <Ionicons
-            name='md-navigate'
-            size={32}
-            color={COLORS.NIGHTLIGHT_BLUE}
-          />
+          {!isCameraFollowingUser && (
+            <MaterialCommunityIcons
+              name='navigation-variant-outline'
+              size={32}
+              color={COLORS.NIGHTLIGHT_BLUE}
+            />
+          )}
+          {isCameraFollowingUser && (
+            <MaterialCommunityIcons
+              name='navigation-variant'
+              size={32}
+              color={COLORS.NIGHTLIGHT_BLUE}
+            />
+          )}
         </Pressable>
       </View>
     </View>
