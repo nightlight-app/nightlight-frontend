@@ -12,12 +12,27 @@ const ExploreScreen = () => {
   // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
 
+  // keep track of what page user is on
+  const [page, setPage] = useState(1);
+
+  // pagination query params
+  const params = {
+    count: 10,
+    page: page,
+    userID: '64017efe666fed2069564706'
+  };
+
+  //TODO IMPORTANT!! make a load more button to continue pagination
+
   // fetch venues on first render
   useEffect(() => {
     // TODO: figure out backend and fallback response if no venues received
     axios
-      .get(`http://localhost:6060/venues`)
+      .get(
+        `http://localhost:6060/venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`
+      )
       .then(response => {
+        setPage(page + 1);
         setVenues(response.data.venues);
       })
       .catch(e => {
