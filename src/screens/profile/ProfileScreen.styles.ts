@@ -3,6 +3,7 @@ import {
   DEVICE_HEIGHT,
   EMERGENCY_BUTTON_RADIUS,
   NAVBAR_HEIGHT,
+  SAFE_AREA_BOTTOM_MARGIN,
 } from '@nightlight/src/constants';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
@@ -134,7 +135,9 @@ export default StyleSheet.create({
     marginVertical: 30,
     borderColor: COLORS.DARK_BLUE,
     borderWidth: 2,
-    marginBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+    // TODO: refactor this to work with home button
+    marginBottom:
+      SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   emergencyContactsButtonText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
