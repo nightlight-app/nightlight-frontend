@@ -3,7 +3,7 @@ import { ScrollView, Text, View, SafeAreaView, TextInput } from 'react-native';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
-import { Route } from '@nightlight/src/types';
+import { TabRoute } from '@nightlight/src/types';
 
 const ExploreScreen = () => {
   // keep track of list of venues queried
@@ -12,12 +12,27 @@ const ExploreScreen = () => {
   // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
 
+  // keep track of what page user is on
+  const [page, setPage] = useState(1);
+
+  // TODO: pagination query params
+  const params = {
+    count: 10,
+    page: page,
+    userID: '64017efe666fed2069564706',
+  };
+
+  // TODO: IMPORTANT!! make a load more button to continue pagination
+
   // fetch venues on first render
   useEffect(() => {
     // TODO: figure out backend and fallback response if no venues received
     axios
-      .get(`http://localhost:6060/venues`)
+      .get(
+        `http://localhost:6060/venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`
+      )
       .then(response => {
+        setPage(page + 1);
         setVenues(response.data.venues);
       })
       .catch(e => {
@@ -26,7 +41,7 @@ const ExploreScreen = () => {
   }, []);
 
   return (
-    <View testID={Route.EXPLORE} style={ExploreScreenStyles.container}>
+    <View testID={TabRoute.EXPLORE} style={ExploreScreenStyles.container}>
       <SafeAreaView style={ExploreScreenStyles.safeview}>
         {/* Title and search */}
         <View style={ExploreScreenStyles.headerContainer}>
@@ -36,7 +51,8 @@ const ExploreScreen = () => {
               value={searchInput}
               onChangeText={(text: string) => setSearchInput(text)}
               style={ExploreScreenStyles.searchText}
-              placeholder='Click to explore...'></TextInput>
+              placeholder='Click to explore...'
+            />
           </View>
         </View>
 
@@ -112,10 +128,12 @@ const ExploreScreen = () => {
                   location: { latitude: string; longitude: string };
                 }) => (
                   <ExploreCard
+                    key={item.name}
                     name={item.name}
                     address={item.address}
                     lat={item.location.latitude}
-                    long={item.location.longitude}></ExploreCard>
+                    long={item.location.longitude}
+                  />
                 )
               )}
           </View>

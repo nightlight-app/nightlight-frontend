@@ -1,6 +1,9 @@
 import { SvgProps } from 'react-native-svg';
 import { SharedValue } from 'react-native-reanimated';
+import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
+import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 
+<<<<<<< HEAD
 export interface AuthFormData {
   email: string;
   password: string;
@@ -9,13 +12,25 @@ export interface AuthFormData {
 }
 
 export enum Route {
+=======
+export enum TabRoute {
+>>>>>>> main
   MAP = 'Map',
   SOCIAL = 'Social',
-  EMERGENCY = 'Emergency',
+  EMERGENCY_BUTTON = 'EmergencyButton',
   EXPLORE = 'Explore',
+  PROFILE_STACK = 'ProfileStack',
+}
+
+export enum ProfileRoute {
   PROFILE = 'Profile',
+<<<<<<< HEAD
   LOGIN = 'Login',
   REGISTER = 'Register',
+=======
+  EMERGENCY_CONTACTS = 'EmergencyContacts',
+  SETTINGS = 'Settings',
+>>>>>>> main
 }
 
 export enum MapCardType {
@@ -110,7 +125,7 @@ export interface ISvgProps extends SvgProps {
 }
 
 export interface NavIconProps {
-  route: Route;
+  route: TabRoute;
   isFocused: boolean;
   size?: number;
   color?: string;
@@ -151,6 +166,13 @@ export interface ExploreCardProps {
   long: string;
 }
 
+export interface EmergencyContactProps {
+  name: string;
+  phone: string;
+  isFirstItem: boolean;
+  isLastItem: boolean;
+}
+
 export interface VenueCardProps extends MapCardProps {
   venue: Venue;
 }
@@ -180,6 +202,12 @@ export interface VenueReactionProps {
   active: boolean;
 }
 
+export interface FriendCardProps {
+  name: string;
+  index: number;
+  isInGroup: boolean;
+}
+
 /**
  * used for querying elements when using jest test
  *
@@ -204,4 +232,13 @@ export interface EmergencyOverlayProps {
 
 export interface MoodButtonProps {
   onClose: () => void;
+}
+
+export interface ProfileScreenProps {
+  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
+}
+
+export interface EmergencyContact {
+  name: string;
+  phone: string;
 }

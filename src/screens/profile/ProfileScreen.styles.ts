@@ -1,174 +1,152 @@
 import { StyleSheet } from 'react-native';
+<<<<<<< HEAD
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
+=======
+>>>>>>> main
 import {
   DEVICE_HEIGHT,
-  DEVICE_WIDTH,
   EMERGENCY_BUTTON_RADIUS,
   NAVBAR_HEIGHT,
-  SAFE_AREA_BOTTOM_MARGIN,
 } from '@nightlight/src/constants';
+<<<<<<< HEAD
+=======
+import { COLORS, Fonts } from '@nightlight/src/global.styles';
+>>>>>>> main
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
+  scrollViewContainer: {
+    minHeight: '100%',
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    alignItems: 'center',
-    overflowY: 'scroll',
   },
-
-  // background image
-  backgroundImageContainer: {
-    width: DEVICE_WIDTH,
-    height: DEVICE_HEIGHT * 0.25,
-    display: 'flex',
-    alignItems: 'flex-end',
-  },
-  backgroundImage: {
+  coverPicContainer: {
     width: '100%',
-    height: '100%',
   },
-  settingsSVG: {
+  coverPic: {
+    width: '100%',
+    height: DEVICE_HEIGHT * 0.2,
+  },
+  changeCoverButton: {
     position: 'absolute',
-    top: '20%',
-    right: '5%',
+    bottom: 0,
+    padding: 10,
+    opacity: 0.75,
   },
-  photoSvg: {
+  settingsButtonContainer: {
     position: 'absolute',
-    bottom: '5%',
-    left: '5%',
+    right: 0,
+    opacity: 0.75,
   },
-  pencilSVG: {
-    marginTop: 10,
-    marginRight: 10,
+  settingsButton: {
+    padding: 10,
   },
-
-  // profile info
-  profileInfoContainer: {
-    position: 'relative',
-    width: DEVICE_WIDTH,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  profileImage: {
-    width: DEVICE_HEIGHT * 0.15,
-    height: DEVICE_HEIGHT * 0.15,
-    borderRadius: (DEVICE_HEIGHT * 0.15) / 2,
-    marginTop: -(DEVICE_HEIGHT * 0.15 * 0.5),
+  profilePic: {
+    height: 150,
+    width: 150,
+    borderRadius: 150 / 2,
     borderWidth: 3,
     borderColor: COLORS.WHITE,
+    alignSelf: 'center',
+    position: 'absolute',
+    top: DEVICE_HEIGHT * 0.2 - 150 / 2,
+  },
+  profileDetailsContainer: {
+    paddingTop: 150 / 2 + 10,
+    alignItems: 'center',
+  },
+  editProfileButton: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    padding: 10,
+    opacity: 0.75,
   },
   name: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 24,
     color: COLORS.WHITE,
-    marginTop: 5,
   },
-  number: {
+  phoneNumber: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
     color: COLORS.GRAY,
     marginTop: 2,
   },
-
-  // profile statistics
-  scrollView: {
-    display: 'flex',
-    width: DEVICE_WIDTH,
-  },
-  profileStatisticsContainer: {
+  profileStatsContainer: {
     flexDirection: 'row',
+    marginTop: 20,
+  },
+  profileStatContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 80,
-    marginTop: 10,
+    marginVertical: 5,
+    // width: 75,  // Uncomment this to make the stats boxes the same width
   },
-  box: {
-    alignItems: 'center',
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  numberText: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 32,
+  profileStat: {
+    textAlign: 'center',
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 24,
     color: COLORS.WHITE,
   },
-  smallText: {
+  profileStatDesc: {
+    textAlign: 'center',
     fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 15,
+    fontSize: 14,
     color: COLORS.GRAY,
   },
-
-  // favorite bar
-  favoriteBar: {
-    width: '100%',
-    display: 'flex',
+  profileStatDivider: {
+    width: 1,
+    backgroundColor: COLORS.WHITE,
+    marginHorizontal: 20,
+  },
+  favoriteBarContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 10,
+    alignItems: 'center',
+    marginVertical: 30,
   },
-  partySvg: {
-    marginLeft: 20,
-    marginRight: 20,
+  favoriteBarTextContainer: {
+    marginLeft: 10,
   },
-  barInfo: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  barText: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
+  favoriteBarText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 20,
     color: COLORS.WHITE,
-    marginBottom: 2,
+    marginVertical: 5,
   },
-
-  // calendar views
-  calendarView: {
-    width: DEVICE_WIDTH,
-    display: 'flex',
-    alignItems: 'center',
+  favoriteBarDesc: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 12,
+    color: COLORS.GRAY,
   },
   calendarContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
-    borderRadius: 15,
-    width: DEVICE_WIDTH * 0.9,
-    maxWidth: 500,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 4,
-    paddingBottom: 6,
-    marginTop: 20,
-    marginBottom: 20,
-    display: 'flex',
+    marginHorizontal: 10,
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    padding: 10,
+    borderRadius: 10,
   },
   monthView: {
-    display: 'flex',
     alignItems: 'center',
+    marginHorizontal: 4,
   },
   monthText: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 13,
-    color: COLORS.WHITE,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
+    color: COLORS.GRAY,
+    marginTop: 8,
   },
-
-  // emergency contacts button
-  emergencyView: {
-    width: DEVICE_WIDTH,
-    alignItems: 'center',
-    marginBottom:
-      SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS,
-  },
-  emergencyPressable: {
+  emergencyContactsButton: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    paddingHorizontal: 30,
-    paddingVertical: 7,
-    borderRadius: 8,
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 30,
+    borderColor: COLORS.DARK_BLUE,
+    borderWidth: 2,
+    marginBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
-  emergencyText: {
-    color: COLORS.WHITE,
+  emergencyContactsButtonText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 16,
+    color: COLORS.WHITE,
   },
 
   // logout button
