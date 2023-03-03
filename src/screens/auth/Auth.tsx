@@ -22,15 +22,12 @@ import { Controller, useForm } from 'react-hook-form';
 const GoogleIcon = require('@nightlight/assets/googleIcon.png');
 
 const AuthScreen = () => {
+  // whether the user is on the login page or the register page
+  const [isLoginPage, setIsLoginPage] = useState(true);
   // state for password hiding (passwords are hidden by default)
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  // TODO: what is this for?
   const [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true);
-  const [isLogin, setIsLogin] = useState(true);
-
-  const toggleIsPasswordHidden = () => setIsPasswordHidden(prev => !prev);
-  const toggleIsConfirmPasswordHidden = () =>
-    setIsPasswordHidden(prev => !prev);
-  const toggleLoginRegisterLinkPress = () => setIsLogin(prev => !prev);
 
   // react hook form creation
   const {
@@ -77,21 +74,25 @@ const AuthScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={AuthScreenStyles.container}>
+        {/* nightlight logo */}
         <View style={AuthScreenStyles.logoDot} />
         <View style={AuthScreenStyles.logoBody} />
+
+        {/* welcome message */}
         <Text style={AuthScreenStyles.h1}>
-          {isLogin ? 'Hey there' : 'Welcome'}
+          {isLoginPage ? 'Hey there' : 'Welcome'}
           <Text style={AuthScreenStyles.blueText}>.</Text>
         </Text>
         <Text style={AuthScreenStyles.h2}>
-          {isLogin ? "We're glad you're back" : "Let's get started"}
+          {isLoginPage ? "We're glad you're back" : "Let's get started"}
         </Text>
-        <View style={AuthScreenStyles.emailContainer}>
+
+        <View style={AuthScreenStyles.subContainer}>
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                style={AuthScreenStyles.emailInput}
+                style={AuthScreenStyles.textInput}
                 onBlur={onBlur}
                 onChangeText={value => onChange(value)}
                 value={value}
@@ -101,12 +102,12 @@ const AuthScreen = () => {
             name='email'
             rules={{ required: true }}
           />
-          {!isLogin && (
+          {!isLoginPage && (
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
-                  style={AuthScreenStyles.phoneInput}
+                  style={AuthScreenStyles.textInput}
                   placeholder='Phone'
                   keyboardType='phone-pad'
                   secureTextEntry={isConfirmPasswordHidden}
@@ -137,7 +138,7 @@ const AuthScreen = () => {
             />
             <Pressable
               style={AuthScreenStyles.viewPasswordButton}
-              onPress={toggleIsPasswordHidden}>
+              onPress={() => setIsPasswordHidden(prev => !prev)}>
               {isPasswordHidden ? (
                 <Entypo
                   name='eye-with-line'
@@ -149,7 +150,7 @@ const AuthScreen = () => {
               )}
             </Pressable>
           </View>
-          {!isLogin && (
+          {!isLoginPage && (
             <View style={AuthScreenStyles.passwordContainer}>
               <Controller
                 control={control}
@@ -168,7 +169,7 @@ const AuthScreen = () => {
               />
               <Pressable
                 style={AuthScreenStyles.viewPasswordButton}
-                onPress={toggleIsConfirmPasswordHidden}>
+                onPress={() => setIsPasswordHidden(prev => !prev)}>
                 {isConfirmPasswordHidden ? (
                   <Entypo
                     name='eye-with-line'
@@ -182,34 +183,42 @@ const AuthScreen = () => {
             </View>
           )}
 
-          <View style={AuthScreenStyles.forgotPasswordContainer}>
-            <Text style={AuthScreenStyles.forgotPassword}>
-              Forgot password?
-            </Text>
-          </View>
+          {isLoginPage && (
+            <View style={AuthScreenStyles.forgotPasswordContainer}>
+              <Text style={AuthScreenStyles.forgotPassword}>
+                Forgot password?
+              </Text>
+            </View>
+          )}
+
+          {/* Button to Register/Login */}
           <Pressable
             style={AuthScreenStyles.signInButton}
-            onPress={() => handleSubmit(isLogin ? onLogin : onRegister)}>
+            onPress={() => handleSubmit(isLoginPage ? onLogin : onRegister)}>
             <Text style={AuthScreenStyles.signInButtonText}>
-              {isLogin ? 'Sign in' : 'Register'}
+              {isLoginPage ? 'Sign in' : 'Register'}
             </Text>
           </Pressable>
+
           <Text style={AuthScreenStyles.continueWithText}>
             Or continue with
           </Text>
+
           <Pressable style={AuthScreenStyles.googleSignInButton}>
             <Image source={GoogleIcon} style={AuthScreenStyles.googleIcon} />
             <Text style={AuthScreenStyles.googleSignInButtonText}>
-              {isLogin ? 'Sign in with Google  ' : 'Sign up with Google'}
+              {isLoginPage ? 'Sign in with Google  ' : 'Sign up with Google'}
             </Text>
           </Pressable>
+
+          {/* Instruction to switch between Register/Login page */}
           <View>
             <Text style={AuthScreenStyles.notMemberText}>
-              {isLogin ? 'Have an account?  ' : 'Not a member?  '}
+              {isLoginPage ? 'Not a member?  ' : 'Have an account?  '}
               <Text
-                onPress={toggleLoginRegisterLinkPress}
+                onPress={() => setIsLoginPage(prev => !prev)}
                 style={AuthScreenStyles.notMemberLink}>
-                {isLogin ? 'Register now' : 'Login here'}
+                {isLoginPage ? 'Register now' : 'Login here'}
               </Text>
             </Text>
           </View>
