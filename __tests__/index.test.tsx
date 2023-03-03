@@ -2,11 +2,11 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import App from '@nightlight/src/App';
 import { SafeAreaView } from 'react-native';
-import { Route } from '@nightlight/src/types';
+import { TabRoute } from '@nightlight/src/types';
 
 describe('Component <App />', () => {
   // define the list of routes to iterate through
-  const routes = Object.values(Route);
+  const routes = Object.values(TabRoute);
 
   test('it should have a safe area view', () => {
     // render the app

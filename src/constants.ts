@@ -2,6 +2,9 @@ import { Dimensions } from 'react-native';
 import { MoodEmoji } from '@nightlight/src/types';
 import { WithSpringConfig } from 'react-native-reanimated';
 
+// General
+export const NUM_MONTHS: number = 12; // number of months in a year
+
 // Device
 export const DEVICE_HEIGHT: number = Dimensions.get('window').height; // height of the device in points
 export const DEVICE_WIDTH: number = Dimensions.get('window').width; // width of the device in points
