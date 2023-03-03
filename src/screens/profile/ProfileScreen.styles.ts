@@ -3,7 +3,6 @@ import {
   DEVICE_HEIGHT,
   EMERGENCY_BUTTON_RADIUS,
   NAVBAR_HEIGHT,
-  SAFE_AREA_BOTTOM_MARGIN,
 } from '@nightlight/src/constants';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
@@ -11,9 +10,6 @@ export default StyleSheet.create({
   scrollViewContainer: {
     minHeight: '100%',
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    // TODO: might have to fix paddingBottom for devices with home buttons
-    paddingBottom:
-      SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS,
   },
   coverPicContainer: {
     width: '100%',
@@ -138,6 +134,7 @@ export default StyleSheet.create({
     marginVertical: 30,
     borderColor: COLORS.DARK_BLUE,
     borderWidth: 2,
+    marginBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   emergencyContactsButtonText: {
     fontFamily: Fonts.COMFORTAA_BOLD,

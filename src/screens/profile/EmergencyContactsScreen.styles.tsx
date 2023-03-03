@@ -9,7 +9,6 @@ export default StyleSheet.create({
   screenContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     minHeight: '100%',
-    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
