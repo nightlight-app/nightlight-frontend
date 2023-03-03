@@ -195,7 +195,7 @@ export interface LocationData {
 
 export interface Markers {
   // the title of the marker
-  location: LocationData;
+  location: Location;
 }
 
 export interface UserMarkers extends Markers {
