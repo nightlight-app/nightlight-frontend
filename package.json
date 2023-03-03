@@ -52,8 +52,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.7",
-    "socket.io-client": "^4.5.4",
-    "ts-node": "^10.9.1"
+    "socket.io-client": "^4.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
