@@ -19,7 +19,7 @@ import MapScreen from '@nightlight/screens/map/MapScreen';
 import firebase from 'firebase';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
-import AuthScreen from './screens/auth/Auth';
+import AuthScreen from '@nightlight/screens/auth/Auth';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,18 +45,12 @@ preventAutoHideAsync();
 
 const App = () => {
   // state variable for if the user is logged in through firebase
-  const [isUser, setIsUser] = useState<boolean | undefined>(undefined);
-
-  // state variable for if the page is login or register
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>();
 
   // check if user is logged in and set appropriate state variable accordingly
   firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      setIsUser(true);
-    } else {
-      setIsUser(false);
-    }
+    if (user) setIsUserLoggedIn(true);
+    else setIsUserLoggedIn(false);
   });
 
   // Load fonts
@@ -68,27 +62,30 @@ const App = () => {
 
   useEffect(() => {
     // Hide the splash screen after the fonts have loaded, the user is identified, and the UI is ready.
-    if (fontsLoaded && isUser !== undefined) hideAsync();
-  }, [fontsLoaded, isUser]);
+    if (fontsLoaded && isUserLoggedIn !== undefined) hideAsync();
+  }, [fontsLoaded, isUserLoggedIn]);
 
   // Prevent rendering until the font has loaded and user has been identified
-  if (!fontsLoaded || isUser === undefined) return null;
+  if (!fontsLoaded || isUserLoggedIn === undefined) return null;
 
-  return isUser ? (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName={Route.MAP}
-        screenOptions={{ headerShown: false }}
-        tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
-        <Tab.Screen name={Route.MAP} component={MapScreen} />
-        <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
-        <Tab.Screen name={Route.EMERGENCY} component={EmergencyScreen} />
-        <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
-        <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  ) : (
-    <AuthScreen />
+  return (
+    <>
+      {isUserLoggedIn && (
+        <NavigationContainer>
+          <Tab.Navigator
+            initialRouteName={Route.MAP}
+            screenOptions={{ headerShown: false }}
+            tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
+            <Tab.Screen name={Route.MAP} component={MapScreen} />
+            <Tab.Screen name={Route.SOCIAL} component={SocialScreen} />
+            <Tab.Screen name={Route.EMERGENCY} component={EmergencyScreen} />
+            <Tab.Screen name={Route.EXPLORE} component={ExploreScreen} />
+            <Tab.Screen name={Route.PROFILE} component={ProfileScreen} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      )}
+      {!isUserLoggedIn && <AuthScreen />}
+    </>
   );
 };
 
