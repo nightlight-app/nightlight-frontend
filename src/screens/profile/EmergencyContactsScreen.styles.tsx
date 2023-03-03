@@ -61,12 +61,10 @@ export default StyleSheet.create({
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
     padding: 15,
     borderRadius: 10,
-    marginTop: 10,
+    marginTop: 20,
     borderColor: COLORS.DARK_BLUE,
     borderWidth: 2,
-    // TODO: might have to fix marginBottom for devices with home buttons
-    marginBottom:
-      SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS,
+    marginBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   addText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
