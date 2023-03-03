@@ -11,7 +11,7 @@ import {
 import AuthScreenStyles from '@nightlight/screens/auth/Auth.styles';
 import { Entypo } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AuthFormData } from '@nightlight/src/types';
 import {
   handleLogin,
@@ -38,20 +38,44 @@ const AuthScreen = () => {
   } = useForm<AuthFormData>();
 
   /**
-   * Logs in a user from the data in the fields after it passes the validation from react hook forms.
+   * If isLogin is true - logs in a user from the data in the fields after it passes the validation from react hook forms.
    * After successful or unsuccessful login, resets the text fields to be empty and persists the login.
+   *
+   * If isLogin is false - registers a user from the data in the fields after it passes the validation from react hook forms.
+   * After successful or unsuccessful registration, resets the text fields to be empty and persists the login.
    *
    * @param data object containing fields from each input wrapped by a controller
    */
-  const onLogin = (data: any) => {
-    console.log('handling login', data);
-    handleLogin(data.email, data.password).then(() => {
-      reset({
-        email: '',
-        password: '',
+  const onSubmit = (data: any) => {
+    if (isLoginPage) {
+      console.log('handling login', data);
+      handleLogin(data.email, data.password).then(() => {
+        reset({
+          email: '',
+          password: '',
+        });
       });
-    });
+    } else {
+      console.log('handling sign up', data);
+      handleSignUp(data.email, data.password).then(() => {
+        reset({
+          email: '',
+          password: '',
+          confirmPassword: '',
+          phone: '',
+        });
+      });
+    }
   };
+
+  useEffect(() => {
+    reset({
+      email: '',
+      password: '',
+      confirmPassword: '',
+      phone: '',
+    });
+  }, [isLoginPage]);
 
   /**
    * Registers a user from the data in the fields after it passes the validation from react hook forms.
@@ -59,17 +83,7 @@ const AuthScreen = () => {
    *
    * @param data object containing fields from each input wrapped by a controller
    */
-  const onRegister = (data: any) => {
-    console.log('handling sign up', data);
-    handleSignUp(data.email, data.password).then(() => {
-      reset({
-        email: '',
-        password: '',
-        confirmPassword: '',
-        phone: '',
-      });
-    });
-  };
+  const onRegister = (data: any) => {};
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -194,7 +208,7 @@ const AuthScreen = () => {
           {/* Button to Register/Login */}
           <Pressable
             style={AuthScreenStyles.signInButton}
-            onPress={() => handleSubmit(isLoginPage ? onLogin : onRegister)}>
+            onPress={() => handleSubmit(onSubmit)}>
             <Text style={AuthScreenStyles.signInButtonText}>
               {isLoginPage ? 'Sign in' : 'Register'}
             </Text>
