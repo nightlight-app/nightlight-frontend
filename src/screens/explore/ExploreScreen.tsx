@@ -15,7 +15,7 @@ const ExploreScreen = () => {
   // keep track of what page user is on
   const [page, setPage] = useState(1);
 
-  // pagination query params
+  // TODO: pagination query params
   const params = {
     count: 10,
     page: page,
