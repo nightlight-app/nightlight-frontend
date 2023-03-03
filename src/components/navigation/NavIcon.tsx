@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Route, NavIconProps } from '@nightlight/src/types';
+import { TabRoute, NavIconProps } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 
 const NavIcon = ({
@@ -15,9 +15,9 @@ const NavIcon = ({
   color = COLORS.WHITE,
   focusColor = COLORS.NIGHTLIGHT_BLUE,
 }: NavIconProps) => {
-  const renderIcon = (route: Route) => {
+  const renderIcon = (route: TabRoute) => {
     switch (route) {
-      case Route.MAP:
+      case TabRoute.MAP:
         return (
           <Entypo
             name='map'
@@ -25,7 +25,7 @@ const NavIcon = ({
             color={isFocused ? focusColor : color}
           />
         );
-      case Route.SOCIAL:
+      case TabRoute.SOCIAL:
         return (
           <MaterialCommunityIcons
             name='account-group'
@@ -33,7 +33,7 @@ const NavIcon = ({
             color={isFocused ? focusColor : color}
           />
         );
-      case Route.EXPLORE:
+      case TabRoute.EXPLORE:
         return (
           <Ionicons
             name='search'
@@ -41,7 +41,7 @@ const NavIcon = ({
             color={isFocused ? focusColor : color}
           />
         );
-      case Route.PROFILE:
+      case TabRoute.PROFILE_STACK:
         return (
           <FontAwesome
             name='id-card'
