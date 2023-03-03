@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
 import { UserMarkers } from '@nightlight/src/types';
-import { socket } from '@nightlight/src/service/SocketService';
+import { socket } from '@nightlight/src/service/socketService';
 import { RANDOM_USER, TEST_USERS } from '@nightlight/src/testData';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 
@@ -31,9 +31,9 @@ const NightlightMap = () => {
   /**
    * Location Tracking Variables
    */
-  // the userId should be mongoDB user id
+  // TODO: the userId should be mongoDB user id
   const userId = USER_ID;
-  // the groupId should be mongoDB group id
+  // TODO: the groupId should be mongoDB group id
   const groupId = 'testGroup';
   // the list of other user markers to display (excluding the current user)
   const [userMarkers, setUserMarkers] = useState<UserMarkers[]>([]);
@@ -64,17 +64,17 @@ const NightlightMap = () => {
       // update the userMarkers state for other users' locations
       setUserMarkers(prev => {
         const newMarkers = [...prev];
-        const index = newMarkers.findIndex(user => user.id === data.userId);
+        const index = newMarkers.findIndex(user => user.userId === data.userId);
         if (index !== -1) {
           // if the user is already in the list, update their location
           newMarkers[index] = {
-            id: data.userId,
+            userId: data.userId,
             location: data.location,
           };
         } else {
           // if the user is not in the list, add them to the list
           newMarkers.push({
-            id: data.userId,
+            userId: data.userId,
             location: data.location,
           });
         }
@@ -178,7 +178,7 @@ const NightlightMap = () => {
 
           {/* UserLocation tracker */}
           <MapboxGL.UserLocation
-            showsUserHeadingIndicator={false}
+            // showsUserHeadingIndicator={true} // TODO: uncomment after demo
             renderMode={'native'}
             visible={true}
             minDisplacement={1}
@@ -192,7 +192,7 @@ const NightlightMap = () => {
                 <MapboxGL.MarkerView
                   key={index}
                   coordinate={[user.location.longitude, user.location.latitude]}
-                  title={user.id}>
+                  title={user.userId}>
                   <View style={NightlightMapStyles.userMarkerView}>
                     <FontAwesome5
                       name='map-marker'
@@ -230,20 +230,13 @@ const NightlightMap = () => {
             MapScreenStyles.mapControlButton,
             MapScreenStyles.currentLocationButton,
           ]}>
-          {!isCameraFollowingUser && (
-            <MaterialCommunityIcons
-              name='navigation-variant-outline'
-              size={32}
-              color={COLORS.NIGHTLIGHT_BLUE}
-            />
-          )}
-          {isCameraFollowingUser && (
-            <MaterialCommunityIcons
-              name='navigation-variant'
-              size={32}
-              color={COLORS.NIGHTLIGHT_BLUE}
-            />
-          )}
+          <MaterialCommunityIcons
+            name={`navigation-variant${
+              isCameraFollowingUser ? '' : '-outline'
+            }`}
+            size={32}
+            color={COLORS.NIGHTLIGHT_BLUE}
+          />
         </Pressable>
       </View>
     </View>

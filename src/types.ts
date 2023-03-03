@@ -188,7 +188,6 @@ export interface MoodButtonProps {
   onClose: () => void;
 }
 
-
 export interface Markers {
   // the title of the marker
   location: Location;
@@ -196,5 +195,5 @@ export interface Markers {
 
 export interface UserMarkers extends Markers {
   // the id of the user (mongoose ObjectId)
-  id: string;
+  userId: string;
 }
