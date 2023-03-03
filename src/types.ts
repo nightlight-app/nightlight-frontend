@@ -217,3 +217,13 @@ export interface EmergencyContact {
   name: string;
   phone: string;
 }
+
+export interface Markers {
+  // the title of the marker
+  location: Location;
+}
+
+export interface UserMarkers extends Markers {
+  // the id of the user (mongoose ObjectId)
+  userId: string;
+}

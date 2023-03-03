@@ -14,4 +14,16 @@ export default StyleSheet.create({
   map: {
     height: DEVICE_HEIGHT,
   },
+  userMarkerView: {
+    position: 'relative',
+    bottom: '50%',
+    alignItems: 'center',
+  },
+  userMarkerImage: {
+    position: 'absolute',
+    borderRadius: 32 / 2,
+    height: 32,
+    width: 32,
+    marginTop: 3,
+  },
 });
