@@ -187,3 +187,18 @@ export interface EmergencyOverlayProps {
 export interface MoodButtonProps {
   onClose: () => void;
 }
+
+export interface LocationData {
+  latitude: number;
+  longitude: number;
+}
+
+export interface Markers {
+  // the title of the marker
+  location: LocationData;
+}
+
+export interface UserMarkers extends Markers {
+  // the id of the user (mongoose ObjectId)
+  id: string;
+}

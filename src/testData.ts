@@ -1,5 +1,10 @@
 import { User, Group, Venue } from '@nightlight/src/types';
 
+export const RANDOM_USER = {
+  // randomize this id with a uuid generator
+  _id: Math.random().toString(36).substring(2),
+};
+
 export const TEST_USERS: User[] = [
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4566',
