@@ -137,19 +137,19 @@ export const handleSignUp = async (email: string, password: string) => {
 };
 
 /**
- * Login to Firebase Authentication using email and password.
+ * Sign in to Firebase Authentication using email and password.
  *
  * @param email valid string email address
  * @param password valid password for user account
  */
-export const handleLogin = async (email: string, password: string) => {
-  console.log('[Firebase] Logging in user...');
+export const handleSignIn = async (email: string, password: string) => {
+  console.log('[Firebase] Signing in user...');
 
   try {
     const user: UserCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log('[Firebase] Successfully logged in user!', user);
+    console.log('[Firebase] Successfully signed in user!', user);
   } catch (error: unknown) {
-    console.log('[Firebase] Error logging in user!');
+    console.log('[Firebase] Error signing in user!');
     console.error(error);
   }
 };

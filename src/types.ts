@@ -17,9 +17,11 @@ export enum TabRoute {
   EMERGENCY_BUTTON = 'EmergencyButton',
   EXPLORE = 'Explore',
   PROFILE_STACK = 'ProfileStack',
-  // TODO: organize these
-  LOGIN = 'Login',
-  REGISTER = 'Register',
+}
+
+export enum AuthRoute {
+  SIGN_IN = 'SignIn',
+  SIGN_UP = 'SignUp',
 }
 
 export enum ProfileRoute {
@@ -249,9 +251,5 @@ export interface UserMarkers extends Markers {
 }
 
 export interface AuthContextInterface {
-  user: FirebaseUser | null;
-}
-
-export interface ProviderProps {
-  children: React.ReactNode;
+  user: FirebaseUser | undefined;
 }

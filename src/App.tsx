@@ -1,9 +1,8 @@
 import { registerRootComponent } from 'expo';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useFonts } from 'expo-font';
 import {
-  useFonts,
   Comfortaa_400Regular,
   Comfortaa_700Bold,
 } from '@expo-google-fonts/comfortaa';
@@ -15,48 +14,52 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ProfileRoute, TabRoute } from '@nightlight/src/types';
+import { AuthRoute, ProfileRoute, TabRoute } from '@nightlight/src/types';
+import {
+  AuthProvider,
+  useAuthContext,
+} from '@nightlight/src/contexts/AuthContext';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
-import firebase from 'firebase';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import SocialScreen from '@nightlight/screens/social/SocialScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
 
-// TODO:
-import AuthScreen from '@nightlight/screens/auth/Auth';
-
-const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const EmergencyButtonComponentPlaceholder = () => null;
+const AuthStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 // Prevent hiding the splash screen
 preventAutoHideAsync();
 
+const AuthScreenStack = () => (
+  <AuthStack.Navigator
+    initialRouteName={AuthRoute.SIGN_IN}
+    screenOptions={{ headerShown: false }}>
+    <AuthStack.Screen name={AuthRoute.SIGN_IN} component={SignInScreen} />
+    <AuthStack.Screen name={AuthRoute.SIGN_UP} component={SignUpScreen} />
+  </AuthStack.Navigator>
+);
+
 const ProfileScreenStack = () => (
-  <Stack.Navigator
+  <ProfileStack.Navigator
     initialRouteName={ProfileRoute.PROFILE}
     screenOptions={{ headerShown: false }}>
-    <Stack.Screen name={ProfileRoute.PROFILE} component={ProfileScreen} />
-    <Stack.Screen
+    <ProfileStack.Screen
+      name={ProfileRoute.PROFILE}
+      component={ProfileScreen}
+    />
+    <ProfileStack.Screen
       name={ProfileRoute.EMERGENCY_CONTACTS}
       component={EmergencyContactsScreen}
     />
     {/* <Stack.Screen name={ProfileRoute.SETTINGS} component={SettingsScreen} /> */}
-  </Stack.Navigator>
+  </ProfileStack.Navigator>
 );
 
 const App = () => {
-  // state variable for if the user is logged in through firebase
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>();
-
-  // check if user is logged in and set appropriate state variable accordingly
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) setIsUserLoggedIn(true);
-    else setIsUserLoggedIn(false);
-  });
+  const { user } = useAuthContext();
 
   // Load fonts
   const [fontsLoaded] = useFonts({
@@ -66,17 +69,17 @@ const App = () => {
   });
 
   useEffect(() => {
-    // Hide the splash screen after the fonts have loaded, the user is identified, and the UI is ready.
-    if (fontsLoaded && isUserLoggedIn !== undefined) hideAsync();
-  }, [fontsLoaded, isUserLoggedIn]);
+    // Hide the splash screen after the fonts have loaded, if auth state has been identified, and the UI is ready.
+    if (fontsLoaded !== undefined || user !== undefined) hideAsync();
+  }, [fontsLoaded]);
 
-  // Prevent rendering until the font has loaded and user has been identified
-  if (!fontsLoaded || isUserLoggedIn === undefined) return null;
+  // Prevent rendering if fonts have not loaded or auth state has not been identified
+  if (!fontsLoaded || user === undefined) return null;
 
   return (
-    <NavigationContainer>
-      <StatusBar style='light' />
-      {isUserLoggedIn ? (
+    <AuthProvider>
+      <NavigationContainer>
+        <StatusBar style='light' />
         <Tab.Navigator
           initialRouteName={TabRoute.MAP}
           screenOptions={{ headerShown: false }}
@@ -85,10 +88,7 @@ const App = () => {
           <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
 
           {/* Placeholder to allocate space for emergency button to render in tab bar */}
-          <Tab.Screen
-            name={TabRoute.EMERGENCY_BUTTON}
-            component={EmergencyButtonComponentPlaceholder}
-          />
+          <Tab.Screen name={TabRoute.EMERGENCY_BUTTON} component={() => null} />
 
           <Tab.Screen name={TabRoute.EXPLORE} component={ExploreScreen} />
           <Tab.Screen
@@ -97,10 +97,8 @@ const App = () => {
             initialParams={{ screen: ProfileRoute.PROFILE }}
           />
         </Tab.Navigator>
-      ) : (
-        <AuthScreen />
-      )}
-    </NavigationContainer>
+      </NavigationContainer>
+    </AuthProvider>
   );
 };
 
