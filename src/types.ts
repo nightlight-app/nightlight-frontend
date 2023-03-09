@@ -2,6 +2,7 @@ import { SvgProps } from 'react-native-svg';
 import { SharedValue } from 'react-native-reanimated';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
+import type { User as FirebaseUser } from 'firebase/auth';
 
 export interface AuthFormData {
   email: string;
@@ -245,4 +246,12 @@ export interface Markers {
 export interface UserMarkers extends Markers {
   // the id of the user (mongoose ObjectId)
   userId: string;
+}
+
+export interface AuthContextInterface {
+  user: FirebaseUser | null;
+}
+
+export interface ProviderProps {
+  children: React.ReactNode;
 }
