@@ -1,5 +1,5 @@
 import { registerRootComponent } from 'expo';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import {
@@ -19,6 +19,8 @@ import {
   AuthProvider,
   useAuthContext,
 } from '@nightlight/src/contexts/AuthContext';
+import SignInScreen from './screens/auth/SignInScreen';
+import SignUpScreen from './screens/auth/SignUpScreen';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
@@ -33,14 +35,16 @@ const ProfileStack = createNativeStackNavigator();
 // Prevent hiding the splash screen
 preventAutoHideAsync();
 
-const AuthScreenStack = () => (
-  <AuthStack.Navigator
-    initialRouteName={AuthRoute.SIGN_IN}
-    screenOptions={{ headerShown: false }}>
-    <AuthStack.Screen name={AuthRoute.SIGN_IN} component={SignInScreen} />
-    <AuthStack.Screen name={AuthRoute.SIGN_UP} component={SignUpScreen} />
-  </AuthStack.Navigator>
-);
+const AuthScreenStack = () => {
+  return (
+    <AuthStack.Navigator
+      initialRouteName={AuthRoute.SIGN_IN}
+      screenOptions={{ headerShown: false }}>
+      <AuthStack.Screen name={AuthRoute.SIGN_IN} component={SignInScreen} />
+      <AuthStack.Screen name={AuthRoute.SIGN_UP} component={SignUpScreen} />
+    </AuthStack.Navigator>
+  );
+};
 
 const ProfileScreenStack = () => (
   <ProfileStack.Navigator
@@ -69,34 +73,41 @@ const App = () => {
   });
 
   useEffect(() => {
-    // Hide the splash screen after the fonts have loaded, if auth state has been identified, and the UI is ready.
-    if (fontsLoaded !== undefined || user !== undefined) hideAsync();
+    // Hide the splash screen after the fonts have loaded and the UI is ready.
+    if (fontsLoaded !== undefined) hideAsync();
   }, [fontsLoaded]);
 
-  // Prevent rendering if fonts have not loaded or auth state has not been identified
-  if (!fontsLoaded || user === undefined) return null;
+  // Prevent rendering if fonts have not loaded
+  if (!fontsLoaded) return null;
 
   return (
     <AuthProvider>
+      <StatusBar style='light' />
       <NavigationContainer>
-        <StatusBar style='light' />
-        <Tab.Navigator
-          initialRouteName={TabRoute.MAP}
-          screenOptions={{ headerShown: false }}
-          tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
-          <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
-          <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
+        {user ? (
+          <Tab.Navigator
+            initialRouteName={TabRoute.MAP}
+            screenOptions={{ headerShown: false }}
+            tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
+            <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
+            <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
 
-          {/* Placeholder to allocate space for emergency button to render in tab bar */}
-          <Tab.Screen name={TabRoute.EMERGENCY_BUTTON} component={() => null} />
+            {/* Placeholder to allocate space for emergency button to render in tab bar */}
+            <Tab.Screen
+              name={TabRoute.EMERGENCY_BUTTON}
+              component={() => null}
+            />
 
-          <Tab.Screen name={TabRoute.EXPLORE} component={ExploreScreen} />
-          <Tab.Screen
-            name={TabRoute.PROFILE_STACK}
-            component={ProfileScreenStack}
-            initialParams={{ screen: ProfileRoute.PROFILE }}
-          />
-        </Tab.Navigator>
+            <Tab.Screen name={TabRoute.EXPLORE} component={ExploreScreen} />
+            <Tab.Screen
+              name={TabRoute.PROFILE_STACK}
+              component={ProfileScreenStack}
+              initialParams={{ screen: ProfileRoute.PROFILE }}
+            />
+          </Tab.Navigator>
+        ) : (
+          <AuthScreenStack />
+        )}
       </NavigationContainer>
     </AuthProvider>
   );
