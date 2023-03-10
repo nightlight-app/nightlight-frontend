@@ -8,7 +8,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // TODO: Refactor hard coded values
   logo: {
     width: 200,
     marginBottom: 25,

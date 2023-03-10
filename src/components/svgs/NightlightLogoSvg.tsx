@@ -30,6 +30,7 @@ const NightlightLogoSvg = (props: ISvgProps) => (
         fill={COLORS.WHITE}
       />
       <G filter='url(#a)'>
+        {/* TODO: help how do i make shadow here */}
         <Circle cx={611.5} cy={31.5} r={11.5} fill={COLORS.NIGHTLIGHT_BLUE} />
       </G>
       <Defs></Defs>
