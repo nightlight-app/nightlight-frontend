@@ -19,7 +19,8 @@ export default StyleSheet.create({
     color: COLORS.GRAY,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 16,
-    marginBottom: 5,
+    marginBottom: 10,
+    marginLeft: 5,
   },
   emailInput: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
