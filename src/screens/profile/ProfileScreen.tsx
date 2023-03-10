@@ -20,9 +20,11 @@ import {
 import { NUM_MONTHS } from '@nightlight/src/constants';
 import { COLORS } from '@nightlight/src/global.styles';
 import { TEST_USERS } from '@nightlight/src/testData';
-import { formatPhoneNumber, getMonthText } from '@nightlight/src/utils/utils';
-import { handleSignOut } from '@nightlight/src/config/firebaseConfig';
-
+import {
+  formatPhoneNumber,
+  getMonthText,
+  handleSignOut,
+} from '@nightlight/src/utils/utils';
 // TODO: determine logged in user
 const user = TEST_USERS[0];
 

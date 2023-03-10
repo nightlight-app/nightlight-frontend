@@ -10,8 +10,7 @@ export default StyleSheet.create({
   },
   // TODO: Refactor hard coded values
   logo: {
-    height: 43,
-    width: 193,
+    width: 200,
     marginBottom: 25,
   },
   inputsContainer: {
@@ -49,7 +48,7 @@ export default StyleSheet.create({
   },
   forgotPasswordLink: {
     alignSelf: 'flex-end',
-    marginTop: 5,
+    marginTop: 10,
   },
   forgotPasswordText: {
     color: COLORS.GRAY,
@@ -100,8 +99,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   googleLogo: {
-    height: 20,
-    width: 20,
+    marginRight: 15,
   },
   signInWithGoogleButtonText: {
     color: COLORS.DARK_GRAY,
