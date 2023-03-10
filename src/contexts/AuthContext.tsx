@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
+      console.log('[Firebase] Authentication state changed:', user);
       setUser(user ? user : undefined);
     });
 

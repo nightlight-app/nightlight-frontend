@@ -146,7 +146,11 @@ export const handleSignIn = async (email: string, password: string) => {
   console.log('[Firebase] Signing in user...');
 
   try {
-    const user: UserCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user: UserCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     console.log('[Firebase] Successfully signed in user!', user);
   } catch (error: unknown) {
     console.log('[Firebase] Error signing in user!');

@@ -23,7 +23,6 @@
   "dependencies": {
     "@expo-google-fonts/comfortaa": "^0.2.2",
     "@expo-google-fonts/roboto": "^0.2.2",
-    "@react-native-firebase/app": "^16.7.0",
     "@react-native-masked-view/masked-view": "0.2.8",
     "@react-navigation/bottom-tabs": "^6.5.4",
     "@react-navigation/native": "^6.1.5",
@@ -40,7 +39,6 @@
     "firebase": "^9.17.2",
     "react": "^18.1.0",
     "react-dom": "18.1.0",
-    "react-hook-form": "^7.43.1",
     "react-native": "0.70.5",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-reanimated": "~2.12.0",

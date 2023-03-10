@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -7,10 +8,25 @@ import {
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import SignInScreenStyles from '@nightlight/screens/auth/SignInScreen.styles';
-import { COLORS } from '@nightlight/src/global.styles';
 import NightlightLogoSvg from '@nightlight/components/svgs/NightlightLogoSvg';
+import { COLORS } from '@nightlight/src/global.styles';
+import { handleSignIn } from '@nightlight/src/utils/utils';
 
 const SignInScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const resetInputFields = () => {
+    setEmail('');
+    setPassword('');
+  };
+
+  const handleSignInPress = () => {
+    handleSignIn(email, password).then(() => {
+      resetInputFields();
+    });
+  };
+
   return (
     <SafeAreaView style={SignInScreenStyles.container}>
       {/* nightlight Logo */}
@@ -23,11 +39,18 @@ const SignInScreen = () => {
           placeholder='Email'
           placeholderTextColor={COLORS.DARK_GRAY}
           style={SignInScreenStyles.emailInput}
+          autoCapitalize='none'
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           placeholder='Password'
           placeholderTextColor={COLORS.DARK_GRAY}
           style={SignInScreenStyles.passwordInput}
+          autoCapitalize='none'
+          secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
         />
         <TouchableOpacity
           activeOpacity={0.75}
@@ -40,6 +63,7 @@ const SignInScreen = () => {
 
       {/* Sign-In Button */}
       <TouchableOpacity
+        onPress={handleSignInPress}
         activeOpacity={0.75}
         style={SignInScreenStyles.signInButton}>
         <Text style={SignInScreenStyles.signInButtonText}>Sign In</Text>

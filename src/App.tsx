@@ -8,6 +8,9 @@ import {
 } from '@expo-google-fonts/comfortaa';
 import { Roboto_500Medium } from '@expo-google-fonts/roboto';
 import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen';
+
+// TODO: export navigators to separate files?
+
 import { NavigationContainer } from '@react-navigation/native';
 import {
   BottomTabBarProps,
@@ -62,9 +65,42 @@ const ProfileScreenStack = () => (
   </ProfileStack.Navigator>
 );
 
-const App = () => {
+const Main = () => {
   const { user } = useAuthContext();
 
+  const EmergencyButtonPlaceholderComponent = () => null;
+
+  return (
+    <NavigationContainer>
+      {user ? (
+        <Tab.Navigator
+          initialRouteName={TabRoute.MAP}
+          screenOptions={{ headerShown: false }}
+          tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
+          <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
+          <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
+
+          {/* Placeholder to allocate space for emergency button to render in tab bar */}
+          <Tab.Screen
+            name={TabRoute.EMERGENCY_BUTTON}
+            component={EmergencyButtonPlaceholderComponent}
+          />
+
+          <Tab.Screen name={TabRoute.EXPLORE} component={ExploreScreen} />
+          <Tab.Screen
+            name={TabRoute.PROFILE_STACK}
+            component={ProfileScreenStack}
+            initialParams={{ screen: ProfileRoute.PROFILE }}
+          />
+        </Tab.Navigator>
+      ) : (
+        <AuthScreenStack />
+      )}
+    </NavigationContainer>
+  );
+};
+
+const App = () => {
   // Load fonts
   const [fontsLoaded] = useFonts({
     Comfortaa_400Regular,
@@ -83,32 +119,7 @@ const App = () => {
   return (
     <AuthProvider>
       <StatusBar style='light' />
-      <NavigationContainer>
-        {user ? (
-          <Tab.Navigator
-            initialRouteName={TabRoute.MAP}
-            screenOptions={{ headerShown: false }}
-            tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
-            <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
-            <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
-
-            {/* Placeholder to allocate space for emergency button to render in tab bar */}
-            <Tab.Screen
-              name={TabRoute.EMERGENCY_BUTTON}
-              component={() => null}
-            />
-
-            <Tab.Screen name={TabRoute.EXPLORE} component={ExploreScreen} />
-            <Tab.Screen
-              name={TabRoute.PROFILE_STACK}
-              component={ProfileScreenStack}
-              initialParams={{ screen: ProfileRoute.PROFILE }}
-            />
-          </Tab.Navigator>
-        ) : (
-          <AuthScreenStack />
-        )}
-      </NavigationContainer>
+      <Main />
     </AuthProvider>
   );
 };
