@@ -5,8 +5,9 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Pressable,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import SignInScreenStyles from '@nightlight/screens/auth/SignInScreen.styles';
 import NightlightLogoSvg from '@nightlight/components/svgs/NightlightLogoSvg';
 import { COLORS } from '@nightlight/src/global.styles';
@@ -15,6 +16,11 @@ import { handleSignIn } from '@nightlight/src/utils/utils';
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(prev => !prev);
+  };
 
   const resetInputFields = () => {
     setEmail('');
@@ -43,15 +49,26 @@ const SignInScreen = () => {
           value={email}
           onChangeText={setEmail}
         />
-        <TextInput
-          placeholder='Password'
-          placeholderTextColor={COLORS.DARK_GRAY}
-          style={SignInScreenStyles.passwordInput}
-          autoCapitalize='none'
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
+        <View style={SignInScreenStyles.passwordInputContainer}>
+          <TextInput
+            placeholder='Password'
+            placeholderTextColor={COLORS.DARK_GRAY}
+            style={SignInScreenStyles.passwordInput}
+            autoCapitalize='none'
+            secureTextEntry={!showPassword}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <Pressable
+            onPress={toggleShowPassword}
+            style={SignInScreenStyles.showPasswordButton}>
+            <Ionicons
+              name={`ios-eye${showPassword ? '' : '-off'}-outline`}
+              size={24}
+              color={COLORS.DARK_GRAY}
+            />
+          </Pressable>
+        </View>
         <TouchableOpacity
           activeOpacity={0.75}
           style={SignInScreenStyles.forgotPasswordLink}>

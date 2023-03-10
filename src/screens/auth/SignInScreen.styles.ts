@@ -34,6 +34,9 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
     padding: 10,
   },
+  passwordInputContainer: {
+    position: 'relative',
+  },
   passwordInput: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     borderColor: COLORS.DARK_GRAY,
@@ -45,6 +48,11 @@ export default StyleSheet.create({
     fontSize: 16,
     color: COLORS.WHITE,
     padding: 10,
+  },
+  showPasswordButton: {
+    position: 'absolute',
+    right: 0,
+    margin: 8,
   },
   forgotPasswordLink: {
     alignSelf: 'flex-end',
