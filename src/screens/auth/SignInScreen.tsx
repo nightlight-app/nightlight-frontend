@@ -17,9 +17,9 @@ import NightlightLogoSvg from '@nightlight/components/svgs/NightlightLogoSvg';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import Banner from '@nightlight/components/Banner';
-import { SignInScreenProps } from '@nightlight/src/types';
+import { AuthRoute, NativeStackScreenProps } from '@nightlight/src/types';
 
-const SignInScreen = ({ navigation }: SignInScreenProps) => {
+const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -49,13 +49,13 @@ const SignInScreen = ({ navigation }: SignInScreenProps) => {
     try {
       setIsErrorVisible(false);
 
-      const user: UserCredential = await signInWithEmailAndPassword(
+      const { user }: UserCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-      console.log('[Firebase] Successfully signed in user!', user);
+      console.log('[Firebase] Successfully signed in user!', user.uid);
 
       resetInputFields();
     } catch (error: any) {
@@ -82,7 +82,7 @@ const SignInScreen = ({ navigation }: SignInScreenProps) => {
 
   const handleSignUpPress = () => {
     console.log('[Firebase] Signing up user...');
-    Alert.alert('TODO: Sign up user');
+    navigation.navigate(AuthRoute.SIGN_UP);
   };
 
   return (

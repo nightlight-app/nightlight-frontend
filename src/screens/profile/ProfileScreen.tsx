@@ -14,7 +14,7 @@ import PartySvg from '@nightlight/components/svgs/PartySvg';
 import BottleSvg from '@nightlight/components/svgs/BottleSvg';
 import {
   ProfileRoute,
-  ProfileScreenProps,
+  BottomTabScreenProps,
   TabRoute,
 } from '@nightlight/src/types';
 import { NUM_MONTHS } from '@nightlight/src/constants';
@@ -28,7 +28,7 @@ import {
 // TODO: determine logged in user
 const user = TEST_USERS[0];
 
-const ProfileScreen = ({ navigation }: ProfileScreenProps) => {
+const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   // TODO:
   const handleChangeCoverPicture = () => {
     Alert.alert('TODO: change cover picture');

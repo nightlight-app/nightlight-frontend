@@ -124,12 +124,15 @@ export const handleSignUp = async (email: string, password: string) => {
   console.log('[Firebase] Signing up new user...');
 
   try {
-    const user: UserCredential = await createUserWithEmailAndPassword(
+    const { user }: UserCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    console.log('[Firebase] Successfully signed up new user!', user);
+    console.log(
+      '[Firebase] Successfully signed up new user! User ID:',
+      user.uid
+    );
   } catch (error: unknown) {
     console.log('[Firebase] Error signing up new user!');
     console.error(error);
@@ -146,12 +149,12 @@ export const handleSignIn = async (email: string, password: string) => {
   console.log('[Firebase] Signing in user...');
 
   try {
-    const user: UserCredential = await signInWithEmailAndPassword(
+    const { user }: UserCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
-    console.log('[Firebase] Successfully signed in user!', user);
+    console.log('[Firebase] Successfully signed in user! User ID:', user.uid);
   } catch (error: unknown) {
     console.log('[Firebase] Error signing in user!');
     console.error(error);

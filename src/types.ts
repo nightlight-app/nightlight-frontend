@@ -232,8 +232,12 @@ export interface MoodButtonProps {
   onClose: () => void;
 }
 
-export interface ProfileScreenProps {
+export interface BottomTabScreenProps {
   navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
+}
+
+export interface NativeStackScreenProps {
+  navigation: NavigationHelpers<ParamListBase, NativeStackNavigationEventMap>;
 }
 
 export interface EmergencyContact {
@@ -252,15 +256,11 @@ export interface UserMarkers extends Markers {
 }
 
 export interface AuthContextInterface {
-  user: FirebaseUser | undefined;
+  user: FirebaseUser | null | undefined;
 }
 
 export interface BannerProps {
   message: string;
   backgroundColor: string;
   textColor: string;
-}
-
-export interface SignInScreenProps {
-  navigation: NavigationHelpers<ParamListBase, NativeStackNavigationEventMap>;
 }

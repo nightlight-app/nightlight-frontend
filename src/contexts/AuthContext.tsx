@@ -24,12 +24,12 @@ export const useAuthContext = () => {
 };
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [user, setUser] = useState<FirebaseUser | undefined>(undefined);
+  const [user, setUser] = useState<FirebaseUser | null | undefined>(undefined);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
-      console.log('[Firebase] Authentication state changed:', user);
-      setUser(user ? user : undefined);
+      console.log('[Firebase] Authentication state changed:', user?.uid);
+      setUser(user);
     });
 
     return () => unsubscribe();
