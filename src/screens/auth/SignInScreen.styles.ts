@@ -19,7 +19,7 @@ export default StyleSheet.create({
     color: COLORS.GRAY,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 5,
     marginLeft: 5,
   },
   emailInput: {
@@ -118,16 +118,16 @@ export default StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
-  registerMessageContainer: {
+  signUpMessageContainer: {
     flexDirection: 'row',
   },
-  registerPretext: {
+  signUpPretext: {
     color: COLORS.GRAY,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
   },
-  registerLink: {},
-  registerText: {
+  signUpLink: {},
+  signUpText: {
     color: COLORS.NIGHTLIGHT_BLUE,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,

@@ -8,6 +8,7 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import { signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
@@ -16,8 +17,9 @@ import NightlightLogoSvg from '@nightlight/components/svgs/NightlightLogoSvg';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import Banner from '@nightlight/components/Banner';
+import { SignInScreenProps } from '@nightlight/src/types';
 
-const SignInScreen = () => {
+const SignInScreen = ({ navigation }: SignInScreenProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -35,6 +37,10 @@ const SignInScreen = () => {
   const resetInputFields = () => {
     setEmail('');
     setPassword('');
+  };
+
+  const handleForgotPasswordPress = () => {
+    Alert.alert('TODO: Handle forgot password');
   };
 
   const handleSignInPress = async () => {
@@ -63,10 +69,20 @@ const SignInScreen = () => {
           setIsErrorVisible(true);
           break;
         default:
-          console.error('Unhandled error code:', error?.code);
+          console.error('[Firebase] Unhandled error code:', error?.code);
           break;
       }
     }
+  };
+
+  const handleSignInWithGooglePress = () => {
+    console.log('[Firebase] Signing in user with Google...');
+    Alert.alert('TODO: Sign in with Google');
+  };
+
+  const handleSignUpPress = () => {
+    console.log('[Firebase] Signing up user...');
+    Alert.alert('TODO: Sign up user');
   };
 
   return (
@@ -113,6 +129,7 @@ const SignInScreen = () => {
             </Pressable>
           </View>
           <TouchableOpacity
+            onPress={handleForgotPasswordPress}
             activeOpacity={0.75}
             style={SignInScreenStyles.forgotPasswordLink}>
             <Text style={SignInScreenStyles.forgotPasswordText}>
@@ -140,6 +157,7 @@ const SignInScreen = () => {
 
         {/* Sign in with Google */}
         <TouchableOpacity
+          onPress={handleSignInWithGooglePress}
           activeOpacity={0.75}
           style={SignInScreenStyles.signInWithGoogleButton}>
           {/* TODO: should we make this the actual Google logo? (idk abt copyright stuff) */}
@@ -154,13 +172,14 @@ const SignInScreen = () => {
           </Text>
         </TouchableOpacity>
 
-        {/* Register Message */}
-        <View style={SignInScreenStyles.registerMessageContainer}>
-          <Text style={SignInScreenStyles.registerPretext}>New here? </Text>
+        {/* Sign Up Message */}
+        <View style={SignInScreenStyles.signUpMessageContainer}>
+          <Text style={SignInScreenStyles.signUpPretext}>New here? </Text>
           <TouchableOpacity
+            onPress={handleSignUpPress}
             activeOpacity={0.75}
-            style={SignInScreenStyles.registerLink}>
-            <Text style={SignInScreenStyles.registerText}>Register now!</Text>
+            style={SignInScreenStyles.signUpLink}>
+            <Text style={SignInScreenStyles.signUpText}>Sign up now!</Text>
           </TouchableOpacity>
         </View>
 

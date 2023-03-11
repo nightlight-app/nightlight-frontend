@@ -3,6 +3,7 @@ import { SharedValue } from 'react-native-reanimated';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 import type { User as FirebaseUser } from 'firebase/auth';
+import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
 
 export interface AuthFormData {
   email: string;
@@ -258,4 +259,8 @@ export interface BannerProps {
   message: string;
   backgroundColor: string;
   textColor: string;
+}
+
+export interface SignInScreenProps {
+  navigation: NavigationHelpers<ParamListBase, NativeStackNavigationEventMap>;
 }
