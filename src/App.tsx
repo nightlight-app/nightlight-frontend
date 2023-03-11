@@ -22,8 +22,8 @@ import {
   AuthProvider,
   useAuthContext,
 } from '@nightlight/src/contexts/AuthContext';
-import SignInScreen from './screens/auth/SignInScreen';
-import SignUpScreen from './screens/auth/SignUpScreen';
+import SignInScreen from '@nightlight/screens/auth/SignInScreen';
+import SignUpScreen from '@nightlight/screens/auth/SignUpScreen';
 import TabBar from '@nightlight/components/navigation/TabBar';
 import MapScreen from '@nightlight/screens/map/MapScreen';
 import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
