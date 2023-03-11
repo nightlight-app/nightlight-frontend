@@ -9,13 +9,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated';
 import { signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import SignInScreenStyles from '@nightlight/screens/auth/SignInScreen.styles';
 import NightlightLogoSvg from '@nightlight/components/svgs/NightlightLogoSvg';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
+import Banner from '@nightlight/components/Banner';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
@@ -166,14 +166,11 @@ const SignInScreen = () => {
 
         {/* Error Banner */}
         {isErrorVisible && (
-          <Animated.View
-            entering={SlideInUp}
-            exiting={SlideOutUp}
-            style={SignInScreenStyles.errorBanner}>
-            <Text style={SignInScreenStyles.errorBannerText}>
-              Uh oh! The email or password you entered is incorrect.
-            </Text>
-          </Animated.View>
+          <Banner
+            message='Uh oh! The email or password you entered is incorrect.'
+            backgroundColor={COLORS.RED}
+            textColor={COLORS.WHITE}
+          />
         )}
       </SafeAreaView>
     </TouchableWithoutFeedback>

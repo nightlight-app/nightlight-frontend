@@ -253,3 +253,9 @@ export interface UserMarkers extends Markers {
 export interface AuthContextInterface {
   user: FirebaseUser | undefined;
 }
+
+export interface BannerProps {
+  message: string;
+  backgroundColor: string;
+  textColor: string;
+}

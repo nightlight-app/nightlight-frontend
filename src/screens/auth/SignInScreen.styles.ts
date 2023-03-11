@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
@@ -133,19 +132,5 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
     textDecorationLine: 'underline',
-  },
-  errorBanner: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
-    backgroundColor: COLORS.RED,
-    paddingVertical: 10,
-    paddingTop: Constants.statusBarHeight + 10,
-  },
-  errorBannerText: {
-    color: COLORS.WHITE,
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 12,
-    textAlign: 'center',
   },
 });
