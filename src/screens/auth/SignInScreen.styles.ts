@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
@@ -49,7 +50,10 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
     padding: 10,
   },
-  showPasswordButton: {
+  errorInput: {
+    borderColor: COLORS.RED,
+  },
+  passwordVisibilityButton: {
     position: 'absolute',
     right: 0,
     margin: 8,
@@ -59,7 +63,7 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   forgotPasswordText: {
-    color: COLORS.GRAY,
+    color: COLORS.DARK_GRAY,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
     textDecorationLine: 'underline',
@@ -71,7 +75,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 15,
     width: 275,
-    marginVertical: 20,
+    marginVertical: 30,
   },
   signInButtonText: {
     color: COLORS.WHITE,
@@ -129,5 +133,19 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
     textDecorationLine: 'underline',
+  },
+  errorBanner: {
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    backgroundColor: COLORS.RED,
+    paddingVertical: 10,
+    paddingTop: Constants.statusBarHeight + 10,
+  },
+  errorBannerText: {
+    color: COLORS.WHITE,
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 12,
+    textAlign: 'center',
   },
 });

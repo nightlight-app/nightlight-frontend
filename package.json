@@ -43,7 +43,8 @@
     "react-native-gesture-handler": "~2.8.0",
     "react-native-reanimated": "~2.12.0",
     "react-native-svg": "13.4.0",
-    "socket.io-client": "^4.5.4"
+    "socket.io-client": "^4.5.4",
+    "expo-constants": "~14.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

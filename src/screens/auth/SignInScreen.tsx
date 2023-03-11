@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -6,20 +6,30 @@ import {
   TouchableOpacity,
   View,
   Pressable,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
+import Animated, { SlideInUp, SlideOutUp } from 'react-native-reanimated';
+import { signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import SignInScreenStyles from '@nightlight/screens/auth/SignInScreen.styles';
 import NightlightLogoSvg from '@nightlight/components/svgs/NightlightLogoSvg';
 import { COLORS } from '@nightlight/src/global.styles';
-import { handleSignIn } from '@nightlight/src/utils/utils';
+import { auth } from '@nightlight/src/config/firebaseConfig';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isErrorVisible, setIsErrorVisible] = useState(false);
 
-  const toggleShowPassword = () => {
-    setShowPassword(prev => !prev);
+  // Hide error message when inputs change
+  useEffect(() => {
+    if (isErrorVisible) setIsErrorVisible(false);
+  }, [email, password]);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(prev => !prev);
   };
 
   const resetInputFields = () => {
@@ -27,100 +37,146 @@ const SignInScreen = () => {
     setPassword('');
   };
 
-  const handleSignInPress = () => {
-    handleSignIn(email, password).then(() => {
+  const handleSignInPress = async () => {
+    console.log('[Firebase] Signing in user...');
+
+    try {
+      setIsErrorVisible(false);
+
+      const user: UserCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      console.log('[Firebase] Successfully signed in user!', user);
+
       resetInputFields();
-    });
+    } catch (error: any) {
+      console.log('[Firebase] Error signing in user!');
+
+      // TODO: enum specific errors? or see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
+      switch (error?.code) {
+        case 'auth/invalid-email':
+        case 'auth/wrong-password':
+        case 'auth/user-not-found':
+          setIsErrorVisible(true);
+          break;
+        default:
+          console.error('Unhandled error code:', error?.code);
+          break;
+      }
+    }
   };
 
   return (
-    <SafeAreaView style={SignInScreenStyles.container}>
-      {/* nightlight Logo */}
-      <NightlightLogoSvg style={SignInScreenStyles.logo} />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={SignInScreenStyles.container}>
+        {/* nightlight Logo */}
+        <NightlightLogoSvg style={SignInScreenStyles.logo} />
 
-      {/* Sign-In Inputs Container */}
-      <View style={SignInScreenStyles.inputsContainer}>
-        <Text style={SignInScreenStyles.inputsTitle}>Sign in with email</Text>
-        <TextInput
-          placeholder='Email'
-          placeholderTextColor={COLORS.DARK_GRAY}
-          style={SignInScreenStyles.emailInput}
-          autoCapitalize='none'
-          value={email}
-          onChangeText={setEmail}
-        />
-        <View style={SignInScreenStyles.passwordInputContainer}>
+        {/* Sign-In Inputs Container */}
+        <View style={SignInScreenStyles.inputsContainer}>
+          <Text style={SignInScreenStyles.inputsTitle}>Sign in with email</Text>
           <TextInput
-            placeholder='Password'
+            placeholder='Email'
             placeholderTextColor={COLORS.DARK_GRAY}
-            style={SignInScreenStyles.passwordInput}
+            style={[
+              SignInScreenStyles.emailInput,
+              isErrorVisible && SignInScreenStyles.errorInput,
+            ]}
             autoCapitalize='none'
-            secureTextEntry={!showPassword}
-            value={password}
-            onChangeText={setPassword}
+            value={email}
+            onChangeText={setEmail}
           />
-          <Pressable
-            onPress={toggleShowPassword}
-            style={SignInScreenStyles.showPasswordButton}>
-            <Ionicons
-              name={`ios-eye${showPassword ? '' : '-off'}-outline`}
-              size={24}
-              color={COLORS.DARK_GRAY}
+          <View style={SignInScreenStyles.passwordInputContainer}>
+            <TextInput
+              placeholder='Password'
+              placeholderTextColor={COLORS.DARK_GRAY}
+              style={[
+                SignInScreenStyles.passwordInput,
+                isErrorVisible && SignInScreenStyles.errorInput,
+              ]}
+              autoCapitalize='none'
+              secureTextEntry={!isPasswordVisible}
+              value={password}
+              onChangeText={setPassword}
             />
-          </Pressable>
+            <Pressable
+              onPress={togglePasswordVisibility}
+              style={SignInScreenStyles.passwordVisibilityButton}>
+              <Ionicons
+                name={`ios-eye${isPasswordVisible ? '' : '-off'}-outline`}
+                size={24}
+                color={COLORS.DARK_GRAY}
+              />
+            </Pressable>
+          </View>
+          <TouchableOpacity
+            activeOpacity={0.75}
+            style={SignInScreenStyles.forgotPasswordLink}>
+            <Text style={SignInScreenStyles.forgotPasswordText}>
+              forgot password?
+            </Text>
+          </TouchableOpacity>
         </View>
+
+        {/* Sign-In Button */}
+        <TouchableOpacity
+          onPress={handleSignInPress}
+          activeOpacity={0.75}
+          style={SignInScreenStyles.signInButton}>
+          <Text style={SignInScreenStyles.signInButtonText}>Sign In</Text>
+        </TouchableOpacity>
+
+        {/* Divider */}
+        <View style={SignInScreenStyles.signInOptionDividerContainer}>
+          <View style={SignInScreenStyles.signInOptionDividerLine} />
+          <Text style={SignInScreenStyles.signInOptionText}>
+            or continue with
+          </Text>
+          <View style={SignInScreenStyles.signInOptionDividerLine} />
+        </View>
+
+        {/* Sign in with Google */}
         <TouchableOpacity
           activeOpacity={0.75}
-          style={SignInScreenStyles.forgotPasswordLink}>
-          <Text style={SignInScreenStyles.forgotPasswordText}>
-            forgot password?
+          style={SignInScreenStyles.signInWithGoogleButton}>
+          {/* TODO: should we make this the actual Google logo? (idk abt copyright stuff) */}
+          <AntDesign
+            name='google'
+            size={20}
+            color={COLORS.DARK_GRAY}
+            style={SignInScreenStyles.googleLogo}
+          />
+          <Text style={SignInScreenStyles.signInWithGoogleButtonText}>
+            Sign in with Google
           </Text>
         </TouchableOpacity>
-      </View>
 
-      {/* Sign-In Button */}
-      <TouchableOpacity
-        onPress={handleSignInPress}
-        activeOpacity={0.75}
-        style={SignInScreenStyles.signInButton}>
-        <Text style={SignInScreenStyles.signInButtonText}>Sign In</Text>
-      </TouchableOpacity>
+        {/* Register Message */}
+        <View style={SignInScreenStyles.registerMessageContainer}>
+          <Text style={SignInScreenStyles.registerPretext}>New here? </Text>
+          <TouchableOpacity
+            activeOpacity={0.75}
+            style={SignInScreenStyles.registerLink}>
+            <Text style={SignInScreenStyles.registerText}>Register now!</Text>
+          </TouchableOpacity>
+        </View>
 
-      {/* Divider */}
-      <View style={SignInScreenStyles.signInOptionDividerContainer}>
-        <View style={SignInScreenStyles.signInOptionDividerLine} />
-        <Text style={SignInScreenStyles.signInOptionText}>
-          or continue with
-        </Text>
-        <View style={SignInScreenStyles.signInOptionDividerLine} />
-      </View>
-
-      {/* Sign in with Google */}
-      <TouchableOpacity
-        activeOpacity={0.75}
-        style={SignInScreenStyles.signInWithGoogleButton}>
-        {/* TODO: should we make this the actual Google logo? (idk abt copyright stuff) */}
-        <AntDesign
-          name='google'
-          size={20}
-          color={COLORS.DARK_GRAY}
-          style={SignInScreenStyles.googleLogo}
-        />
-        <Text style={SignInScreenStyles.signInWithGoogleButtonText}>
-          Sign in with Google
-        </Text>
-      </TouchableOpacity>
-
-      {/* Register Message */}
-      <View style={SignInScreenStyles.registerMessageContainer}>
-        <Text style={SignInScreenStyles.registerPretext}>New here? </Text>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          style={SignInScreenStyles.registerLink}>
-          <Text style={SignInScreenStyles.registerText}>Register now!</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        {/* Error Banner */}
+        {isErrorVisible && (
+          <Animated.View
+            entering={SlideInUp}
+            exiting={SlideOutUp}
+            style={SignInScreenStyles.errorBanner}>
+            <Text style={SignInScreenStyles.errorBannerText}>
+              Uh oh! The email or password you entered is incorrect.
+            </Text>
+          </Animated.View>
+        )}
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
