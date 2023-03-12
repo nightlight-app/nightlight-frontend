@@ -39,12 +39,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       console.log('[Firebase] Authentication state changed:', user?.uid);
       setUserSession(user);
 
+      // fetch from mongoDB and update userDocument
       fetch(`${SERVER_URL}users?firebaseUid=${user?.uid}`, {
         method: 'GET',
       })
         .then(response => response.json())
         .then(data => {
           setUserDocument(data.user);
+        })
+        .catch(err => {
+          console.log(err);
         });
     });
 
