@@ -8,6 +8,7 @@ import MapboxGL from '@rnmapbox/maps';
 import { Position } from '@turf/helpers/dist/js/lib/geojson';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
+import { User } from '@nightlight/src/types';
 
 /**
  * Determine the relative time string from a given date.
@@ -174,4 +175,13 @@ export const handleSignOut = async () => {
     console.log('[Firebase] Error signing out user!');
     console.error(error);
   }
+};
+
+/**
+ * Get the number of friends from a User object
+ */
+export const getNumFriends = (user: User | null | undefined) => {
+  if (!user) return 0;
+  if (user.friends) return user.friends.length;
+  return 0;
 };

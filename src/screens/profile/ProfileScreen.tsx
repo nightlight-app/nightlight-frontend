@@ -16,19 +16,31 @@ import {
   ProfileRoute,
   BottomTabScreenProps,
   TabRoute,
+  User,
 } from '@nightlight/src/types';
 import { NUM_MONTHS } from '@nightlight/src/constants';
 import { COLORS } from '@nightlight/src/global.styles';
-import { TEST_USERS } from '@nightlight/src/testData';
 import {
   formatPhoneNumber,
   getMonthText,
+  getNumFriends,
   handleSignOut,
 } from '@nightlight/src/utils/utils';
-// TODO: determine logged in user
-const user = TEST_USERS[0];
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { TEST_USERS } from '@nightlight/src/testData';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
+  const { userDocument } = useAuthContext();
+
+  // TODO: change TEST_USER[0] to a fallback user with defualt data
+  const user: User = userDocument
+    ? {
+        ...userDocument,
+        // parse the birthday into Date object
+        birthday: new Date(userDocument.birthday),
+      }
+    : TEST_USERS[0];
+
   // TODO:
   const handleChangeCoverPicture = () => {
     Alert.alert('TODO: change cover picture');
@@ -115,7 +127,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         <View style={ProfileScreenStyles.profileStatsContainer}>
           <View style={ProfileScreenStyles.profileStatContainer}>
             <Text style={ProfileScreenStyles.profileStat}>
-              {user.friends.length}
+              {getNumFriends(userDocument)}
             </Text>
             <Text style={ProfileScreenStyles.profileStatDesc}>friends</Text>
           </View>
