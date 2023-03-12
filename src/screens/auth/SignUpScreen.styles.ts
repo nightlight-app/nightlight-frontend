@@ -49,7 +49,14 @@ export default StyleSheet.create({
     borderBottomWidth: 2,
     marginVertical: 5,
   },
-  phoneInput: { flexDirection: 'row', alignItems: 'center' },
+  phoneInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  phoneTextInput: {
+    flex: 1,
+  },
   phoneInputPrefix: {
     color: COLORS.GRAY,
     fontFamily: Fonts.COMFORTAA_REGULAR,
