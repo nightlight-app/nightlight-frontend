@@ -74,4 +74,11 @@ export default StyleSheet.create({
     fontSize: 14,
     textDecorationLine: 'underline',
   },
+  dotStyle: {
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+  },
+  activeDotStyle: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    width: 15,
+  },
 });

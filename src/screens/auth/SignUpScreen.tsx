@@ -7,9 +7,9 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import Swiper from 'react-native-swiper';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
-import Swiper from 'react-native-swiper';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const handleSignInPress = () => {
@@ -18,7 +18,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <Swiper loop={false}>
+      <Swiper loop={false} dotStyle={SignUpScreenStyles.dotStyle} activeDotStyle={SignUpScreenStyles.activeDotStyle}>
         {/* Name */}
         <SafeAreaView style={SignUpScreenStyles.container}>
           <View style={SignUpScreenStyles.inputsContainer}>
