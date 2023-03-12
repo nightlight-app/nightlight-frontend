@@ -98,7 +98,6 @@ export interface Group {
   expectedDestination: Location;
   creationTime: Date;
   expirationTime: Date;
-  returnTime: Date;
 }
 
 export interface ISvgProps extends SvgProps {
