@@ -98,10 +98,12 @@ export interface User {
   email: string;
   phone: string;
   birthday: Date;
-  currentGroup: string; // mongoose ObjectId
-  friends: string[]; // mongoose ObjectId[]
-  lastActive: LastActive;
-  savedGroups: SavedGroup[];
+  currentGroup?: string; // mongoose ObjectId
+  invitedGroups?: string[]; // mongoose ObjectId[]
+  friends?: string[]; // mongoose ObjectId[]
+  friendRequests?: string[]; // mongoose ObjectId[]
+  lastActive?: LastActive;
+  savedGroups?: SavedGroup[];
 }
 
 export interface Group {
