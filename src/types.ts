@@ -95,7 +95,7 @@ export interface Group {
   name: string;
   members: string[]; // mongoose ObjectId[]
   invitedMembers: string[]; // mongoose ObjectId[]
-  expectedDestination: Location;
+  expectedDestination?: Location;
   creationDatetime: Date;
   expirationDatetime: Date;
 }
