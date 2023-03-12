@@ -9,6 +9,7 @@ import {
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { AuthContextInterface, User } from '@nightlight/src/types';
 import { auth } from '@nightlight/src/config/firebaseConfig';
+import { SERVER_URL } from '@env';
 
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
@@ -38,7 +39,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       console.log('[Firebase] Authentication state changed:', user?.uid);
       setUserSession(user);
 
-      fetch(`http://localhost:6060/users?firebaseUid=${user?.uid}`, {
+      fetch(`${SERVER_URL}users?firebaseUid=${user?.uid}`, {
         method: 'GET',
       })
         .then(response => response.json())
