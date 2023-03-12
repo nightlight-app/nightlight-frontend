@@ -105,14 +105,13 @@ export interface User {
 }
 
 export interface Group {
-  _id: string; // mongoose ObjectId
+  _id?: string; // mongoose ObjectId
   name: string;
   members: string[]; // mongoose ObjectId[]
   invitedMembers: string[]; // mongoose ObjectId[]
-  expectedDestination: Location;
-  creationTime: Date;
-  expirationTime: Date;
-  returnTime: Date;
+  expectedDestination?: Location;
+  creationDatetime: Date;
+  expirationDatetime: Date;
 }
 
 export interface ISvgProps extends SvgProps {
