@@ -257,7 +257,8 @@ export interface UserMarkers extends Markers {
 }
 
 export interface AuthContextInterface {
-  user: FirebaseUser | null | undefined;
+  userSession: FirebaseUser | null | undefined;
+  userDocument: User | null | undefined;
 }
 
 export interface BannerProps {

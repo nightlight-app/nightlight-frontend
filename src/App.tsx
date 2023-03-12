@@ -66,13 +66,13 @@ const ProfileScreenStack = () => (
 );
 
 const Main = () => {
-  const { user } = useAuthContext();
+  const { userSession } = useAuthContext();
 
   const EmergencyButtonPlaceholderComponent = () => null;
 
   return (
     <NavigationContainer>
-      {user ? (
+      {userSession ? (
         <Tab.Navigator
           initialRouteName={TabRoute.MAP}
           screenOptions={{ headerShown: false }}

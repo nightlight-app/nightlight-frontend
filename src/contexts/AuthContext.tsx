@@ -7,11 +7,12 @@ import {
   useState,
 } from 'react';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
-import { AuthContextInterface } from '@nightlight/src/types';
+import { AuthContextInterface, User } from '@nightlight/src/types';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 
 export const AuthContext: Context<AuthContextInterface> = createContext({
-  user: undefined,
+  userSession: undefined,
+  userDocument: undefined,
 } as AuthContextInterface);
 
 export const useAuthContext = () => {
@@ -24,18 +25,34 @@ export const useAuthContext = () => {
 };
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [user, setUser] = useState<FirebaseUser | null | undefined>(undefined);
+  // userSession stores mongoDB id and auth data
+  const [userSession, setUserSession] = useState<
+    FirebaseUser | null | undefined
+  >(undefined);
+
+  // userDocument stores user data from mongoDB
+  const [userDocument, setUserDocument] = useState<User | null | undefined>();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       console.log('[Firebase] Authentication state changed:', user?.uid);
-      setUser(user);
+      setUserSession(user);
+
+      fetch(`http://localhost:6060/users?firebaseUid=${user?.uid}`, {
+        method: 'GET',
+      })
+        .then(response => response.json())
+        .then(data => {
+          setUserDocument(data.user);
+        });
     });
 
     return () => unsubscribe();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ userSession, userDocument }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
