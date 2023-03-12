@@ -57,6 +57,9 @@ export default StyleSheet.create({
     marginRight: 10,
   },
   signInMessageContainer: {
+    position: 'absolute',
+    bottom: '10%',
+    alignSelf: 'center',
     flexDirection: 'row',
   },
   signInPretext: {
