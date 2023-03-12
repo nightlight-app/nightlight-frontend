@@ -4,8 +4,11 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { NativeStackScreenProps } from '@nightlight/src/types';
+import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const handleSignInPress = () => {
@@ -13,42 +16,95 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   };
 
   return (
-    <SafeAreaView>
-      {/* Name */}
-      <Text>Hey there,</Text>
-      <TextInput placeholder='John' />
-      <View>
-        <TextInput placeholder='Doe' />
-        <Text>!</Text>
-      </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={SignUpScreenStyles.container}>
+        {/* Name */}
+        <View style={SignUpScreenStyles.inputsContainer}>
+          <Text style={SignUpScreenStyles.greetingLabel}>Hey there,</Text>
+          <TextInput
+            placeholder='John'
+            style={SignUpScreenStyles.greetingTextInput}
+          />
+          <View style={SignUpScreenStyles.greetingEndContainer}>
+            <TextInput
+              placeholder='Doe'
+              style={[
+                SignUpScreenStyles.greetingTextInput,
+                SignUpScreenStyles.greetingEndInput,
+              ]}
+            />
+            <Text
+              style={[
+                SignUpScreenStyles.greetingLabel,
+                SignUpScreenStyles.greetingEnd,
+              ]}>
+              !
+            </Text>
+          </View>
+        </View>
 
-      {/* Email */}
-      <Text>I know we just met, but let's keep in touch!</Text>
-      <TextInput placeholder='john.doe@gmail.com' />
+        {/* Email */}
+        <View style={SignUpScreenStyles.inputsContainer}>
+          <Text style={SignUpScreenStyles.inputLabel}>
+            I know we just met, but let's keep in touch!
+          </Text>
+          <TextInput
+            placeholder='john.doe@gmail.com'
+            autoCapitalize='none'
+            style={SignUpScreenStyles.textInput}
+          />
+        </View>
 
-      {/* Password */}
-      <Text>🤐</Text>
-      <TextInput placeholder='********' secureTextEntry={true} />
-      <TextInput placeholder="Let's confirm that ^" secureTextEntry={true} />
+        {/* Password */}
+        <View style={SignUpScreenStyles.inputsContainer}>
+          <Text style={SignUpScreenStyles.emojiLabel}>🤐</Text>
+          <TextInput
+            placeholder='********'
+            secureTextEntry={true}
+            autoCapitalize='none'
+            style={SignUpScreenStyles.textInput}
+          />
+          <TextInput
+            placeholder="Let's confirm that ^"
+            secureTextEntry={true}
+            autoCapitalize='none'
+            style={SignUpScreenStyles.textInput}
+          />
+        </View>
 
-      {/* Phone Number */}
-      <Text>What's the best number to hit you up?</Text>
-      <View>
-        <Text>+1</Text>
-        <TextInput placeholder='(XXX) XXX-XXXX' />
-      </View>
+        {/* Phone Number */}
+        <View style={SignUpScreenStyles.inputsContainer}>
+          <Text style={SignUpScreenStyles.inputLabel}>
+            What's the best number to hit you up?
+          </Text>
+          <View style={SignUpScreenStyles.phoneInput}>
+            <Text style={SignUpScreenStyles.phoneInputPrefix}>+1</Text>
+            <TextInput
+              placeholder='(XXX) XXX-XXXX'
+              style={SignUpScreenStyles.textInput}
+            />
+          </View>
+        </View>
 
-      {/* Profile Picture Upload */}
-      <Text>Now, show off that smile! 😁</Text>
+        {/* Profile Picture Upload */}
+        <Text style={SignUpScreenStyles.inputLabel}>
+          Now, show off that smile! 😁
+        </Text>
 
-      {/* Sign In Message */}
-      <View>
-        <Text>Already have an account? </Text>
-        <TouchableOpacity onPress={handleSignInPress} activeOpacity={0.75}>
-          <Text>Sign in now!</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        {/* Sign In Message */}
+        <View style={SignUpScreenStyles.signInMessageContainer}>
+          <Text style={SignUpScreenStyles.signInPretext}>
+            Already have an account?{' '}
+          </Text>
+          <TouchableOpacity
+            onPress={handleSignInPress}
+            activeOpacity={0.75}
+            style={SignUpScreenStyles.signInLink}>
+            <Text style={SignUpScreenStyles.signInText}>Sign in now!</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
