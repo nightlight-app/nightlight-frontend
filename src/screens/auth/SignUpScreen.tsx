@@ -18,7 +18,10 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <Swiper loop={false} dotStyle={SignUpScreenStyles.dotStyle} activeDotStyle={SignUpScreenStyles.activeDotStyle}>
+      <Swiper
+        loop={false}
+        dotStyle={SignUpScreenStyles.dotStyle}
+        activeDotStyle={SignUpScreenStyles.activeDotStyle}>
         {/* Name */}
         <SafeAreaView style={SignUpScreenStyles.container}>
           <View style={SignUpScreenStyles.inputsContainer}>
@@ -67,6 +70,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
               placeholder='john.doe@gmail.com'
               autoCapitalize='none'
               style={SignUpScreenStyles.textInput}
+              keyboardType='email-address'
             />
           </View>
         </SafeAreaView>
@@ -100,7 +104,11 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
               <Text style={SignUpScreenStyles.phoneInputPrefix}>+1</Text>
               <TextInput
                 placeholder='(XXX) XXX-XXXX'
-                style={SignUpScreenStyles.textInput}
+                style={[
+                  SignUpScreenStyles.textInput,
+                  SignUpScreenStyles.phoneTextInput,
+                ]}
+                keyboardType='number-pad'
               />
             </View>
           </View>
