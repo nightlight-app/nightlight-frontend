@@ -190,7 +190,10 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
               <Text style={SignUpScreenStyles.phoneInputPrefix}>+1</Text>
               <TextInput
                 placeholder='(XXX) XXX-XXXX'
-                style={SignUpScreenStyles.textInput}
+                style={[
+                  SignUpScreenStyles.textInput,
+                  SignUpScreenStyles.phoneTextInput,
+                ]}
                 keyboardType='number-pad'
                 maxLength={14}
                 value={formatPhoneNumber(phoneNumber) || phoneNumber}

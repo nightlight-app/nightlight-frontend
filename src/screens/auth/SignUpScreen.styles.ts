@@ -58,6 +58,10 @@ export default StyleSheet.create({
     fontSize: 24,
     marginRight: 10,
   },
+  phoneTextInput: {
+    width: 196,
+    textAlign: 'center',
+  },
   signInMessageContainer: {
     position: 'absolute',
     bottom: '10%',
