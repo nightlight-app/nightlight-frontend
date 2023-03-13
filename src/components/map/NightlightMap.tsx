@@ -9,8 +9,8 @@ import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
 import { UserMarkers } from '@nightlight/src/types';
 import { socket } from '@nightlight/src/service/socketService';
-import { RANDOM_USER, TEST_USERS } from '@nightlight/src/testData';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 // initial camera settings
 const initialCamera: CameraStop = {
@@ -23,18 +23,14 @@ const initialCamera: CameraStop = {
 // pass the api key to Mapbox
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
-// TODO: temporarily hardcoding the user id so that different
-// simulators are treated as different users
-const USER_ID = RANDOM_USER._id;
-
 const NightlightMap = () => {
+  const { userDocument } = useAuthContext();
+
   /**
    * Location Tracking Variables
    */
-  // TODO: the userId should be mongoDB user id
-  const userId = USER_ID;
-  // TODO: the groupId should be mongoDB group id
-  const groupId = 'testGroup';
+  const groupId = userDocument?.currentGroup;
+
   // the list of other user markers to display (excluding the current user)
   const [userMarkers, setUserMarkers] = useState<UserMarkers[]>([]);
 
@@ -53,13 +49,19 @@ const NightlightMap = () => {
 
   // set up socket on first mount
   useEffect(() => {
+    // if user is not in a group, do not set up socket
+    if (!groupId) return;
+
     // tell server to add this user to a socket group
     socket.emit('joinGroup', groupId);
 
     // receive location broadcast from server
     socket.on('broadcastLocation', data => {
+      // ignore if userDocument is not yet loaded
+      if (!userDocument) return;
+
       // ignore current users' location because it is already being tracked
-      if (data.userId === userId) return;
+      if (data.userId === userDocument?._id) return;
 
       // update the userMarkers state for other users' locations
       setUserMarkers(prev => {
@@ -145,8 +147,7 @@ const NightlightMap = () => {
     socket.volatile.emit('locationUpdate', {
       // TODO: send the mongoDB group id which the user is in
       groupId,
-      // TODO: send the mongDB user id
-      userId,
+      userId: userDocument?._id,
       location: {
         latitude: loc.coords.latitude,
         longitude: loc.coords.longitude,
@@ -203,7 +204,7 @@ const NightlightMap = () => {
                     <Image
                       source={{
                         // TODO: get the image source of the received user id
-                        uri: TEST_USERS[1].imgUrlProfileSmall,
+                        uri: userDocument?.imgUrlProfileSmall,
                       }}
                       style={NightlightMapStyles.userMarkerImage}
                     />
