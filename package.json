@@ -41,11 +41,13 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-gesture-handler": "~2.8.0",
     "react-native-reanimated": "~2.12.0",
     "react-native-svg": "13.4.0",
     "react-native-swiper": "^1.6.0",
-    "socket.io-client": "^4.5.4"
+    "socket.io-client": "^4.5.4",
+    "react-native-screens": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-safe-area-context": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
