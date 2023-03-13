@@ -16,7 +16,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  greetingEndInput: { flex: 1 },
+  greetingEndInput: {
+    flex: 1,
+  },
   greetingEnd: {
     marginLeft: 5,
     marginVertical: 5,
@@ -73,6 +75,14 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
     textDecorationLine: 'underline',
+  },
+  passwordInputContainer: {
+    position: 'relative',
+  },
+  passwordVisibilityButton: {
+    position: 'absolute',
+    right: 0,
+    margin: 5,
   },
   dotStyle: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,

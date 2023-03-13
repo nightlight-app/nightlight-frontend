@@ -66,6 +66,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         case 'auth/invalid-email':
         case 'auth/wrong-password':
         case 'auth/user-not-found':
+        case 'auth/internal-error':
           setIsErrorVisible(true);
           break;
         default:

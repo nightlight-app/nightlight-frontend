@@ -8,11 +8,14 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  Pressable,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Swiper from 'react-native-swiper';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 import { formatPhoneNumber } from '@nightlight/src/utils/utils';
+import { COLORS } from '@nightlight/src/global.styles';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [firstName, setFirstName] = useState('');
@@ -21,6 +24,17 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(prev => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setIsConfirmPasswordVisible(prev => !prev);
+  };
 
   const handleSignInPress = () => {
     navigation.goBack();
@@ -119,22 +133,46 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         <SafeAreaView style={SignUpScreenStyles.container}>
           <View style={SignUpScreenStyles.inputsContainer}>
             <Text style={SignUpScreenStyles.emojiLabel}>🤐</Text>
-            <TextInput
-              placeholder='********'
-              secureTextEntry={true}
-              autoCapitalize='none'
-              style={SignUpScreenStyles.textInput}
-              value={password}
-              onChangeText={setPassword}
-            />
-            <TextInput
-              placeholder="Let's confirm that ^"
-              secureTextEntry={true}
-              autoCapitalize='none'
-              style={SignUpScreenStyles.textInput}
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-            />
+            <View style={SignUpScreenStyles.passwordInputContainer}>
+              <TextInput
+                placeholder='********'
+                secureTextEntry={!isPasswordVisible}
+                autoCapitalize='none'
+                style={SignUpScreenStyles.textInput}
+                value={password}
+                onChangeText={setPassword}
+              />
+              <Pressable
+                onPress={togglePasswordVisibility}
+                style={SignUpScreenStyles.passwordVisibilityButton}>
+                <Ionicons
+                  name={`ios-eye${isPasswordVisible ? '' : '-off'}-outline`}
+                  size={24}
+                  color={COLORS.DARK_GRAY}
+                />
+              </Pressable>
+            </View>
+            <View>
+              <TextInput
+                placeholder="Let's confirm that ^"
+                secureTextEntry={!isConfirmPasswordVisible}
+                autoCapitalize='none'
+                style={SignUpScreenStyles.textInput}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
+              <Pressable
+                onPress={toggleConfirmPasswordVisibility}
+                style={SignUpScreenStyles.passwordVisibilityButton}>
+                <Ionicons
+                  name={`ios-eye${
+                    isConfirmPasswordVisible ? '' : '-off'
+                  }-outline`}
+                  size={24}
+                  color={COLORS.DARK_GRAY}
+                />
+              </Pressable>
+            </View>
           </View>
         </SafeAreaView>
 
