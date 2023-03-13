@@ -3,6 +3,7 @@ import {
   DEVICE_HEIGHT,
   EMERGENCY_BUTTON_RADIUS,
   NAVBAR_HEIGHT,
+  SAFE_AREA_BOTTOM_MARGIN,
 } from '@nightlight/src/constants';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
@@ -134,11 +135,31 @@ export default StyleSheet.create({
     marginVertical: 30,
     borderColor: COLORS.DARK_BLUE,
     borderWidth: 2,
-    marginBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+    // TODO: refactor this to work with home button
+    marginBottom:
+      SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   emergencyContactsButtonText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 16,
     color: COLORS.WHITE,
+  },
+
+  // TODO: refactor logout button
+  logOutButton: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    borderRadius: 10,
+    marginHorizontal: 10,
+    marginVertical: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderColor: COLORS.DARK_BLUE,
+    borderWidth: 2,
+  },
+  logOutButtonText: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 16,
+    color: COLORS.WHITE,
+    textAlign: 'center',
   },
 });
