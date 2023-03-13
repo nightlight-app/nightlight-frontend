@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import App from '@nightlight/src/App';
+import App from '@nightlight/App';
 import { SafeAreaView } from 'react-native';
 import { TabRoute } from '@nightlight/src/types';
 
