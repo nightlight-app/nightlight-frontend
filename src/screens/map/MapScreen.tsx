@@ -10,8 +10,13 @@ import { MapCardType, TabRoute } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMap from '@nightlight/components/map/NightlightMap';
 import { TEST_USERS, TEST_VENUES } from '@nightlight/src/testData';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import GroupMembers from '@nightlight/components/map/GroupMembers';
 
 const MapScreen = () => {
+  // get the current user's document
+  const { userDocument } = useAuthContext();
+
   // keep track of which map card is active
   const [activeMapCardType, setActiveMapCardType] =
     useState<MapCardType | null>(null);
@@ -92,7 +97,11 @@ const MapScreen = () => {
       {activeMapCardType && renderMapCard(activeMapCardType)}
 
       {/* TODO: Conditionally render group button */}
-      <CreateGroupButton onPress={handleShowCreateGroupCard} />
+      {userDocument?.currentGroup ? (
+        <GroupMembers />
+      ) : (
+        <CreateGroupButton onPress={handleShowCreateGroupCard} />
+      )}
     </View>
   );
 };

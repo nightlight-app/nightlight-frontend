@@ -45,6 +45,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       })
         .then(response => response.json())
         .then(data => {
+          console.log(`[MongoDB] ${data.message} ${data.user._id}`);
           setUserDocument(data.user);
         })
         .catch(err => {
