@@ -12,6 +12,7 @@ import {
 import Swiper from 'react-native-swiper';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
+import { formatPhoneNumber } from '@nightlight/src/utils/utils';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [firstName, setFirstName] = useState('');
@@ -23,6 +24,10 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
   const handleSignInPress = () => {
     navigation.goBack();
+  };
+
+  const handlePhoneNumberChange = (input: string) => {
+    setPhoneNumber(input.replace(/\D/g, ''));
   };
 
   const handleCreateAccountPress = () => {
@@ -136,20 +141,22 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         {/* Phone Number */}
         <SafeAreaView style={SignUpScreenStyles.container}>
           <View style={SignUpScreenStyles.inputsContainer}>
-            <Text style={SignUpScreenStyles.inputLabel}>
+            <Text
+              style={[
+                SignUpScreenStyles.inputLabel,
+                SignUpScreenStyles.phoneInputLabel,
+              ]}>
               What's the best number to hit you up?
             </Text>
             <View style={SignUpScreenStyles.phoneInput}>
               <Text style={SignUpScreenStyles.phoneInputPrefix}>+1</Text>
               <TextInput
                 placeholder='(XXX) XXX-XXXX'
-                style={[
-                  SignUpScreenStyles.textInput,
-                  SignUpScreenStyles.phoneTextInput,
-                ]}
+                style={SignUpScreenStyles.textInput}
                 keyboardType='number-pad'
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
+                maxLength={14}
+                value={formatPhoneNumber(phoneNumber) || phoneNumber}
+                onChangeText={handlePhoneNumberChange}
               />
             </View>
           </View>

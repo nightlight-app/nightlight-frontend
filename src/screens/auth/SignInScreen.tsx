@@ -81,7 +81,6 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   };
 
   const handleSignUpPress = () => {
-    console.log('[Firebase] Signing up user...');
     navigation.navigate(AuthRoute.SIGN_UP);
   };
 

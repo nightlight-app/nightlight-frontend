@@ -42,13 +42,13 @@ export default StyleSheet.create({
     borderBottomWidth: 2,
     marginVertical: 5,
   },
+  phoneInputLabel: {
+    textAlign: 'center',
+  },
   phoneInput: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  phoneTextInput: {
-    flex: 1,
   },
   phoneInputPrefix: {
     color: COLORS.GRAY,
