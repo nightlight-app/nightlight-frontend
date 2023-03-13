@@ -2,6 +2,15 @@ import { SvgProps } from 'react-native-svg';
 import { SharedValue } from 'react-native-reanimated';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
+import type { User as FirebaseUser } from 'firebase/auth';
+import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
+
+export interface AuthFormData {
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  phone?: string;
+}
 
 export enum TabRoute {
   MAP = 'Map',
@@ -9,6 +18,11 @@ export enum TabRoute {
   EMERGENCY_BUTTON = 'EmergencyButton',
   EXPLORE = 'Explore',
   PROFILE_STACK = 'ProfileStack',
+}
+
+export enum AuthRoute {
+  SIGN_IN = 'SignIn',
+  SIGN_UP = 'SignUp',
 }
 
 export enum ProfileRoute {
@@ -84,10 +98,12 @@ export interface User {
   email: string;
   phone: string;
   birthday: Date;
-  currentGroup: string; // mongoose ObjectId
-  friends: string[]; // mongoose ObjectId[]
-  lastActive: LastActive;
-  savedGroups: SavedGroup[];
+  currentGroup?: string; // mongoose ObjectId
+  invitedGroups?: string[]; // mongoose ObjectId[]
+  friends?: string[]; // mongoose ObjectId[]
+  friendRequests?: string[]; // mongoose ObjectId[]
+  lastActive?: LastActive;
+  savedGroups?: SavedGroup[];
 }
 
 export interface Group {
@@ -170,6 +186,15 @@ export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
 
+// TODO: refactor this to be more generic
+export interface LoginCardProps {
+  setIsLogin: (value: boolean) => void;
+}
+
+export interface RegisterCardProps {
+  setIsLogin: (value: boolean) => void;
+}
+
 export interface VenueReactionProps {
   emoji: string;
   value: number;
@@ -208,8 +233,12 @@ export interface MoodButtonProps {
   onClose: () => void;
 }
 
-export interface ProfileScreenProps {
+export interface BottomTabScreenProps {
   navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
+}
+
+export interface NativeStackScreenProps {
+  navigation: NavigationHelpers<ParamListBase, NativeStackNavigationEventMap>;
 }
 
 export interface EmergencyContact {
@@ -225,4 +254,15 @@ export interface Markers {
 export interface UserMarkers extends Markers {
   // the id of the user (mongoose ObjectId)
   userId: string;
+}
+
+export interface AuthContextInterface {
+  userSession: FirebaseUser | null | undefined;
+  userDocument: User | null | undefined;
+}
+
+export interface BannerProps {
+  message: string;
+  backgroundColor: string;
+  textColor: string;
 }

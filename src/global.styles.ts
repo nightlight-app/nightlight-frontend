@@ -18,4 +18,5 @@ export const COLORS = {
 export enum Fonts {
   COMFORTAA_REGULAR = 'Comfortaa_400Regular',
   COMFORTAA_BOLD = 'Comfortaa_700Bold',
+  ROBOTO_REGULAR = 'Roboto_500Medium',
 }
