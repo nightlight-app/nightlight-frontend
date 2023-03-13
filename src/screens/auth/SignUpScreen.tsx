@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Text,
   SafeAreaView,
@@ -6,14 +7,29 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
   const handleSignInPress = () => {
     navigation.goBack();
+  };
+
+  const handleCreateAccountPress = () => {
+    Alert.alert(
+      'TODO: Create Account',
+      `first: ${firstName} last: ${lastName} email: ${email} password: ${password} confirm: ${confirmPassword} phone: ${phoneNumber}`
+    );
   };
 
   return (
@@ -25,28 +41,45 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         {/* Name */}
         <SafeAreaView style={SignUpScreenStyles.container}>
           <View style={SignUpScreenStyles.inputsContainer}>
-            <Text style={SignUpScreenStyles.greetingLabel}>Hey there,</Text>
+            <Text
+              style={[
+                SignUpScreenStyles.inputLabel,
+                SignUpScreenStyles.biggerFontSize,
+              ]}>
+              Hey there,
+            </Text>
             <TextInput
               placeholder='John'
-              style={SignUpScreenStyles.greetingTextInput}
+              style={[
+                SignUpScreenStyles.textInput,
+                SignUpScreenStyles.biggerFontSize,
+              ]}
+              value={firstName}
+              onChangeText={setFirstName}
             />
             <View style={SignUpScreenStyles.greetingEndContainer}>
               <TextInput
                 placeholder='Doe'
                 style={[
-                  SignUpScreenStyles.greetingTextInput,
+                  SignUpScreenStyles.textInput,
+                  SignUpScreenStyles.biggerFontSize,
                   SignUpScreenStyles.greetingEndInput,
                 ]}
+                value={lastName}
+                onChangeText={setLastName}
               />
               <Text
                 style={[
-                  SignUpScreenStyles.greetingLabel,
+                  SignUpScreenStyles.inputLabel,
+                  SignUpScreenStyles.biggerFontSize,
                   SignUpScreenStyles.greetingEnd,
                 ]}>
                 !
               </Text>
             </View>
           </View>
+
+          {/* Sign In Message */}
           <View style={SignUpScreenStyles.signInMessageContainer}>
             <Text style={SignUpScreenStyles.signInPretext}>
               Already have an account?{' '}
@@ -71,6 +104,8 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
               autoCapitalize='none'
               style={SignUpScreenStyles.textInput}
               keyboardType='email-address'
+              value={email}
+              onChangeText={setEmail}
             />
           </View>
         </SafeAreaView>
@@ -84,12 +119,16 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
               secureTextEntry={true}
               autoCapitalize='none'
               style={SignUpScreenStyles.textInput}
+              value={password}
+              onChangeText={setPassword}
             />
             <TextInput
               placeholder="Let's confirm that ^"
               secureTextEntry={true}
               autoCapitalize='none'
               style={SignUpScreenStyles.textInput}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
             />
           </View>
         </SafeAreaView>
@@ -109,6 +148,8 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
                   SignUpScreenStyles.phoneTextInput,
                 ]}
                 keyboardType='number-pad'
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
               />
             </View>
           </View>
@@ -119,9 +160,16 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           <Text style={SignUpScreenStyles.inputLabel}>
             Now, show off that smile! 😁
           </Text>
+          {/* TODO: image upload or skip */}
+          <TouchableOpacity
+            onPress={handleCreateAccountPress}
+            activeOpacity={0.75}
+            style={SignUpScreenStyles.createAccountButton}>
+            <Text style={SignUpScreenStyles.createAccountButtonText}>
+              Create Account
+            </Text>
+          </TouchableOpacity>
         </SafeAreaView>
-
-        {/* Sign In Message */}
       </Swiper>
     </TouchableWithoutFeedback>
   );

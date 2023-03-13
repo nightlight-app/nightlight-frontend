@@ -181,7 +181,6 @@ export const handleSignOut = async () => {
  * Get the number of friends from a User object
  */
 export const getNumFriends = (user: User | null | undefined) => {
-  if (!user) return 0;
-  if (user.friends) return user.friends.length;
+  if (user?.friends) return user.friends.length;
   return 0;
 };
