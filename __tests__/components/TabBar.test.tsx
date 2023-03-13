@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 
-import App from '@nightlight/App';
+import App from '@nightlight/src/App';
 
 // mock registerRootComponent to resolve error
 jest.mock('expo', () => ({

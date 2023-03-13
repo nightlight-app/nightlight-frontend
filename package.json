@@ -2,7 +2,7 @@
   "name": "nightlight-frontend",
   "author": "nightlight",
   "version": "1.0.0",
-  "main": "./App.tsx",
+  "main": "./src/App.tsx",
   "keywords": [
     "react",
     "expo",
