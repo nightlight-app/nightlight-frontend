@@ -68,19 +68,7 @@ export default StyleSheet.create({
     textDecorationLine: 'underline',
   },
   signInButton: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    borderColor: COLORS.DARK_BLUE,
-    borderWidth: 2,
-    borderRadius: 10,
-    paddingVertical: 15,
-    width: 275,
     marginVertical: 30,
-  },
-  signInButtonText: {
-    color: COLORS.WHITE,
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 16,
-    textAlign: 'center',
   },
   signInOptionDividerContainer: {
     marginHorizontal: 30,

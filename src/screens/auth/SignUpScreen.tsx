@@ -16,6 +16,7 @@ import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 import { formatPhoneNumber } from '@nightlight/src/utils/utils';
 import { COLORS } from '@nightlight/src/global.styles';
+import Button from '@nightlight/components/Button';
 
 const renderPaginationDot = (isActive: boolean) => (
   <View
@@ -223,14 +224,11 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             Now, show off that smile! 😁
           </Text>
           {/* TODO: image upload or skip */}
-          <TouchableOpacity
+          <Button
             onPress={handleCreateAccountPress}
-            activeOpacity={0.75}
-            style={SignUpScreenStyles.createAccountButton}>
-            <Text style={SignUpScreenStyles.createAccountButtonText}>
-              Create Account
-            </Text>
-          </TouchableOpacity>
+            text='Create Account'
+            style={SignUpScreenStyles.createAccountButton}
+          />
         </SafeAreaView>
       </Swiper>
     </TouchableWithoutFeedback>

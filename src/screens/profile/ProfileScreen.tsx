@@ -28,6 +28,7 @@ import {
 } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
+import Button from '@nightlight/components/Button';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
@@ -116,12 +117,11 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         </Text>
 
         {/* TODO: move logout button? */}
-        <TouchableOpacity
+        <Button
           onPress={handleSignOut}
+          text='Logout'
           style={ProfileScreenStyles.logOutButton}
-          activeOpacity={0.75}>
-          <Text style={ProfileScreenStyles.logOutButtonText}>Logout</Text>
-        </TouchableOpacity>
+        />
 
         {/* Profile Statistics */}
         <View style={ProfileScreenStyles.profileStatsContainer}>
@@ -175,14 +175,11 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         </View>
 
         {/* Emergency Contacts Button */}
-        <TouchableOpacity
+        <Button
           onPress={handleNavigateToEmergencyContacts}
-          activeOpacity={0.75}
-          style={ProfileScreenStyles.emergencyContactsButton}>
-          <Text style={ProfileScreenStyles.emergencyContactsButtonText}>
-            See Emergency Contacts
-          </Text>
-        </TouchableOpacity>
+          text='See Emergency Contacts'
+          style={ProfileScreenStyles.emergencyContactsButton}
+        />
       </View>
     </ScrollView>
   );

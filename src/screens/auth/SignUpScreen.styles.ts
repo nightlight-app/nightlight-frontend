@@ -89,18 +89,6 @@ export default StyleSheet.create({
     margin: 5,
   },
   createAccountButton: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    borderColor: COLORS.DARK_BLUE,
-    borderWidth: 2,
-    borderRadius: 10,
-    paddingVertical: 15,
-    width: 275,
     marginVertical: 30,
-  },
-  createAccountButtonText: {
-    color: COLORS.WHITE,
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 16,
-    textAlign: 'center',
   },
 });

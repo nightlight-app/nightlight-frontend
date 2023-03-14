@@ -18,6 +18,7 @@ import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import Banner from '@nightlight/components/Banner';
 import { AuthRoute, NativeStackScreenProps } from '@nightlight/src/types';
+import Button from '@nightlight/components/Button';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   const [email, setEmail] = useState('');
@@ -139,12 +140,11 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         </View>
 
         {/* Sign-In Button */}
-        <TouchableOpacity
+        <Button
           onPress={handleSignInPress}
-          activeOpacity={0.75}
-          style={SignInScreenStyles.signInButton}>
-          <Text style={SignInScreenStyles.signInButtonText}>Sign In</Text>
-        </TouchableOpacity>
+          text='Sign In'
+          style={SignInScreenStyles.signInButton}
+        />
 
         {/* Divider */}
         <View style={SignInScreenStyles.signInOptionDividerContainer}>
@@ -186,7 +186,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         {/* Error Banner */}
         {isErrorVisible && (
           <Banner
-            message='Uh oh! The email or password you entered is incorrect.'
+            message='Hmm...the email or password you entered is incorrect.'
             backgroundColor={COLORS.RED}
             textColor={COLORS.WHITE}
           />

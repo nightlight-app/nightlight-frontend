@@ -139,6 +139,8 @@ export interface ButtonProps {
   onPress: () => void;
   size?: number;
   style?: Object;
+  text?: string;
+  textColor?: string;
 }
 
 export interface MapCardProps {
