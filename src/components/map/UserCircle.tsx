@@ -1,6 +1,6 @@
 import { SERVER_URL } from '@env';
 import React, { useEffect, useState } from 'react';
-import { Image } from 'react-native';
+import { View, Image, Text } from 'react-native';
 import UserCircleStyles from '@nightlight/components/map/UserCircle.styles';
 import { COLORS } from '@nightlight/src/global.styles';
 
@@ -10,6 +10,9 @@ const UserCircle = ({ uri: userId }: { uri: string }) => {
 
   // TODO: stores the user's last active status and conditionally render the borderColor
   const [userStatus, setUserStatus] = useState<string>('');
+
+  // TODO: the user's current emoji status
+  const [userEmojiStatus, setUserEmojiStatus] = useState<string>('🥳');
 
   // query the user's image on first mount
   useEffect(() => {
@@ -23,18 +26,27 @@ const UserCircle = ({ uri: userId }: { uri: string }) => {
   }, []);
 
   return (
-    <Image
-      source={{
-        uri: userImgUrlProfile,
-      }}
-      style={[
-        UserCircleStyles.userCircleImage,
-        {
-          // TODO: conditionally render the borderColor based on userStatus
-          borderColor: COLORS.GREEN,
-        },
-      ]}
-    />
+    <View>
+      {userImgUrlProfile && (
+        <Image
+          source={{
+            uri: userImgUrlProfile,
+          }}
+          style={[
+            UserCircleStyles.image,
+            {
+              // TODO: conditionally render the borderColor based on userStatus
+              borderColor: COLORS.GREEN,
+            },
+          ]}
+        />
+      )}
+      {userEmojiStatus && (
+        <View style={UserCircleStyles.emoji}>
+          <Text>{userEmojiStatus}</Text>
+        </View>
+      )}
+    </View>
   );
 };
 
