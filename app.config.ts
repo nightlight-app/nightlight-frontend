@@ -24,6 +24,7 @@ module.exports = {
       bundleIdentifier: 'com.nightlight.nightlight',
     },
     android: {
+      package: 'com.nightlight.nightlight',
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#212121',
@@ -32,7 +33,6 @@ module.exports = {
     web: {
       favicon: './assets/favicon.png',
     },
-    entryPoint: './src/App.tsx',
     plugins: [
       [
         'expo-build-properties',
