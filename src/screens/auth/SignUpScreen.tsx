@@ -17,6 +17,20 @@ import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 import { formatPhoneNumber } from '@nightlight/src/utils/utils';
 import { COLORS } from '@nightlight/src/global.styles';
 
+const renderPaginationDot = (isActive: boolean) => (
+  <View
+    style={{
+      backgroundColor: isActive
+        ? COLORS.NIGHTLIGHT_BLUE
+        : COLORS.NIGHTLIGHT_GRAY,
+      width: isActive ? 20 : 8,
+      height: 8,
+      borderRadius: 4,
+      margin: 3,
+    }}
+  />
+);
+
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -55,8 +69,8 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <Swiper
         loop={false}
-        dotStyle={SignUpScreenStyles.dotStyle}
-        activeDotStyle={SignUpScreenStyles.activeDotStyle}>
+        dot={renderPaginationDot(false)}
+        activeDot={renderPaginationDot(true)}>
         {/* Name */}
         <SafeAreaView style={SignUpScreenStyles.container}>
           <View style={SignUpScreenStyles.inputsContainer}>

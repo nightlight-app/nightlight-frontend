@@ -88,13 +88,6 @@ export default StyleSheet.create({
     right: 0,
     margin: 5,
   },
-  dotStyle: {
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-  },
-  activeDotStyle: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    width: 20,
-  },
   createAccountButton: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
     borderColor: COLORS.DARK_BLUE,
