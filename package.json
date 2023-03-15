@@ -36,7 +36,6 @@
     "expo-constants": "~14.0.2",
     "expo-dev-client": "~2.0.1",
     "expo-image-picker": "~14.0.2",
-    "expo-permissions": "^14.1.1",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "firebase": "^9.17.2",
