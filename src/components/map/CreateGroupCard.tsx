@@ -77,10 +77,13 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
 
   // Creates a group with the selected users
   const handleCreateGroup = () => {
+    if (!userDocument) return;
+    if (selectedUsers.length === 0) return Alert.alert('No users selected!');
+
     // create a group object
     const groupObject: Group = {
-      name: 'Nightlight Team',
-      members: [],
+      name: 'Group_' + Math.floor(Math.random() * 1000),
+      members: [userDocument._id],
       invitedMembers: selectedUsers.map(user => user._id),
       creationDatetime: new Date(),
       expirationDatetime: new Date(),
