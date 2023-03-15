@@ -102,7 +102,7 @@ export interface User {
   invitedGroups?: string[]; // mongoose ObjectId[]
   friends?: string[]; // mongoose ObjectId[]
   friendRequests?: string[]; // mongoose ObjectId[]
-  lastActive?: LastActive;
+  lastActive: LastActive;
   savedGroups?: SavedGroup[];
 }
 
