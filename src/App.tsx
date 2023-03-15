@@ -31,10 +31,21 @@ import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import SocialScreen from '@nightlight/screens/social/SocialScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
+import { isDevice } from 'expo-device';
 import { Subscription } from 'expo-modules-core';
-import Constants from 'expo-constants';
+import expoConfig from 'expo-constants';
+import {
+  addNotificationReceivedListener,
+  addNotificationResponseReceivedListener,
+  AndroidImportance,
+  getExpoPushTokenAsync,
+  getPermissionsAsync,
+  removeNotificationSubscription,
+  requestPermissionsAsync,
+  setNotificationChannelAsync,
+  setNotificationHandler,
+  Notification,
+} from 'expo-notifications';
 
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
@@ -43,7 +54,7 @@ const ProfileStack = createNativeStackNavigator();
 // Prevent hiding the splash screen
 preventAutoHideAsync();
 
-Notifications.setNotificationHandler({
+setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: false,
@@ -51,12 +62,12 @@ Notifications.setNotificationHandler({
   }),
 });
 
-async function sendPushNotification(
+const sendPushNotification = async (
   expoPushToken: string,
   title: string,
   body: string,
   data: any
-) {
+) => {
   const message = {
     to: expoPushToken,
     sound: 'default',
@@ -74,43 +85,57 @@ async function sendPushNotification(
     },
     body: JSON.stringify(message),
   });
-}
+};
 
-async function registerForPushNotificationsAsync() {
-  const projectId = Constants?.expoConfig?.extra?.eas.projectId;
+const registerForPushNotificationsAsync = async () => {
+  // Retrieve the project ID from the Expo config
+  const projectId = expoConfig?.extra?.eas.projectId;
   let token;
-  if (Device.isDevice) {
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
+
+  if (isDevice) {
+    // See if user allows access to push notifications on device
+    const { status: existingStatus } = await getPermissionsAsync();
     let finalStatus = existingStatus;
+
+    // Request permission to send push notifications
     if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
+      const { status } = await requestPermissionsAsync();
       finalStatus = status;
     }
+
+    // Alert that the user does not allow push notifications
     if (finalStatus !== 'granted') {
       alert('Failed to get push token for push notification!');
       return;
     }
+
+    // Get the push token
     token = (
-      await Notifications.getExpoPushTokenAsync({
+      await getExpoPushTokenAsync({
         projectId,
       })
     ).data;
+
+    // Print the token for development purposes
     console.log(token);
   } else {
+    // Alert that the user must use a physical device to receive push notifications
     alert('Must use physical device for Push Notifications');
   }
 
+  // Set notification settings for Android
   if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
+    setNotificationChannelAsync('default', {
       name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
+      importance: AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
       lightColor: '#FF231F7C',
     });
   }
+
+  // Return the string expo push token - "ExponentPushToken[*************]""
   return token;
-}
+};
 
 const AuthScreenStack = () => {
   return (
@@ -175,35 +200,39 @@ const Main = () => {
 };
 
 const App = () => {
+  // Notification state
   const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] =
-    useState<Notifications.Notification>();
+  const [notification, setNotification] = useState<Notification>();
   const notificationListener = useRef<Subscription>();
   const responseListener = useRef<Subscription>();
 
   useEffect(() => {
+    // Register for push notifications
     registerForPushNotificationsAsync().then(token => {
       if (token) {
         setExpoPushToken(token);
       }
     });
 
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener(notification => {
+    // Listen for notifications (received while app is open or in background)
+    notificationListener.current = addNotificationReceivedListener(
+      notification => {
         setNotification(notification);
-      });
+      }
+    );
 
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener(response => {
+    // Listen for notification responses (tapping on notification)
+    responseListener.current = addNotificationResponseReceivedListener(
+      response => {
         console.log(response);
-      });
+      }
+    );
 
+    // Clean up listeners
     return () => {
       if (notificationListener.current && responseListener.current) {
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
-        Notifications.removeNotificationSubscription(responseListener.current);
+        removeNotificationSubscription(notificationListener.current);
+        removeNotificationSubscription(responseListener.current);
       }
     };
   }, []);
