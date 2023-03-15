@@ -1,10 +1,11 @@
+import { USER_CIRCLE_DIAMETER } from '@nightlight/src/constants';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   image: {
-    width: 50,
-    height: 50,
-    borderRadius: 50 / 2,
+    width: USER_CIRCLE_DIAMETER,
+    height: USER_CIRCLE_DIAMETER,
+    borderRadius: USER_CIRCLE_DIAMETER / 2,
     borderWidth: 3,
   },
   emoji: {
