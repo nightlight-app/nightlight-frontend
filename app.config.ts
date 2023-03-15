@@ -49,6 +49,7 @@ module.exports = {
           RNMapboxMapsDownloadToken: process.env.MAPBOX_API_KEY,
         },
       ],
+      ['expo-image-picker'],
     ],
     extra: {
       eas: {

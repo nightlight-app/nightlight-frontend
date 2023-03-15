@@ -9,9 +9,12 @@ import {
   Keyboard,
   Alert,
   Pressable,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Swiper from 'react-native-swiper';
+import * as Permissions from 'expo-permissions';
+import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 import { formatPhoneNumber } from '@nightlight/src/utils/utils';
@@ -42,6 +45,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(prev => !prev);
@@ -57,6 +61,32 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
   const handlePhoneNumberChange = (input: string) => {
     setPhoneNumber(input.replace(/\D/g, ''));
+  };
+
+  const handleChooseImage = async () => {
+    console.log('Picking profile picture...');
+    console.log('TODO: this is not working...might be build issue?');
+    try {
+      // No permissions request is necessary for launching the image library
+      let result = await launchImageLibraryAsync({
+        mediaTypes: MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      console.log(result);
+
+      if (!result.canceled) {
+        setProfilePicture(result.assets[0].uri);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setProfilePicture(null);
   };
 
   const handleCreateAccountPress = () => {
@@ -223,7 +253,37 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           <Text style={SignUpScreenStyles.inputLabel}>
             Now, show off that smile! 😁
           </Text>
-          {/* TODO: image upload or skip */}
+          {profilePicture ? (
+            <Image
+              source={{ uri: profilePicture }}
+              style={SignUpScreenStyles.profilePicture}
+            />
+          ) : (
+            <Image
+              source={require('@nightlight/assets/images/smiley-face.png')}
+              style={SignUpScreenStyles.smileyFace}
+            />
+          )}
+          <Button
+            onPress={handleChooseImage}
+            text={`${profilePicture ? 'Change' : 'Choose'} Image`}
+            style={{
+              backgroundColor: COLORS.WHITE,
+              borderColor: COLORS.GRAY,
+            }}
+            textColor={COLORS.GRAY}
+          />
+          {profilePicture && (
+            <Button
+              onPress={handleRemoveImage}
+              text='Remove Image'
+              style={{
+                backgroundColor: COLORS.RED,
+                borderColor: COLORS.DARK_RED,
+              }}
+              textColor={COLORS.WHITE}
+            />
+          )}
           <Button
             onPress={handleCreateAccountPress}
             text='Create Account'

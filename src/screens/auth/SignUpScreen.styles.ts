@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
+import { SMILE_FACE_ASPECT_RATIO } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
@@ -87,6 +88,17 @@ export default StyleSheet.create({
     position: 'absolute',
     right: 0,
     margin: 5,
+  },
+  profilePicture: {
+    height: 124,
+    width: 124,
+    borderRadius: 62,
+    marginVertical: 30,
+  },
+  smileyFace: {
+    width: 150,
+    height: 150 / SMILE_FACE_ASPECT_RATIO,
+    marginVertical: 30,
   },
   createAccountButton: {
     marginVertical: 30,

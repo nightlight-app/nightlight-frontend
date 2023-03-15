@@ -38,3 +38,6 @@ export const MOOD_SPRING_CONFIG: WithSpringConfig = {
 
 // Map Card
 export const MAP_CARD_WIDTH = 370; // width of the map card in points
+
+// Smiley Face
+export const SMILE_FACE_ASPECT_RATIO: number = 1.09719789842; // aspect ratio of the smiley face image
