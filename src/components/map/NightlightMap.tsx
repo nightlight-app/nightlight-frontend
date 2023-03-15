@@ -16,8 +16,8 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 const initialCamera: CameraStop = {
   animationDuration: 0,
   zoomLevel: 16,
-  pitch: 0, // TODO: change later?
-  heading: 62,
+  pitch: 0,
+  heading: 0,
 };
 
 // pass the api key to Mapbox
@@ -49,7 +49,7 @@ const NightlightMap = () => {
 
   // whether the camera is following user (both location and device heading)
   const [isCameraFollowingUser, setIsCameraFollowingUser] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   // set up socket on first mount
   useEffect(() => {
@@ -138,6 +138,10 @@ const NightlightMap = () => {
     }
   };
 
+  /**
+   * Update the user's location and emit it to the socket server.
+   * @param loc the user's current location
+   */
   const updateLocation = (loc: MapboxGL.Location) => {
     setUserLocation(loc);
 
@@ -161,12 +165,13 @@ const NightlightMap = () => {
           ref={m => {
             if (!mapView && m) setMapView(mapView);
           }}
+          zoomEnabled={true}
           scaleBarEnabled={false}
           style={NightlightMapStyles.map}
           styleURL={MapboxGL.StyleURL.Dark}
           scrollEnabled={true}
-          pitchEnabled={true}
-          rotateEnabled={true}
+          pitchEnabled={false}
+          rotateEnabled={false}
           compassEnabled={true}>
           {/* Camera */}
           <Camera
