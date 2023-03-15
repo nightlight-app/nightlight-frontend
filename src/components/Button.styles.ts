@@ -9,9 +9,11 @@ export default StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 15,
     width: 275,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 16,
     textAlign: 'center',
   },

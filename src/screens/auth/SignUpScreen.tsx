@@ -14,6 +14,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import Swiper from 'react-native-swiper';
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
+import { Feather } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 import { formatPhoneNumber } from '@nightlight/src/utils/utils';
@@ -264,20 +265,22 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
               />
             )}
           </TouchableOpacity>
-          <Button
-            onPress={handleChooseImage}
-            text={`${profilePicture ? 'Change' : 'Choose'} Image...`}
-            style={SignUpScreenStyles.chooseImageButton}
-            textColor={COLORS.GRAY}
-          />
-          {profilePicture && (
+          <View style={SignUpScreenStyles.imageButtonsContianer}>
             <Button
-              onPress={handleRemoveImage}
-              text='Remove Image'
-              style={SignUpScreenStyles.removeImageButton}
-              textColor={COLORS.WHITE}
+              onPress={handleChooseImage}
+              text={`${profilePicture ? 'Change' : 'Choose'} Image...`}
+              style={SignUpScreenStyles.chooseImageButton}
+              textColor={COLORS.GRAY}
             />
-          )}
+            {profilePicture && (
+              <Button
+                onPress={handleRemoveImage}
+                text={<Feather name='trash-2' size={20} color={COLORS.WHITE} />}
+                style={SignUpScreenStyles.removeImageButton}
+                textColor={COLORS.WHITE}
+              />
+            )}
+          </View>
           <Button
             onPress={handleCreateAccountPress}
             text={profilePicture ? 'Create Account' : 'Maybe Later'}
