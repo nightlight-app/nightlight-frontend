@@ -249,11 +249,12 @@ export interface EmergencyContact {
 export interface Markers {
   // the title of the marker
   location: Location;
+  // the image to query for the marker
+  imgUrl: string;
 }
 
-export interface UserMarkers extends Markers {
-  // the id of the user (mongoose ObjectId)
-  userId: string;
+export interface UserMarkerMap {
+  [key: string]: Markers;
 }
 
 export interface AuthContextInterface {

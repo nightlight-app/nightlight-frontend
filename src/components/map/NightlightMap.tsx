@@ -7,7 +7,7 @@ import { COLORS } from '@nightlight/src/global.styles';
 import { Ionicons } from '@expo/vector-icons';
 import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
-import { UserMarkers } from '@nightlight/src/types';
+import { Markers, UserMarkerMap } from '@nightlight/src/types';
 import { socket } from '@nightlight/src/service/socketService';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
@@ -31,8 +31,8 @@ const NightlightMap = () => {
    */
   const groupId = userDocument?.currentGroup;
 
-  // the list of other user markers to display (excluding the current user)
-  const [userMarkers, setUserMarkers] = useState<UserMarkers[]>([]);
+  // the map of user id to UserMarker (excluding the current user)
+  const [userMarkers, setUserMarkers] = useState<UserMarkerMap>({});
 
   // reference to MapboxGL's map view
   const [mapView, setMapView] = useState<MapView>();
@@ -51,6 +51,7 @@ const NightlightMap = () => {
   useEffect(() => {
     // if user is not in a group, do not set up socket
     if (!groupId) return;
+    console.log('setting up socket for user', userDocument?.firstName);
 
     // tell server to add this user to a socket group
     socket.emit('joinGroup', groupId);
@@ -64,23 +65,28 @@ const NightlightMap = () => {
       if (data.userId === userDocument?._id) return;
 
       // update the userMarkers state for other users' locations
-      setUserMarkers(prev => {
-        const newMarkers = [...prev];
-        const index = newMarkers.findIndex(user => user.userId === data.userId);
-        if (index !== -1) {
-          // if the user is already in the list, update their location
-          newMarkers[index] = {
-            userId: data.userId,
+      setUserMarkers((prev): UserMarkerMap => {
+        // if the user is already in prev, update their location
+        if (prev[data.userId]) {
+          const newObj: Markers = {
+            ...prev[data.userId],
             location: data.location,
           };
+          return {
+            ...prev,
+            [data.userId]: newObj,
+          };
         } else {
-          // if the user is not in the list, add them to the list
-          newMarkers.push({
-            userId: data.userId,
+          // if the user is not in prev, add them to the list
+          const newObj: Markers = {
             location: data.location,
-          });
+            imgUrl: '', // TODO: get the user's profile picture url
+          };
+          return {
+            ...prev,
+            [data.userId]: newObj,
+          };
         }
-        return newMarkers;
       });
     });
 
@@ -188,12 +194,15 @@ const NightlightMap = () => {
 
           {/* Other User Markers */}
           {userMarkers &&
-            userMarkers.map((user, index) => {
+            Object.entries(userMarkers).map(([userId, userObj]) => {
               return (
                 <MapboxGL.MarkerView
-                  key={index}
-                  coordinate={[user.location.longitude, user.location.latitude]}
-                  title={user.userId}>
+                  key={userId}
+                  coordinate={[
+                    userObj.location.longitude,
+                    userObj.location.latitude,
+                  ]}
+                  title={userId}>
                   <View style={NightlightMapStyles.userMarkerView}>
                     <FontAwesome5
                       name='map-marker'
