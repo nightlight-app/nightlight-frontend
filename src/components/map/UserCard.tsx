@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Pressable } from 'react-native';
+import { Text, View, Pressable, Image } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -21,6 +21,8 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
   const [lastActive, setLastActive] = useState(user.lastActive); // TODO: setLastActive when user is active?
   const [location, setLocation] = useState(user.lastActive.location);
   const [relativeTimeString, setRelativeTimeString] = useState('...');
+
+  // TODO: Update status color based on lastActive
   const [statusColor, setStatusColor] = useState(COLORS.NIGHTLIGHT_GRAY);
 
   // Update relative time string and status color every second
@@ -82,16 +84,21 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
       }}>
       {/* User Header */}
       <View style={UserCardStyles.userHeaderContainer}>
-        <View
-          style={{
-            ...UserCardStyles.userProfilePic,
-            borderColor: statusColor,
-          }}>
+        {/* Conditionally render user profile pic or initials */}
+        {user.imgUrlProfileLarge ? (
+          <Image
+            source={{ uri: user.imgUrlProfileLarge }}
+            style={{
+              ...UserCardStyles.userProfilePic,
+              borderColor: statusColor,
+            }}
+          />
+        ) : (
           <Text style={UserCardStyles.userProfilePicText}>
             {user.firstName[0]}
             {user.lastName[0]}
           </Text>
-        </View>
+        )}
         <Text style={UserCardStyles.userName}>
           {user.firstName} {user.lastName}
         </Text>
