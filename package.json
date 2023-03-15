@@ -47,8 +47,7 @@
     "react-native-swiper": "^1.6.0",
     "socket.io-client": "^4.5.4",
     "react-native-screens": "*",
-    "react-native-gesture-handler": "*",
-    "react-native-safe-area-context": "*"
+    "react-native-gesture-handler": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
