@@ -6,7 +6,7 @@ import VenueCard from '@nightlight/components/map/VenueCard';
 import UserCard from '@nightlight/components/map/UserCard';
 import CreateGroupCard from '@nightlight/components/map/CreateGroupCard';
 import ErrorCard from '@nightlight/components/map/ErrorCard';
-import { MapCardType, TabRoute } from '@nightlight/src/types';
+import { MapCardType, TabRoute, User } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMap from '@nightlight/components/map/NightlightMap';
 import { TEST_USERS, TEST_VENUES } from '@nightlight/src/testData';
@@ -21,9 +21,27 @@ const MapScreen = () => {
   const [activeMapCardType, setActiveMapCardType] =
     useState<MapCardType | null>(null);
 
+  // keep track of the user to show in the user card
+  const [activeUser, setActiveUser] = useState<User>();
+
   // handlers for map card buttons
   const handleShowVenueCard = () => setActiveMapCardType(MapCardType.VENUE);
-  const handleShowUserCard = () => setActiveMapCardType(MapCardType.USER);
+  const handleShowUserCard = (userToShow = TEST_USERS[0]) => {
+    setActiveUser(userToShow);
+
+    if (
+      activeMapCardType !== MapCardType.USER ||
+      activeUser?._id !== userToShow._id
+    ) {
+      // close the card first
+      setActiveMapCardType(null);
+      // then open the user card
+      setActiveMapCardType(MapCardType.USER);
+    } else {
+      // close whatever card is currently open
+      setActiveMapCardType(null);
+    }
+  };
   const handleShowCreateGroupCard = () =>
     setActiveMapCardType(MapCardType.CREATE_GROUP);
   const handleShowErrorCard = () => setActiveMapCardType(MapCardType.ERROR);
@@ -31,14 +49,20 @@ const MapScreen = () => {
 
   // render the selected map card
   const renderMapCard = (type: MapCardType) => {
-    // TODO: switch out TEST_VENUES and TEST_USERS with real data
+    // TODO: switch out TEST_VENUES with real data
     switch (type) {
       case MapCardType.VENUE:
         return (
           <VenueCard venue={TEST_VENUES[0]} onClose={handleCloseMapCard} />
         );
       case MapCardType.USER:
-        return <UserCard user={TEST_USERS[0]} onClose={handleCloseMapCard} />;
+        return (
+          <UserCard
+            // Renders a fallback user if activeUser is undefined
+            user={activeUser || TEST_USERS[0]}
+            onClose={handleCloseMapCard}
+          />
+        );
       case MapCardType.CREATE_GROUP:
         return <CreateGroupCard onClose={handleCloseMapCard} />;
       default:
@@ -52,7 +76,7 @@ const MapScreen = () => {
       <NightlightMap />
 
       {/* For development purpose */}
-      <View
+      {/* <View
         style={{
           position: 'absolute',
           top: 120,
@@ -72,7 +96,7 @@ const MapScreen = () => {
           <Text>Show Venue Card</Text>
         </Pressable>
         <Pressable
-          onPress={handleShowUserCard}
+          onPress={() => handleShowUserCard()}
           style={{
             backgroundColor: COLORS.GREEN,
             padding: 10,
@@ -91,14 +115,17 @@ const MapScreen = () => {
           }}>
           <Text>Show Error Card</Text>
         </Pressable>
-      </View>
+      </View> */}
 
       {/* MapCards */}
       {activeMapCardType && renderMapCard(activeMapCardType)}
 
-      {/* TODO: Conditionally render group button */}
+      {/* Conditionally render group button */}
       {userDocument?.currentGroup ? (
-        <GroupMembers />
+        <GroupMembers
+          userOnPress={handleShowUserCard}
+          addGroupOnPress={handleShowCreateGroupCard}
+        />
       ) : (
         <CreateGroupButton onPress={handleShowCreateGroupCard} />
       )}
