@@ -33,7 +33,7 @@ import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
 import { isDevice } from 'expo-device';
 import { Subscription } from 'expo-modules-core';
-import expoConfig from 'expo-constants';
+import Constants from 'expo-constants';
 import {
   addNotificationReceivedListener,
   addNotificationResponseReceivedListener,
@@ -89,7 +89,7 @@ const sendPushNotification = async (
 
 const registerForPushNotificationsAsync = async () => {
   // Retrieve the project ID from the Expo config
-  const projectId = expoConfig?.extra?.eas.projectId;
+  const projectId = Constants.expoConfig?.extra?.eas.projectId;
   let token;
 
   if (isDevice) {
