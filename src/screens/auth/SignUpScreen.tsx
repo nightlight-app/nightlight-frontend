@@ -64,7 +64,6 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
   const handleChooseImage = async () => {
     console.log('Picking profile picture...');
-    console.log('TODO: this is not working...might be build issue?');
     try {
       // No permissions request is necessary for launching the image library
       let result = await launchImageLibraryAsync({
@@ -252,40 +251,36 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           <Text style={SignUpScreenStyles.inputLabel}>
             Now, show off that smile! 😁
           </Text>
-          {profilePicture ? (
-            <Image
-              source={{ uri: profilePicture }}
-              style={SignUpScreenStyles.profilePicture}
-            />
-          ) : (
-            <Image
-              source={require('@nightlight/assets/images/smiley-face.png')}
-              style={SignUpScreenStyles.smileyFace}
-            />
-          )}
+          <TouchableOpacity onPress={handleChooseImage} activeOpacity={0.75}>
+            {profilePicture ? (
+              <Image
+                source={{ uri: profilePicture }}
+                style={SignUpScreenStyles.profilePicture}
+              />
+            ) : (
+              <Image
+                source={require('@nightlight/assets/images/smiley-face.png')}
+                style={SignUpScreenStyles.smileyFace}
+              />
+            )}
+          </TouchableOpacity>
           <Button
             onPress={handleChooseImage}
-            text={`${profilePicture ? 'Change' : 'Choose'} Image`}
-            style={{
-              backgroundColor: COLORS.WHITE,
-              borderColor: COLORS.GRAY,
-            }}
+            text={`${profilePicture ? 'Change' : 'Choose'} Image...`}
+            style={SignUpScreenStyles.chooseImageButton}
             textColor={COLORS.GRAY}
           />
           {profilePicture && (
             <Button
               onPress={handleRemoveImage}
               text='Remove Image'
-              style={{
-                backgroundColor: COLORS.RED,
-                borderColor: COLORS.DARK_RED,
-              }}
+              style={SignUpScreenStyles.removeImageButton}
               textColor={COLORS.WHITE}
             />
           )}
           <Button
             onPress={handleCreateAccountPress}
-            text='Create Account'
+            text={profilePicture ? 'Create Account' : 'Maybe Later'}
             style={SignUpScreenStyles.createAccountButton}
           />
         </SafeAreaView>
