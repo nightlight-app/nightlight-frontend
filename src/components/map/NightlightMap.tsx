@@ -95,7 +95,7 @@ const NightlightMap = () => {
 
   // set the initial camera to user's location on first load
   useEffect(() => {
-    if (userLocation)
+    if (userLocation && isCameraFollowingUser)
       camera.current?.setCamera({
         ...initialCamera,
         centerCoordinate: convertCoordinateToPosition(userLocation.coords),
