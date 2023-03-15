@@ -1,4 +1,4 @@
-import { MAPBOX_API_KEY } from '@env';
+import { MAPBOX_API_KEY, SERVER_URL } from '@env';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Pressable, Image } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
@@ -57,37 +57,38 @@ const NightlightMap = () => {
     socket.emit('joinGroup', groupId);
 
     // receive location broadcast from server
-    socket.on('broadcastLocation', data => {
+    socket.on('broadcastLocation', socketData => {
       // ignore if userDocument is not yet loaded
       if (!userDocument) return;
 
       // ignore current users' location because it is already being tracked
-      if (data.userId === userDocument?._id) return;
+      if (socketData.userId === userDocument?._id) return;
 
-      // update the userMarkers state for other users' locations
-      setUserMarkers((prev): UserMarkerMap => {
-        // if the user is already in prev, update their location
-        if (prev[data.userId]) {
-          const newObj: Markers = {
-            ...prev[data.userId],
-            location: data.location,
-          };
-          return {
-            ...prev,
-            [data.userId]: newObj,
-          };
-        } else {
-          // if the user is not in prev, add them to the list
-          const newObj: Markers = {
-            location: data.location,
-            imgUrl: '', // TODO: get the user's profile picture url
-          };
-          return {
-            ...prev,
-            [data.userId]: newObj,
-          };
-        }
-      });
+      // if the user is already in userMarkers, update their location right away
+      if (userMarkers[socketData.userId]) {
+        const newObj: Markers = {
+          imgUrl: userMarkers[socketData.userId].imgUrl,
+          location: socketData.location,
+        };
+        setUserMarkers(prev => ({ ...prev, [socketData.userId]: newObj }));
+      } else {
+        // if the user is not in userMarkers, fetch their profile picture url first
+        // then add them to the list
+        // TODO: this is a bit inefficient as we only need imgUrlProfileLarge.
+        // could we have a specific endpoint for this?
+        fetch(`${SERVER_URL}users?userId=${socketData.userId}`, {
+          method: 'GET',
+        })
+          .then(res => res.json())
+          .then(friendData => {
+            const newObj: Markers = {
+              location: socketData.location,
+              imgUrl: friendData.user.imgUrlProfileLarge,
+            };
+            setUserMarkers(prev => ({ ...prev, [socketData.userId]: newObj }));
+          })
+          .catch(e => console.log(e));
+      }
     });
 
     // clean up by disconnecting with socket
@@ -213,7 +214,7 @@ const NightlightMap = () => {
                     <Image
                       source={{
                         // TODO: get the image source of the received user id
-                        uri: userDocument?.imgUrlProfileSmall,
+                        uri: userObj.imgUrl,
                       }}
                       style={NightlightMapStyles.userMarkerImage}
                     />
