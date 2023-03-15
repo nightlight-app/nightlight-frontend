@@ -98,7 +98,7 @@ const NightlightMap = () => {
       // disconnect from the socket
       socket.off('');
     };
-  }, []);
+  }, [groupId, userDocument]);
 
   // set the initial camera to user's location on first load
   useEffect(() => {
