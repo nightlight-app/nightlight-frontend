@@ -19,7 +19,7 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { SERVER_URL } from '@env';
 
 const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
-  const { userDocument } = useAuthContext();
+  const { userDocument, updateUserDocument } = useAuthContext();
   const [availableUsers, setAvailableUsers] = useState<User[]>([]);
   const [displayedAvailableUsers, setDisplayedAvailableUsers] = useState<
     User[]
@@ -108,6 +108,7 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
           console.log('HERE IS THE GROUP', data);
           Alert.alert('Group created successfully!');
         }
+        updateUserDocument({});
         onClose();
       });
   };

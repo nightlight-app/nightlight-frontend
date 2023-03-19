@@ -260,10 +260,15 @@ export interface UserMarkerMap {
 export interface AuthContextInterface {
   userSession: FirebaseUser | null | undefined;
   userDocument: User | null | undefined;
+  updateUserDocument: (_: UpdateUserDocumentInterface) => void;
 }
 
 export interface BannerProps {
   message: string;
   backgroundColor: string;
   textColor: string;
+}
+
+export interface UpdateUserDocumentInterface {
+  firebaseUid?: string;
 }
