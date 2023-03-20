@@ -9,6 +9,9 @@ jest.mock('@react-native-async-storage/async-storage', () =>
 
 export * from '@testing-library/react-native';
 
+// mock native animated helper to resolve useNativeDriver error
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+
 // // mock registerRootComponent to resolve error
 // jest.mock('expo', () => ({
 //   registerRootComponent: jest.fn(),
