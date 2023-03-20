@@ -27,7 +27,7 @@ jobs:
         with:
           commit_message: Apply Prettier formatting
   test:
-    name: Run tests
+    name: Run jest tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -41,7 +41,7 @@ jobs:
       - name: Install packages
         run: npm ci
       - name: Run tests
-        run: npm test
+        run: npm test -- --testPathPattern=__tests__
     env:
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
       FIREBASE_AUTHDOMAIN: ${{ secrets.FIREBASE_AUTHDOMAIN }}
