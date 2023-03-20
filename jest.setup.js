@@ -12,6 +12,9 @@ export * from '@testing-library/react-native';
 // mock native animated helper to resolve useNativeDriver error
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
+// mock firebase
+jest.mock('@nightlight/src/config/firebaseConfig');
+
 // // mock registerRootComponent to resolve error
 // jest.mock('expo', () => ({
 //   registerRootComponent: jest.fn(),
