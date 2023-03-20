@@ -95,6 +95,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         <View style={SignInScreenStyles.inputsContainer}>
           <Text style={SignInScreenStyles.inputsTitle}>Sign in with email</Text>
           <TextInput
+            testID='signin-email-input'
             placeholder='Email'
             placeholderTextColor={COLORS.DARK_GRAY}
             style={[
@@ -107,6 +108,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
           />
           <View style={SignInScreenStyles.passwordInputContainer}>
             <TextInput
+              testID='signin-password-input'
               placeholder='Password'
               placeholderTextColor={COLORS.DARK_GRAY}
               style={[
@@ -119,6 +121,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
               onChangeText={setPassword}
             />
             <Pressable
+              testID='signin-password-visibility'
               onPress={togglePasswordVisibility}
               style={SignInScreenStyles.passwordVisibilityButton}>
               <Ionicons
@@ -129,6 +132,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
             </Pressable>
           </View>
           <TouchableOpacity
+            testID='signin-forgot-password-button'
             onPress={handleForgotPasswordPress}
             activeOpacity={0.75}
             style={SignInScreenStyles.forgotPasswordLink}>
@@ -140,6 +144,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
 
         {/* Sign-In Button */}
         <TouchableOpacity
+          testID='signin-button'
           onPress={handleSignInPress}
           activeOpacity={0.75}
           style={SignInScreenStyles.signInButton}>
@@ -176,6 +181,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         <View style={SignInScreenStyles.signUpMessageContainer}>
           <Text style={SignInScreenStyles.signUpPretext}>New here? </Text>
           <TouchableOpacity
+            testID='signin-signup-button'
             onPress={handleSignUpPress}
             activeOpacity={0.75}
             style={SignInScreenStyles.signUpLink}>
