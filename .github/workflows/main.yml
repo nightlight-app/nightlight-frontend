@@ -71,7 +71,7 @@ jobs:
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Rebuild detox
         if: steps.cache.outputs.cache-hit == 'true'
-        run: detox clean-framework-cache && detox build-framework-cache
+        run: npx detox clean-framework-cache && detox build-framework-cache
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
@@ -89,5 +89,5 @@ jobs:
           cd ios && pod install && cd ..
       - run: brew tap wix/brew
       - run: brew install applesimutils
-      - run: detox build e2e --configuration ios.sim.release
-      - run: detox test e2e --configuration ios.sim.release --cleanup --debug-synchronization 200
+      - run: npx detox build e2e --configuration ios.sim.release
+      - run: npx detox test e2e --configuration ios.sim.release --cleanup --debug-synchronization 200
