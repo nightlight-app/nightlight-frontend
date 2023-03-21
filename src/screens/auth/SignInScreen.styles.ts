@@ -68,6 +68,7 @@ export default StyleSheet.create({
     textDecorationLine: 'underline',
   },
   signInButton: {
+    borderWidth: 0,
     marginVertical: 30,
   },
   signInOptionDividerContainer: {
@@ -89,6 +90,7 @@ export default StyleSheet.create({
   },
   signInWithGoogleButton: {
     backgroundColor: COLORS.WHITE,
+    borderWidth: 0,
     marginVertical: 20,
   },
   signUpMessageContainer: {

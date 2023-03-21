@@ -64,17 +64,14 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   };
 
   const handleChooseImage = async () => {
-    console.log('Picking profile picture...');
     try {
       // No permissions request is necessary for launching the image library
-      let result = await launchImageLibraryAsync({
+      const result = await launchImageLibraryAsync({
         mediaTypes: MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [1, 1],
         quality: 1,
       });
-
-      console.log(result);
 
       if (!result.canceled) {
         setProfilePicture(result.assets[0].uri);

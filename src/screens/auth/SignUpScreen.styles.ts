@@ -117,12 +117,13 @@ export default StyleSheet.create({
   },
   removeImageButton: {
     backgroundColor: COLORS.RED,
-    borderColor: COLORS.DARK_RED,
+    borderWidth: 0,
     marginLeft: 10,
     padding: 0,
     flex: 1,
   },
   createAccountButton: {
+    borderWidth: 0,
     marginVertical: 40,
   },
 });
