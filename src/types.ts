@@ -139,6 +139,7 @@ export interface ButtonProps {
   onPress: () => void;
   size?: number;
   style?: Object;
+  icon?: React.ReactNode;
   text?: string;
   textColor?: string;
 }

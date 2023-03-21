@@ -275,7 +275,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             {profilePicture && (
               <Button
                 onPress={handleRemoveImage}
-                text={<Feather name='trash-2' size={20} color={COLORS.WHITE} />}
+                icon={<Feather name='trash-2' size={20} color={COLORS.WHITE} />}
                 style={SignUpScreenStyles.removeImageButton}
                 textColor={COLORS.WHITE}
               />

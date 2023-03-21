@@ -156,21 +156,13 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         </View>
 
         {/* Sign in with Google */}
-        <TouchableOpacity
+        <Button
           onPress={handleSignInWithGooglePress}
-          activeOpacity={0.75}
-          style={SignInScreenStyles.signInWithGoogleButton}>
-          {/* TODO: should we make this the actual Google logo? (idk abt copyright stuff) */}
-          <AntDesign
-            name='google'
-            size={20}
-            color={COLORS.DARK_GRAY}
-            style={SignInScreenStyles.googleLogo}
-          />
-          <Text style={SignInScreenStyles.signInWithGoogleButtonText}>
-            Sign in with Google
-          </Text>
-        </TouchableOpacity>
+          icon={<AntDesign name='google' size={20} color={COLORS.DARK_GRAY} />}
+          text='Sign in with Google'
+          textColor={COLORS.DARK_GRAY}
+          style={SignInScreenStyles.signInWithGoogleButton}
+        />
 
         {/* Sign Up Message */}
         <View style={SignInScreenStyles.signUpMessageContainer}>

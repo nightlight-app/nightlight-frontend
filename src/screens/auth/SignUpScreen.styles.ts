@@ -99,10 +99,10 @@ export default StyleSheet.create({
     borderColor: COLORS.DARK_GRAY,
   },
   smileyFace: {
-    width: 200,
-    height: 200 / SMILE_FACE_ASPECT_RATIO,
-    marginTop: 10,
-    marginBottom: 20,
+    width: 150,
+    height: 150 / SMILE_FACE_ASPECT_RATIO,
+    marginTop: 50,
+    marginBottom: 46,
   },
   imageButtonsContianer: {
     flexDirection: 'row',

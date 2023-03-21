@@ -89,22 +89,7 @@ export default StyleSheet.create({
   },
   signInWithGoogleButton: {
     backgroundColor: COLORS.WHITE,
-    borderRadius: 10,
-    paddingVertical: 15,
-    width: 275,
     marginVertical: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  googleLogo: {
-    marginRight: 15,
-  },
-  signInWithGoogleButtonText: {
-    color: COLORS.DARK_GRAY,
-    fontFamily: Fonts.ROBOTO_REGULAR,
-    fontSize: 16,
-    textAlign: 'center',
   },
   signUpMessageContainer: {
     flexDirection: 'row',

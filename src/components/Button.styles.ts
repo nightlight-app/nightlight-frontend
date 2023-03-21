@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
-  container: {
+  buttonContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
     borderColor: COLORS.DARK_BLUE,
     borderWidth: 2,
@@ -11,6 +11,7 @@ export default StyleSheet.create({
     width: 275,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   text: {
     fontFamily: Fonts.COMFORTAA_BOLD,
