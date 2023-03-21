@@ -15,11 +15,14 @@ import { Ionicons } from '@expo/vector-icons';
 import Swiper from 'react-native-swiper';
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
+import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
+import { SERVER_URL } from '@env';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 import { formatPhoneNumber } from '@nightlight/src/utils/utils';
 import { COLORS } from '@nightlight/src/global.styles';
 import Button from '@nightlight/components/Button';
+import { auth } from '@nightlight/src/config/firebaseConfig';
 
 const renderPaginationDot = (isActive: boolean) => (
   <View
@@ -45,7 +48,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+  const [profilePictureUri, setProfilePictureUri] = useState<string | null>(
+    null
+  );
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(prev => !prev);
@@ -74,7 +79,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       });
 
       if (!result.canceled) {
-        setProfilePicture(result.assets[0].uri);
+        setProfilePictureUri(result.assets[0].uri);
       }
     } catch (error: any) {
       console.error(error);
@@ -82,14 +87,148 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   };
 
   const handleRemoveImage = () => {
-    setProfilePicture(null);
+    setProfilePictureUri(null);
   };
 
-  const handleCreateAccountPress = () => {
-    Alert.alert(
-      'TODO: Create Account',
-      `first: ${firstName} last: ${lastName} email: ${email} password: ${password} confirm: ${confirmPassword} phone: ${phoneNumber}`
+  const handleCreateAccountPress = async () => {
+    console.log('[User Registration] Validating user registration fields...');
+
+    // Determine which fields are missing
+    const requiredFields = {
+      'First Name': firstName,
+      'Last Name': lastName,
+      Email: email,
+      Password: password,
+      'Phone Number': phoneNumber,
+    };
+
+    const missingFields = Object.entries(requiredFields)
+      .filter(([_, value]) => !value)
+      .map(([key]) => key);
+
+    // Validate required fields
+    if (missingFields.length > 0) {
+      Alert.alert('Missing Required Fields', missingFields.join('\n'));
+      console.log(
+        '[User Registration] Missing required fields:',
+        missingFields
+      );
+      return;
+    }
+
+    // Validate email
+    if (!email.includes('@')) {
+      Alert.alert('Validation Error', 'Please enter a valid email.');
+      console.log('[User Registration] Invalid email:', email);
+      return;
+    }
+
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      Alert.alert('Validation Error', 'Passwords do not match.');
+      return;
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      Alert.alert(
+        'Validation Error',
+        'Password must be at least 6 characters.'
+      );
+      return;
+    }
+
+    // Validate phone number
+    if (phoneNumber.length !== 10) {
+      Alert.alert('Validation Error', 'Please enter a valid phone number.');
+      console.log('[User Registration] Invalid phone number:', phoneNumber);
+      return;
+    }
+
+    // Sign up user with Firebase
+    console.log('[Firebase] Signing up new user...');
+    let firebaseUid: string;
+    try {
+      const { user }: UserCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      firebaseUid = user.uid;
+    } catch (error: unknown) {
+      console.log('[Firebase] Error signing up new user!');
+      console.error(error);
+      return;
+    }
+    console.log(
+      '[Firebase] Successfully signed up new user! User ID:',
+      firebaseUid
     );
+
+    // Create user in database
+    console.log('[MongoDB] Creating new user in database...');
+    try {
+      const body = {
+        firstName,
+        lastName,
+        firebaseUid,
+        phoneNumber,
+      };
+
+      const response = await fetch(`${SERVER_URL}user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error('[MongoDB] Failed to create user in database.');
+      }
+    } catch (error: unknown) {
+      console.log('[MongoDB] Error creating new user in database!');
+      console.error(error);
+      return;
+    }
+
+    // TODO: Attach profile picture
+    if (profilePictureUri) {
+      const filename = profilePictureUri.split('/').pop();
+
+      // Infer the type of the image
+      const match = /\.(\w+)$/.exec(filename || '');
+      const type = match ? `image/${match[1]}` : `image`;
+
+      // Upload the image to Cloudinary
+      let formData = new FormData();
+      formData.append('image', {
+        uri: profilePictureUri,
+        name: filename || 'undefined.' + type.split('/')[1],
+        type,
+      });
+      formData.append('image', profilePictureUri, filename);
+
+      try {
+        const response = await fetch(SERVER_URL, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('[MongoDB] Failed to attach profile picture.');
+        }
+
+        // TODO: Update user in database with profile picture URL
+      } catch (error: unknown) {
+        console.log('[MongoDB] Error attaching profile picture!');
+        console.error(error);
+        return;
+      }
+    }
   };
 
   return (
@@ -250,9 +389,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             Now, show off that smile! 😁
           </Text>
           <TouchableOpacity onPress={handleChooseImage} activeOpacity={0.75}>
-            {profilePicture ? (
+            {profilePictureUri ? (
               <Image
-                source={{ uri: profilePicture }}
+                source={{ uri: profilePictureUri }}
                 style={SignUpScreenStyles.profilePicture}
               />
             ) : (
@@ -265,11 +404,11 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           <View style={SignUpScreenStyles.imageButtonsContianer}>
             <Button
               onPress={handleChooseImage}
-              text={`${profilePicture ? 'Change' : 'Choose'} Image...`}
+              text={`${profilePictureUri ? 'Change' : 'Choose'} Image...`}
               style={SignUpScreenStyles.chooseImageButton}
               textColor={COLORS.GRAY}
             />
-            {profilePicture && (
+            {profilePictureUri && (
               <Button
                 onPress={handleRemoveImage}
                 icon={<Feather name='trash-2' size={20} color={COLORS.WHITE} />}
@@ -280,7 +419,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           </View>
           <Button
             onPress={handleCreateAccountPress}
-            text={profilePicture ? 'Create Account' : 'Maybe Later'}
+            text={profilePictureUri ? 'Create Account' : 'Maybe Later'}
             style={SignUpScreenStyles.createAccountButton}
           />
         </SafeAreaView>
