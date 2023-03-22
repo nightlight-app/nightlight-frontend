@@ -143,6 +143,7 @@ export interface ButtonProps {
 
 export interface MapCardProps {
   onClose: () => void;
+  onError?: () => void;
   children?: React.ReactNode;
   borderColor?: string;
   shadowColor?: string;
@@ -271,4 +272,8 @@ export interface BannerProps {
 
 export interface UpdateUserDocumentInterface {
   firebaseUid?: string;
+}
+
+export interface NightlightMapProps {
+  onError?: () => void;
 }

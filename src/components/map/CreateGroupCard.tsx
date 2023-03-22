@@ -18,7 +18,7 @@ import CloseButton from '@nightlight/components/CloseButton';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { SERVER_URL } from '@env';
 
-const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
+const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
   const { userDocument, updateUserDocument } = useAuthContext();
   const [availableUsers, setAvailableUsers] = useState<User[]>([]);
   const [displayedAvailableUsers, setDisplayedAvailableUsers] = useState<
@@ -34,7 +34,10 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
       .then(data => {
         setAvailableUsers(data.friends);
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        if (onError) onError();
+        console.log(e);
+      });
   }, []);
 
   // If availableUsers changes, update displayedAvailableUsers

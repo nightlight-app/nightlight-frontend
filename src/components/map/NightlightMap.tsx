@@ -2,12 +2,21 @@ import { MAPBOX_API_KEY, SERVER_URL } from '@env';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Pressable, Image } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
-import MapboxGL, { Camera, CameraStop, MapView } from '@rnmapbox/maps';
+import MapboxGL, {
+  Camera,
+  MapView,
+  UserLocationRenderMode,
+} from '@rnmapbox/maps';
+import { CameraStop } from '@rnmapbox/maps/src/components/Camera';
 import { COLORS } from '@nightlight/src/global.styles';
 import { Ionicons } from '@expo/vector-icons';
 import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
-import { Markers, UserMarkerMap } from '@nightlight/src/types';
+import {
+  Markers,
+  NightlightMapProps,
+  UserMarkerMap,
+} from '@nightlight/src/types';
 import { socket } from '@nightlight/src/service/socketService';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
@@ -23,7 +32,7 @@ const initialCamera: CameraStop = {
 // pass the api key to Mapbox
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
-const NightlightMap = () => {
+const NightlightMap = ({ onError }: NightlightMapProps) => {
   const { userDocument } = useAuthContext();
 
   /**
@@ -87,7 +96,10 @@ const NightlightMap = () => {
             };
             setUserMarkers(prev => ({ ...prev, [socketData.userId]: newObj }));
           })
-          .catch(e => console.log(e));
+          .catch(e => {
+            if (onError) onError();
+            console.log(e);
+          });
       }
     });
 
@@ -192,7 +204,7 @@ const NightlightMap = () => {
           {/* UserLocation tracker */}
           <MapboxGL.UserLocation
             // showsUserHeadingIndicator={true} // TODO: uncomment after demo
-            renderMode={'native'}
+            renderMode={UserLocationRenderMode.Native}
             visible={true}
             minDisplacement={1}
             onUpdate={loc => updateLocation(loc)}
@@ -207,8 +219,7 @@ const NightlightMap = () => {
                   coordinate={[
                     userObj.location.longitude,
                     userObj.location.latitude,
-                  ]}
-                  title={userId}>
+                  ]}>
                   <View style={NightlightMapStyles.userMarkerView}>
                     <FontAwesome5
                       name='map-marker'

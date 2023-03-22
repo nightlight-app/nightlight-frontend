@@ -64,7 +64,12 @@ const MapScreen = () => {
           />
         );
       case MapCardType.CREATE_GROUP:
-        return <CreateGroupCard onClose={handleCloseMapCard} />;
+        return (
+          <CreateGroupCard
+            onClose={handleCloseMapCard}
+            onError={handleShowErrorCard}
+          />
+        );
       default:
         return <ErrorCard onClose={handleCloseMapCard} />;
     }
@@ -73,7 +78,7 @@ const MapScreen = () => {
   return (
     <View testID={TabRoute.MAP} style={MapScreenStyles.container}>
       {/* The one and only nightlight map, by the one and only nightlight team */}
-      <NightlightMap />
+      <NightlightMap onError={handleShowErrorCard} />
 
       {/* For development purpose */}
       {/* <View
