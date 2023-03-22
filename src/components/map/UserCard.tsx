@@ -19,7 +19,7 @@ const myUser = {
 
 const UserCard = ({ user, onClose }: UserCardProps) => {
   const [lastActive, setLastActive] = useState(user.lastActive); // TODO: setLastActive when user is active?
-  const [location, setLocation] = useState(user.lastActive.location);
+  const [location, setLocation] = useState(user.lastActive?.location);
   const [relativeTimeString, setRelativeTimeString] = useState('...');
 
   // TODO: Update status color based on lastActive

@@ -289,3 +289,7 @@ export interface GroupMembersProps {
    */
   addGroupOnPress: () => void;
 }
+
+export interface UserCircleProps {
+  uri: string;
+}

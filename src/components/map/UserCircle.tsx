@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, Text } from 'react-native';
 import UserCircleStyles from '@nightlight/components/map/UserCircle.styles';
 import { COLORS } from '@nightlight/src/global.styles';
+import { UserCircleProps } from '@nightlight/src/types';
 
-const UserCircle = ({ uri: userId }: { uri: string }) => {
+const UserCircle = ({ uri: userId }: UserCircleProps) => {
   // stores the cloudinary url of the user's profile picture
   const [userImgUrlProfile, setUserImgUrlProfile] = useState<string>('');
 
@@ -12,7 +13,7 @@ const UserCircle = ({ uri: userId }: { uri: string }) => {
   const [userStatus, setUserStatus] = useState<string>('');
 
   // TODO: the user's current emoji status
-  const [userEmojiStatus, setUserEmojiStatus] = useState<string>('🥳');
+  const [userEmojiStatus, setUserEmojiStatus] = useState<string>('');
 
   // query the user's image on first mount
   useEffect(() => {

@@ -62,8 +62,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }: UpdateUserDocumentInterface) => {
     let url = `${SERVER_URL}users?`;
 
-    if (firebaseUid) url += `firebaseUid=${firebaseUid}`;
-    else url += `userId=${userDocument?._id}`;
+    url += firebaseUid
+      ? `firebaseUid=${firebaseUid}`
+      : `userId=${userDocument?._id}`;
 
     // fetch from mongoDB and update userDocument
     fetch(url, {
