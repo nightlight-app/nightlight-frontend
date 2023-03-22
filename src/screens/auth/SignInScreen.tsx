@@ -18,6 +18,7 @@ import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import Banner from '@nightlight/components/Banner';
 import { AuthRoute, NativeStackScreenProps } from '@nightlight/src/types';
+import { TEST_IDS } from '@nightlight/src/constants';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   const [email, setEmail] = useState('');
@@ -95,7 +96,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         <View style={SignInScreenStyles.inputsContainer}>
           <Text style={SignInScreenStyles.inputsTitle}>Sign in with email</Text>
           <TextInput
-            testID='signin-email-input'
+            testID={TEST_IDS.SIGNIN_EMAIL_INPUT}
             placeholder='Email'
             placeholderTextColor={COLORS.DARK_GRAY}
             style={[
@@ -108,7 +109,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
           />
           <View style={SignInScreenStyles.passwordInputContainer}>
             <TextInput
-              testID='signin-password-input'
+              testID={TEST_IDS.SIGNIN_PASSWORD_INPUT}
               placeholder='Password'
               placeholderTextColor={COLORS.DARK_GRAY}
               style={[
@@ -121,7 +122,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
               onChangeText={setPassword}
             />
             <Pressable
-              testID='signin-password-visibility'
+              testID={TEST_IDS.SIGNIN_PASSWORD_VISIBILITY}
               onPress={togglePasswordVisibility}
               style={SignInScreenStyles.passwordVisibilityButton}>
               <Ionicons
@@ -132,7 +133,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
             </Pressable>
           </View>
           <TouchableOpacity
-            testID='signin-forgot-password-button'
+            testID={TEST_IDS.SIGNIN_FORGOT_PASSWORD}
             onPress={handleForgotPasswordPress}
             activeOpacity={0.75}
             style={SignInScreenStyles.forgotPasswordLink}>
@@ -144,7 +145,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
 
         {/* Sign-In Button */}
         <TouchableOpacity
-          testID='signin-button'
+          testID={TEST_IDS.SIGNIN_BUTTON}
           onPress={handleSignInPress}
           activeOpacity={0.75}
           style={SignInScreenStyles.signInButton}>
@@ -181,7 +182,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         <View style={SignInScreenStyles.signUpMessageContainer}>
           <Text style={SignInScreenStyles.signUpPretext}>New here? </Text>
           <TouchableOpacity
-            testID='signin-signup-button'
+            testID={TEST_IDS.SIGNUP_BUTTON}
             onPress={handleSignUpPress}
             activeOpacity={0.75}
             style={SignInScreenStyles.signUpLink}>
