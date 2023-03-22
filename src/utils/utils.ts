@@ -197,3 +197,21 @@ export const getNumFriends = (user: User | null | undefined) => {
 export const getDatetimeHoursAfter = (hours: number) => {
   return new Date(Date.now() + hours * 60 * 60 * 1000);
 };
+
+/**
+ * Generate a group name from a list of users (e.g. "John, Jane, and 3 others")
+ * @param users - list of users
+ * @returns {string} - group name
+ */
+export const generateGroupName = (users: User[]) => {
+  if (users.length === 0) return '';
+
+  if (users.length === 1) return users[0].firstName;
+
+  if (users.length === 2)
+    return `${users[0].firstName} and ${users[1].firstName}`;
+
+  return `${users[0].firstName}, ${users[1].firstName}, and ${
+    users.length - 2
+  } others`;
+};
