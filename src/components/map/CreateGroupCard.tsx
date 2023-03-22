@@ -17,6 +17,7 @@ import CreateGroupCardStyles from '@nightlight/components/map/CreateGroupCard.st
 import CloseButton from '@nightlight/components/CloseButton';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { SERVER_URL } from '@env';
+import { getDatetimeHoursAfter as getDatetimeAfterHours } from '@nightlight/src/utils/utils';
 
 const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
   const { userDocument, updateUserDocument } = useAuthContext();
@@ -89,7 +90,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
       members: [userDocument._id],
       invitedMembers: selectedUsers.map(user => user._id),
       creationDatetime: new Date(),
-      expirationDatetime: new Date(),
+      expirationDatetime: getDatetimeAfterHours(8),
     };
 
     console.log('Attempting to create group...', groupObject);

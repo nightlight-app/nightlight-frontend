@@ -188,3 +188,12 @@ export const getNumFriends = (user: User | null | undefined) => {
   if (user?.friends) return user.friends.length;
   return 0;
 };
+
+/**
+ * Generate the datetime after a certain number of hours
+ * @param hours - number of hours from now
+ * @returns {Date} - datetime after the number of hours
+ */
+export const getDatetimeHoursAfter = (hours: number) => {
+  return new Date(Date.now() + hours * 60 * 60 * 1000);
+};
