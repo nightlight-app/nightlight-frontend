@@ -69,6 +69,9 @@ jobs:
         with:
           path: node_modules
           key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install detox cli
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: npm install -g detox-cli
       - name: Rebuild detox
         if: steps.cache.outputs.cache-hit == 'true'
         run: npx detox clean-framework-cache && detox build-framework-cache
