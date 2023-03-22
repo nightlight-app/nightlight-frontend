@@ -31,7 +31,7 @@ import { TEST_USERS } from '@nightlight/src/testData';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
-
+  
   // TODO: change TEST_USER[0] to a fallback user with defualt data
   const user: User = userDocument
     ? {
@@ -39,7 +39,8 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         // parse the birthday into Date object
         birthday: new Date(userDocument.birthday),
       }
-    : TEST_USERS[0];
+    : 
+    TEST_USERS[0];
 
   // TODO:
   const handleChangeCoverPicture = () => {

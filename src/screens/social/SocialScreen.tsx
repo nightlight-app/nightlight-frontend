@@ -1,11 +1,13 @@
 import FriendCard from '@nightlight/components/social/FriendCard';
 import AddFriendsSvg from '@nightlight/components/svgs/AddFriendsSvg';
 import NotificationSvg from '@nightlight/components/svgs/NotificationSvg';
-import { TabRoute } from '@nightlight/src/types';
+import { TabRoute, User } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
-import { activeGroup, friends } from '@nightlight/src/testData';
+import { activeGroup, friends, TEST_USERS } from '@nightlight/src/testData';
+import axios from 'axios';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const SocialScreen = () => {
   // number of members in active group
@@ -14,10 +16,26 @@ const SocialScreen = () => {
   // number of friends
   const [friendCount, setFriendCount] = useState(0);
 
+  // get current user
+  const { userSession } = useAuthContext();
+  console.log(userSession)
+  
+
   useEffect(() => {
+    // console.log(user);
+    // axios
+    //   .get(
+    //     `http://localhost:6060/user/?userId=${user.uid}`
+    //   )
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(e => {
+    //     console.log('Error: ', e);
+    //   });
     setGroupCount(activeGroup.length);
     setFriendCount(friends.length);
-  });
+  }, []);
 
   // called when there are no active group
   const renderEmptyGroup = () => (
