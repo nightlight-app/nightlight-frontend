@@ -72,6 +72,7 @@ describe('<UserCard />', () => {
     screen.getByText(`${firstName[0]}${lastName[0]}`);
   });
 
+  // TODO: re-write the tests below because they are oudated
   //   test('it should have functioning action buttons', () => {
   //     // TODO: this is only to temporary mock alert() -- remove later
   //     global.alert = jest.fn();

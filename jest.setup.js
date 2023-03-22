@@ -1,5 +1,4 @@
-// import '@testing-library/jest-native/extend-expect' and export it
-// to make it available in all tests
+// use default jest setup file
 import '@testing-library/jest-native/extend-expect';
 
 // mock async storage
@@ -12,6 +11,9 @@ export * from '@testing-library/react-native';
 // mock native animated helper to resolve useNativeDriver error
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
+/**
+ * TODO: Un-used mocks. Left here for reference
+ */
 // // mock registerRootComponent to resolve error
 // jest.mock('expo', () => ({
 //   registerRootComponent: jest.fn(),
