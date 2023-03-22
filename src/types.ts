@@ -277,3 +277,15 @@ export interface UpdateUserDocumentInterface {
 export interface NightlightMapProps {
   onError?: () => void;
 }
+
+export interface GroupMembersProps {
+  /**
+   * Function to call when a user circle is pressed.
+   * @param userToShow User to show when circle is pressed.
+   */
+  userOnPress: (userToShow?: User) => void;
+  /**
+   * Function to call when the add button is pressed.
+   */
+  addGroupOnPress: () => void;
+}

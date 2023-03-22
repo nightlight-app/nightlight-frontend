@@ -1,33 +1,14 @@
 import { SERVER_URL } from '@env';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
-import {
-  SafeAreaView,
-  View,
-  Pressable,
-  Animated,
-  ScrollView,
-} from 'react-native';
+import { SafeAreaView, View, Pressable, Animated } from 'react-native';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
 import { Foundation } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
-import { User } from '@nightlight/src/types';
+import { GroupMembersProps, User } from '@nightlight/src/types';
 
-const GroupMembers = ({
-  userOnPress,
-  addGroupOnPress,
-}: {
-  /**
-   * Function to call when a user circle is pressed.
-   * @param userToShow User to show when circle is pressed.
-   */
-  userOnPress: (userToShow?: User) => void;
-  /**
-   * Function to call when the add button is pressed.
-   */
-  addGroupOnPress: () => void;
-}) => {
+const GroupMembers = ({ userOnPress, addGroupOnPress }: GroupMembersProps) => {
   // get the current user's document
   const { userDocument } = useAuthContext();
 
