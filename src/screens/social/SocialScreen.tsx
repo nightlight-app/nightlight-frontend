@@ -1,7 +1,7 @@
 import FriendCard from '@nightlight/components/social/FriendCard';
 import AddFriendsSvg from '@nightlight/components/svgs/AddFriendsSvg';
 import NotificationSvg from '@nightlight/components/svgs/NotificationSvg';
-import { TabRoute, User } from '@nightlight/src/types';
+import { TabRoute, User} from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
@@ -17,11 +17,11 @@ const SocialScreen = () => {
   const [friendCount, setFriendCount] = useState(0);
 
   // get current user
-  const { userSession } = useAuthContext();
-  console.log(userSession)
-  
+  const { userDocument } = useAuthContext();
+
 
   useEffect(() => {
+    console.log(userDocument)
     // console.log(user);
     // axios
     //   .get(
@@ -35,7 +35,7 @@ const SocialScreen = () => {
     //   });
     setGroupCount(activeGroup.length);
     setFriendCount(friends.length);
-  }, []);
+  }, [userDocument]);
 
   // called when there are no active group
   const renderEmptyGroup = () => (
