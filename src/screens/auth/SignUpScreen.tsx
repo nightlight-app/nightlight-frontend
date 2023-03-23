@@ -189,16 +189,16 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       const filename = profilePictureUri.split('/').pop();
 
       // Infer the type of the image
-      const match = /\.(\w+)$/.exec(filename || '');
-      const type = match ? `image/${match[1]}` : `image`;
+      // const match = /\.(\w+)$/.exec(filename || '');
+      // const type = match ? `image/${match[1]}` : `image`;
 
       // Construct the form data to post the image to Cloudinary
       let formData = new FormData();
-      formData.append('image', {
-        uri: profilePictureUri,
-        name: filename || 'undefined.' + type.split('/')[1],
-        type,
-      }); // FIXME: Type error
+      // formData.append('image', {
+      //   uri: profilePictureUri,
+      //   name: filename || 'undefined.' + type.split('/')[1],
+      //   type,
+      // }); // FIXME: Type error
       formData.append('image', profilePictureUri, filename);
 
       // Upload profile picture to Cloudinary
