@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Text,
   SafeAreaView,
@@ -16,9 +16,8 @@ import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import Animated, {
-  interpolateColor,
   useAnimatedStyle,
-  useSharedValue,
+  withSequence,
   withTiming,
 } from 'react-native-reanimated';
 import { SERVER_URL } from '@env';
@@ -419,24 +418,18 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const renderNavDot = (index: number): React.ReactNode => {
     const isActive = activeIndex === index;
 
-    const animatedDotStyle = useAnimatedStyle(() => {
-      return {
-        backgroundColor: withTiming(
-          isActive
-            ? interpolateColor(
-                1,
-                [0, 1],
-                [COLORS.NIGHTLIGHT_GRAY, COLORS.NIGHTLIGHT_BLUE]
-              )
-            : interpolateColor(
-                0,
-                [0, 1],
-                [COLORS.NIGHTLIGHT_GRAY, COLORS.NIGHTLIGHT_BLUE]
-              )
-        ),
-        width: withTiming(isActive ? 20 : 8),
-      };
-    });
+    const animatedDotStyle = useAnimatedStyle(() => ({
+      backgroundColor: isActive
+        ? withTiming(COLORS.NIGHTLIGHT_BLUE, { duration: 250 / 2 })
+        : COLORS.NIGHTLIGHT_GRAY,
+      opacity: isActive
+        ? withSequence(
+            withTiming(0.33, { duration: 250 / 2 }),
+            withTiming(1, { duration: 250 / 2 })
+          )
+        : 1,
+      width: withTiming(isActive ? 20 : 8),
+    }));
 
     return (
       <Animated.View

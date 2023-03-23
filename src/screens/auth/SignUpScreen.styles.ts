@@ -147,6 +147,7 @@ export default StyleSheet.create({
     height: 8,
     borderRadius: 8 / 2,
     marginHorizontal: 3,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
   },
   navButton: {
     width: 'auto',
