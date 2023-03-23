@@ -85,7 +85,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
         // then add them to the list
         // TODO: this is a bit inefficient as we only need imgUrlProfileLarge.
         // could we have a specific endpoint for this?
-        fetch(`${SERVER_URL}users?userId=${socketData.userId}`, {
+        fetch(`${SERVER_URL}/users?userId=${socketData.userId}`, {
           method: 'GET',
         })
           .then(res => res.json())

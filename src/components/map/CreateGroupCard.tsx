@@ -33,7 +33,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   useEffect(() => {
     // fetch the list of available users based on the current user's friends
-    fetch(`${SERVER_URL}users/${userDocument?._id}/friends`, { method: 'GET' })
+    fetch(`${SERVER_URL}/users/${userDocument?._id}/friends`, { method: 'GET' })
       .then(res => res.json())
       .then(data => {
         setAvailableUsers(data.friends);
@@ -99,7 +99,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
     console.log('Attempting to create group...', groupObject);
 
     // send a POST request to the server to create the group
-    fetch(`${SERVER_URL}groups?userId=${userDocument?._id}`, {
+    fetch(`${SERVER_URL}/groups?userId=${userDocument?._id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

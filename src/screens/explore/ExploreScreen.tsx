@@ -30,7 +30,7 @@ const ExploreScreen = () => {
     // TODO: figure out backend and fallback response if no venues received
     axios
       .get(
-        `${SERVER_URL}venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`
+        `${SERVER_URL}/venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`
       )
       .then(response => {
         setPage(page + 1);

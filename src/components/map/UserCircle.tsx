@@ -17,7 +17,7 @@ const UserCircle = ({ uri: userId }: UserCircleProps) => {
 
   // query the user's image on first mount
   useEffect(() => {
-    fetch(`${SERVER_URL}users?userId=${userId}`, {
+    fetch(`${SERVER_URL}/users?userId=${userId}`, {
       method: 'GET',
     })
       .then(res => res.json())

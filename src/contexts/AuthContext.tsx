@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const updateUserDocument = async ({
     firebaseUid,
   }: UpdateUserDocumentInterface) => {
-    let url = `${SERVER_URL}users?`;
+    let url = `${SERVER_URL}/users?`;
 
     url += firebaseUid
       ? `firebaseUid=${firebaseUid}`

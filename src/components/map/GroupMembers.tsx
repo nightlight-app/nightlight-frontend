@@ -18,7 +18,7 @@ const GroupMembers = ({ userOnPress, addGroupOnPress }: GroupMembersProps) => {
   // fetch the current group's members when the current group changes
   useEffect(() => {
     if (userDocument?.currentGroup) {
-      fetch(`${SERVER_URL}groups?groupId=${userDocument.currentGroup}`, {
+      fetch(`${SERVER_URL}/groups?groupId=${userDocument.currentGroup}`, {
         method: 'GET',
       })
         .then(res => res.json())
@@ -37,7 +37,7 @@ const GroupMembers = ({ userOnPress, addGroupOnPress }: GroupMembersProps) => {
    * the userOnPress function which renders the UserCard component
    */
   const handleUserOnClick = (userId: string) => {
-    fetch(`${SERVER_URL}users?userId=${userId}`, {
+    fetch(`${SERVER_URL}/users?userId=${userId}`, {
       method: 'GET',
     })
       .then(res => res.json())
