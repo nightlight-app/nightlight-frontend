@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Text,
   SafeAreaView,
@@ -15,6 +15,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { SERVER_URL } from '@env';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
@@ -227,7 +233,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
     setActiveIndex(prev => prev + 1);
   };
 
-  const pages = [
+  const pages: React.ReactNode[] = [
     <>
       {/* Name */}
       <View style={SignUpScreenStyles.inputsContainer}>
@@ -410,6 +416,36 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
     </>,
   ];
 
+  const renderNavDot = (index: number): React.ReactNode => {
+    const isActive = activeIndex === index;
+
+    const animatedDotStyle = useAnimatedStyle(() => {
+      return {
+        backgroundColor: withTiming(
+          isActive
+            ? interpolateColor(
+                1,
+                [0, 1],
+                [COLORS.NIGHTLIGHT_GRAY, COLORS.NIGHTLIGHT_BLUE]
+              )
+            : interpolateColor(
+                0,
+                [0, 1],
+                [COLORS.NIGHTLIGHT_GRAY, COLORS.NIGHTLIGHT_BLUE]
+              )
+        ),
+        width: withTiming(isActive ? 20 : 8),
+      };
+    });
+
+    return (
+      <Animated.View
+        key={index}
+        style={[SignUpScreenStyles.navDot, animatedDotStyle]}
+      />
+    );
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={SignUpScreenStyles.container}>
@@ -438,15 +474,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             )}
           </View>
           <View style={SignUpScreenStyles.navDotsContainer}>
-            {pages.map((_, index) => (
-              <View
-                key={index}
-                style={[
-                  SignUpScreenStyles.navDot,
-                  activeIndex === index && SignUpScreenStyles.activeNavDot,
-                ]}
-              />
-            ))}
+            {pages.map((_, index) => renderNavDot(index))}
           </View>
         </View>
       </SafeAreaView>

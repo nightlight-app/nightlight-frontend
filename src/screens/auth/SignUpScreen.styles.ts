@@ -146,12 +146,7 @@ export default StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 8 / 2,
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     marginHorizontal: 3,
-  },
-  activeNavDot: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    width: 20,
   },
   navButton: {
     width: 'auto',
