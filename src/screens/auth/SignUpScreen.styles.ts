@@ -64,8 +64,8 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   signInMessageContainer: {
-    position: 'absolute',
-    bottom: '10%',
+    position: 'relative',
+    top: 50,
     alignSelf: 'center',
     flexDirection: 'row',
   },
@@ -125,5 +125,45 @@ export default StyleSheet.create({
   createAccountButton: {
     borderWidth: 0,
     marginVertical: 40,
+  },
+  navContainer: {
+    position: 'absolute',
+    bottom: 30,
+    width: '100%',
+    alignItems: 'center',
+  },
+  navButtonsContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    marginBottom: 40,
+    paddingHorizontal: 30,
+  },
+  navDotsContainer: {
+    flexDirection: 'row',
+  },
+  navDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 8 / 2,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    marginHorizontal: 3,
+  },
+  activeNavDot: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    width: 20,
+  },
+  navButton: {
+    width: 'auto',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderRadius: 50,
+  },
+  backButton: {
+    backgroundColor: 'transparent',
+    borderColor: COLORS.GRAY,
+  },
+  nextButton: {
+    marginLeft: 'auto',
   },
 });

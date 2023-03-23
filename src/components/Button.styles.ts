@@ -4,7 +4,7 @@ import { COLORS, Fonts } from '@nightlight/src/global.styles';
 export default StyleSheet.create({
   buttonContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    borderColor: COLORS.DARK_BLUE,
+    borderColor: COLORS.NIGHTLIGHT_BLUE,
     borderWidth: 2,
     borderRadius: 10,
     paddingVertical: 15,

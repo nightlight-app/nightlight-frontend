@@ -12,9 +12,8 @@ import {
   Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Swiper from 'react-native-swiper';
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
-import { Feather } from '@expo/vector-icons';
+import { Feather, AntDesign } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { SERVER_URL } from '@env';
 import { NativeStackScreenProps } from '@nightlight/src/types';
@@ -24,21 +23,9 @@ import { COLORS } from '@nightlight/src/global.styles';
 import Button from '@nightlight/components/Button';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 
-const renderPaginationDot = (isActive: boolean) => (
-  <View
-    style={{
-      backgroundColor: isActive
-        ? COLORS.NIGHTLIGHT_BLUE
-        : COLORS.NIGHTLIGHT_GRAY,
-      width: isActive ? 20 : 8,
-      height: 8,
-      borderRadius: 4,
-      margin: 3,
-    }}
-  />
-);
-
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -232,199 +219,237 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
     }
   };
 
+  const handleBackPress = () => {
+    setActiveIndex(prev => prev - 1);
+  };
+
+  const handleNextPress = () => {
+    setActiveIndex(prev => prev + 1);
+  };
+
+  const pages = [
+    <>
+      {/* Name */}
+      <View style={SignUpScreenStyles.inputsContainer}>
+        <Text
+          style={[
+            SignUpScreenStyles.inputLabel,
+            SignUpScreenStyles.biggerFontSize,
+          ]}>
+          Hey there,
+        </Text>
+        <TextInput
+          placeholder='John'
+          style={[
+            SignUpScreenStyles.textInput,
+            SignUpScreenStyles.biggerFontSize,
+          ]}
+          value={firstName}
+          onChangeText={setFirstName}
+        />
+        <View style={SignUpScreenStyles.greetingEndContainer}>
+          <TextInput
+            placeholder='Doe'
+            style={[
+              SignUpScreenStyles.textInput,
+              SignUpScreenStyles.biggerFontSize,
+              SignUpScreenStyles.greetingEndInput,
+            ]}
+            value={lastName}
+            onChangeText={setLastName}
+          />
+          <Text
+            style={[
+              SignUpScreenStyles.inputLabel,
+              SignUpScreenStyles.biggerFontSize,
+              SignUpScreenStyles.greetingEnd,
+            ]}>
+            !
+          </Text>
+        </View>
+      </View>
+
+      {/* Sign In Message */}
+      <View style={SignUpScreenStyles.signInMessageContainer}>
+        <Text style={SignUpScreenStyles.signInPretext}>
+          Already have an account?{' '}
+        </Text>
+        <TouchableOpacity
+          onPress={handleSignInPress}
+          activeOpacity={0.75}
+          style={SignUpScreenStyles.signInLink}>
+          <Text style={SignUpScreenStyles.signInText}>Sign in now!</Text>
+        </TouchableOpacity>
+      </View>
+    </>,
+    <>
+      {/* Email */}
+      <View style={SignUpScreenStyles.inputsContainer}>
+        <Text style={SignUpScreenStyles.inputLabel}>
+          I know we just met, but let's keep in touch!
+        </Text>
+        <TextInput
+          placeholder='john.doe@gmail.com'
+          autoCapitalize='none'
+          style={SignUpScreenStyles.textInput}
+          keyboardType='email-address'
+          value={email}
+          onChangeText={setEmail}
+        />
+      </View>
+    </>,
+    <>
+      {/* Password */}
+      <View style={SignUpScreenStyles.inputsContainer}>
+        <Text style={SignUpScreenStyles.emojiLabel}>🤐</Text>
+        <View style={SignUpScreenStyles.passwordInputContainer}>
+          <TextInput
+            placeholder='********'
+            secureTextEntry={!isPasswordVisible}
+            autoCapitalize='none'
+            style={SignUpScreenStyles.textInput}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <Pressable
+            onPress={togglePasswordVisibility}
+            style={SignUpScreenStyles.passwordVisibilityButton}>
+            <Ionicons
+              name={`ios-eye${isPasswordVisible ? '' : '-off'}-outline`}
+              size={24}
+              color={COLORS.DARK_GRAY}
+            />
+          </Pressable>
+        </View>
+        <View>
+          <TextInput
+            placeholder="Let's confirm that ^"
+            secureTextEntry={!isConfirmPasswordVisible}
+            autoCapitalize='none'
+            style={SignUpScreenStyles.textInput}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+          />
+          <Pressable
+            onPress={toggleConfirmPasswordVisibility}
+            style={SignUpScreenStyles.passwordVisibilityButton}>
+            <Ionicons
+              name={`ios-eye${isConfirmPasswordVisible ? '' : '-off'}-outline`}
+              size={24}
+              color={COLORS.DARK_GRAY}
+            />
+          </Pressable>
+        </View>
+      </View>
+    </>,
+    <>
+      {/* Phone Number */}
+      <View style={SignUpScreenStyles.inputsContainer}>
+        <Text
+          style={[
+            SignUpScreenStyles.inputLabel,
+            SignUpScreenStyles.phoneInputLabel,
+          ]}>
+          What's the best number to hit you up?
+        </Text>
+        <View style={SignUpScreenStyles.phoneInput}>
+          <Text style={SignUpScreenStyles.phoneInputPrefix}>+1</Text>
+          <TextInput
+            placeholder='(XXX) XXX-XXXX'
+            style={[
+              SignUpScreenStyles.textInput,
+              SignUpScreenStyles.phoneTextInput,
+            ]}
+            keyboardType='number-pad'
+            maxLength={14}
+            value={formatPhoneNumber(phoneNumber) || phoneNumber}
+            onChangeText={handlePhoneNumberChange}
+          />
+        </View>
+      </View>
+    </>,
+    <>
+      {/* Profile Picture Upload */}
+      <Text style={SignUpScreenStyles.inputLabel}>
+        Now, show off that smile! 😁
+      </Text>
+      <TouchableOpacity onPress={handleChooseImage} activeOpacity={0.75}>
+        {profilePictureUri ? (
+          <Image
+            source={{ uri: profilePictureUri }}
+            style={SignUpScreenStyles.profilePicture}
+          />
+        ) : (
+          <Image
+            source={require('@nightlight/assets/images/smiley-face.png')}
+            style={SignUpScreenStyles.smileyFace}
+          />
+        )}
+      </TouchableOpacity>
+      <View style={SignUpScreenStyles.imageButtonsContianer}>
+        <Button
+          onPress={handleChooseImage}
+          text={`${profilePictureUri ? 'Change' : 'Choose'} Image...`}
+          style={SignUpScreenStyles.chooseImageButton}
+          textColor={COLORS.GRAY}
+        />
+        {profilePictureUri && (
+          <Button
+            onPress={handleRemoveImage}
+            icon={<Feather name='trash-2' size={20} color={COLORS.WHITE} />}
+            style={SignUpScreenStyles.removeImageButton}
+            textColor={COLORS.WHITE}
+          />
+        )}
+      </View>
+      <Button
+        onPress={handleCreateAccountPress}
+        text={profilePictureUri ? 'Create Account' : 'Maybe Later'}
+        style={SignUpScreenStyles.createAccountButton}
+      />
+    </>,
+  ];
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <Swiper
-        loop={false}
-        dot={renderPaginationDot(false)}
-        activeDot={renderPaginationDot(true)}>
-        {/* Name */}
-        <SafeAreaView style={SignUpScreenStyles.container}>
-          <View style={SignUpScreenStyles.inputsContainer}>
-            <Text
-              style={[
-                SignUpScreenStyles.inputLabel,
-                SignUpScreenStyles.biggerFontSize,
-              ]}>
-              Hey there,
-            </Text>
-            <TextInput
-              placeholder='John'
-              style={[
-                SignUpScreenStyles.textInput,
-                SignUpScreenStyles.biggerFontSize,
-              ]}
-              value={firstName}
-              onChangeText={setFirstName}
-            />
-            <View style={SignUpScreenStyles.greetingEndContainer}>
-              <TextInput
-                placeholder='Doe'
-                style={[
-                  SignUpScreenStyles.textInput,
-                  SignUpScreenStyles.biggerFontSize,
-                  SignUpScreenStyles.greetingEndInput,
-                ]}
-                value={lastName}
-                onChangeText={setLastName}
-              />
-              <Text
-                style={[
-                  SignUpScreenStyles.inputLabel,
-                  SignUpScreenStyles.biggerFontSize,
-                  SignUpScreenStyles.greetingEnd,
-                ]}>
-                !
-              </Text>
-            </View>
-          </View>
-
-          {/* Sign In Message */}
-          <View style={SignUpScreenStyles.signInMessageContainer}>
-            <Text style={SignUpScreenStyles.signInPretext}>
-              Already have an account?{' '}
-            </Text>
-            <TouchableOpacity
-              onPress={handleSignInPress}
-              activeOpacity={0.75}
-              style={SignUpScreenStyles.signInLink}>
-              <Text style={SignUpScreenStyles.signInText}>Sign in now!</Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-
-        {/* Email */}
-        <SafeAreaView style={SignUpScreenStyles.container}>
-          <View style={SignUpScreenStyles.inputsContainer}>
-            <Text style={SignUpScreenStyles.inputLabel}>
-              I know we just met, but let's keep in touch!
-            </Text>
-            <TextInput
-              placeholder='john.doe@gmail.com'
-              autoCapitalize='none'
-              style={SignUpScreenStyles.textInput}
-              keyboardType='email-address'
-              value={email}
-              onChangeText={setEmail}
-            />
-          </View>
-        </SafeAreaView>
-
-        {/* Password */}
-        <SafeAreaView style={SignUpScreenStyles.container}>
-          <View style={SignUpScreenStyles.inputsContainer}>
-            <Text style={SignUpScreenStyles.emojiLabel}>🤐</Text>
-            <View style={SignUpScreenStyles.passwordInputContainer}>
-              <TextInput
-                placeholder='********'
-                secureTextEntry={!isPasswordVisible}
-                autoCapitalize='none'
-                style={SignUpScreenStyles.textInput}
-                value={password}
-                onChangeText={setPassword}
-              />
-              <Pressable
-                onPress={togglePasswordVisibility}
-                style={SignUpScreenStyles.passwordVisibilityButton}>
-                <Ionicons
-                  name={`ios-eye${isPasswordVisible ? '' : '-off'}-outline`}
-                  size={24}
-                  color={COLORS.DARK_GRAY}
-                />
-              </Pressable>
-            </View>
-            <View>
-              <TextInput
-                placeholder="Let's confirm that ^"
-                secureTextEntry={!isConfirmPasswordVisible}
-                autoCapitalize='none'
-                style={SignUpScreenStyles.textInput}
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-              />
-              <Pressable
-                onPress={toggleConfirmPasswordVisibility}
-                style={SignUpScreenStyles.passwordVisibilityButton}>
-                <Ionicons
-                  name={`ios-eye${
-                    isConfirmPasswordVisible ? '' : '-off'
-                  }-outline`}
-                  size={24}
-                  color={COLORS.DARK_GRAY}
-                />
-              </Pressable>
-            </View>
-          </View>
-        </SafeAreaView>
-
-        {/* Phone Number */}
-        <SafeAreaView style={SignUpScreenStyles.container}>
-          <View style={SignUpScreenStyles.inputsContainer}>
-            <Text
-              style={[
-                SignUpScreenStyles.inputLabel,
-                SignUpScreenStyles.phoneInputLabel,
-              ]}>
-              What's the best number to hit you up?
-            </Text>
-            <View style={SignUpScreenStyles.phoneInput}>
-              <Text style={SignUpScreenStyles.phoneInputPrefix}>+1</Text>
-              <TextInput
-                placeholder='(XXX) XXX-XXXX'
-                style={[
-                  SignUpScreenStyles.textInput,
-                  SignUpScreenStyles.phoneTextInput,
-                ]}
-                keyboardType='number-pad'
-                maxLength={14}
-                value={formatPhoneNumber(phoneNumber) || phoneNumber}
-                onChangeText={handlePhoneNumberChange}
-              />
-            </View>
-          </View>
-        </SafeAreaView>
-
-        {/* Profile Picture Upload */}
-        <SafeAreaView style={SignUpScreenStyles.container}>
-          <Text style={SignUpScreenStyles.inputLabel}>
-            Now, show off that smile! 😁
-          </Text>
-          <TouchableOpacity onPress={handleChooseImage} activeOpacity={0.75}>
-            {profilePictureUri ? (
-              <Image
-                source={{ uri: profilePictureUri }}
-                style={SignUpScreenStyles.profilePicture}
-              />
-            ) : (
-              <Image
-                source={require('@nightlight/assets/images/smiley-face.png')}
-                style={SignUpScreenStyles.smileyFace}
-              />
-            )}
-          </TouchableOpacity>
-          <View style={SignUpScreenStyles.imageButtonsContianer}>
-            <Button
-              onPress={handleChooseImage}
-              text={`${profilePictureUri ? 'Change' : 'Choose'} Image...`}
-              style={SignUpScreenStyles.chooseImageButton}
-              textColor={COLORS.GRAY}
-            />
-            {profilePictureUri && (
+      <SafeAreaView style={SignUpScreenStyles.container}>
+        {pages[activeIndex]}
+        <View style={SignUpScreenStyles.navContainer}>
+          <View style={SignUpScreenStyles.navButtonsContainer}>
+            {activeIndex > 0 && (
               <Button
-                onPress={handleRemoveImage}
-                icon={<Feather name='trash-2' size={20} color={COLORS.WHITE} />}
-                style={SignUpScreenStyles.removeImageButton}
-                textColor={COLORS.WHITE}
+                style={[
+                  SignUpScreenStyles.navButton,
+                  SignUpScreenStyles.backButton,
+                ]}
+                onPress={handleBackPress}
+                icon={<AntDesign name='left' size={20} color={COLORS.GRAY} />}
+              />
+            )}
+            {activeIndex < pages.length - 1 && (
+              <Button
+                style={[
+                  SignUpScreenStyles.navButton,
+                  SignUpScreenStyles.nextButton,
+                ]}
+                onPress={handleNextPress}
+                icon={<AntDesign name='right' size={20} color={COLORS.WHITE} />}
               />
             )}
           </View>
-          <Button
-            onPress={handleCreateAccountPress}
-            text={profilePictureUri ? 'Create Account' : 'Maybe Later'}
-            style={SignUpScreenStyles.createAccountButton}
-          />
-        </SafeAreaView>
-      </Swiper>
+          <View style={SignUpScreenStyles.navDotsContainer}>
+            {pages.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  SignUpScreenStyles.navDot,
+                  activeIndex === index && SignUpScreenStyles.activeNavDot,
+                ]}
+              />
+            ))}
+          </View>
+        </View>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
