@@ -84,7 +84,10 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   // Creates a group with the selected users
   const handleCreateGroup = () => {
-    if (!userDocument) return;
+    if (!userDocument) {
+      if (onError) onError();
+      return;
+    }
     if (selectedUsers.length === 0) return Alert.alert('No users selected!');
 
     // create a group object

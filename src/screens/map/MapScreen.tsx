@@ -26,6 +26,7 @@ const MapScreen = () => {
 
   // handlers for map card buttons
   const handleShowVenueCard = () => setActiveMapCardType(MapCardType.VENUE);
+  // TODO: use loading indicator instead of TEST_USER
   const handleShowUserCard = (userToShow = TEST_USERS[0]) => {
     setActiveUser(userToShow);
 
@@ -101,7 +102,7 @@ const MapScreen = () => {
           <Text>Show Venue Card</Text>
         </Pressable>
         <Pressable
-          onPress={() => handleShowUserCard()}
+          onPress={handleShowUserCard}
           style={{
             backgroundColor: COLORS.GREEN,
             padding: 10,
