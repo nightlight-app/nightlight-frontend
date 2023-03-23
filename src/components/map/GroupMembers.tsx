@@ -8,7 +8,11 @@ import { Foundation } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
 import { GroupMembersProps, User } from '@nightlight/src/types';
 
-const GroupMembers = ({ userOnPress, addGroupOnPress }: GroupMembersProps) => {
+const GroupMembers = ({
+  userOnPress,
+  addGroupOnPress,
+  onError,
+}: GroupMembersProps) => {
   // get the current user's document
   const { userDocument } = useAuthContext();
 
@@ -47,6 +51,10 @@ const GroupMembers = ({ userOnPress, addGroupOnPress }: GroupMembersProps) => {
         const user = data.user as User;
         user.lastActive.time = new Date(user.lastActive.time);
         userOnPress(user);
+      })
+      .catch(e => {
+        if (onError) onError();
+        console.log(e);
       });
   };
 

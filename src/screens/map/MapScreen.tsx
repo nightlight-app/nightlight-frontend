@@ -131,6 +131,7 @@ const MapScreen = () => {
         <GroupMembers
           userOnPress={handleShowUserCard}
           addGroupOnPress={handleShowCreateGroupCard}
+          onError={handleShowErrorCard}
         />
       ) : (
         <CreateGroupButton onPress={handleShowCreateGroupCard} />

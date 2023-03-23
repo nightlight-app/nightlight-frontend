@@ -288,6 +288,11 @@ export interface GroupMembersProps {
    * Function to call when the add button is pressed.
    */
   addGroupOnPress: () => void;
+
+  /**
+   * Function to call when error occurs.
+   */
+  onError?: () => void;
 }
 
 export interface UserCircleProps {
