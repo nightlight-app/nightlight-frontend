@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           setUserDocument(data.user);
         })
         .catch(err => {
-          console.log(err);
+          console.error('[MongoDB] Error fetching user document: ', err);
         });
     });
 
