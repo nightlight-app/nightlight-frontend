@@ -1,7 +1,7 @@
 import { SERVER_URL } from '@env';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Pressable, Animated } from 'react-native';
+import { SafeAreaView, Pressable, Animated } from 'react-native';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
 import { Foundation } from '@expo/vector-icons';
@@ -59,37 +59,33 @@ const GroupMembers = ({
   };
 
   return (
-    <SafeAreaView style={{ position: 'absolute' }}>
-      <View style={GroupMembersStyles.container}>
-        {/* Display the list of user circles */}
-        <Animated.ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          decelerationRate={'normal'}
-          style={GroupMembersStyles.userList}>
-          {groupMembers.map((member, index) => (
-            <Pressable
-              key={index}
-              style={[
-                GroupMembersStyles.userCircleTouchable,
-                {
-                  zIndex: groupMembers.length - index,
-                  left: -index * 10,
-                },
-              ]}
-              onPress={() => handleUserOnClick(member)}>
-              <UserCircle uri={member} />
-            </Pressable>
-          ))}
-        </Animated.ScrollView>
+    <SafeAreaView style={GroupMembersStyles.container}>
+      {/* Display the list of user circles */}
+      <Animated.ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        decelerationRate={'normal'}
+        style={GroupMembersStyles.userList}>
+        {groupMembers.map((member, index) => (
+          <Pressable
+            key={index}
+            style={[
+              GroupMembersStyles.userCircleTouchable,
+              {
+                zIndex: groupMembers.length - index,
+                left: -index * 10,
+              },
+            ]}
+            onPress={() => handleUserOnClick(member)}>
+            <UserCircle uri={member} />
+          </Pressable>
+        ))}
+      </Animated.ScrollView>
 
-        {/* Display a button to add member */}
-        <Pressable
-          onPress={addGroupOnPress}
-          style={GroupMembersStyles.addMember}>
-          <Foundation name='plus' size={15} color={COLORS.WHITE} />
-        </Pressable>
-      </View>
+      {/* Display a button to add member */}
+      <Pressable onPress={addGroupOnPress} style={GroupMembersStyles.addMember}>
+        <Foundation name='plus' size={15} color={COLORS.WHITE} />
+      </Pressable>
     </SafeAreaView>
   );
 };
