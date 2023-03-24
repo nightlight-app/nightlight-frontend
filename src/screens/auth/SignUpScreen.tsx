@@ -288,7 +288,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           onPress={handleSignInPress}
           activeOpacity={0.75}
           style={SignUpScreenStyles.signInLink}>
-          <Text style={SignUpScreenStyles.signInText}>Sign in now!</Text>
+          <Text style={SignUpScreenStyles.linkText}>Sign in now!</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>,
@@ -430,11 +430,20 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             />
           )}
         </View>
-        <Button
-          onPress={handleCreateAccountPress}
-          text={profilePictureUri ? 'Create Account' : 'Maybe Later'}
-          style={SignUpScreenStyles.createAccountButton}
-        />
+        {profilePictureUri ? (
+          <Button
+            onPress={handleCreateAccountPress}
+            text='Create Account'
+            style={SignUpScreenStyles.createAccountButton}
+          />
+        ) : (
+          <TouchableOpacity
+            onPress={handleCreateAccountPress}
+            activeOpacity={0.75}
+            style={SignUpScreenStyles.maybeLaterContainer}>
+            <Text style={SignUpScreenStyles.linkText}>Maybe later</Text>
+          </TouchableOpacity>
+        )}
       </Animated.View>
     </View>,
   ];

@@ -76,7 +76,7 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   signInLink: {},
-  signInText: {
+  linkText: {
     color: COLORS.NIGHTLIGHT_BLUE,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
@@ -125,6 +125,9 @@ export default StyleSheet.create({
     marginLeft: 10,
     padding: 0,
     flex: 1,
+  },
+  maybeLaterContainer: {
+    marginTop: 35,
   },
   createAccountButton: {
     borderWidth: 0,
