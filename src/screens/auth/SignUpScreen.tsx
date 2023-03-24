@@ -227,6 +227,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   };
 
   const handleBackPress = () => {
+    if (activeIndex < 1) handleSignInPress();
     setActiveIndex(prev => prev - 1);
   };
 
@@ -478,7 +479,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         {pages[activeIndex]}
         <View style={SignUpScreenStyles.navContainer}>
           <View style={SignUpScreenStyles.navButtonsContainer}>
-            {activeIndex > 0 && (
+            {activeIndex >= 0 && (
               <Button
                 style={[
                   SignUpScreenStyles.navButton,
