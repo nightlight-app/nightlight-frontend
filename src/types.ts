@@ -143,6 +143,7 @@ export interface ButtonProps {
 
 export interface MapCardProps {
   onClose: () => void;
+  onError?: () => void;
   children?: React.ReactNode;
   borderColor?: string;
   shadowColor?: string;
@@ -249,20 +250,51 @@ export interface EmergencyContact {
 export interface Markers {
   // the title of the marker
   location: Location;
+  // the image to query for the marker
+  imgUrl: string;
 }
 
-export interface UserMarkers extends Markers {
-  // the id of the user (mongoose ObjectId)
-  userId: string;
+export interface UserMarkerMap {
+  [key: string]: Markers;
 }
 
 export interface AuthContextInterface {
   userSession: FirebaseUser | null | undefined;
   userDocument: User | null | undefined;
+  updateUserDocument: (_: UpdateUserDocumentInterface) => void;
 }
 
 export interface BannerProps {
   message: string;
   backgroundColor: string;
   textColor: string;
+}
+
+export interface UpdateUserDocumentInterface {
+  firebaseUid?: string;
+}
+
+export interface NightlightMapProps {
+  onError?: () => void;
+}
+
+export interface GroupMembersProps {
+  /**
+   * Function to call when a user circle is pressed.
+   * @param userToShow User to show when circle is pressed.
+   */
+  userOnPress: (userToShow?: User) => void;
+  /**
+   * Function to call when the add button is pressed.
+   */
+  addGroupOnPress: () => void;
+
+  /**
+   * Function to call when error occurs.
+   */
+  onError?: () => void;
+}
+
+export interface UserCircleProps {
+  userId: string;
 }

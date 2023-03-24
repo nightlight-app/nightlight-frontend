@@ -48,3 +48,6 @@ export const TEST_IDS = {
   SIGNIN_BUTTON: 'SIGNIN_BUTTON',
   SIGNUP_BUTTON: 'SIGNIN_SIGNUP_BUTTON',
 };
+
+// User Circle
+export const USER_CIRCLE_DIAMETER: number = 50; // diameter of the user circle in points
