@@ -45,6 +45,9 @@ export default StyleSheet.create({
     borderBottomWidth: 2,
     marginVertical: 5,
   },
+  textInputError: {
+    borderColor: COLORS.RED,
+  },
   phoneInputLabel: {
     textAlign: 'center',
     lineHeight: 32,

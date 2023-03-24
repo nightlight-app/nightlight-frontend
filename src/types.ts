@@ -266,6 +266,6 @@ export interface AuthContextInterface {
 
 export interface BannerProps {
   message: string;
-  backgroundColor: string;
-  textColor: string;
+  backgroundColor?: string;
+  textColor?: string;
 }

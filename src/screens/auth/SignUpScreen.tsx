@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Text,
   SafeAreaView,
@@ -29,6 +29,17 @@ import { formatPhoneNumber } from '@nightlight/src/utils/utils';
 import { COLORS } from '@nightlight/src/global.styles';
 import Button from '@nightlight/components/Button';
 import { auth } from '@nightlight/src/config/firebaseConfig';
+import Banner from '@nightlight/components/Banner';
+
+// TODO: export to types?
+enum SignUpInputField {
+  FIRST_NAME = 'First Name',
+  LAST_NAME = 'Last Name',
+  EMAIL = 'Email',
+  PASSWORD = 'Password',
+  CONFIRM_PASSWORD = 'Confirm Password',
+  PHONE_NUMBER = 'Phone Number',
+}
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -45,6 +56,17 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [profilePictureUri, setProfilePictureUri] = useState<string | null>(
     null
   );
+
+  const [errorBannerMessage, setErrorBannerMessage] = useState<string | null>(
+    null
+  );
+  const [errorFields, setErrorFields] = useState<SignUpInputField[]>([]);
+
+  // Reset error banner message and error fields when any of the input fields change
+  useEffect(() => {
+    setErrorBannerMessage(null);
+    setErrorFields([]);
+  }, [firstName, lastName, email, password, confirmPassword, phoneNumber]);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(prev => !prev);
@@ -85,60 +107,6 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   };
 
   const handleCreateAccountPress = async () => {
-    console.log('[User Registration] Validating user registration fields...');
-
-    // Determine which fields are missing
-    const requiredFields = {
-      'First Name': firstName,
-      'Last Name': lastName,
-      Email: email,
-      Password: password,
-      'Phone Number': phoneNumber,
-    };
-
-    const missingFields = Object.entries(requiredFields)
-      .filter(([_, value]) => !value)
-      .map(([key]) => key);
-
-    // Validate required fields
-    if (missingFields.length > 0) {
-      Alert.alert('Missing Required Fields', missingFields.join('\n'));
-      console.log(
-        '[User Registration] Missing required fields:',
-        missingFields
-      );
-      return;
-    }
-
-    // Validate email
-    if (!email.includes('@')) {
-      Alert.alert('Validation Error', 'Please enter a valid email.');
-      console.log('[User Registration] Invalid email:', email);
-      return;
-    }
-
-    // Validate passwords match
-    if (password !== confirmPassword) {
-      Alert.alert('Validation Error', 'Passwords do not match.');
-      return;
-    }
-
-    // Validate password length
-    if (password.length < 6) {
-      Alert.alert(
-        'Validation Error',
-        'Password must be at least 6 characters.'
-      );
-      return;
-    }
-
-    // Validate phone number
-    if (phoneNumber.length !== 10) {
-      Alert.alert('Validation Error', 'Please enter a valid phone number.');
-      console.log('[User Registration] Invalid phone number:', phoneNumber);
-      return;
-    }
-
     // Sign up user with Firebase
     console.log('[Firebase] Signing up new user...');
     let firebaseUid: string;
@@ -150,7 +118,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       );
       firebaseUid = user.uid;
     } catch (error: unknown) {
-      console.log('[Firebase] Error signing up new user!');
+      console.error(
+        `[Firebase] Error signing up new user! Email: ${email}, password: ${password}`
+      );
       console.error(error);
       return;
     }
@@ -181,7 +151,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         throw new Error('[MongoDB] Failed to create user in database.');
       }
     } catch (error: unknown) {
-      console.log('[MongoDB] Error creating new user in database!');
+      console.error(
+        `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, phone number: ${phoneNumber}`
+      );
       console.error(error);
       return;
     }
@@ -232,6 +204,110 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   };
 
   const handleNextPress = () => {
+    setErrorBannerMessage(null);
+    setErrorFields([]);
+
+    // Validate input fields
+    switch (activeIndex) {
+      case 0:
+        // Validate first and last name exist
+        if (!firstName && !lastName) {
+          setErrorBannerMessage('Please enter your first and last name.');
+          setErrorFields([
+            SignUpInputField.FIRST_NAME,
+            SignUpInputField.LAST_NAME,
+          ]);
+          return;
+        }
+
+        // Validate first name exists
+        if (!firstName) {
+          setErrorBannerMessage('Please enter your first name.');
+          setErrorFields([SignUpInputField.FIRST_NAME]);
+          return;
+        }
+
+        // Validate last name exists
+        if (!lastName) {
+          setErrorBannerMessage('Please enter your last name.');
+          setErrorFields([SignUpInputField.LAST_NAME]);
+          return;
+        }
+
+        break;
+      case 1:
+        // Validate email exists
+        if (!email) {
+          setErrorBannerMessage('Please enter your email.');
+          setErrorFields([SignUpInputField.EMAIL]);
+          return;
+        }
+
+        // Validate email contains @
+        if (!email.includes('@')) {
+          setErrorBannerMessage('Please enter a valid email.');
+          setErrorFields([SignUpInputField.EMAIL]);
+          return;
+        }
+
+        break;
+      case 2:
+        // Validate password exists
+        if (!password) {
+          setErrorBannerMessage('Please enter your password.');
+          setErrorFields([SignUpInputField.PASSWORD]);
+          return;
+        }
+
+        // Validate password confirmation exists
+        if (!confirmPassword) {
+          setErrorBannerMessage('Please confirm your password.');
+          setErrorFields([SignUpInputField.CONFIRM_PASSWORD]);
+          return;
+        }
+
+        // Validate passwords match
+        if (password !== confirmPassword) {
+          setErrorBannerMessage('Passwords do not match.');
+          setErrorFields([
+            SignUpInputField.PASSWORD,
+            SignUpInputField.CONFIRM_PASSWORD,
+          ]);
+          return;
+        }
+
+        // Validate password length
+        if (password.length < 6) {
+          // TODO: export into const?
+          setErrorBannerMessage('Password must be at least 6 characters.');
+          setErrorFields([SignUpInputField.PASSWORD]);
+          return;
+        }
+
+        break;
+      case 3:
+        // Validate phone number exists
+        if (!phoneNumber) {
+          setErrorBannerMessage('Please enter your phone number.');
+          setErrorFields([SignUpInputField.PHONE_NUMBER]);
+          return;
+        }
+
+        // Validate phone number length
+        if (phoneNumber.length !== 10) {
+          setErrorBannerMessage('Please enter a valid phone number.');
+          setErrorFields([SignUpInputField.PHONE_NUMBER]);
+          return;
+        }
+
+        break;
+      default:
+        throw new Error(
+          `[User Registration] Invalid active page index. Expected 0-${pages.length}, got ${activeIndex}.`
+        );
+        break;
+    }
+
     setActiveIndex(prev => prev + 1);
   };
 
@@ -251,6 +327,8 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           style={[
             SignUpScreenStyles.textInput,
             SignUpScreenStyles.biggerFontSize,
+            errorFields.includes(SignUpInputField.FIRST_NAME) &&
+              SignUpScreenStyles.textInputError,
           ]}
           value={firstName}
           onChangeText={setFirstName}
@@ -262,6 +340,8 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
               SignUpScreenStyles.textInput,
               SignUpScreenStyles.biggerFontSize,
               SignUpScreenStyles.greetingEndInput,
+              errorFields.includes(SignUpInputField.LAST_NAME) &&
+                SignUpScreenStyles.textInputError,
             ]}
             value={lastName}
             onChangeText={setLastName}
@@ -305,7 +385,11 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       <TextInput
         placeholder='ghemingway@gmail.com'
         autoCapitalize='none'
-        style={SignUpScreenStyles.textInput}
+        style={[
+          SignUpScreenStyles.textInput,
+          errorFields.includes(SignUpInputField.EMAIL) &&
+            SignUpScreenStyles.textInputError,
+        ]}
         keyboardType='email-address'
         value={email}
         onChangeText={setEmail}
@@ -328,7 +412,11 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           placeholder='********'
           secureTextEntry={!isPasswordVisible}
           autoCapitalize='none'
-          style={SignUpScreenStyles.textInput}
+          style={[
+            SignUpScreenStyles.textInput,
+            errorFields.includes(SignUpInputField.PASSWORD) &&
+              SignUpScreenStyles.textInputError,
+          ]}
           value={password}
           onChangeText={setPassword}
         />
@@ -347,7 +435,11 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           placeholder="Let's confirm that ^"
           secureTextEntry={!isConfirmPasswordVisible}
           autoCapitalize='none'
-          style={SignUpScreenStyles.textInput}
+          style={[
+            SignUpScreenStyles.textInput,
+            errorFields.includes(SignUpInputField.CONFIRM_PASSWORD) &&
+              SignUpScreenStyles.textInputError,
+          ]}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
         />
@@ -384,6 +476,8 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           style={[
             SignUpScreenStyles.textInput,
             SignUpScreenStyles.phoneTextInput,
+            errorFields.includes(SignUpInputField.PHONE_NUMBER) &&
+              SignUpScreenStyles.textInputError,
           ]}
           keyboardType='number-pad'
           maxLength={14}
@@ -504,6 +598,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             {pages.map((_, index) => renderNavDot(index))}
           </View>
         </View>
+        {errorBannerMessage && <Banner message={errorBannerMessage} />}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
