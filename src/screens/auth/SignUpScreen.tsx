@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
   Pressable,
   Image,
 } from 'react-native';
@@ -131,7 +130,8 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
     // Create user in database
     console.log('[MongoDB] Creating new user in database...');
-    let userId;
+    let userId: string | undefined;
+    let response: Response | undefined;
     try {
       const body = {
         firstName,
@@ -141,7 +141,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         phone: phoneNumber,
       };
 
-      const response = await fetch(`${SERVER_URL}/users`, {
+      response = await fetch(`${SERVER_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -150,16 +150,22 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       });
 
       if (!response.ok) {
-        throw new Error('[MongoDB] Failed to create user in database.');
+        throw new Error(
+          `[MongoDB] Failed to create user in database. Response: ${response.status} ${response.statusText}`
+        );
       }
 
       const data = await response.json();
-      userId = data._id;
-    } catch (error: any) {
-      console.error(
-        `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, phone number: ${phoneNumber}`
+
+      userId = data.user._id;
+      console.log(
+        `[MongoDB] Successfully created new user in database! User ID: ${userId}`
       );
-      console.error(error?.message);
+    } catch (error: unknown) {
+      console.error(
+        `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}. Response: ${response?.status} ${response?.statusText}`
+      );
+      console.error(error);
       return;
     }
 
@@ -173,8 +179,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       formData.append('image', profilePictureUri, filename);
 
       // Upload profile picture to Cloudinary
+      let response: Response | undefined;
       try {
-        const response = await fetch(
+        response = await fetch(
           `${SERVER_URL}/users/${userId}/uploadProfileImg`,
           {
             method: 'PATCH',
@@ -186,14 +193,16 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         );
 
         if (!response.ok) {
-          throw new Error('[MongoDB] Failed to attach profile picture.');
+          throw new Error(
+            `[MongoDB] Failed to attach profile picture. Response: ${response.status} ${response.statusText}`
+          );
         }
 
         // TODO: Update user in database with profile picture URL
       } catch (error: unknown) {
-        console.log('[MongoDB] Error attaching profile picture!');
-        console.error(error);
-        return;
+        console.error(
+          `[MongoDB] Error attaching profile picture! User ID: ${userId}, profile picture URI: ${profilePictureUri}. Response: ${response?.status} ${response?.statusText}`
+        );
       }
     }
   };
