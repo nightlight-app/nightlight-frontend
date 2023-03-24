@@ -259,6 +259,19 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           return;
         }
 
+        // Validate password length
+        if (password.length < 6) {
+          // TODO: export into const?
+          setErrorBannerMessage('Password must be at least 6 characters.');
+          setErrorFields([SignUpInputField.PASSWORD]);
+          if (confirmPassword)
+            setErrorFields(prev => [
+              ...prev,
+              SignUpInputField.CONFIRM_PASSWORD,
+            ]);
+          return;
+        }
+
         // Validate password confirmation exists
         if (!confirmPassword) {
           setErrorBannerMessage('Please confirm your password.');
@@ -275,15 +288,6 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           ]);
           return;
         }
-
-        // Validate password length
-        if (password.length < 6) {
-          // TODO: export into const?
-          setErrorBannerMessage('Password must be at least 6 characters.');
-          setErrorFields([SignUpInputField.PASSWORD]);
-          return;
-        }
-
         break;
       case 3:
         // Validate phone number exists
