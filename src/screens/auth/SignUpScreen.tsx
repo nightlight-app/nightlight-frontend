@@ -246,7 +246,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           Hey there,
         </Text>
         <TextInput
-          placeholder='John'
+          placeholder='Graham'
           style={[
             SignUpScreenStyles.textInput,
             SignUpScreenStyles.biggerFontSize,
@@ -256,7 +256,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         />
         <View style={SignUpScreenStyles.greetingEndContainer}>
           <TextInput
-            placeholder='Doe'
+            placeholder='Hemingway'
             style={[
               SignUpScreenStyles.textInput,
               SignUpScreenStyles.biggerFontSize,
@@ -294,12 +294,15 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
     </View>,
 
     // Email Prompt Page
-    <Animated.View entering={FadeIn.delay(300)} exiting={FadeOut}>
+    <Animated.View
+      entering={FadeIn.delay(300)}
+      exiting={FadeOut}
+      style={[SignUpScreenStyles.pageContentContainer]}>
       <Text style={SignUpScreenStyles.inputLabel}>
         I know we just met, but let's keep in touch!
       </Text>
       <TextInput
-        placeholder='john.doe@gmail.com'
+        placeholder='ghemingway@gmail.com'
         autoCapitalize='none'
         style={SignUpScreenStyles.textInput}
         keyboardType='email-address'
@@ -369,7 +372,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           SignUpScreenStyles.inputLabel,
           SignUpScreenStyles.phoneInputLabel,
         ]}>
-        What's the best number to hit you up?
+        Emergencies happen.
+        {'\n'}
+        Let's keep you safe.
       </Text>
       <View style={SignUpScreenStyles.phoneInput}>
         <Text style={SignUpScreenStyles.phoneInputPrefix}>+1</Text>

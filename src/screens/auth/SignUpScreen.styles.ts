@@ -47,11 +47,13 @@ export default StyleSheet.create({
   },
   phoneInputLabel: {
     textAlign: 'center',
+    lineHeight: 32,
   },
   phoneInput: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 15,
   },
   phoneInputPrefix: {
     color: COLORS.GRAY,
@@ -61,7 +63,6 @@ export default StyleSheet.create({
   },
   phoneTextInput: {
     width: 196,
-    textAlign: 'center',
   },
   signInMessageContainer: {
     position: 'relative',
