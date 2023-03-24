@@ -296,5 +296,5 @@ export interface GroupMembersProps {
 }
 
 export interface UserCircleProps {
-  uri: string;
+  userId: string;
 }

@@ -5,7 +5,7 @@ import UserCircleStyles from '@nightlight/components/map/UserCircle.styles';
 import { COLORS } from '@nightlight/src/global.styles';
 import { UserCircleProps } from '@nightlight/src/types';
 
-const UserCircle = ({ uri: userId }: UserCircleProps) => {
+const UserCircle = ({ userId: userId }: UserCircleProps) => {
   // stores the cloudinary url of the user's profile picture
   const [userImgUrlProfile, setUserImgUrlProfile] = useState<string>('');
 

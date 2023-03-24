@@ -77,7 +77,7 @@ const GroupMembers = ({
               },
             ]}
             onPress={() => handleUserOnClick(member)}>
-            <UserCircle uri={member} />
+            <UserCircle userId={member} />
           </Pressable>
         ))}
       </Animated.ScrollView>
