@@ -169,14 +169,23 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       return;
     }
 
-    // TODO: Attach profile picture
+    // Attach profile picture
     if (profilePictureUri) {
       console.log('[MongoDB] Attaching profile picture...');
-      const filename = profilePictureUri.split('/').pop();
+
+      // Get type from URI
+      const type = profilePictureUri.split('.').pop();
+
+      // TODO: Construct filename
+      const filename = `${userId}.${type}`;
 
       // Construct the form data to post the image to Cloudinary
       let formData = new FormData();
-      formData.append('image', profilePictureUri, filename);
+      formData.append('image', {
+        uri: profilePictureUri,
+        type: `image/${type}`,
+        name: filename,
+      } as any);
 
       // Upload profile picture to Cloudinary
       let response: Response | undefined;
@@ -198,10 +207,10 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           );
         }
 
-        // TODO: Update user in database with profile picture URL
+        console.log('[MongoDB] Successfully attached profile picture!');
       } catch (error: unknown) {
         console.error(
-          `[MongoDB] Error attaching profile picture! User ID: ${userId}, profile picture URI: ${profilePictureUri}. Response: ${response?.status} ${response?.statusText}`
+          `[MongoDB] Error attaching profile picture! User ID: ${userId}, profile picture URI: ${profilePictureUri}. Response: ${response?.status} ${response?.statusText} ${response?.body}`
         );
       }
     }
