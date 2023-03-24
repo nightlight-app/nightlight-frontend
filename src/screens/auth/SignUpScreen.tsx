@@ -16,6 +16,8 @@ import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import Animated, {
+  FadeIn,
+  FadeOut,
   useAnimatedStyle,
   withSequence,
   withTiming,
@@ -233,9 +235,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   };
 
   const pages: React.ReactNode[] = [
-    <>
+    <View style={[SignUpScreenStyles.pageContentContainer]}>
       {/* Name */}
-      <View style={SignUpScreenStyles.inputsContainer}>
+      <Animated.View entering={FadeIn.delay(300)} exiting={FadeOut}>
         <Text
           style={[
             SignUpScreenStyles.inputLabel,
@@ -272,10 +274,13 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             !
           </Text>
         </View>
-      </View>
+      </Animated.View>
 
       {/* Sign In Message */}
-      <View style={SignUpScreenStyles.signInMessageContainer}>
+      <Animated.View
+        entering={FadeIn.delay(300)}
+        exiting={FadeOut}
+        style={SignUpScreenStyles.signInMessageContainer}>
         <Text style={SignUpScreenStyles.signInPretext}>
           Already have an account?{' '}
         </Text>
@@ -285,134 +290,148 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           style={SignUpScreenStyles.signInLink}>
           <Text style={SignUpScreenStyles.signInText}>Sign in now!</Text>
         </TouchableOpacity>
-      </View>
-    </>,
-    <>
-      {/* Email */}
-      <View style={SignUpScreenStyles.inputsContainer}>
-        <Text style={SignUpScreenStyles.inputLabel}>
-          I know we just met, but let's keep in touch!
-        </Text>
+      </Animated.View>
+    </View>,
+
+    // Email Prompt Page
+    <Animated.View entering={FadeIn.delay(300)} exiting={FadeOut}>
+      <Text style={SignUpScreenStyles.inputLabel}>
+        I know we just met, but let's keep in touch!
+      </Text>
+      <TextInput
+        placeholder='john.doe@gmail.com'
+        autoCapitalize='none'
+        style={SignUpScreenStyles.textInput}
+        keyboardType='email-address'
+        value={email}
+        onChangeText={setEmail}
+      />
+    </Animated.View>,
+
+    // Password Prompt Page
+    <View style={[SignUpScreenStyles.pageContentContainer]}>
+      <Animated.Text
+        entering={FadeIn.delay(300)}
+        exiting={FadeOut}
+        style={SignUpScreenStyles.inputLabel}>
+        Password? <Text style={SignUpScreenStyles.emojiLabel}>🤐</Text>
+      </Animated.Text>
+      <Animated.View
+        entering={FadeIn.delay(300)}
+        exiting={FadeOut}
+        style={SignUpScreenStyles.passwordInputContainer}>
         <TextInput
-          placeholder='john.doe@gmail.com'
+          placeholder='********'
+          secureTextEntry={!isPasswordVisible}
           autoCapitalize='none'
           style={SignUpScreenStyles.textInput}
-          keyboardType='email-address'
-          value={email}
-          onChangeText={setEmail}
+          value={password}
+          onChangeText={setPassword}
         />
-      </View>
-    </>,
-    <>
-      {/* Password */}
-      <View style={SignUpScreenStyles.inputsContainer}>
-        <Text style={SignUpScreenStyles.emojiLabel}>🤐</Text>
-        <View style={SignUpScreenStyles.passwordInputContainer}>
-          <TextInput
-            placeholder='********'
-            secureTextEntry={!isPasswordVisible}
-            autoCapitalize='none'
-            style={SignUpScreenStyles.textInput}
-            value={password}
-            onChangeText={setPassword}
+        <Pressable
+          onPress={togglePasswordVisibility}
+          style={SignUpScreenStyles.passwordVisibilityButton}>
+          <Ionicons
+            name={`ios-eye${isPasswordVisible ? '' : '-off'}-outline`}
+            size={24}
+            color={COLORS.DARK_GRAY}
           />
-          <Pressable
-            onPress={togglePasswordVisibility}
-            style={SignUpScreenStyles.passwordVisibilityButton}>
-            <Ionicons
-              name={`ios-eye${isPasswordVisible ? '' : '-off'}-outline`}
-              size={24}
-              color={COLORS.DARK_GRAY}
-            />
-          </Pressable>
-        </View>
-        <View>
-          <TextInput
-            placeholder="Let's confirm that ^"
-            secureTextEntry={!isConfirmPasswordVisible}
-            autoCapitalize='none'
-            style={SignUpScreenStyles.textInput}
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
+        </Pressable>
+      </Animated.View>
+      <Animated.View entering={FadeIn.delay(300)} exiting={FadeOut}>
+        <TextInput
+          placeholder="Let's confirm that ^"
+          secureTextEntry={!isConfirmPasswordVisible}
+          autoCapitalize='none'
+          style={SignUpScreenStyles.textInput}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
+        <Pressable
+          onPress={toggleConfirmPasswordVisibility}
+          style={SignUpScreenStyles.passwordVisibilityButton}>
+          <Ionicons
+            name={`ios-eye${isConfirmPasswordVisible ? '' : '-off'}-outline`}
+            size={24}
+            color={COLORS.DARK_GRAY}
           />
-          <Pressable
-            onPress={toggleConfirmPasswordVisibility}
-            style={SignUpScreenStyles.passwordVisibilityButton}>
-            <Ionicons
-              name={`ios-eye${isConfirmPasswordVisible ? '' : '-off'}-outline`}
-              size={24}
-              color={COLORS.DARK_GRAY}
-            />
-          </Pressable>
-        </View>
-      </View>
-    </>,
-    <>
-      {/* Phone Number */}
-      <View style={SignUpScreenStyles.inputsContainer}>
-        <Text
-          style={[
-            SignUpScreenStyles.inputLabel,
-            SignUpScreenStyles.phoneInputLabel,
-          ]}>
-          What's the best number to hit you up?
-        </Text>
-        <View style={SignUpScreenStyles.phoneInput}>
-          <Text style={SignUpScreenStyles.phoneInputPrefix}>+1</Text>
-          <TextInput
-            placeholder='(XXX) XXX-XXXX'
-            style={[
-              SignUpScreenStyles.textInput,
-              SignUpScreenStyles.phoneTextInput,
-            ]}
-            keyboardType='number-pad'
-            maxLength={14}
-            value={formatPhoneNumber(phoneNumber) || phoneNumber}
-            onChangeText={handlePhoneNumberChange}
-          />
-        </View>
-      </View>
-    </>,
-    <>
-      {/* Profile Picture Upload */}
-      <Text style={SignUpScreenStyles.inputLabel}>
-        Now, show off that smile! 😁
+        </Pressable>
+      </Animated.View>
+    </View>,
+
+    // Phone Number Prompt Page
+    <Animated.View
+      entering={FadeIn.delay(300)}
+      exiting={FadeOut}
+      style={[SignUpScreenStyles.pageContentContainer]}>
+      <Text
+        style={[
+          SignUpScreenStyles.inputLabel,
+          SignUpScreenStyles.phoneInputLabel,
+        ]}>
+        What's the best number to hit you up?
       </Text>
-      <TouchableOpacity onPress={handleChooseImage} activeOpacity={0.75}>
-        {profilePictureUri ? (
-          <Image
-            source={{ uri: profilePictureUri }}
-            style={SignUpScreenStyles.profilePicture}
-          />
-        ) : (
-          <Image
-            source={require('@nightlight/assets/images/smiley-face.png')}
-            style={SignUpScreenStyles.smileyFace}
-          />
-        )}
-      </TouchableOpacity>
-      <View style={SignUpScreenStyles.imageButtonsContianer}>
-        <Button
-          onPress={handleChooseImage}
-          text={`${profilePictureUri ? 'Change' : 'Choose'} Image...`}
-          style={SignUpScreenStyles.chooseImageButton}
-          textColor={COLORS.GRAY}
+      <View style={SignUpScreenStyles.phoneInput}>
+        <Text style={SignUpScreenStyles.phoneInputPrefix}>+1</Text>
+        <TextInput
+          placeholder='(XXX) XXX-XXXX'
+          style={[
+            SignUpScreenStyles.textInput,
+            SignUpScreenStyles.phoneTextInput,
+          ]}
+          keyboardType='number-pad'
+          maxLength={14}
+          value={formatPhoneNumber(phoneNumber) || phoneNumber}
+          onChangeText={handlePhoneNumberChange}
         />
-        {profilePictureUri && (
-          <Button
-            onPress={handleRemoveImage}
-            icon={<Feather name='trash-2' size={20} color={COLORS.WHITE} />}
-            style={SignUpScreenStyles.removeImageButton}
-            textColor={COLORS.WHITE}
-          />
-        )}
       </View>
-      <Button
-        onPress={handleCreateAccountPress}
-        text={profilePictureUri ? 'Create Account' : 'Maybe Later'}
-        style={SignUpScreenStyles.createAccountButton}
-      />
-    </>,
+    </Animated.View>,
+
+    // Profile Picture Upload Page
+    <View style={[SignUpScreenStyles.pageContentContainer]}>
+      <Animated.View
+        entering={FadeIn.delay(300)}
+        exiting={FadeOut}
+        style={SignUpScreenStyles.profilePictureUploadContainer}>
+        <Text style={SignUpScreenStyles.inputLabel}>
+          Now, show off that smile!
+        </Text>
+        <TouchableOpacity onPress={handleChooseImage} activeOpacity={0.75}>
+          {profilePictureUri ? (
+            <Image
+              source={{ uri: profilePictureUri }}
+              style={SignUpScreenStyles.profilePicture}
+            />
+          ) : (
+            <Image
+              source={require('@nightlight/assets/images/smiley-face.png')}
+              style={SignUpScreenStyles.smileyFace}
+            />
+          )}
+        </TouchableOpacity>
+        <View style={SignUpScreenStyles.imageButtonsContianer}>
+          <Button
+            onPress={handleChooseImage}
+            text={`${profilePictureUri ? 'Change' : 'Choose'} Image...`}
+            style={SignUpScreenStyles.chooseImageButton}
+            textColor={COLORS.GRAY}
+          />
+          {profilePictureUri && (
+            <Button
+              onPress={handleRemoveImage}
+              icon={<Feather name='trash-2' size={20} color={COLORS.WHITE} />}
+              style={SignUpScreenStyles.removeImageButton}
+              textColor={COLORS.WHITE}
+            />
+          )}
+        </View>
+        <Button
+          onPress={handleCreateAccountPress}
+          text={profilePictureUri ? 'Create Account' : 'Maybe Later'}
+          style={SignUpScreenStyles.createAccountButton}
+        />
+      </Animated.View>
+    </View>,
   ];
 
   const renderNavDot = (index: number): React.ReactNode => {

@@ -9,7 +9,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  inputsContainer: {
+  pageContentContainer: {
     width: '85%',
     maxWidth: 340,
   },
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   emojiLabel: {
-    fontSize: 36,
+    fontSize: 28,
     marginBottom: 10,
   },
   textInput: {
@@ -88,6 +88,9 @@ export default StyleSheet.create({
     position: 'absolute',
     right: 0,
     margin: 5,
+  },
+  profilePictureUploadContainer: {
+    alignItems: 'center',
   },
   profilePicture: {
     height: 200,
