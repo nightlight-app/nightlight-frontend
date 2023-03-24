@@ -210,7 +210,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         console.log('[MongoDB] Successfully attached profile picture!');
       } catch (error: unknown) {
         console.error(
-          `[MongoDB] Error attaching profile picture! User ID: ${userId}, profile picture URI: ${profilePictureUri}. Response: ${response?.status} ${response?.statusText} ${response?.body}`
+          `[MongoDB] Error attaching profile picture! User ID: ${userId}, profile picture URI: ${profilePictureUri}. Response: ${
+            response?.status
+          } ${response?.statusText} ${JSON.stringify(response)}`
         );
       }
     }
