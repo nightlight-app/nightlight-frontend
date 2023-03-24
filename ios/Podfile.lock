@@ -407,13 +407,13 @@ PODS:
     - React-Core
   - RNGestureHandler (2.8.0):
     - React-Core
-  - rnmapbox-maps (10.0.0-beta.71):
+  - rnmapbox-maps (10.0.0-rc.0):
     - MapboxMaps (~> 10.11.1)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.0.0-beta.71)
+    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.0)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.0.0-beta.71):
+  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.0):
     - MapboxMaps (~> 10.11.1)
     - React
     - React-Core
@@ -700,7 +700,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 09fc8595e6d6f6d5abf16b23a56b257d9c6b7c5b
   RNCMaskedView: bc0170f389056201c82a55e242e5d90070e18e5a
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
-  rnmapbox-maps: 183ed3cb6ebde0c0492fefa652c05175730035ce
+  rnmapbox-maps: 22d49ec1835dbf11785d324270dee553e2a1d455
   RNReanimated: 2a91e85fcd343f8af3c58d3425b99fdd285590a5
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2

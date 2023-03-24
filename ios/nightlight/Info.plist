@@ -80,5 +80,10 @@
     <false />
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Intend to use location services to share your location with friends.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>fetch</string>
+      <string>remote-notification</string>
+    </array>
   </dict>
 </plist>

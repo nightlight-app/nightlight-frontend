@@ -7,13 +7,19 @@ import {
   useState,
 } from 'react';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
-import { AuthContextInterface, User } from '@nightlight/src/types';
+import {
+  AuthContextInterface,
+  UpdateUserDocumentInterface,
+  User,
+} from '@nightlight/src/types';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { SERVER_URL } from '@env';
 
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
   userDocument: undefined,
+  // initialize updateUserDocument to an empty function with arbitrary params (_ is a convention for unused params)
+  updateUserDocument: (_: UpdateUserDocumentInterface) => {},
 } as AuthContextInterface);
 
 export const useAuthContext = () => {
@@ -39,24 +45,45 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       console.log('[Firebase] Authentication state changed:', user?.uid);
       setUserSession(user);
 
-      // fetch from mongoDB and update userDocument
-      fetch(`${SERVER_URL}users?firebaseUid=${user?.uid}`, {
-        method: 'GET',
-      })
-        .then(response => response.json())
-        .then(data => {
-          setUserDocument(data.user);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      // fetch userDocument from mongoDB if user is logged in
+      if (user) updateUserDocument({ firebaseUid: user.uid as string });
     });
 
     return () => unsubscribe();
   }, []);
 
+  /**
+   * Update the userDocument state.
+   * Uses mongoDB id by default.
+   * Optionally, pass in a firebaseUid to fetch via firebaseUid instead of mongoDB id.
+   * @param firebaseUid - the firebase uid of the user
+   */
+  const updateUserDocument = async ({
+    firebaseUid,
+  }: UpdateUserDocumentInterface) => {
+    let url = `${SERVER_URL}/users?`;
+
+    url += firebaseUid
+      ? `firebaseUid=${firebaseUid}`
+      : `userId=${userDocument?._id}`;
+
+    // fetch from mongoDB and update userDocument
+    fetch(url, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(`[MongoDB] ${data.message} ${data.user._id}`);
+        setUserDocument(data.user);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
-    <AuthContext.Provider value={{ userSession, userDocument }}>
+    <AuthContext.Provider
+      value={{ userSession, userDocument, updateUserDocument }}>
       {children}
     </AuthContext.Provider>
   );
