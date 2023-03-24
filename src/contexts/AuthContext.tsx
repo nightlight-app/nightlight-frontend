@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setUserSession(user);
 
       // fetch from mongoDB and update userDocument
-      fetch(`${SERVER_URL}users?firebaseUid=${user?.uid}`, {
+      fetch(`${SERVER_URL}/users?firebaseUid=${user?.uid}`, {
         method: 'GET',
       })
         .then(response => response.json())

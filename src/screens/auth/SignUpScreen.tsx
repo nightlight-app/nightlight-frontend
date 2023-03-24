@@ -131,15 +131,17 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
     // Create user in database
     console.log('[MongoDB] Creating new user in database...');
+    let userId;
     try {
       const body = {
         firstName,
         lastName,
+        email,
         firebaseUid,
-        phoneNumber,
+        phone: phoneNumber,
       };
 
-      const response = await fetch(`${SERVER_URL}user`, {
+      const response = await fetch(`${SERVER_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -150,40 +152,38 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       if (!response.ok) {
         throw new Error('[MongoDB] Failed to create user in database.');
       }
-    } catch (error: unknown) {
+
+      const data = await response.json();
+      userId = data._id;
+    } catch (error: any) {
       console.error(
         `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, phone number: ${phoneNumber}`
       );
-      console.error(error);
+      console.error(error?.message);
       return;
     }
 
     // TODO: Attach profile picture
     if (profilePictureUri) {
+      console.log('[MongoDB] Attaching profile picture...');
       const filename = profilePictureUri.split('/').pop();
-
-      // Infer the type of the image
-      // const match = /\.(\w+)$/.exec(filename || '');
-      // const type = match ? `image/${match[1]}` : `image`;
 
       // Construct the form data to post the image to Cloudinary
       let formData = new FormData();
-      // formData.append('image', {
-      //   uri: profilePictureUri,
-      //   name: filename || 'undefined.' + type.split('/')[1],
-      //   type,
-      // }); // FIXME: Type error
       formData.append('image', profilePictureUri, filename);
 
       // Upload profile picture to Cloudinary
       try {
-        const response = await fetch(SERVER_URL, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        const response = await fetch(
+          `${SERVER_URL}/users/${userId}/uploadProfileImg`,
+          {
+            method: 'PATCH',
+            body: formData,
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error('[MongoDB] Failed to attach profile picture.');
