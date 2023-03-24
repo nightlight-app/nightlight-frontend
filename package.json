@@ -17,7 +17,9 @@
     "ios": "expo run:ios",
     "eject": "expo eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "test": "jest"
+    "test:unit": "jest --testPathPattern=__tests__",
+    "test:e2e-build": "detox build --configuration ios.sim.debug",
+    "test:e2e-run": "detox test -c ios.sim.debug"
   },
   "dependencies": {
     "@expo-google-fonts/comfortaa": "^0.2.2",

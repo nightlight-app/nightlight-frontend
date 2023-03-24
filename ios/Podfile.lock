@@ -405,7 +405,7 @@ PODS:
     - React-Core
   - RNCMaskedView (0.2.8):
     - React-Core
-  - RNGestureHandler (2.8.0):
+  - RNGestureHandler (2.9.0):
     - React-Core
   - rnmapbox-maps (10.0.0-rc.0):
     - MapboxMaps (~> 10.11.1)
@@ -445,7 +445,7 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.18.2):
+  - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
   - RNSVG (13.4.0):
@@ -699,10 +699,10 @@ SPEC CHECKSUMS:
   ReactCommon: c9246996e73bf75a2c6c3ff15f1e16707cdc2da9
   RNCAsyncStorage: 09fc8595e6d6f6d5abf16b23a56b257d9c6b7c5b
   RNCMaskedView: bc0170f389056201c82a55e242e5d90070e18e5a
-  RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
+  RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   rnmapbox-maps: 22d49ec1835dbf11785d324270dee553e2a1d455
   RNReanimated: 2a91e85fcd343f8af3c58d3425b99fdd285590a5
-  RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
+  RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   Yoga: eca980a5771bf114c41a754098cd85e6e0d90ed7

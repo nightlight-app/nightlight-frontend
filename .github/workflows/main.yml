@@ -41,7 +41,7 @@ jobs:
       - name: Install packages
         run: npm ci
       - name: Run tests
-        run: npm test -- --testPathPattern=__tests__
+        run: npm test:unit
     env:
       FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
       FIREBASE_AUTHDOMAIN: ${{ secrets.FIREBASE_AUTHDOMAIN }}
