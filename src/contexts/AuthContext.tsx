@@ -18,6 +18,7 @@ import { SERVER_URL } from '@env';
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
   userDocument: undefined,
+  // initialize updateUserDocument to an empty function with arbitrary params (_ is a convention for unused params)
   updateUserDocument: (_: UpdateUserDocumentInterface) => {},
 } as AuthContextInterface);
 
