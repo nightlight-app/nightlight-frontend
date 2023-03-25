@@ -76,12 +76,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     try {
       // fetch from mongoDB and update userDocument
-      let userDocumentResponse = await fetch(url, {
+      const userDocumentResponse = await fetch(url, {
         method: 'GET',
       });
 
       // await for the response to be parsed as json
-      let userDocumentData = await userDocumentResponse.json();
+      const userDocumentData = await userDocumentResponse.json();
 
       // update userDocument state
       setUserDocument(userDocumentData.user);
