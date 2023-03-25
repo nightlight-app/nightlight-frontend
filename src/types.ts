@@ -5,12 +5,7 @@ import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
 
-export interface AuthFormData {
-  email: string;
-  password: string;
-  confirmPassword?: string;
-  phone?: string;
-}
+// TODO: Organize these types into separate files (probably in /src/interfaces?)
 
 export enum TabRoute {
   MAP = 'Map',
@@ -52,6 +47,15 @@ export enum MoodEmoji {
   GRIMACING = '😬',
   PUKING = '🤮',
   CLEAR = '🚫',
+}
+
+export enum SignUpInputField {
+  FIRST_NAME = 'First Name',
+  LAST_NAME = 'Last Name',
+  EMAIL = 'Email',
+  PASSWORD = 'Password',
+  CONFIRM_PASSWORD = 'Confirm Password',
+  PHONE_NUMBER = 'Phone Number',
 }
 
 export interface Reaction {
@@ -188,15 +192,6 @@ export interface CreateGroupCardProps extends MapCardProps {}
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
-}
-
-// TODO: refactor this to be more generic
-export interface LoginCardProps {
-  setIsLogin: (value: boolean) => void;
-}
-
-export interface RegisterCardProps {
-  setIsLogin: (value: boolean) => void;
 }
 
 export interface VenueReactionProps {

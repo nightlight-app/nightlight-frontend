@@ -23,20 +23,15 @@ import Animated, {
 import { SERVER_URL } from '@env';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
-import { formatPhoneNumber, handleFirebaseSignUp } from '@nightlight/src/utils/utils';
+import {
+  formatPhoneNumber,
+  handleFirebaseSignUp,
+} from '@nightlight/src/utils/utils';
 import { COLORS } from '@nightlight/src/global.styles';
 import Button from '@nightlight/components/Button';
 import Banner from '@nightlight/components/Banner';
-
-// TODO: export to types?
-enum SignUpInputField {
-  FIRST_NAME = 'First Name',
-  LAST_NAME = 'Last Name',
-  EMAIL = 'Email',
-  PASSWORD = 'Password',
-  CONFIRM_PASSWORD = 'Confirm Password',
-  PHONE_NUMBER = 'Phone Number',
-}
+import { SignUpInputField } from '@nightlight/src/types';
+import { MIN_PASSWORD_LENGTH } from '@nightlight/src/constants';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -259,9 +254,10 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         }
 
         // Validate password length
-        if (password.length < 6) {
-          // TODO: export into const?
-          setErrorBannerMessage('Password must be at least 6 characters.');
+        if (password.length < MIN_PASSWORD_LENGTH) {
+          setErrorBannerMessage(
+            `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`
+          );
           setErrorFields([SignUpInputField.PASSWORD]);
           if (confirmPassword)
             setErrorFields(prev => [
