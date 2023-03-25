@@ -62,7 +62,7 @@ setNotificationHandler({
   }),
 });
 
-const registerForPushNotificationsAsync = async () => {
+export const registerForPushNotificationsAsync = async () => {
   // Retrieve the project ID from the Expo config
   const projectId = Constants.expoConfig?.extra?.eas.projectId;
   let token;

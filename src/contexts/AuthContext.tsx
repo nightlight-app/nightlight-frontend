@@ -14,6 +14,7 @@ import {
 } from '@nightlight/src/types';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { SERVER_URL } from '@env';
+import { registerForPushNotificationsAsync } from '@nightlight/src/App';
 
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
@@ -67,18 +68,33 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       ? `firebaseUid=${firebaseUid}`
       : `userId=${userDocument?._id}`;
 
-    // fetch from mongoDB and update userDocument
-    fetch(url, {
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(`[MongoDB] ${data.message} ${data.user._id}`);
-        setUserDocument(data.user);
-      })
-      .catch(err => {
-        console.log(err);
+    try {
+      // fetch from mongoDB and update userDocument
+      let userDocumentResponse = await fetch(url, {
+        method: 'GET',
       });
+
+      // await for the response to be parsed as json
+      let userDocumentData = await userDocumentResponse.json();
+
+      // update userDocument state
+      setUserDocument(userDocumentData.user);
+
+      // get the notification token and send it to the server
+      const notificationToken = await registerForPushNotificationsAsync();
+      await fetch(
+        `${SERVER_URL}/users/${userDocumentData.user._id}/addNotificationToken`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'PATCH',
+          body: JSON.stringify({ notificationToken }),
+        }
+      );
+    } catch (e) {
+      console.log('Error in updateUserDocument', e);
+    }
   };
 
   return (
