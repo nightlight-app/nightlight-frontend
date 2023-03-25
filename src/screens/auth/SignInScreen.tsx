@@ -64,8 +64,10 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
       console.log('[Firebase] Error signing in user!');
 
       // TODO: see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
-      if (SIGN_IN_ERROR_CODES.includes(error?.code)) setIsErrorVisible(true);
-      else console.error('[Firebase] Unhandled error code:', error?.code);
+      if (SIGN_IN_ERROR_CODES.includes(error?.code)) {
+        setIsErrorVisible(true);
+        console.error('[Firebase] Error code:', error?.code);
+      } else console.error('[Firebase] Unhandled error code:', error?.code);
     }
   };
 
