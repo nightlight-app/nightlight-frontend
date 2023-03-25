@@ -3,7 +3,12 @@ import { MoodEmoji } from '@nightlight/src/types';
 import { WithSpringConfig } from 'react-native-reanimated';
 
 // General
-export const NUM_MONTHS: number = 12; // number of months in a year
+export const MS_PER_SECOND: number = 1000; // milliseconds in a second
+export const SECONDS_PER_MINUTE: number = 60; // seconds in a minute
+export const MINUTES_PER_HOUR: number = 60; // minutes in an hour
+export const HOURS_PER_DAY: number = 24; // hours in a day
+export const DAYS_PER_MONTH: number = 30; // days in a month (approximate)
+export const MONTHS_PER_YEAR: number = 12; // number of months in a year
 
 // Device
 export const DEVICE_HEIGHT: number = Dimensions.get('window').height; // height of the device in points

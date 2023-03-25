@@ -112,7 +112,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     if (userLocation && isCameraFollowingUser)
       camera.current?.setCamera({
         ...initialCamera,
-        centerCoordinate: convertCoordinateToPosition(userLocation.coords),
+        centerCoordinate: Object.values(userLocation.coords),
       });
   }, [camera.current]);
 
