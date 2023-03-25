@@ -62,6 +62,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
    * Uses mongoDB id by default.
    * Optionally, pass in a firebaseUid to fetch via firebaseUid instead of mongoDB id.
    * @param firebaseUid - the firebase uid of the user
+   * @param shouldUpdateNotificationToken - whether to update the notification token (default: false)
    */
   const updateUserDocument = async ({
     firebaseUid,
