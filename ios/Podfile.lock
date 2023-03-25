@@ -111,12 +111,12 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.70.5)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - MapboxCommon (23.3.2)
-  - MapboxCoreMaps (10.11.1):
-    - MapboxCommon (~> 23.3)
-  - MapboxMaps (10.11.1):
-    - MapboxCommon (= 23.3.2)
-    - MapboxCoreMaps (= 10.11.1)
+  - MapboxCommon (23.4.0)
+  - MapboxCoreMaps (10.12.0):
+    - MapboxCommon (~> 23.4)
+  - MapboxMaps (10.12.0):
+    - MapboxCommon (= 23.4.0)
+    - MapboxCoreMaps (= 10.12.0)
     - MapboxMobileEvents (= 1.0.10)
     - Turf (~> 2.0)
   - MapboxMobileEvents (1.0.10)
@@ -405,16 +405,16 @@ PODS:
     - React-Core
   - RNCMaskedView (0.2.8):
     - React-Core
-  - RNGestureHandler (2.8.0):
+  - RNGestureHandler (2.9.0):
     - React-Core
-  - rnmapbox-maps (10.0.0-rc.0):
-    - MapboxMaps (~> 10.11.1)
+  - rnmapbox-maps (10.0.0-rc.2):
+    - MapboxMaps (~> 10.12.0)
     - React
     - React-Core
-    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.0)
+    - rnmapbox-maps/DynamicLibrary (= 10.0.0-rc.2)
     - Turf
-  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.0):
-    - MapboxMaps (~> 10.11.1)
+  - rnmapbox-maps/DynamicLibrary (10.0.0-rc.2):
+    - MapboxMaps (~> 10.12.0)
     - React
     - React-Core
     - Turf
@@ -445,7 +445,7 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.18.2):
+  - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
   - RNSVG (13.4.0):
@@ -665,12 +665,12 @@ SPEC CHECKSUMS:
   FBLazyVector: affa4ba1bfdaac110a789192f4d452b053a86624
   FBReactNativeSpec: fe8b5f1429cfe83a8d72dc8ed61dc7704cac8745
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
-  glog: 791fe035093b84822da7f0870421a25839ca7870
-  MapboxCommon: c3a35f6884b80d898de9f11d88cb28c5caba584a
-  MapboxCoreMaps: 03e7214fabb54d496ff56314ff8159dd264b6093
-  MapboxMaps: 85610575a8871b3f5e98be2a234f0229a33324a7
+  glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
+  MapboxCommon: 2945d39158111455f353524f3c2ad356bd8d546a
+  MapboxCoreMaps: 511ba1f7876e635431b741cab5e9278219d906f6
+  MapboxMaps: a9978d13d1cba0403c5bdd2ab3b71418924075d2
   MapboxMobileEvents: de50b3a4de180dd129c326e09cd12c8adaaa46d6
-  RCT-Folly: 766adb69dc1d6294bcc94a950a818a87adb3a766
+  RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 21229f84411088e5d8538f21212de49e46cc83e2
   RCTTypeSafety: 62eed57a32924b09edaaf170a548d1fc96223086
   React: f0254ccddeeef1defe66c6b1bb9133a4f040792b
@@ -699,10 +699,10 @@ SPEC CHECKSUMS:
   ReactCommon: c9246996e73bf75a2c6c3ff15f1e16707cdc2da9
   RNCAsyncStorage: 09fc8595e6d6f6d5abf16b23a56b257d9c6b7c5b
   RNCMaskedView: bc0170f389056201c82a55e242e5d90070e18e5a
-  RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
-  rnmapbox-maps: 22d49ec1835dbf11785d324270dee553e2a1d455
+  RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
+  rnmapbox-maps: 7f885415603e81da67bdaf309289376e62f7820d
   RNReanimated: 2a91e85fcd343f8af3c58d3425b99fdd285590a5
-  RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
+  RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   Turf: 469ce2c3d22e5e8e4818d5a3b254699a5c89efa4
   Yoga: eca980a5771bf114c41a754098cd85e6e0d90ed7
