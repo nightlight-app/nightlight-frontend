@@ -272,6 +272,7 @@ export interface BannerProps {
 
 export interface UpdateUserDocumentInterface {
   firebaseUid?: string;
+  shouldUpdateNotificationToken?: boolean;
 }
 
 export interface NightlightMapProps {

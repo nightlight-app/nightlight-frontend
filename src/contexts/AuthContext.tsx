@@ -47,7 +47,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setUserSession(user);
 
       // fetch userDocument from mongoDB if user is logged in
-      if (user) updateUserDocument({ firebaseUid: user.uid as string });
+      if (user)
+        updateUserDocument({
+          firebaseUid: user.uid as string,
+          shouldUpdateNotificationToken: true,
+        });
     });
 
     return () => unsubscribe();
@@ -61,6 +65,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
    */
   const updateUserDocument = async ({
     firebaseUid,
+    shouldUpdateNotificationToken = false,
   }: UpdateUserDocumentInterface) => {
     let url = `${SERVER_URL}/users?`;
 
@@ -80,18 +85,20 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       // update userDocument state
       setUserDocument(userDocumentData.user);
 
-      // get the notification token and send it to the server
-      const notificationToken = await registerForPushNotificationsAsync();
-      await fetch(
-        `${SERVER_URL}/users/${userDocumentData.user._id}/addNotificationToken`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'PATCH',
-          body: JSON.stringify({ notificationToken }),
-        }
-      );
+      if (shouldUpdateNotificationToken) {
+        // get the notification token and send it to the server
+        const notificationToken = await registerForPushNotificationsAsync();
+        await fetch(
+          `${SERVER_URL}/users/${userDocumentData.user._id}/addNotificationToken`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            method: 'PATCH',
+            body: JSON.stringify({ notificationToken }),
+          }
+        );
+      }
     } catch (e) {
       console.log('Error in updateUserDocument', e);
     }
