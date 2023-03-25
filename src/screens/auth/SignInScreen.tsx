@@ -19,6 +19,7 @@ import { auth } from '@nightlight/src/config/firebaseConfig';
 import Banner from '@nightlight/components/Banner';
 import { AuthRoute, NativeStackScreenProps } from '@nightlight/src/types';
 import Button from '@nightlight/components/Button';
+import { SIGN_IN_ERROR_CODES } from '@nightlight/src/constants';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   const [email, setEmail] = useState('');
@@ -62,18 +63,9 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
     } catch (error: any) {
       console.log('[Firebase] Error signing in user!');
 
-      // TODO: enum specific errors? or see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
-      switch (error?.code) {
-        case 'auth/invalid-email':
-        case 'auth/wrong-password':
-        case 'auth/user-not-found':
-        case 'auth/internal-error':
-          setIsErrorVisible(true);
-          break;
-        default:
-          console.error('[Firebase] Unhandled error code:', error?.code);
-          break;
-      }
+      // TODO: see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
+      if (SIGN_IN_ERROR_CODES.includes(error?.code)) setIsErrorVisible(true);
+      else console.error('[Firebase] Unhandled error code:', error?.code);
     }
   };
 

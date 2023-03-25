@@ -50,5 +50,13 @@ export const SMILE_FACE_ASPECT_RATIO: number = 1.09719789842; // aspect ratio of
 // User Circle
 export const USER_CIRCLE_DIAMETER: number = 50; // diameter of the user circle in points
 
+// Firebase Sign In Error Codes
+export const SIGN_IN_ERROR_CODES: string[] = [
+  'auth/invalid-email',
+  'auth/wrong-password',
+  'auth/user-not-found',
+  'auth/internal-error',
+]; // error codes to be caught when signing in
+
 // Password Input
 export const MIN_PASSWORD_LENGTH: number = 6; // minimum length of the password input
