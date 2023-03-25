@@ -2,12 +2,7 @@ import { MAPBOX_API_KEY, SERVER_URL } from '@env';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Pressable, Image } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
-import MapboxGL, {
-  Camera,
-  MapView,
-  UserLocationRenderMode,
-} from '@rnmapbox/maps';
-import { CameraStop } from '@rnmapbox/maps/src/components/Camera';
+import MapboxGL, { Camera, MapView, CameraStop } from '@rnmapbox/maps';
 import { COLORS } from '@nightlight/src/global.styles';
 import { Ionicons } from '@expo/vector-icons';
 import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
@@ -204,7 +199,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
           {/* UserLocation tracker */}
           <MapboxGL.UserLocation
             // showsUserHeadingIndicator={true} // TODO: uncomment after demo
-            renderMode={UserLocationRenderMode.Native}
+            renderMode={'native'}
             visible={true}
             minDisplacement={1}
             onUpdate={loc => updateLocation(loc)}
