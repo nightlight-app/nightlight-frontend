@@ -1,6 +1,5 @@
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   signOut,
   UserCredential,
   UserInfo,
@@ -165,31 +164,9 @@ export const handleFirebaseSignUp = async (
 };
 
 /**
- * Sign in to Firebase Authentication using email and password.
- *
- * @param email valid string email address
- * @param password valid password for user account
- */
-export const handleSignIn = async (email: string, password: string) => {
-  console.log('[Firebase] Signing in user...');
-
-  try {
-    const { user }: UserCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    console.log('[Firebase] Successfully signed in user! User ID:', user.uid);
-  } catch (error: unknown) {
-    console.log('[Firebase] Error signing in user!');
-    console.error(error);
-  }
-};
-
-/**
  * Remove the existing user from the Firebase application
  */
-export const handleSignOut = async () => {
+export const handleFirebaseSignOut = async () => {
   console.log('[Firebase] Signing out user...');
 
   try {

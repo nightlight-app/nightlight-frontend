@@ -24,7 +24,7 @@ import {
   formatPhoneNumber,
   getMonthText,
   getNumFriends,
-  handleSignOut,
+  handleFirebaseSignOut,
 } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
@@ -118,7 +118,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
 
         {/* TODO: move logout button? */}
         <Button
-          onPress={handleSignOut}
+          onPress={handleFirebaseSignOut}
           text='Logout'
           style={ProfileScreenStyles.logOutButton}
         />
