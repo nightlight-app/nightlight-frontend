@@ -11,14 +11,20 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import MapCard from '@nightlight/components/map/MapCard';
-import { CreateGroupCardProps, User } from '@nightlight/src/types';
+import { CreateGroupCardProps, Group, User } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import CreateGroupCardStyles from '@nightlight/components/map/CreateGroupCard.styles';
 import CloseButton from '@nightlight/components/CloseButton';
-import { TEST_USERS } from '@nightlight/src/testData';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { SERVER_URL } from '@env';
+import {
+  generateGroupName,
+  getDatetimeHoursAfter as getDatetimeAfterHours,
+} from '@nightlight/src/utils/utils';
 
-const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
-  const [availableUsers, setAvailableUsers] = useState<User[]>([]); // TODO: remove test data
+const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
+  const { userDocument, updateUserDocument } = useAuthContext();
+  const [availableUsers, setAvailableUsers] = useState<User[]>([]);
   const [displayedAvailableUsers, setDisplayedAvailableUsers] = useState<
     User[]
   >([]);
@@ -26,24 +32,16 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
   const [searchText, setSearchText] = useState<string>('');
 
   useEffect(() => {
-    // TODO: fetch the list of available users based on the current user's friends;
-
-    setAvailableUsers(TEST_USERS); // TODO: remove test data
-
-    // const currentUserId = '63f975e55d2eaffa93fd6491'; // TODO: remove test data
-    // fetch(`http://localhost:6060/users?userId=${currentUserId}`)
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     console.log(data.user);
-    //     setAvailableUsers(data.user?.friends);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //     Alert.alert(
-    //       '⚠️ Error!',
-    //       'An error occurred while fetching your friends list.'
-    //     );
-    //   });
+    // fetch the list of available users based on the current user's friends
+    fetch(`${SERVER_URL}/users/${userDocument?._id}/friends`, { method: 'GET' })
+      .then(res => res.json())
+      .then(data => {
+        setAvailableUsers(data.friends);
+      })
+      .catch(e => {
+        if (onError) onError();
+        console.log(e);
+      });
   }, []);
 
   // If availableUsers changes, update displayedAvailableUsers
@@ -86,14 +84,43 @@ const CreateGroupCard = ({ onClose }: CreateGroupCardProps) => {
 
   // Creates a group with the selected users
   const handleCreateGroup = () => {
-    Alert.alert(
-      'TODO: create a group with these users: ',
-      JSON.stringify(
-        selectedUsers.map(user => user.firstName + ' ' + user.lastName)
-      )
-    );
-    // TODO: close if group creation is successful; otherwise, don't
-    onClose();
+    if (!userDocument) {
+      if (onError) onError();
+      return;
+    }
+    if (selectedUsers.length === 0) return Alert.alert('No users selected!');
+
+    // create a group object
+    const groupObject: Group = {
+      name: generateGroupName([userDocument, ...selectedUsers]),
+      members: [userDocument._id],
+      invitedMembers: selectedUsers.map(user => user._id),
+      creationDatetime: new Date(),
+      expirationDatetime: getDatetimeAfterHours(8),
+    };
+
+    console.log('Attempting to create group...', groupObject);
+
+    // send a POST request to the server to create the group
+    fetch(`${SERVER_URL}/groups?userId=${userDocument?._id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(groupObject),
+    })
+      .then(res => res.json())
+      .then(data => {
+        // if response has an error message, display to user
+        if (data.message) Alert.alert(data.message);
+        else {
+          // otherwise, display success and close card
+          console.log('HERE IS THE GROUP', data);
+          Alert.alert('Group created successfully!');
+        }
+        updateUserDocument({});
+        onClose();
+      });
   };
 
   // function to render the list of selected friends

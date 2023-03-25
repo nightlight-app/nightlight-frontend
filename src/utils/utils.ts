@@ -4,11 +4,14 @@ import {
   signOut,
   UserCredential,
 } from 'firebase/auth';
-import MapboxGL from '@rnmapbox/maps';
+import { Location } from '@rnmapbox/maps/src/modules/location/locationManager';
 import { Position } from '@turf/helpers/dist/js/lib/geojson';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { User } from '@nightlight/src/types';
+
+// manually extract Coordinates type from Location type because it is not exported
+type Coordinates = Location['coords'];
 
 /**
  * Determine the relative time string from a given date.
@@ -73,9 +76,10 @@ export const capitalizeFirstLetter = (word: string) => {
  * Converts the MapboxGL coordinate {latitude: number, longitude: number}
  * into Position [longitude, latitude]
  */
-export const convertCoordinateToPosition = (
-  coor: MapboxGL.Coordinates
-): Position => [coor.longitude, coor.latitude];
+export const convertCoordinateToPosition = (coor: Coordinates): Position => [
+  coor.longitude,
+  coor.latitude,
+];
 
 /**
  * Formats a phone number string. Returns null if input is less than 4 characters or if
@@ -183,4 +187,31 @@ export const handleSignOut = async () => {
 export const getNumFriends = (user: User | null | undefined) => {
   if (user?.friends) return user.friends.length;
   return 0;
+};
+
+/**
+ * Generate the datetime after a certain number of hours
+ * @param hours - number of hours from now
+ * @returns {Date} - datetime after the number of hours
+ */
+export const getDatetimeHoursAfter = (hours: number) => {
+  return new Date(Date.now() + hours * 60 * 60 * 1000);
+};
+
+/**
+ * Generate a group name from a list of users (e.g. "John, Jane, and 3 others")
+ * @param users - list of users
+ * @returns {string} - group name
+ */
+export const generateGroupName = (users: User[]) => {
+  if (users.length === 0) return '';
+
+  if (users.length === 1) return users[0].firstName;
+
+  if (users.length === 2)
+    return `${users[0].firstName} and ${users[1].firstName}`;
+
+  return `${users[0].firstName}, ${users[1].firstName}, and ${
+    users.length - 2
+  } others`;
 };
