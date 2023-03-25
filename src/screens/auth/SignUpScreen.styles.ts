@@ -111,7 +111,7 @@ export default StyleSheet.create({
     marginTop: 50,
     marginBottom: 46,
   },
-  imageButtonsContianer: {
+  imageButtonsContainer: {
     flexDirection: 'row',
     width: 275,
     justifyContent: 'center',

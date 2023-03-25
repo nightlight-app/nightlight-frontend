@@ -518,7 +518,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         exiting={FadeOut}
         style={SignUpScreenStyles.profilePictureUploadContainer}>
         <Text style={SignUpScreenStyles.inputLabel}>
-          Now, show off that smile!
+          Now, show off that smile!.
         </Text>
         <TouchableOpacity onPress={handleChooseImage} activeOpacity={0.75}>
           {profilePictureUri ? (
@@ -533,7 +533,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             />
           )}
         </TouchableOpacity>
-        <View style={SignUpScreenStyles.imageButtonsContianer}>
+        <View style={SignUpScreenStyles.imageButtonsContainer}>
           <Button
             onPress={handleChooseImage}
             text={`${profilePictureUri ? 'Change' : 'Choose'} Image...`}
