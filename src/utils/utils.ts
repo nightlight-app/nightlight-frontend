@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   UserCredential,
+  UserInfo,
 } from 'firebase/auth';
 import { Location } from '@rnmapbox/maps/src/modules/location/locationManager';
 import { Position } from '@turf/helpers/dist/js/lib/geojson';
@@ -134,8 +135,12 @@ export const getMonthText = (index: number): string => {
  *
  * @param email valid string email address
  * @param password valid password for user account
+ * @returns {UserInfo['uid'] | null} The Firebase user ID of the newly created user or null if an error occurred
  */
-export const handleSignUp = async (email: string, password: string) => {
+export const handleFirebaseSignUp = async (
+  email: string,
+  password: string
+): Promise<UserInfo['uid'] | null> => {
   console.log('[Firebase] Signing up new user...');
 
   try {
@@ -144,13 +149,18 @@ export const handleSignUp = async (email: string, password: string) => {
       email,
       password
     );
+    const firebaseUid: UserInfo['uid'] = user.uid;
     console.log(
       '[Firebase] Successfully signed up new user! User ID:',
-      user.uid
+      firebaseUid
     );
+    return firebaseUid;
   } catch (error: unknown) {
-    console.log('[Firebase] Error signing up new user!');
+    console.error(
+      `[Firebase] Error signing up new user! Email: ${email}, password: ${password}`
+    );
     console.error(error);
+    return null;
   }
 };
 

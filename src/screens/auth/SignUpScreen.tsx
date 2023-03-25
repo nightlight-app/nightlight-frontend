@@ -13,7 +13,6 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
 import { Feather, AntDesign } from '@expo/vector-icons';
-import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import Animated, {
   FadeIn,
   FadeOut,
@@ -24,10 +23,9 @@ import Animated, {
 import { SERVER_URL } from '@env';
 import { NativeStackScreenProps } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
-import { formatPhoneNumber } from '@nightlight/src/utils/utils';
+import { formatPhoneNumber, handleFirebaseSignUp } from '@nightlight/src/utils/utils';
 import { COLORS } from '@nightlight/src/global.styles';
 import Button from '@nightlight/components/Button';
-import { auth } from '@nightlight/src/config/firebaseConfig';
 import Banner from '@nightlight/components/Banner';
 
 // TODO: export to types?
@@ -107,26 +105,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
   const handleCreateAccountPress = async () => {
     // Sign up user with Firebase
-    console.log('[Firebase] Signing up new user...');
-    let firebaseUid: string;
-    try {
-      const { user }: UserCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      firebaseUid = user.uid;
-    } catch (error: unknown) {
-      console.error(
-        `[Firebase] Error signing up new user! Email: ${email}, password: ${password}`
-      );
-      console.error(error);
-      return;
-    }
-    console.log(
-      '[Firebase] Successfully signed up new user! User ID:',
-      firebaseUid
-    );
+    const firebaseUid = await handleFirebaseSignUp(email, password);
 
     // Create user in database
     console.log('[MongoDB] Creating new user in database...');
