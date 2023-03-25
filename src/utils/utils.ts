@@ -4,8 +4,6 @@ import {
   UserCredential,
   UserInfo,
 } from 'firebase/auth';
-import { Location } from '@rnmapbox/maps/src/modules/location/locationManager';
-import { Position } from '@turf/helpers/dist/js/lib/geojson';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { User } from '@nightlight/src/types';
@@ -17,9 +15,6 @@ import {
   MS_PER_SECOND,
   SECONDS_PER_MINUTE,
 } from '@nightlight/src/constants';
-
-// manually extract Coordinates type from Location type because it is not exported
-type Coordinates = Location['coords'];
 
 /**
  * Determine the relative time string from a given date.
@@ -81,15 +76,6 @@ export const getStatusColor = (lastActiveTime: Date): string => {
 export const capitalizeFirstLetter = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 };
-
-/**
- * Converts the MapboxGL coordinate {latitude: number, longitude: number}
- * into Position [longitude, latitude]
- */
-export const convertCoordinateToPosition = (coord: Coordinates): Position => [
-  coord.longitude,
-  coord.latitude,
-];
 
 /**
  * Formats a phone number string. Returns null if input is less than 4 characters or if

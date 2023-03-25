@@ -5,7 +5,7 @@ import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import MapboxGL, { Camera, MapView, CameraStop } from '@rnmapbox/maps';
 import { COLORS } from '@nightlight/src/global.styles';
 import { Ionicons } from '@expo/vector-icons';
-import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
+import { Position } from '@turf/helpers/dist/js/lib/geojson';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
 import {
   Markers,
@@ -109,11 +109,15 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
 
   // set the initial camera to user's location on first load
   useEffect(() => {
-    if (userLocation && isCameraFollowingUser)
+    if (userLocation && isCameraFollowingUser) {
+      const { longitude, latitude } = userLocation.coords;
+      const position: Position = [longitude, latitude];
+
       camera.current?.setCamera({
         ...initialCamera,
-        centerCoordinate: Object.values(userLocation.coords),
+        centerCoordinate: position,
       });
+    }
   }, [camera.current]);
 
   /**
