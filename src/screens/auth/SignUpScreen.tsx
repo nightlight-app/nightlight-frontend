@@ -9,6 +9,7 @@ import {
   Keyboard,
   Pressable,
   Image,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
@@ -32,6 +33,7 @@ import Button from '@nightlight/components/Button';
 import Banner from '@nightlight/components/Banner';
 import { SignUpInputField } from '@nightlight/src/types';
 import { MIN_PASSWORD_LENGTH } from '@nightlight/src/constants';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -53,6 +55,8 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
     null
   );
   const [errorFields, setErrorFields] = useState<SignUpInputField[]>([]);
+
+  const { updateUserDocument } = useAuthContext();
 
   // Reset error banner message and error fields when any of the input fields change
   useEffect(() => {
@@ -123,23 +127,24 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         body: JSON.stringify(body),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
         console.error('[MongoDB] Failed to create user in database.');
-        console.log(`[MongoDB] ${response.status} Response:`, response.json());
+        console.log(`[MongoDB] ${response.status} Response:`, data);
 
         throw new Error(
           `An error occurred while creating a new user in the database.`
         );
       }
 
-      const data = await response.json();
       userId = data?.user._id;
       console.log(
         `[MongoDB] Successfully created new user in database! User ID: ${userId}`
       );
     } catch (error: unknown) {
       console.error(
-        `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}. Response: ${response?.status} ${response?.statusText}`
+        `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}.`
       );
       console.error(error);
       return;
@@ -158,7 +163,10 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       // Construct the form data to post the image to Cloudinary
       let formData = new FormData();
       formData.append('image', {
-        uri: profilePictureUri,
+        uri:
+          Platform.OS === 'android'
+            ? profilePictureUri
+            : profilePictureUri.replace('file://', ''),
         type: `image/${type}`,
         name: filename,
       } as any);
@@ -184,11 +192,14 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         }
 
         console.log('[MongoDB] Successfully attached profile picture!');
+
+        updateUserDocument({ firebaseUid: firebaseUid || undefined });
       } catch (error: unknown) {
-        console.error(
-          `[MongoDB] Error attaching profile picture! User ID: ${userId}, profile picture URI: ${profilePictureUri}. Response: ${
+        console.error(error);
+        console.log(
+          `[MongoDB] Error attaching profile picture!\nUser ID: ${userId}\nProfile Picture URI: ${profilePictureUri}\nFilename: ${filename}\nType: ${type}\nResponse: ${
             response?.status
-          } ${response?.statusText} ${JSON.stringify(response)}`
+          } ${JSON.stringify(response)}\nForm Data: ${JSON.stringify(formData)}`
         );
       }
     }
