@@ -217,6 +217,10 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
     // Validate input fields
     switch (activeIndex) {
       case 0:
+        // Remove leading and trailing whitespace from first and last name
+        setFirstName(prev => prev.trim());
+        setLastName(prev => prev.trim());
+
         // Validate first and last name exist
         if (!firstName && !lastName) {
           setErrorBannerMessage('Please enter your first and last name.');
@@ -243,6 +247,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
         break;
       case 1:
+        // Remove leading and trailing whitespace from email
+        setEmail(prev => prev.trim());
+
         // Validate email exists
         if (!email) {
           setErrorBannerMessage('Please enter your email.');
