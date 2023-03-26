@@ -124,14 +124,16 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       });
 
       if (!response.ok) {
+        console.error('[MongoDB] Failed to create user in database.');
+        console.log(`[MongoDB] ${response.status} Response:`, response.json());
+
         throw new Error(
-          `[MongoDB] Failed to create user in database. Response: ${response.status} ${response.statusText}`
+          `An error occurred while creating a new user in the database.`
         );
       }
 
       const data = await response.json();
-
-      userId = data.user._id;
+      userId = data?.user._id;
       console.log(
         `[MongoDB] Successfully created new user in database! User ID: ${userId}`
       );
