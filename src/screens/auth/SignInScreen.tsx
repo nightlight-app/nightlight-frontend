@@ -19,7 +19,9 @@ import { auth } from '@nightlight/src/config/firebaseConfig';
 import Banner from '@nightlight/components/Banner';
 import { AuthRoute, NativeStackScreenProps } from '@nightlight/src/types';
 import Button from '@nightlight/components/Button';
+import BackgroundStaticMapSvg from '@nightlight/components/svgs/BackgroundStaticMapSvg';
 import { SIGN_IN_ERROR_CODES } from '@nightlight/src/constants';
+import SignUpScreenStyles from './SignUpScreen.styles';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   const [email, setEmail] = useState('');
@@ -83,6 +85,11 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={SignInScreenStyles.container}>
+        {/* Background Static Map */}
+        <BackgroundStaticMapSvg
+          style={SignInScreenStyles.backgroundStaticMap}
+        />
+
         {/* nightlight Logo */}
         <NightlightLogoSvg style={SignInScreenStyles.logo} />
 

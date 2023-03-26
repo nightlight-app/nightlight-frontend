@@ -8,6 +8,10 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  backgroundStaticMap: {
+    marginTop: -160,
+    marginBottom: 20,
+  },
   logo: {
     width: 200,
     marginBottom: 25,
