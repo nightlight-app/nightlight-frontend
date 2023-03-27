@@ -48,7 +48,7 @@ const GroupMembers = ({
       .then(data => {
         // TODO: mongoose returns the date as string, so need to convert to Date object
         // think of a better way to do this (maybe a util function that parses User?)
-        const user = data.user as User;
+        const user = data.users[0] as User;
         user.lastActive.time = new Date(user.lastActive.time);
         userOnPress(user);
       })
