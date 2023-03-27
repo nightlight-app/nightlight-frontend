@@ -83,14 +83,25 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       // await for the response to be parsed as json
       const userDocumentData = await userDocumentResponse.json();
 
+      // handle error
+      if (userDocumentData.users.length !== 1) {
+        console.log(
+          '[AuthContext] Expect 1 user document, got: ',
+          userDocumentData.users
+        );
+        return;
+      }
+
+      const retrievedUser = userDocumentData.users[0];
+
       // update userDocument state
-      setUserDocument(userDocumentData.user);
+      setUserDocument(retrievedUser);
 
       if (shouldUpdateNotificationToken) {
         // get the notification token and send it to the server
         const notificationToken = await registerForPushNotificationsAsync();
         await fetch(
-          `${SERVER_URL}/users/${userDocumentData.user._id}/addNotificationToken`,
+          `${SERVER_URL}/users/${retrievedUser._id}/addNotificationToken`,
           {
             headers: {
               'Content-Type': 'application/json',

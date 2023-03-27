@@ -92,7 +92,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
           .then(friendData => {
             const newObj: Markers = {
               location: socketData.location,
-              imgUrl: friendData.user.imgUrlProfileLarge,
+              imgUrl: friendData.users[0].imgUrlProfileLarge,
             };
             setUserMarkers(prev => ({ ...prev, [socketData.userId]: newObj }));
           })
