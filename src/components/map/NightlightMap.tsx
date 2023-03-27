@@ -38,9 +38,6 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
   // the map of user id to UserMarker (excluding the current user)
   const [userMarkers, setUserMarkers] = useState<UserMarkerMap>({});
 
-  // reference to MapboxGL's map view
-  const [mapView, setMapView] = useState<MapView>();
-
   // reference to MapboxGL's camera
   const camera = useRef<Camera>(null);
 
@@ -181,9 +178,6 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     <View style={NightlightMapStyles.page}>
       <View style={NightlightMapStyles.container}>
         <MapboxGL.MapView
-          ref={m => {
-            if (!mapView && m) setMapView(mapView);
-          }}
           zoomEnabled={true}
           scaleBarEnabled={false}
           style={NightlightMapStyles.map}
@@ -192,51 +186,53 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
           pitchEnabled={false}
           rotateEnabled={false}
           compassEnabled={true}>
-          {/* Camera */}
-          <Camera
-            ref={camera}
-            onUserTrackingModeChange={handleUserTrackingModeChange}
-            followUserLocation={isCameraFollowingUser}
-            followHeading={userLocation?.coords.heading}
-          />
+          <>
+            {/* Camera */}
+            <Camera
+              ref={camera}
+              onUserTrackingModeChange={handleUserTrackingModeChange}
+              followUserLocation={isCameraFollowingUser}
+              followHeading={userLocation?.coords.heading}
+            />
 
-          {/* UserLocation tracker */}
-          <MapboxGL.UserLocation
-            // showsUserHeadingIndicator={true} // TODO: uncomment after demo
-            renderMode={'native'}
-            visible={true}
-            minDisplacement={1}
-            onUpdate={loc => updateLocation(loc)}
-          />
+            {/* UserLocation tracker */}
+            <MapboxGL.UserLocation
+              // showsUserHeadingIndicator={true} // TODO: uncomment after demo
+              renderMode={'native'}
+              visible={true}
+              minDisplacement={1}
+              onUpdate={loc => updateLocation(loc)}
+            />
 
-          {/* Other User Markers */}
-          {userMarkers &&
-            Object.entries(userMarkers).map(([userId, userObj]) => {
-              return (
-                <MapboxGL.MarkerView
-                  key={userId}
-                  coordinate={[
-                    userObj.location.longitude,
-                    userObj.location.latitude,
-                  ]}>
-                  <View style={NightlightMapStyles.userMarkerView}>
-                    <FontAwesome5
-                      name='map-marker'
-                      size={50}
-                      // TODO: use the status of the user as color
-                      color={COLORS.GREEN}
-                    />
-                    <Image
-                      source={{
-                        // TODO: get the image source of the received user id
-                        uri: userObj.imgUrl,
-                      }}
-                      style={NightlightMapStyles.userMarkerImage}
-                    />
-                  </View>
-                </MapboxGL.MarkerView>
-              );
-            })}
+            {/* Other User Markers */}
+            {userMarkers &&
+              Object.entries(userMarkers).map(([userId, userObj]) => {
+                return (
+                  <MapboxGL.MarkerView
+                    key={userId}
+                    coordinate={[
+                      userObj.location.longitude,
+                      userObj.location.latitude,
+                    ]}>
+                    <View style={NightlightMapStyles.userMarkerView}>
+                      <FontAwesome5
+                        name='map-marker'
+                        size={50}
+                        // TODO: use the status of the user as color
+                        color={COLORS.GREEN}
+                      />
+                      <Image
+                        source={{
+                          // TODO: get the image source of the received user id
+                          uri: userObj.imgUrl,
+                        }}
+                        style={NightlightMapStyles.userMarkerImage}
+                      />
+                    </View>
+                  </MapboxGL.MarkerView>
+                );
+              })}
+          </>
         </MapboxGL.MapView>
       </View>
 

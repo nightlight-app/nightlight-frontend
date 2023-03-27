@@ -6,49 +6,49 @@
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
     <string>nightlight</string>
-    <key>CFBundleExecutable</key>
+    <key> CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
-    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <string> $(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
-    <key>CFBundleName</key>
+    <key> CFBundleName</key>
     <string>$(PRODUCT_NAME)</string>
     <key>CFBundlePackageType</key>
-    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+    <string> $(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
     <string>1.0.0</string>
-    <key>CFBundleSignature</key>
+    <key> CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
     <array>
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.nightlight.nightlight</string>
+          <string> com.nightlight.nightlight</string>
         </array>
       </dict>
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>exp+nightlight</string>
+          <string> exp+nightlight</string>
         </array>
       </dict>
     </array>
     <key>CFBundleVersion</key>
     <string>1</string>
-    <key>LSRequiresIPhoneOS</key>
-    <true/>
+    <key> LSRequiresIPhoneOS</key>
+    <true />
     <key>NSAppTransportSecurity</key>
     <dict>
       <key>NSAllowsArbitraryLoads</key>
-      <true/>
+      <true />
       <key>NSExceptionDomains</key>
       <dict>
         <key>localhost</key>
         <dict>
           <key>NSExceptionAllowsInsecureHTTPLoads</key>
-          <true/>
+          <true />
         </dict>
       </dict>
     </dict>
@@ -60,29 +60,36 @@
     <string>Allow $(PRODUCT_NAME) to access your photos</string>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
-    <key>UIRequiredDeviceCapabilities</key>
+    <key> UIRequiredDeviceCapabilities</key>
     <array>
       <string>armv7</string>
     </array>
     <key>UIRequiresFullScreen</key>
-    <false/>
+    <false />
     <key>UIStatusBarStyle</key>
     <string>UIStatusBarStyleDefault</string>
     <key>UISupportedInterfaceOrientations</key>
     <array>
-      <string>UIInterfaceOrientationPortrait</string>
+      <string> UIInterfaceOrientationPortrait</string>
       <string>UIInterfaceOrientationPortraitUpsideDown</string>
     </array>
-    <key>UISupportedInterfaceOrientations~ipad</key>
+    <key> UISupportedInterfaceOrientations~ipad</key>
     <array>
       <string>UIInterfaceOrientationPortrait</string>
-      <string>UIInterfaceOrientationPortraitUpsideDown</string>
+      <string> UIInterfaceOrientationPortraitUpsideDown</string>
       <string>UIInterfaceOrientationLandscapeLeft</string>
-      <string>UIInterfaceOrientationLandscapeRight</string>
+      <string> UIInterfaceOrientationLandscapeRight</string>
     </array>
     <key>UIUserInterfaceStyle</key>
     <string>Light</string>
-    <key>UIViewControllerBasedStatusBarAppearance</key>
-    <false/>
+    <key> UIViewControllerBasedStatusBarAppearance</key>
+    <false />
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Intend to use location services to share your location with friends.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>fetch</string>
+      <string>remote-notification</string>
+    </array>
   </dict>
 </plist>
