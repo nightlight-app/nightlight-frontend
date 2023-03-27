@@ -14,7 +14,7 @@ import {
 } from '@nightlight/src/types';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { SERVER_URL } from '@env';
-import { registerForPushNotificationsAsync } from '@nightlight/src/App';
+import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
 
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
