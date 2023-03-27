@@ -166,7 +166,7 @@ export default StyleSheet.create({
     borderRadius: 50,
   },
   backButton: {
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     borderColor: COLORS.GRAY,
   },
   nextButton: {
