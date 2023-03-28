@@ -23,14 +23,14 @@ import BackgroundStaticMapSvg from '@nightlight/components/svgs/BackgroundStatic
 import { SIGN_IN_ERROR_CODES } from '@nightlight/src/constants';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Hide error message when inputs change
   useEffect(() => {
-    if (isErrorVisible) setIsErrorVisible(false);
+    if (errorMessage) setErrorMessage(null);
   }, [email, password]);
 
   const togglePasswordVisibility = () => {
@@ -50,7 +50,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
     console.log('[Firebase] Signing in user...');
 
     try {
-      setIsErrorVisible(false);
+      setErrorMessage(null);
 
       const { user }: UserCredential = await signInWithEmailAndPassword(
         auth,
@@ -66,9 +66,16 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
 
       // TODO: see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
       if (SIGN_IN_ERROR_CODES.includes(error?.code)) {
-        setIsErrorVisible(true);
+        setErrorMessage(
+          'Hmm...the email or password you entered is incorrect.'
+        );
         console.log('[Firebase] Error code:', error?.code);
-      } else console.error('[Firebase] Unhandled error code:', error?.code);
+      } else {
+        setErrorMessage(
+          "Well, that wasn't supposed to happen ... contact us if this keeps happening (nightlight.headquarters@gmail.com)."
+        );
+        console.error('[Firebase] Unhandled error code:', error?.code);
+      }
     }
   };
 
@@ -100,7 +107,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
             placeholderTextColor={COLORS.DARK_GRAY}
             style={[
               SignInScreenStyles.emailInput,
-              isErrorVisible && SignInScreenStyles.errorInput,
+              errorMessage !== null && SignInScreenStyles.errorInput,
             ]}
             autoCapitalize='none'
             value={email}
@@ -112,7 +119,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
               placeholderTextColor={COLORS.DARK_GRAY}
               style={[
                 SignInScreenStyles.passwordInput,
-                isErrorVisible && SignInScreenStyles.errorInput,
+                errorMessage !== null && SignInScreenStyles.errorInput,
               ]}
               autoCapitalize='none'
               secureTextEntry={!isPasswordVisible}
@@ -176,9 +183,9 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         </View>
 
         {/* Error Banner */}
-        {isErrorVisible && (
+        {errorMessage && (
           <Banner
-            message='Hmm...the email or password you entered is incorrect.'
+            message={errorMessage}
             backgroundColor={COLORS.RED}
             textColor={COLORS.WHITE}
           />
