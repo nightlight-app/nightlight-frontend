@@ -8,7 +8,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  inputsContainer: {
+  pageContentContainer: {
     width: '85%',
     maxWidth: 340,
   },
@@ -16,7 +16,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  greetingEndInput: { flex: 1 },
+  greetingEndInput: {
+    flex: 1,
+  },
   greetingEnd: {
     marginLeft: 5,
     marginVertical: 5,
@@ -31,7 +33,7 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   emojiLabel: {
-    fontSize: 36,
+    fontSize: 28,
     marginBottom: 10,
   },
   textInput: {
@@ -42,13 +44,18 @@ export default StyleSheet.create({
     borderBottomWidth: 2,
     marginVertical: 5,
   },
+  textInputError: {
+    borderColor: COLORS.RED,
+  },
+  phoneInputLabel: {
+    textAlign: 'center',
+    lineHeight: 32,
+  },
   phoneInput: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  phoneTextInput: {
-    flex: 1,
+    marginTop: 15,
   },
   phoneInputPrefix: {
     color: COLORS.GRAY,
@@ -56,9 +63,12 @@ export default StyleSheet.create({
     fontSize: 24,
     marginRight: 10,
   },
+  phoneTextInput: {
+    width: 196,
+  },
   signInMessageContainer: {
-    position: 'absolute',
-    bottom: '10%',
+    position: 'relative',
+    top: 50,
     alignSelf: 'center',
     flexDirection: 'row',
   },
@@ -68,32 +78,95 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   signInLink: {},
-  signInText: {
+  linkText: {
     color: COLORS.NIGHTLIGHT_BLUE,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
     textDecorationLine: 'underline',
   },
-  dotStyle: {
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+  passwordInputContainer: {
+    position: 'relative',
   },
-  activeDotStyle: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    width: 20,
+  passwordVisibilityButton: {
+    position: 'absolute',
+    right: 0,
+    margin: 5,
+  },
+  profilePictureUploadContainer: {
+    alignItems: 'center',
+  },
+  profilePicture: {
+    height: 200,
+    width: 200,
+    borderRadius: 200 / 2,
+    marginTop: 10,
+    marginBottom: 20,
+    borderWidth: 2,
+    borderColor: COLORS.DARK_GRAY,
+  },
+  smileyFace: {
+    marginTop: 50,
+    marginBottom: 46,
+  },
+  imageButtonsContainer: {
+    flexDirection: 'row',
+    width: 275,
+    justifyContent: 'center',
+    marginTop: 15,
+  },
+  chooseImageButton: {
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    borderColor: COLORS.DARK_GRAY,
+    width: 200,
+  },
+  removeImageButton: {
+    backgroundColor: COLORS.RED,
+    borderWidth: 0,
+    marginLeft: 10,
+    padding: 0,
+    flex: 1,
+  },
+  maybeLaterContainer: {
+    marginTop: 35,
   },
   createAccountButton: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    borderColor: COLORS.DARK_BLUE,
-    borderWidth: 2,
-    borderRadius: 10,
-    paddingVertical: 15,
-    width: 275,
-    marginVertical: 30,
+    borderWidth: 0,
+    marginVertical: 40,
   },
-  createAccountButtonText: {
-    color: COLORS.WHITE,
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 16,
-    textAlign: 'center',
+  navContainer: {
+    position: 'absolute',
+    bottom: 30,
+    width: '100%',
+    alignItems: 'center',
+  },
+  navButtonsContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    marginBottom: 40,
+    paddingHorizontal: 30,
+  },
+  navDotsContainer: {
+    flexDirection: 'row',
+  },
+  navDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 8 / 2,
+    marginHorizontal: 3,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+  },
+  navButton: {
+    width: 'auto',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderRadius: 50,
+  },
+  backButton: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    borderColor: COLORS.GRAY,
+  },
+  nextButton: {
+    marginLeft: 'auto',
   },
 });

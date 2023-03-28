@@ -5,7 +5,7 @@ import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import MapboxGL, { Camera, MapView, CameraStop } from '@rnmapbox/maps';
 import { COLORS } from '@nightlight/src/global.styles';
 import { Ionicons } from '@expo/vector-icons';
-import { convertCoordinateToPosition } from '@nightlight/src/utils/utils';
+import { Position } from '@turf/helpers/dist/js/lib/geojson';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
 import {
   Markers,
@@ -37,9 +37,6 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
 
   // the map of user id to UserMarker (excluding the current user)
   const [userMarkers, setUserMarkers] = useState<UserMarkerMap>({});
-
-  // reference to MapboxGL's map view
-  const [mapView, setMapView] = useState<MapView>();
 
   // reference to MapboxGL's camera
   const camera = useRef<Camera>(null);
@@ -109,11 +106,15 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
 
   // set the initial camera to user's location on first load
   useEffect(() => {
-    if (userLocation && isCameraFollowingUser)
+    if (userLocation && isCameraFollowingUser) {
+      const { longitude, latitude } = userLocation.coords;
+      const position: Position = [longitude, latitude];
+
       camera.current?.setCamera({
         ...initialCamera,
-        centerCoordinate: convertCoordinateToPosition(userLocation.coords),
+        centerCoordinate: position,
       });
+    }
   }, [camera.current]);
 
   /**
@@ -177,9 +178,6 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     <View style={NightlightMapStyles.page}>
       <View style={NightlightMapStyles.container}>
         <MapboxGL.MapView
-          ref={m => {
-            if (!mapView && m) setMapView(mapView);
-          }}
           zoomEnabled={true}
           scaleBarEnabled={false}
           style={NightlightMapStyles.map}
