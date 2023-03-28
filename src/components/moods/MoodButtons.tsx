@@ -43,7 +43,7 @@ const MoodButtons = ({ onClose }: MoodButtonProps) => {
       MOODS_ARC_RADIUS *
       Math.sin(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
 
-    // compute
+    // compute entering animation
     const FanOut: EntryExitAnimationFunction = (): LayoutAnimation => {
       'worklet';
       const animations: AnimateStyle<{ transform: AnimatedTransform }> = {
@@ -69,6 +69,7 @@ const MoodButtons = ({ onClose }: MoodButtonProps) => {
       return { initialValues, animations };
     };
 
+    // compute exiting animation
     const Retract: EntryExitAnimationFunction = (): LayoutAnimation => {
       'worklet';
       const animations: AnimateStyle<{ transform: AnimatedTransform }> = {
