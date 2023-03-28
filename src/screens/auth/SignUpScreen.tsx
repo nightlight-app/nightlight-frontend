@@ -33,7 +33,10 @@ import {
 import { COLORS } from '@nightlight/src/global.styles';
 import Button from '@nightlight/components/Button';
 import Banner from '@nightlight/components/Banner';
-import { MIN_PASSWORD_LENGTH } from '@nightlight/src/constants';
+import {
+  MIN_PASSWORD_LENGTH,
+  UNEXPECTED_ERROR_MESSAGE,
+} from '@nightlight/src/constants';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
@@ -96,6 +99,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       }
     } catch (error: any) {
       console.error(error);
+      setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
     }
   };
 
@@ -103,6 +107,12 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
     setProfilePictureUri(null);
   };
 
+  /**
+   * Handles the creation of a new user account.
+   * 1. Signs up user with Firebase
+   * 2. Creates user in database
+   * 3. Uploads profile picture to Firebase Storage
+   */
   const handleCreateAccountPress = async () => {
     // Sign up user with Firebase
     const firebaseUid = await handleFirebaseSignUp(email, password);
@@ -148,6 +158,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}.`
       );
       console.error(error);
+      setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
       return;
     }
 
@@ -202,6 +213,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             response?.status
           } ${JSON.stringify(response)}\nForm Data: ${JSON.stringify(formData)}`
         );
+        setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
       }
     }
   };

@@ -20,7 +20,10 @@ import Banner from '@nightlight/components/Banner';
 import { AuthRoute, NativeStackScreenProps } from '@nightlight/src/types';
 import Button from '@nightlight/components/Button';
 import BackgroundStaticMapSvg from '@nightlight/components/svgs/BackgroundStaticMapSvg';
-import { SIGN_IN_ERROR_CODES } from '@nightlight/src/constants';
+import {
+  SIGN_IN_ERROR_CODES,
+  UNEXPECTED_ERROR_MESSAGE,
+} from '@nightlight/src/constants';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   const [email, setEmail] = useState<string>('');
@@ -71,9 +74,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         );
         console.log('[Firebase] Error code:', error?.code);
       } else {
-        setErrorMessage(
-          "Well, that wasn't supposed to happen... contact us if this keeps happening (nightlight.headquarters@gmail.com)."
-        );
+        setErrorMessage(UNEXPECTED_ERROR_MESSAGE);
         console.error('[Firebase] Unhandled error code:', error?.code);
       }
     }
