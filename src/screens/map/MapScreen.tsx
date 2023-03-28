@@ -123,9 +123,6 @@ const MapScreen = () => {
         </Pressable>
       </View> */}
 
-      {/* MapCards */}
-      {activeMapCardType && renderMapCard(activeMapCardType)}
-
       {/* Conditionally render group button */}
       {userDocument?.currentGroup ? (
         <GroupMembers
@@ -136,6 +133,9 @@ const MapScreen = () => {
       ) : (
         <CreateGroupButton onPress={handleShowCreateGroupCard} />
       )}
+
+      {/* MapCards */}
+      {activeMapCardType && renderMapCard(activeMapCardType)}
     </View>
   );
 };

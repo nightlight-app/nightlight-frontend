@@ -2,7 +2,7 @@ import { MAPBOX_API_KEY, SERVER_URL } from '@env';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Pressable, Image } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
-import MapboxGL, { Camera, MapView, CameraStop } from '@rnmapbox/maps';
+import MapboxGL, { Camera, CameraStop } from '@rnmapbox/maps';
 import { COLORS } from '@nightlight/src/global.styles';
 import { Ionicons } from '@expo/vector-icons';
 import { Position } from '@turf/helpers/dist/js/lib/geojson';
