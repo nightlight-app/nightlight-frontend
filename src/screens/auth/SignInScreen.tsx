@@ -67,12 +67,12 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
       // TODO: see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
       if (SIGN_IN_ERROR_CODES.includes(error?.code)) {
         setErrorMessage(
-          'Hmm...the email or password you entered is incorrect.'
+          'Hmm... the email or password you entered is incorrect.'
         );
         console.log('[Firebase] Error code:', error?.code);
       } else {
         setErrorMessage(
-          "Well, that wasn't supposed to happen ... contact us if this keeps happening (nightlight.headquarters@gmail.com)."
+          "Well, that wasn't supposed to happen... contact us if this keeps happening (nightlight.headquarters@gmail.com)."
         );
         console.error('[Firebase] Unhandled error code:', error?.code);
       }

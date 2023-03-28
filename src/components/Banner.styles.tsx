@@ -7,8 +7,9 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 0,
     width: '100%',
-    paddingVertical: 10,
     paddingTop: Constants.statusBarHeight + 10,
+    paddingBottom: 10,
+    paddingHorizontal: 20,
   },
   bannerText: {
     fontFamily: Fonts.COMFORTAA_REGULAR,

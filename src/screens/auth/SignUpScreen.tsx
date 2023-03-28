@@ -11,9 +11,8 @@ import {
   Image,
   Platform,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
-import { Feather, AntDesign } from '@expo/vector-icons';
+import { Ionicons, Feather, AntDesign } from '@expo/vector-icons';
 import Animated, {
   FadeIn,
   FadeOut,
@@ -22,7 +21,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { SERVER_URL } from '@env';
-import { NativeStackScreenProps } from '@nightlight/src/types';
+import {
+  NativeStackScreenProps,
+  SignUpInputField,
+} from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 import {
   formatPhoneNumber,
@@ -31,7 +33,6 @@ import {
 import { COLORS } from '@nightlight/src/global.styles';
 import Button from '@nightlight/components/Button';
 import Banner from '@nightlight/components/Banner';
-import { SignUpInputField } from '@nightlight/src/types';
 import { MIN_PASSWORD_LENGTH } from '@nightlight/src/constants';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
