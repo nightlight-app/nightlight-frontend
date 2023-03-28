@@ -57,3 +57,7 @@ export const SIGN_IN_ERROR_CODES: string[] = [
 
 // Password Input
 export const MIN_PASSWORD_LENGTH: number = 6; // minimum length of the password input
+
+// Error Messages for Users
+export const UNEXPECTED_ERROR_MESSAGE: string =
+  "Well, that wasn't supposed to happen... contact us if this keeps happening (nightlight.headquarters@gmail.com).";
