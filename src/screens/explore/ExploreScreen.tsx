@@ -4,6 +4,7 @@ import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.style
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
 import { TabRoute } from '@nightlight/src/types';
+import { SERVER_URL } from '@env';
 
 const ExploreScreen = () => {
   // keep track of list of venues queried
@@ -29,7 +30,7 @@ const ExploreScreen = () => {
     // TODO: figure out backend and fallback response if no venues received
     axios
       .get(
-        `http://localhost:6060/venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`
+        `${SERVER_URL}/venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`
       )
       .then(response => {
         setPage(page + 1);

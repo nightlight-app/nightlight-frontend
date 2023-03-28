@@ -1,14 +1,20 @@
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   signOut,
   UserCredential,
+  UserInfo,
 } from 'firebase/auth';
-import MapboxGL from '@rnmapbox/maps';
-import { Position } from '@turf/helpers/dist/js/lib/geojson';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { User } from '@nightlight/src/types';
+import {
+  DAYS_PER_MONTH,
+  HOURS_PER_DAY,
+  MINUTES_PER_HOUR,
+  MONTHS_PER_YEAR,
+  MS_PER_SECOND,
+  SECONDS_PER_MINUTE,
+} from '@nightlight/src/constants';
 
 /**
  * Determine the relative time string from a given date.
@@ -17,12 +23,12 @@ import { User } from '@nightlight/src/types';
  */
 export const getRelativeTimeString = (date: Date): string => {
   const now = new Date();
-  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(months / 12);
+  const seconds = Math.floor((now.getTime() - date.getTime()) / MS_PER_SECOND);
+  const minutes = Math.floor(seconds / SECONDS_PER_MINUTE);
+  const hours = Math.floor(minutes / MINUTES_PER_HOUR);
+  const days = Math.floor(hours / HOURS_PER_DAY);
+  const months = Math.floor(days / DAYS_PER_MONTH); // approximately
+  const years = Math.floor(months / MONTHS_PER_YEAR);
 
   if (years > 0) {
     return `${years} year${years !== 1 ? 's' : ''}`;
@@ -47,13 +53,15 @@ export const getRelativeTimeString = (date: Date): string => {
  * @param {Date} lastActiveTime - The last active time of a user to determine the color from.
  * @returns {string} The color of the status indicator.
  */
-export const getStatusColor = (lastActiveTime: Date) => {
+export const getStatusColor = (lastActiveTime: Date): string => {
   const now = new Date();
-  const seconds = Math.floor((now.getTime() - lastActiveTime.getTime()) / 1000);
-  if (seconds < 60) {
+  const seconds = Math.floor(
+    (now.getTime() - lastActiveTime.getTime()) / MS_PER_SECOND
+  );
+  if (seconds < SECONDS_PER_MINUTE) {
     // Green if active in the last minute
     return COLORS.GREEN;
-  } else if (seconds < 60 * 60) {
+  } else if (seconds < SECONDS_PER_MINUTE * MINUTES_PER_HOUR) {
     // Yellow if active in the last hour
     return COLORS.YELLOW;
   } else {
@@ -68,14 +76,6 @@ export const getStatusColor = (lastActiveTime: Date) => {
 export const capitalizeFirstLetter = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 };
-
-/**
- * Converts the MapboxGL coordinate {latitude: number, longitude: number}
- * into Position [longitude, latitude]
- */
-export const convertCoordinateToPosition = (
-  coor: MapboxGL.Coordinates
-): Position => [coor.longitude, coor.latitude];
 
 /**
  * Formats a phone number string. Returns null if input is less than 4 characters or if
@@ -120,8 +120,12 @@ export const getMonthText = (index: number): string => {
  *
  * @param email valid string email address
  * @param password valid password for user account
+ * @returns {UserInfo['uid'] | null} The Firebase user ID of the newly created user or null if an error occurred
  */
-export const handleSignUp = async (email: string, password: string) => {
+export const handleFirebaseSignUp = async (
+  email: string,
+  password: string
+): Promise<UserInfo['uid'] | null> => {
   console.log('[Firebase] Signing up new user...');
 
   try {
@@ -130,42 +134,25 @@ export const handleSignUp = async (email: string, password: string) => {
       email,
       password
     );
+    const firebaseUid: UserInfo['uid'] = user.uid;
     console.log(
       '[Firebase] Successfully signed up new user! User ID:',
-      user.uid
+      firebaseUid
     );
+    return firebaseUid;
   } catch (error: unknown) {
-    console.log('[Firebase] Error signing up new user!');
-    console.error(error);
-  }
-};
-
-/**
- * Sign in to Firebase Authentication using email and password.
- *
- * @param email valid string email address
- * @param password valid password for user account
- */
-export const handleSignIn = async (email: string, password: string) => {
-  console.log('[Firebase] Signing in user...');
-
-  try {
-    const { user }: UserCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
+    console.error(
+      `[Firebase] Error signing up new user! Email: ${email}, password: ${password}`
     );
-    console.log('[Firebase] Successfully signed in user! User ID:', user.uid);
-  } catch (error: unknown) {
-    console.log('[Firebase] Error signing in user!');
     console.error(error);
+    return null;
   }
 };
 
 /**
  * Remove the existing user from the Firebase application
  */
-export const handleSignOut = async () => {
+export const handleFirebaseSignOut = async () => {
   console.log('[Firebase] Signing out user...');
 
   try {
@@ -180,7 +167,37 @@ export const handleSignOut = async () => {
 /**
  * Get the number of friends from a User object
  */
-export const getNumFriends = (user: User | null | undefined) => {
-  if (user?.friends) return user.friends.length;
-  return 0;
+export const getNumFriends = (user: User | null | undefined): number => {
+  return user?.friends?.length || 0;
+};
+
+/**
+ * Generate the datetime after a certain number of hours
+ * @param hours - number of hours from now
+ * @returns {Date} - datetime after the number of hours
+ */
+export const getDatetimeHoursAfter = (hours: number): Date => {
+  return new Date(
+    Date.now() + hours * MINUTES_PER_HOUR * SECONDS_PER_MINUTE * MS_PER_SECOND
+  );
+};
+
+/**
+ * Generate a group name from a list of users (e.g. "John, Jane, and 3 others")
+ * @param users - list of users
+ * @returns {string} - group name
+ */
+export const generateGroupName = (users: User[]): string => {
+  switch (users.length) {
+    case 0:
+      return '';
+    case 1:
+      return users[0].firstName;
+    case 2:
+      return `${users[0].firstName} and ${users[1].firstName}`;
+    default:
+      return `${users[0].firstName}, ${users[1].firstName}, and ${
+        users.length - 2
+      } others`;
+  }
 };

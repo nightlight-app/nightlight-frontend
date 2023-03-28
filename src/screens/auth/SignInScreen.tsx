@@ -18,16 +18,22 @@ import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import Banner from '@nightlight/components/Banner';
 import { AuthRoute, NativeStackScreenProps } from '@nightlight/src/types';
+import Button from '@nightlight/components/Button';
+import BackgroundStaticMapSvg from '@nightlight/components/svgs/BackgroundStaticMapSvg';
+import {
+  SIGN_IN_ERROR_CODES,
+  UNEXPECTED_ERROR_MESSAGE,
+} from '@nightlight/src/constants';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isErrorVisible, setIsErrorVisible] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Hide error message when inputs change
   useEffect(() => {
-    if (isErrorVisible) setIsErrorVisible(false);
+    if (errorMessage) setErrorMessage(null);
   }, [email, password]);
 
   const togglePasswordVisibility = () => {
@@ -47,7 +53,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
     console.log('[Firebase] Signing in user...');
 
     try {
-      setIsErrorVisible(false);
+      setErrorMessage(null);
 
       const { user }: UserCredential = await signInWithEmailAndPassword(
         auth,
@@ -61,16 +67,15 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
     } catch (error: any) {
       console.log('[Firebase] Error signing in user!');
 
-      // TODO: enum specific errors? or see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
-      switch (error?.code) {
-        case 'auth/invalid-email':
-        case 'auth/wrong-password':
-        case 'auth/user-not-found':
-          setIsErrorVisible(true);
-          break;
-        default:
-          console.error('[Firebase] Unhandled error code:', error?.code);
-          break;
+      // TODO: see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
+      if (SIGN_IN_ERROR_CODES.includes(error?.code)) {
+        setErrorMessage(
+          'Hmm... the email or password you entered is incorrect.'
+        );
+        console.log('[Firebase] Error code:', error?.code);
+      } else {
+        setErrorMessage(UNEXPECTED_ERROR_MESSAGE);
+        console.error('[Firebase] Unhandled error code:', error?.code);
       }
     }
   };
@@ -81,13 +86,17 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   };
 
   const handleSignUpPress = () => {
-    console.log('[Firebase] Signing up user...');
     navigation.navigate(AuthRoute.SIGN_UP);
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <SafeAreaView style={SignInScreenStyles.container}>
+        {/* Background Static Map */}
+        <BackgroundStaticMapSvg
+          style={SignInScreenStyles.backgroundStaticMap}
+        />
+
         {/* nightlight Logo */}
         <NightlightLogoSvg style={SignInScreenStyles.logo} />
 
@@ -99,7 +108,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
             placeholderTextColor={COLORS.DARK_GRAY}
             style={[
               SignInScreenStyles.emailInput,
-              isErrorVisible && SignInScreenStyles.errorInput,
+              errorMessage !== null && SignInScreenStyles.errorInput,
             ]}
             autoCapitalize='none'
             value={email}
@@ -111,7 +120,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
               placeholderTextColor={COLORS.DARK_GRAY}
               style={[
                 SignInScreenStyles.passwordInput,
-                isErrorVisible && SignInScreenStyles.errorInput,
+                errorMessage !== null && SignInScreenStyles.errorInput,
               ]}
               autoCapitalize='none'
               secureTextEntry={!isPasswordVisible}
@@ -139,12 +148,11 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         </View>
 
         {/* Sign-In Button */}
-        <TouchableOpacity
+        <Button
           onPress={handleSignInPress}
-          activeOpacity={0.75}
-          style={SignInScreenStyles.signInButton}>
-          <Text style={SignInScreenStyles.signInButtonText}>Sign In</Text>
-        </TouchableOpacity>
+          text='Sign In'
+          style={SignInScreenStyles.signInButton}
+        />
 
         {/* Divider */}
         <View style={SignInScreenStyles.signInOptionDividerContainer}>
@@ -156,21 +164,13 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         </View>
 
         {/* Sign in with Google */}
-        <TouchableOpacity
+        <Button
           onPress={handleSignInWithGooglePress}
-          activeOpacity={0.75}
-          style={SignInScreenStyles.signInWithGoogleButton}>
-          {/* TODO: should we make this the actual Google logo? (idk abt copyright stuff) */}
-          <AntDesign
-            name='google'
-            size={20}
-            color={COLORS.DARK_GRAY}
-            style={SignInScreenStyles.googleLogo}
-          />
-          <Text style={SignInScreenStyles.signInWithGoogleButtonText}>
-            Sign in with Google
-          </Text>
-        </TouchableOpacity>
+          icon={<AntDesign name='google' size={20} color={COLORS.DARK_GRAY} />}
+          text='Sign in with Google'
+          textColor={COLORS.DARK_GRAY}
+          style={SignInScreenStyles.signInWithGoogleButton}
+        />
 
         {/* Sign Up Message */}
         <View style={SignInScreenStyles.signUpMessageContainer}>
@@ -184,9 +184,9 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         </View>
 
         {/* Error Banner */}
-        {isErrorVisible && (
+        {errorMessage && (
           <Banner
-            message='Uh oh! The email or password you entered is incorrect.'
+            message={errorMessage}
             backgroundColor={COLORS.RED}
             textColor={COLORS.WHITE}
           />

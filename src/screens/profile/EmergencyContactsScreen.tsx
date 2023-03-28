@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   Text,
   TextInput,
-  TouchableOpacity,
   FlatList,
   ListRenderItemInfo,
   Alert,
@@ -12,6 +11,7 @@ import {
 import { EmergencyContact, ProfileRoute } from '@nightlight/src/types';
 import EmergencyContactsScreenStyles from '@nightlight/screens/profile/EmergencyContactsScreen.styles';
 import ContactCard from '@nightlight/components/profile/ContactCard';
+import Button from '@nightlight/components/Button';
 
 // TODO: hard coded contacts for now, change to pull from backend
 const contacts = [
@@ -113,14 +113,11 @@ const EmergencyContactsScreen = () => {
         scrollEnabled={displayedContacts.length > 0}
         indicatorStyle='white'
       />
-      <TouchableOpacity
+      <Button
         onPress={addContact}
-        activeOpacity={0.75}
-        style={EmergencyContactsScreenStyles.addButton}>
-        <Text style={EmergencyContactsScreenStyles.addText}>
-          Add New Contact
-        </Text>
-      </TouchableOpacity>
+        text='Add New Contact'
+        style={EmergencyContactsScreenStyles.addButton}
+      />
     </SafeAreaView>
   );
 };
