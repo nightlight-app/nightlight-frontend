@@ -100,6 +100,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       }
     } catch (error: any) {
       console.error(error);
+      console.log(error);
       setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
     }
   };
@@ -112,7 +113,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
    * Handles the creation of a new user account.
    * 1. Signs up user with Firebase
    * 2. Creates user in database
-   * 3. Uploads profile picture to Firebase Storage
+   * 3. Uploads profile picture to Cloudinary
    */
   const handleCreateAccountPress = async () => {
     // Sign up user with Firebase
@@ -158,7 +159,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       console.error(
         `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}.`
       );
-      console.error(error);
+      console.log(error);
       setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
       return;
     }
@@ -208,12 +209,12 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
         updateUserDocument({ firebaseUid: firebaseUid || undefined });
       } catch (error: unknown) {
-        console.error(error);
-        console.log(
+        console.error(
           `[MongoDB] Error attaching profile picture!\nUser ID: ${userId}\nProfile Picture URI: ${profilePictureUri}\nFilename: ${filename}\nType: ${type}\nResponse: ${
             response?.status
           } ${JSON.stringify(response)}\nForm Data: ${JSON.stringify(formData)}`
         );
+        console.log(error);
         setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
       }
     }
@@ -272,7 +273,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         }
 
         // Validate email using regex
-        let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!regex.test(email)) {
           setErrorBannerMessage('Please enter a valid email.');
           setErrorFields([SignUpInputField.EMAIL]);
