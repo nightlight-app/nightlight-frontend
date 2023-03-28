@@ -54,17 +54,7 @@ export default StyleSheet.create({
   },
   addButton: {
     alignSelf: 'center',
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    padding: 15,
-    borderRadius: 10,
     marginTop: 20,
-    borderColor: COLORS.DARK_BLUE,
-    borderWidth: 2,
     marginBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
-  },
-  addText: {
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 16,
-    color: COLORS.WHITE,
   },
 });

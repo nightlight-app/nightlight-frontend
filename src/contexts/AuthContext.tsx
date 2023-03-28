@@ -14,6 +14,7 @@ import {
 } from '@nightlight/src/types';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { SERVER_URL } from '@env';
+import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
 
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
@@ -46,7 +47,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setUserSession(user);
 
       // fetch userDocument from mongoDB if user is logged in
-      if (user) updateUserDocument({ firebaseUid: user.uid as string });
+      if (user)
+        updateUserDocument({
+          firebaseUid: user.uid as string,
+          shouldUpdateNotificationToken: true,
+        });
     });
 
     return () => unsubscribe();
@@ -57,9 +62,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
    * Uses mongoDB id by default.
    * Optionally, pass in a firebaseUid to fetch via firebaseUid instead of mongoDB id.
    * @param firebaseUid - the firebase uid of the user
+   * @param shouldUpdateNotificationToken - whether to update the notification token (default: false)
    */
   const updateUserDocument = async ({
     firebaseUid,
+    shouldUpdateNotificationToken = false,
   }: UpdateUserDocumentInterface) => {
     let url = `${SERVER_URL}/users?`;
 
@@ -67,18 +74,46 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       ? `firebaseUid=${firebaseUid}`
       : `userId=${userDocument?._id}`;
 
-    // fetch from mongoDB and update userDocument
-    fetch(url, {
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(`[MongoDB] ${data.message} ${data.user._id}`);
-        setUserDocument(data.user);
-      })
-      .catch(err => {
-        console.log(err);
+    try {
+      // fetch from mongoDB and update userDocument
+      const userDocumentResponse = await fetch(url, {
+        method: 'GET',
       });
+
+      // await for the response to be parsed as json
+      const userDocumentData = await userDocumentResponse.json();
+
+      // handle error
+      if (userDocumentData.users.length !== 1) {
+        console.log(
+          '[AuthContext] Expect 1 user document, got: ',
+          userDocumentData.users
+        );
+        return;
+      }
+
+      const retrievedUser = userDocumentData.users[0];
+
+      // update userDocument state
+      setUserDocument(retrievedUser);
+
+      if (shouldUpdateNotificationToken) {
+        // get the notification token and send it to the server
+        const notificationToken = await registerForPushNotificationsAsync();
+        await fetch(
+          `${SERVER_URL}/users/${retrievedUser._id}/addNotificationToken`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            method: 'PATCH',
+            body: JSON.stringify({ notificationToken }),
+          }
+        );
+      }
+    } catch (e) {
+      console.log('Error in updateUserDocument', e);
+    }
   };
 
   return (

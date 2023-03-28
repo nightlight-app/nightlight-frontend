@@ -18,16 +18,17 @@ import {
   TabRoute,
   User,
 } from '@nightlight/src/types';
-import { NUM_MONTHS } from '@nightlight/src/constants';
+import { MONTHS_PER_YEAR } from '@nightlight/src/constants';
 import { COLORS } from '@nightlight/src/global.styles';
 import {
   formatPhoneNumber,
   getMonthText,
   getNumFriends,
-  handleSignOut,
+  handleFirebaseSignOut,
 } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
+import Button from '@nightlight/components/Button';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
@@ -116,12 +117,11 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         </Text>
 
         {/* TODO: move logout button? */}
-        <TouchableOpacity
-          onPress={handleSignOut}
+        <Button
+          onPress={handleFirebaseSignOut}
+          text='Logout'
           style={ProfileScreenStyles.logOutButton}
-          activeOpacity={0.75}>
-          <Text style={ProfileScreenStyles.logOutButtonText}>Logout</Text>
-        </TouchableOpacity>
+        />
 
         {/* Profile Statistics */}
         <View style={ProfileScreenStyles.profileStatsContainer}>
@@ -164,7 +164,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
 
         {/* Calendar */}
         <View style={ProfileScreenStyles.calendarContainer}>
-          {[...Array(NUM_MONTHS)].map((_, index) => (
+          {[...Array(MONTHS_PER_YEAR)].map((_, index) => (
             <View key={index} style={ProfileScreenStyles.monthView}>
               <BottleSvg />
               <Text style={ProfileScreenStyles.monthText}>
@@ -175,14 +175,11 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         </View>
 
         {/* Emergency Contacts Button */}
-        <TouchableOpacity
+        <Button
           onPress={handleNavigateToEmergencyContacts}
-          activeOpacity={0.75}
-          style={ProfileScreenStyles.emergencyContactsButton}>
-          <Text style={ProfileScreenStyles.emergencyContactsButtonText}>
-            See Emergency Contacts
-          </Text>
-        </TouchableOpacity>
+          text='See Emergency Contacts'
+          style={ProfileScreenStyles.emergencyContactsButton}
+        />
       </View>
     </ScrollView>
   );
