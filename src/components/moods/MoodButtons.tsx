@@ -8,6 +8,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Animated, {
+  AnimatedTransform,
+  AnimateStyle,
   EntryExitAnimationFunction,
   LayoutAnimation,
   StyleProps,
@@ -23,17 +25,14 @@ import {
   MOOD_SPRING_CONFIG,
 } from '@nightlight/src/constants';
 import MoodButtonsStyles from '@nightlight/components/moods/MoodButtons.styles';
-import { MoodEmoji, MoodButtonProps } from '@nightlight/src/types';
+import {
+  MoodEmoji,
+  MoodButtonProps,
+  MoodButtonAnimation,
+} from '@nightlight/src/types';
 
 const MoodButtons = ({ onClose }: MoodButtonProps) => {
-  const handleMoodPress = (emoji: MoodEmoji): void => {
-    if (emoji === MoodEmoji.CLEAR) Alert.alert('clearing mood');
-    else Alert.alert(`i'm feeling ${emoji}`);
-    onClose();
-  };
-
-  // an array of animation functions for the entrance of each mood button
-  const moodButtonEnteringAnimations: EntryExitAnimationFunction[] = [
+  const moodButtonAnimations: MoodButtonAnimation[] = [
     ...Array(NUM_MOODS).keys(),
   ].map(index => {
     // compute the xy offsets of the mood buttons along the mood arc
@@ -44,10 +43,10 @@ const MoodButtons = ({ onClose }: MoodButtonProps) => {
       MOODS_ARC_RADIUS *
       Math.sin(index * MOOD_ANGLE + MOOD_ANGLE_RANGE_MARGIN / 2);
 
-    // dynamically-generated animation for the entrance of each mood buttons
+    // compute
     const FanOut: EntryExitAnimationFunction = (): LayoutAnimation => {
       'worklet';
-      const animations = {
+      const animations: AnimateStyle<{ transform: AnimatedTransform }> = {
         transform: [
           {
             translateX: withDelay(
@@ -70,17 +69,9 @@ const MoodButtons = ({ onClose }: MoodButtonProps) => {
       return { initialValues, animations };
     };
 
-    return FanOut;
-  });
-
-  // an array of animation functions for the exit of each mood button
-  const moodButtonExitingAnimations: EntryExitAnimationFunction[] = [
-    ...Array(NUM_MOODS).keys(),
-  ].map((index): EntryExitAnimationFunction => {
-    // dynamically generated animation for the exit of each mood button
     const Retract: EntryExitAnimationFunction = (): LayoutAnimation => {
       'worklet';
-      const animations = {
+      const animations: AnimateStyle<{ transform: AnimatedTransform }> = {
         transform: [
           {
             translateX: withDelay((NUM_MOODS - index) * 75, withTiming(0)),
@@ -92,17 +83,28 @@ const MoodButtons = ({ onClose }: MoodButtonProps) => {
       };
       const initialValues: StyleProps = {
         // initial values for animations
+        transform: [{ translateX: xOffset }, { translateY: -yOffset }],
       };
-      return { animations, initialValues };
+      return { initialValues, animations };
     };
 
-    return Retract;
+    return {
+      entry: FanOut,
+      exit: Retract,
+    };
   });
+
+  const handleMoodPress = (emoji: MoodEmoji): void => {
+    // TODO: set mood
+    if (emoji === MoodEmoji.CLEAR) Alert.alert('clearing mood');
+    else Alert.alert(`i'm feeling ${emoji}`);
+    onClose();
+  };
 
   const renderMoodButton = (emoji: MoodEmoji, index: number) => (
     <Animated.View
-      entering={moodButtonEnteringAnimations[index]}
-      exiting={moodButtonExitingAnimations[index]}
+      entering={moodButtonAnimations[index].entry}
+      exiting={moodButtonAnimations[index].exit}
       style={MoodButtonsStyles.mood}
       key={index}>
       <Pressable

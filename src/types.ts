@@ -1,5 +1,8 @@
 import { SvgProps } from 'react-native-svg';
-import { SharedValue } from 'react-native-reanimated';
+import {
+  EntryExitAnimationFunction,
+  SharedValue,
+} from 'react-native-reanimated';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 import type { User as FirebaseUser } from 'firebase/auth';
@@ -296,4 +299,9 @@ export interface GroupMembersProps {
 
 export interface UserCircleProps {
   userId: string;
+}
+
+export interface MoodButtonAnimation {
+  entry: EntryExitAnimationFunction;
+  exit: EntryExitAnimationFunction;
 }
