@@ -21,7 +21,6 @@ import { AuthRoute, NativeStackScreenProps } from '@nightlight/src/types';
 import Button from '@nightlight/components/Button';
 import BackgroundStaticMapSvg from '@nightlight/components/svgs/BackgroundStaticMapSvg';
 import { SIGN_IN_ERROR_CODES } from '@nightlight/src/constants';
-import SignUpScreenStyles from './SignUpScreen.styles';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   const [email, setEmail] = useState('');
