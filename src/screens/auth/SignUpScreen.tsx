@@ -35,6 +35,7 @@ import Button from '@nightlight/components/Button';
 import Banner from '@nightlight/components/Banner';
 import { MIN_PASSWORD_LENGTH } from '@nightlight/src/constants';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import SmileyFaceSvg from '@nightlight/components/svgs/SmileyFaceSvg';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -524,10 +525,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
               style={SignUpScreenStyles.profilePicture}
             />
           ) : (
-            <Image
-              source={require('@nightlight/assets/images/smiley-face.png')}
-              style={SignUpScreenStyles.smileyFace}
-            />
+            <SmileyFaceSvg style={SignUpScreenStyles.smileyFace} />
           )}
         </TouchableOpacity>
         <View style={SignUpScreenStyles.imageButtonsContainer}>

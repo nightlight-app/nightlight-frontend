@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-import { SMILE_FACE_ASPECT_RATIO } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
@@ -106,8 +105,6 @@ export default StyleSheet.create({
     borderColor: COLORS.DARK_GRAY,
   },
   smileyFace: {
-    width: 150,
-    height: 150 / SMILE_FACE_ASPECT_RATIO,
     marginTop: 50,
     marginBottom: 46,
   },
