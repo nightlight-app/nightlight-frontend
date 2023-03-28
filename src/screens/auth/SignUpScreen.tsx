@@ -257,8 +257,9 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           return;
         }
 
-        // Validate email contains @
-        if (!email.includes('@')) {
+        // Validate email using regex
+        let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regex.test(email)) {
           setErrorBannerMessage('Please enter a valid email.');
           setErrorFields([SignUpInputField.EMAIL]);
           return;
