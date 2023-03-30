@@ -101,13 +101,13 @@ export default StyleSheet.create({
     marginLeft: 20,
   },
   reactionBox: {
-    backgroundColor: COLORS.GRAY,
+    backgroundColor: COLORS.DARK_GRAY,
     borderRadius: 10,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 3,
-    padding: 2,
+    paddingHorizontal: 4
   },
   allText: {
     color: COLORS.WHITE,

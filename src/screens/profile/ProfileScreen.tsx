@@ -28,6 +28,7 @@ import {
 } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
+import { Path } from 'react-native-svg';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
@@ -167,7 +168,10 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         <View style={ProfileScreenStyles.calendarContainer}>
           {[...Array(NUM_MONTHS)].map((_, index) => (
             <View key={index} style={ProfileScreenStyles.monthView}>
-              <BottleSvg />
+              <BottleSvg>
+               {/* <Path d={BottleSvg} fill="#c4c4c4" /> */}
+               <Path d={`M20,180 L80,180 L80,${180 - 0.5 * 140} L20,${180 - 0.5 * 140}Z`} fill="#0080ff" />
+               </BottleSvg>
               <Text style={ProfileScreenStyles.monthText}>
                 {getMonthText(index)}
               </Text>

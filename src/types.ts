@@ -163,6 +163,8 @@ export interface ExploreCardProps {
   address: string;
   lat: string;
   long: string;
+  reactions: Object;
+  id: string;
 }
 
 export interface EmergencyContactProps {
@@ -199,6 +201,7 @@ export interface VenueReactionProps {
   emoji: string;
   value: number;
   active: boolean;
+  id: string;
 }
 
 export interface FriendCardProps {

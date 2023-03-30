@@ -1,9 +1,18 @@
 import { useEffect, useState } from 'react';
-import { ScrollView, Text, View, SafeAreaView, TextInput } from 'react-native';
+import {
+  ScrollView,
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+  Pressable,
+} from 'react-native';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
 import axios from 'axios';
-import { TabRoute } from '@nightlight/src/types';
+import { TabRoute, Venue } from '@nightlight/src/types';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { addNotificationResponseReceivedListener } from 'expo-notifications';
 
 const ExploreScreen = () => {
   // keep track of list of venues queried
@@ -14,6 +23,11 @@ const ExploreScreen = () => {
 
   // keep track of what page user is on
   const [page, setPage] = useState(1);
+
+  // sort by selected emoji
+  const [selectedEmoji, setSelectedEmoji] = useState('');
+
+  const { userSession } = useAuthContext();
 
   // TODO: pagination query params
   const params = {
@@ -29,7 +43,12 @@ const ExploreScreen = () => {
     // TODO: figure out backend and fallback response if no venues received
     axios
       .get(
-        `http://localhost:6060/venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`
+        `http://localhost:6060/venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${userSession?.uid}`,
+          },
+        }
       )
       .then(response => {
         setPage(page + 1);
@@ -61,40 +80,52 @@ const ExploreScreen = () => {
           <View style={ExploreScreenStyles.trendbox}>
             <Text style={ExploreScreenStyles.trendingText}>🔥 Trending </Text>
             <View style={ExploreScreenStyles.reactionContainer}>
-              <View style={ExploreScreenStyles.reactionBox}>
+              <Pressable style={ExploreScreenStyles.reactionBox}>
                 <Text style={ExploreScreenStyles.allText}>All</Text>
-              </View>
-              <View style={ExploreScreenStyles.reactionBox}>
+              </Pressable>
+              <Pressable
+                style={ExploreScreenStyles.reactionBox}
+                onPress={() => setSelectedEmoji('🔥')}>
                 <Text>🔥</Text>
-              </View>
-              <View style={ExploreScreenStyles.reactionBox}>
+              </Pressable>
+              <Pressable
+                style={ExploreScreenStyles.reactionBox}
+                onPress={() => setSelectedEmoji('🕺')}>
                 <Text>🕺</Text>
-              </View>
-              <View style={ExploreScreenStyles.reactionBox}>
+              </Pressable>
+              <Pressable
+                style={ExploreScreenStyles.reactionBox}
+                onPress={() => setSelectedEmoji('🎉')}>
                 <Text>🎉</Text>
-              </View>
-              <View style={ExploreScreenStyles.reactionBox}>
+              </Pressable>
+              <Pressable
+                style={ExploreScreenStyles.reactionBox}
+                onPress={() => setSelectedEmoji('⚠️')}>
                 <Text>⚠️</Text>
-              </View>
-              <View style={ExploreScreenStyles.reactionBox}>
+              </Pressable>
+              <Pressable
+                style={ExploreScreenStyles.reactionBox}
+                onPress={() => setSelectedEmoji('💩')}>
                 <Text>💩</Text>
-              </View>
+              </Pressable>
             </View>
           </View>
           <View style={ExploreScreenStyles.trending}>
-            {/* TODO: currently hard coding explore cards */}
-            <ExploreCard
+            {/* TODO: currently hard coding trending explore cards */}
+            {/* <ExploreCard
               name='Jason Aldeans'
               address='10 Broadway'
               lat='0.1m'
               long='0.1m'
+              reactions = {{'🔥': 3, '🕺': 2, '🎉': 12, '⚠️': 5, '💩': 11}}
             />
             <ExploreCard
               name='Tin Roof'
               address='134 Demonbreun St'
               lat='0.1m'
               long='0.1m'
-            />
+              reactions = {{'🔥': 3, '🕺': 2, '🎉': 12, '⚠️': 5, '💩': 11}}
+            /> */}
             {/* TODO: turn this into a pressable */}
             <View style={ExploreScreenStyles.seeMore}>
               <Text style={ExploreScreenStyles.seeMoreText}>See more...</Text>
@@ -119,20 +150,41 @@ const ExploreScreen = () => {
                     return item;
                 }
               )
+              .sort((a: Venue, b: Venue) => {
+                if (selectedEmoji === '') {
+                  return 0;
+                }
+                const aReaction =
+                  a.reactions && a.reactions[selectedEmoji]
+                    ? a.reactions[selectedEmoji]
+                    : 0;
+                const bReaction =
+                  b.reactions && b.reactions[selectedEmoji]
+                    ? b.reactions[selectedEmoji]
+                    : 0;
+                return bReaction - aReaction;
+              })
               .map(
-                (item: {
-                  name: string;
-                  address: string;
-                  lat: string;
-                  long: string;
-                  location: { latitude: string; longitude: string };
-                }) => (
+                (
+                  item: {
+                    name: string;
+                    address: string;
+                    lat: string;
+                    long: string;
+                    location: { latitude: string; longitude: string };
+                    reactions: Object;
+                    _id: string;
+                  },
+                  index
+                ) => (
                   <ExploreCard
                     key={item.name}
                     name={item.name}
                     address={item.address}
                     lat={item.location.latitude}
                     long={item.location.longitude}
+                    reactions={item.reactions}
+                    id={item._id}
                   />
                 )
               )}

@@ -4,6 +4,7 @@ import VenueReaction from '@nightlight/components/venue-reaction/VenueReaction';
 import { ExploreCardProps } from '@nightlight/src/types';
 
 const ExploreCard = (Props: ExploreCardProps) => {
+  
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -13,11 +14,9 @@ const ExploreCard = (Props: ExploreCardProps) => {
         <View style={styles.reactionContainer}>
           <Text style={styles.venueAddress}>{Props.address}</Text>
           <View style={styles.reactionGroup}>
-            <VenueReaction emoji='🔥' value={8} active={false} />
-            <VenueReaction emoji='😄' value={2} active={true} />
-            <VenueReaction emoji='🎉' value={12} active={false} />
-            <VenueReaction emoji='⚠️' value={5} active={false} />
-            <VenueReaction emoji='💩' value={11} active={false} />
+            {Object.keys(Props.reactions).map((emoji) =>
+                <VenueReaction id = {Props.id} emoji ={emoji} value={Props.reactions[emoji].count} active={Props.reactions[emoji].didReact} />
+              )}
           </View>
         </View>
         <Pressable
