@@ -8,6 +8,10 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  backgroundStaticMap: {
+    marginTop: -160,
+    marginBottom: 20,
+  },
   logo: {
     width: 200,
     marginBottom: 25,
@@ -68,19 +72,8 @@ export default StyleSheet.create({
     textDecorationLine: 'underline',
   },
   signInButton: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    borderColor: COLORS.DARK_BLUE,
-    borderWidth: 2,
-    borderRadius: 10,
-    paddingVertical: 15,
-    width: 275,
+    borderWidth: 0,
     marginVertical: 30,
-  },
-  signInButtonText: {
-    color: COLORS.WHITE,
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 16,
-    textAlign: 'center',
   },
   signInOptionDividerContainer: {
     marginHorizontal: 30,
@@ -101,22 +94,8 @@ export default StyleSheet.create({
   },
   signInWithGoogleButton: {
     backgroundColor: COLORS.WHITE,
-    borderRadius: 10,
-    paddingVertical: 15,
-    width: 275,
+    borderWidth: 0,
     marginVertical: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  googleLogo: {
-    marginRight: 15,
-  },
-  signInWithGoogleButtonText: {
-    color: COLORS.DARK_GRAY,
-    fontFamily: Fonts.ROBOTO_REGULAR,
-    fontSize: 16,
-    textAlign: 'center',
   },
   signUpMessageContainer: {
     flexDirection: 'row',

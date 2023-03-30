@@ -3,7 +3,12 @@ import { MoodEmoji } from '@nightlight/src/types';
 import { WithSpringConfig } from 'react-native-reanimated';
 
 // General
-export const NUM_MONTHS: number = 12; // number of months in a year
+export const MS_PER_SECOND: number = 1000; // milliseconds in a second
+export const SECONDS_PER_MINUTE: number = 60; // seconds in a minute
+export const MINUTES_PER_HOUR: number = 60; // minutes in an hour
+export const HOURS_PER_DAY: number = 24; // hours in a day
+export const DAYS_PER_MONTH: number = 30; // days in a month (approximate)
+export const MONTHS_PER_YEAR: number = 12; // number of months in a year
 
 // Device
 export const DEVICE_HEIGHT: number = Dimensions.get('window').height; // height of the device in points
@@ -38,3 +43,21 @@ export const MOOD_SPRING_CONFIG: WithSpringConfig = {
 
 // Map Card
 export const MAP_CARD_WIDTH = 370; // width of the map card in points
+
+// User Circle
+export const USER_CIRCLE_DIAMETER: number = 50; // diameter of the user circle in points
+
+// Firebase Sign In Error Codes (https://firebase.google.com/docs/auth/admin/errors)
+export const SIGN_IN_ERROR_CODES: string[] = [
+  'auth/invalid-email',
+  'auth/wrong-password',
+  'auth/user-not-found',
+  'auth/internal-error',
+]; // error codes to be caught when signing in
+
+// Password Input
+export const MIN_PASSWORD_LENGTH: number = 6; // minimum length of the password input
+
+// Error Messages for Users
+export const UNEXPECTED_ERROR_MESSAGE: string =
+  "Well, that wasn't supposed to happen... contact us if this keeps happening (nightlight.headquarters@gmail.com).";

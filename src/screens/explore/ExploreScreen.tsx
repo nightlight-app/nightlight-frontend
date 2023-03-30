@@ -13,6 +13,7 @@ import axios from 'axios';
 import { TabRoute, Venue } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { addNotificationResponseReceivedListener } from 'expo-notifications';
+import { SERVER_URL } from '@env';
 
 const ExploreScreen = () => {
   // keep track of list of venues queried
@@ -43,12 +44,7 @@ const ExploreScreen = () => {
     // TODO: figure out backend and fallback response if no venues received
     axios
       .get(
-        `http://localhost:6060/venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`,
-        {
-          headers: {
-            Authorization: `Bearer ${userSession?.uid}`,
-          },
-        }
+        `${SERVER_URL}/venues/?count=${params.count}&page=${params.page}&userId=${params.userID}`
       )
       .then(response => {
         setPage(page + 1);

@@ -5,12 +5,7 @@ import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
 
-export interface AuthFormData {
-  email: string;
-  password: string;
-  confirmPassword?: string;
-  phone?: string;
-}
+// TODO: Organize these types into separate files (probably in /src/interfaces?)
 
 export enum TabRoute {
   MAP = 'Map',
@@ -52,6 +47,15 @@ export enum MoodEmoji {
   GRIMACING = '😬',
   PUKING = '🤮',
   CLEAR = '🚫',
+}
+
+export enum SignUpInputField {
+  FIRST_NAME = 'First Name',
+  LAST_NAME = 'Last Name',
+  EMAIL = 'Email',
+  PASSWORD = 'Password',
+  CONFIRM_PASSWORD = 'Confirm Password',
+  PHONE_NUMBER = 'Phone Number',
 }
 
 export interface Reaction {
@@ -139,10 +143,14 @@ export interface ButtonProps {
   onPress: () => void;
   size?: number;
   style?: Object;
+  icon?: React.ReactNode;
+  text?: string;
+  textColor?: string;
 }
 
 export interface MapCardProps {
   onClose: () => void;
+  onError?: () => void;
   children?: React.ReactNode;
   borderColor?: string;
   shadowColor?: string;
@@ -186,15 +194,6 @@ export interface CreateGroupCardProps extends MapCardProps {}
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
-}
-
-// TODO: refactor this to be more generic
-export interface LoginCardProps {
-  setIsLogin: (value: boolean) => void;
-}
-
-export interface RegisterCardProps {
-  setIsLogin: (value: boolean) => void;
 }
 
 export interface VenueReactionProps {
@@ -252,11 +251,12 @@ export interface EmergencyContact {
 export interface Markers {
   // the title of the marker
   location: Location;
+  // the image to query for the marker
+  imgUrl: string;
 }
 
-export interface UserMarkers extends Markers {
-  // the id of the user (mongoose ObjectId)
-  userId: string;
+export interface UserMarkerMap {
+  [key: string]: Markers;
 }
 
 export interface AuthContextInterface {
@@ -267,8 +267,38 @@ export interface AuthContextInterface {
 
 export interface BannerProps {
   message: string;
-  backgroundColor: string;
-  textColor: string;
+  backgroundColor?: string;
+  textColor?: string;
+}
+
+export interface UpdateUserDocumentInterface {
+  firebaseUid?: string;
+  shouldUpdateNotificationToken?: boolean;
+}
+
+export interface NightlightMapProps {
+  onError?: () => void;
+}
+
+export interface GroupMembersProps {
+  /**
+   * Function to call when a user circle is pressed.
+   * @param userToShow User to show when circle is pressed.
+   */
+  userOnPress: (userToShow?: User) => void;
+  /**
+   * Function to call when the add button is pressed.
+   */
+  addGroupOnPress: () => void;
+
+  /**
+   * Function to call when error occurs.
+   */
+  onError?: () => void;
+}
+
+export interface UserCircleProps {
+  userId: string;
 }
 
 export interface UpdateUserDocumentInterface {
