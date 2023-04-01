@@ -1,13 +1,13 @@
 import FriendCard from '@nightlight/components/social/FriendCard';
 import AddFriendsSvg from '@nightlight/components/svgs/AddFriendsSvg';
 import NotificationSvg from '@nightlight/components/svgs/NotificationSvg';
-import { TabRoute } from '@nightlight/src/types';
+import { BottomTabScreenProps, SocialRoute, TabRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
 import { activeGroup, friends } from '@nightlight/src/testData';
 
-const SocialScreen = () => {
+const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   // number of members in active group
   const [groupCount, setGroupCount] = useState(0);
 
@@ -29,13 +29,19 @@ const SocialScreen = () => {
     </View>
   );
 
+  const handleNavigateToFindFriends = () => {
+    navigation.navigate(SocialRoute.FRIEND_SEARCH)
+  };
+
   return (
-    <View testID={TabRoute.SOCIAL} style={SocialScreenStyles.container}>
+    <View testID={TabRoute.SOCIAL_STACK} style={SocialScreenStyles.container}>
       <SafeAreaView style={SocialScreenStyles.safeview}>
         <View style={SocialScreenStyles.topRow}>
           <NotificationSvg style={SocialScreenStyles.notifButton} />
           <Text style={SocialScreenStyles.title}>Social</Text>
-          <AddFriendsSvg style={SocialScreenStyles.addFriendsButton} />
+          <Pressable onPress={handleNavigateToFindFriends}>
+            <AddFriendsSvg style={SocialScreenStyles.addFriendsButton} />
+          </Pressable>
         </View>
 
         <ScrollView>

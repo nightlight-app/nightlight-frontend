@@ -12,7 +12,7 @@ import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
 
 export enum TabRoute {
   MAP = 'Map',
-  SOCIAL = 'Social',
+  SOCIAL_STACK = 'Social',
   EMERGENCY_BUTTON = 'EmergencyButton',
   EXPLORE = 'Explore',
   PROFILE_STACK = 'ProfileStack',
@@ -27,6 +27,12 @@ export enum ProfileRoute {
   PROFILE = 'Profile',
   EMERGENCY_CONTACTS = 'EmergencyContacts',
   SETTINGS = 'Settings',
+}
+
+export enum SocialRoute {
+  SOCIAL = 'Social',
+  FRIEND_SEARCH = 'FriendSearch',
+  NOTIFICATIONS = 'Notifications'
 }
 
 export enum MapCardType {
@@ -209,6 +215,15 @@ export interface FriendCardProps {
   isInGroup: boolean;
 }
 
+export interface SearchUserCardProps {
+  firstName: string;
+  lastName: string;
+  index: number;
+  isAdded: boolean;
+  isFirstItem: boolean;
+  isLastItem: boolean;
+}
+
 /**
  * used for querying elements when using jest test
  *
@@ -247,6 +262,7 @@ export interface EmergencyContact {
   name: string;
   phone: string;
 }
+
 
 export interface Markers {
   // the title of the marker

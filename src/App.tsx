@@ -17,7 +17,12 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { AuthRoute, ProfileRoute, TabRoute } from '@nightlight/src/types';
+import {
+  AuthRoute,
+  ProfileRoute,
+  TabRoute,
+  SocialRoute,
+} from '@nightlight/src/types';
 import {
   AuthProvider,
   useAuthContext,
@@ -39,10 +44,12 @@ import {
   Notification,
 } from 'expo-notifications';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
+import FriendSearchScreen from './screens/social/FriendSearchScreen';
 
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
+const SocialStack = createNativeStackNavigator();
 
 // Prevent hiding the splash screen
 preventAutoHideAsync();
@@ -63,6 +70,20 @@ const AuthScreenStack = () => {
       <AuthStack.Screen name={AuthRoute.SIGN_IN} component={SignInScreen} />
       <AuthStack.Screen name={AuthRoute.SIGN_UP} component={SignUpScreen} />
     </AuthStack.Navigator>
+  );
+};
+
+const SocialScreenStack = () => {
+  return (
+    <SocialStack.Navigator
+      initialRouteName={SocialRoute.SOCIAL}
+      screenOptions={{ headerShown: false }}>
+      <SocialStack.Screen name={SocialRoute.SOCIAL} component={SocialScreen} />
+      <SocialStack.Screen
+        name={SocialRoute.FRIEND_SEARCH}
+        component={FriendSearchScreen}
+      />
+    </SocialStack.Navigator>
   );
 };
 
@@ -95,7 +116,11 @@ const Main = () => {
           screenOptions={{ headerShown: false }}
           tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
           <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
-          <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
+          <Tab.Screen
+            name={TabRoute.SOCIAL_STACK}
+            component={SocialScreenStack}
+            initialParams={{ screen: SocialRoute.SOCIAL }}
+          />
 
           {/* Placeholder to allocate space for emergency button to render in tab bar */}
           <Tab.Screen
