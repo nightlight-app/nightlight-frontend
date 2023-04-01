@@ -50,11 +50,10 @@ const VenueCard = ({ venue, onClose }: VenueCardProps) => {
     return (
       <Pressable
         key={key}
-        style={{
-          ...VenueCardStyles.reactButtonContainer,
-          backgroundColor: didReact ? COLORS.NIGHTLIGHT_BLUE : COLORS.DARK_GRAY,
-          shadowOpacity: didReact ? 1 : 0,
-        }}
+        style={[
+          VenueCardStyles.reactButtonContainer,
+          didReact && VenueCardStyles.reactButtonActive,
+        ]}
         onPress={() => handleToggleReaction(emoji)}>
         <Text style={VenueCardStyles.reactButtonEmoji}>{emoji}</Text>
         <Text style={VenueCardStyles.reactButtonCount}>{count}</Text>

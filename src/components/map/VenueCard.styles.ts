@@ -26,21 +26,27 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     marginBottom: 10,
   },
-  reactButtonsContainer: { flexDirection: 'row', maxWidth: '100%' },
+  reactButtonsContainer: {
+    flexDirection: 'row',
+    maxWidth: '100%',
+  },
   reactButtonContainer: {
+    backgroundColor: COLORS.DARK_GRAY,
     borderRadius: 10,
-    justifyContent: 'center',
     alignItems: 'center',
     marginRight: 5,
     flexDirection: 'row',
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+  },
+  reactButtonActive: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
     shadowColor: COLORS.NIGHTLIGHT_BLUE,
     shadowOffset: {
       width: 0,
       height: 0,
     },
     shadowRadius: 4,
-    paddingVertical: 8,
-    paddingHorizontal: 8,
   },
   reactButtonEmoji: {
     fontSize: 12,
