@@ -71,11 +71,17 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
     navigation.navigate(SocialRoute.FRIEND_SEARCH);
   };
 
+  const handleNavigateToNotifications = () => {
+    navigation.navigate(SocialRoute.NOTIFICATIONS);
+  }
+
   return (
     <View testID={TabRoute.SOCIAL_STACK} style={SocialScreenStyles.container}>
       <SafeAreaView style={SocialScreenStyles.safeview}>
         <View style={SocialScreenStyles.topRow}>
-          <NotificationSvg style={SocialScreenStyles.notifButton} />
+          <Pressable onPress={handleNavigateToNotifications}>
+            <NotificationSvg style={SocialScreenStyles.notifButton} />
+          </Pressable>
           <Text style={SocialScreenStyles.title}>Social</Text>
           <Pressable onPress={handleNavigateToFindFriends}>
             <AddFriendsSvg style={SocialScreenStyles.addFriendsButton} />
