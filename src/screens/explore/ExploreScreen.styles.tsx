@@ -9,7 +9,7 @@ export default StyleSheet.create({
     flexGrow: 1,
   },
   contentContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -25,6 +25,7 @@ export default StyleSheet.create({
     fontSize: 14,
     padding: 10,
     borderRadius: 10,
+    marginHorizontal: 20,
   },
   filtersContainer: {
     flexDirection: 'row',
