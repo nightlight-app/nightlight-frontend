@@ -213,6 +213,7 @@ export interface FriendCardProps {
   name: string;
   index: number;
   isInGroup: boolean;
+  url: string;
 }
 
 export interface SearchUserCardProps {

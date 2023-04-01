@@ -18,7 +18,7 @@ export default StyleSheet.create({
     width: height * 0.05,
     height: height * 0.05,
     borderRadius: (height * 0.15) / 2,
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: COLORS.WHITE,
     margin: 10,
   },

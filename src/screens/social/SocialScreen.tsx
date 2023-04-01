@@ -1,22 +1,60 @@
 import FriendCard from '@nightlight/components/social/FriendCard';
 import AddFriendsSvg from '@nightlight/components/svgs/AddFriendsSvg';
 import NotificationSvg from '@nightlight/components/svgs/NotificationSvg';
-import { BottomTabScreenProps, SocialRoute, TabRoute } from '@nightlight/src/types';
+import {
+  BottomTabScreenProps,
+  SocialRoute,
+  TabRoute,
+} from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
-import { activeGroup, friends } from '@nightlight/src/testData';
+import axios from 'axios';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { SERVER_URL } from '@env';
 
 const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   // number of members in active group
   const [groupCount, setGroupCount] = useState(0);
+  const [activeGroup, setActiveGroup] = useState([])
+
+  // user id
+  const { userDocument } = useAuthContext();
+  let userid = userDocument?._id;
 
   // number of friends
   const [friendCount, setFriendCount] = useState(0);
+  const [friends, setFriends] = useState([])
 
+
+
+  // get active group and friend from backend
   useEffect(() => {
-    setGroupCount(activeGroup.length);
-    setFriendCount(friends.length);
+    //get friends
+    axios
+      .get(`${SERVER_URL}/users/${userid}/friends/`)
+      .then(res => {
+        setFriends(res.data.friends);
+        setFriendCount(friends.length);
+      })
+      .catch(e => {
+        console.log('Error: ', e);
+      });
+
+      //get active group
+      let groupid = userDocument?.currentGroup;
+      if(groupid){
+        axios
+        .get(`${SERVER_URL}/groups/?groupId=${groupid}`)
+        .then(res => {
+          console.log(res.data)
+          setActiveGroup(res.data.group);
+          setGroupCount(activeGroup.length);
+        })
+        .catch(e=> {
+          console.log('Error: ', e)
+        })
+      }
   });
 
   // called when there are no active group
@@ -30,7 +68,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   );
 
   const handleNavigateToFindFriends = () => {
-    navigation.navigate(SocialRoute.FRIEND_SEARCH)
+    navigation.navigate(SocialRoute.FRIEND_SEARCH);
   };
 
   return (
@@ -59,6 +97,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
                 index={index}
                 name={item.name}
                 isInGroup
+                url='@nightlight/assets/images/anon.png'
               />
             ))}
             {/* TODO add glow  */}
@@ -71,11 +110,12 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             </View>
           </View>
           <View style={SocialScreenStyles.friendBox}>
-            {friends.map((item: { name: string }, index) => (
+            {friends.map((item: { firstName: string, lastName: string, imgUrlProfileSmall: string }, index) => (
               <FriendCard
                 key={index}
                 index={index}
-                name={item.name}
+                name={item.firstName + ' ' + item.lastName}
+                url = {item.imgUrlProfileSmall}
                 isInGroup={false}
               />
             ))}

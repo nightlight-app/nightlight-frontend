@@ -9,6 +9,13 @@ const FriendSearchScreen = () => {
 //TODO need to pull users from backend
 let users = TEST_USERS;
 
+// get users from backend
+// useEffect(() => {
+
+
+// })
+
+
      // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
   const [displayedUsers, setDisplayedUsers] =

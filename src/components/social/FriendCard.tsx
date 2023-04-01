@@ -5,8 +5,10 @@ import { FriendCardProps } from '@nightlight/src/types';
 import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
 import PinSvg from '@nightlight/src/components/svgs/PinSvg';
 
-const FriendCard = ({ name, index, isInGroup }: FriendCardProps) => {
+const FriendCard = ({ name, index, isInGroup,url }: FriendCardProps) => {
   let isEvenIndex = index % 2 !== 0;
+
+  let imgPath = url;
 
   return (
     <View
@@ -16,7 +18,7 @@ const FriendCard = ({ name, index, isInGroup }: FriendCardProps) => {
       ]}>
       <View style={FriendCardStyles.leftSide}>
         <Image
-          source={require('@nightlight/assets/images/anon.png')}
+          source={{uri: `${imgPath}`}}
           style={FriendCardStyles.profileImage}
         />
         <View>
