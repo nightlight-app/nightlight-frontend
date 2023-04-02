@@ -61,6 +61,11 @@ export enum SignUpInputField {
   PHONE_NUMBER = 'Phone Number',
 }
 
+export enum ExploreSortFilter {
+  ALL = 'All',
+  TRENDING = 'Trending',
+}
+
 export interface Reaction {
   count: number;
   didReact: boolean;

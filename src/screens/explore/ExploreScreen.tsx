@@ -12,14 +12,9 @@ import {
 import axios from 'axios';
 import { SERVER_URL } from '@env';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
-import { ReactionEmoji, TabRoute, Venue } from '@nightlight/src/types';
+import { ExploreSortFilter, ReactionEmoji, TabRoute, Venue } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import VenueCard from '@nightlight/components/explore/VenueCard';
-
-enum ExploreSortFilter {
-  ALL = 'All',
-  TRENDING = 'Trending',
-}
 
 const ExploreScreen = () => {
   const [venues, setVenues] = useState<Venue[]>([]); // keep track of list of venues queried
@@ -64,7 +59,7 @@ const ExploreScreen = () => {
           Alert.alert('Sort by distance not implemented yet! :(');
           break;
         case ExploreSortFilter.TRENDING:
-          tempVenues = tempVenues.sort(
+          tempVenues.sort(
             (venueA, venueB) =>
               Object.values(venueB.reactions)
                 .map(reaction => reaction.count)
@@ -79,7 +74,7 @@ const ExploreScreen = () => {
         case ReactionEmoji.SHIELD:
         case ReactionEmoji.POOP:
         case ReactionEmoji.PARTY:
-          // FIXME: sometimes getting error: TypeError: Cannot read property 'count' of undefined
+          // FIXME: getting error when sortFilter is 🛡️
           tempVenues = tempVenues.sort(
             (venueA, venueB) =>
               venueB.reactions[sortFilter as ReactionEmoji].count -
@@ -151,7 +146,7 @@ const ExploreScreen = () => {
                   <Text
                     style={[
                       ExploreScreenStyles.filterText,
-                      ExploreScreenStyles.filterTextActive,
+                      isActive && ExploreScreenStyles.filterTextActive,
                     ]}>
                     {currentFilter}
                   </Text>
