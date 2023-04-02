@@ -14,6 +14,8 @@ const VenueReactButton = ({ venue, reaction }: VenueReactButtonProps) => {
 
     // TODO: Asynchronously update reaction in DB
     alert(`TODO: Toggle reaction for ${reaction}!`);
+
+    // TODO: Revert the UI update if the DB update fails
   };
 
   return (
