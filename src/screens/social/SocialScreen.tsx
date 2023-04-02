@@ -1,7 +1,7 @@
 import FriendCard from '@nightlight/components/social/FriendCard';
 import AddFriendsSvg from '@nightlight/components/svgs/AddFriendsSvg';
 import NotificationSvg from '@nightlight/components/svgs/NotificationSvg';
-import { TabRoute, User} from '@nightlight/src/types';
+import { TabRoute, User } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
@@ -19,9 +19,8 @@ const SocialScreen = () => {
   // get current user
   const { userDocument } = useAuthContext();
 
-
   useEffect(() => {
-    console.log(userDocument)
+    console.log(userDocument);
     // console.log(user);
     // axios
     //   .get(

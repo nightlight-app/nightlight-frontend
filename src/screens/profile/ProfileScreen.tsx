@@ -33,7 +33,7 @@ import Button from '@nightlight/components/Button';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
-  
+
   // TODO: change TEST_USER[0] to a fallback user with defualt data
   const user: User = userDocument
     ? {
@@ -41,8 +41,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         // parse the birthday into Date object
         birthday: new Date(userDocument.birthday),
       }
-    : 
-    TEST_USERS[0];
+    : TEST_USERS[0];
 
   // TODO:
   const handleChangeCoverPicture = () => {
@@ -169,9 +168,14 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
           {[...Array(MONTHS_PER_YEAR)].map((_, index) => (
             <View key={index} style={ProfileScreenStyles.monthView}>
               <BottleSvg>
-               {/* <Path d={BottleSvg} fill="#c4c4c4" /> */}
-               <Path d={`M20,180 L80,180 L80,${180 - 0.5 * 140} L20,${180 - 0.5 * 140}Z`} fill="#0080ff" />
-               </BottleSvg>
+                {/* <Path d={BottleSvg} fill="#c4c4c4" /> */}
+                <Path
+                  d={`M20,180 L80,180 L80,${180 - 0.5 * 140} L20,${
+                    180 - 0.5 * 140
+                  }Z`}
+                  fill='#0080ff'
+                />
+              </BottleSvg>
               <Text style={ProfileScreenStyles.monthText}>
                 {getMonthText(index)}
               </Text>

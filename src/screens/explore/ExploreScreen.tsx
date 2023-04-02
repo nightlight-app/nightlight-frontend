@@ -12,11 +12,7 @@ import {
 import axios from 'axios';
 import { SERVER_URL } from '@env';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
-import {
-  ReactionEmoji,
-  TabRoute,
-  Venue,
-} from '@nightlight/src/types';
+import { ReactionEmoji, TabRoute, Venue } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import VenueCard from '@nightlight/components/explore/VenueCard';
 
