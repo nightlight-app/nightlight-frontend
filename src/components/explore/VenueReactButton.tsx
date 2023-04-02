@@ -1,12 +1,18 @@
+import { useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { ReactionEmoji, VenueReactButtonProps } from '@nightlight/src/types';
 import VenueReactButtonStyles from '@nightlight/components/explore/VenueReactButton.styles';
 
 const VenueReactButton = ({ venue, reaction }: VenueReactButtonProps) => {
-  const { count, didReact } = venue.reactions[reaction];
+  const [count, setCount] = useState(venue.reactions[reaction].count);
+  const [didReact, setDidReact] = useState(venue.reactions[reaction].didReact);
 
   const handleToggleReaction = (reaction: ReactionEmoji) => {
-    venue.reactions[reaction].didReact = !didReact;
+    // Preemptively update the count to avoid a delay in the UI
+    setCount(prev => (didReact ? prev - 1 : prev + 1));
+    setDidReact(prev => !prev);
+
+    // TODO: Asynchronously update reaction in DB
     alert(`TODO: Toggle reaction for ${reaction}!`);
   };
 

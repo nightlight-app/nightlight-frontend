@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
 import {
   NAVBAR_HEIGHT,
