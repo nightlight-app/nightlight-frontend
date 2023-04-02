@@ -1,5 +1,9 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
+import {
+  NAVBAR_HEIGHT,
+  SAFE_AREA_BOTTOM_MARGIN,
+} from '@nightlight/src/constants';
 
 const { height, width } = Dimensions.get('window');
 
@@ -48,6 +52,9 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
   },
   venueList: {
+    marginBottom: SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT,
+  },
+  venueListContent: {
     flexGrow: 1,
   },
   venueCardContainer: {
