@@ -169,15 +169,6 @@ export interface MapCardButtonProps {
   onPress: () => void;
 }
 
-export interface ExploreCardProps {
-  name: string;
-  address: string;
-  lat: string;
-  long: string;
-  reactions: Object;
-  id: string;
-}
-
 export interface EmergencyContactProps {
   name: string;
   phone: string;
@@ -197,13 +188,6 @@ export interface CreateGroupCardProps extends MapCardProps {}
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
-}
-
-export interface VenueReactionProps {
-  emoji: string;
-  value: number;
-  active: boolean;
-  id: string;
 }
 
 export interface FriendCardProps {
@@ -307,4 +291,9 @@ export interface UserCircleProps {
 export interface MoodButtonAnimation {
   entry: EntryExitAnimationFunction;
   exit: EntryExitAnimationFunction;
+}
+
+export interface VenueReactButtonProps {
+  venue: Venue;
+  reaction: ReactionEmoji;
 }

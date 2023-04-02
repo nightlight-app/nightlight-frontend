@@ -13,12 +13,12 @@ import axios from 'axios';
 import { SERVER_URL } from '@env';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import {
-  Location,
   ReactionEmoji,
   TabRoute,
   Venue,
 } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import VenueCard from '@nightlight/components/explore/VenueCard';
 
 enum ExploreSortFilter {
   ALL = 'All',
@@ -45,13 +45,13 @@ const ExploreScreen = () => {
   // TODO: IMPORTANT!! make a load more button to continue pagination
 
   useEffect(() => {
-    console.log(
-      `[Explore] Searching venues by '${searchInput}' and sorting venues by '${sortFilter}'...`
-    );
-
     let tempVenues = venues;
 
-    if (tempVenues.length > 0) {
+    if (venues.length > 0) {
+      console.log(
+        `[Explore] Searching venues by '${searchInput}' and sorting venues by '${sortFilter}'...`
+      );
+
       // search venues by name or address
       if (searchInput)
         tempVenues = tempVenues.filter(
@@ -117,56 +117,8 @@ const ExploreScreen = () => {
       });
   }, []);
 
-  const handleStartNavigation = (destination: Location) => {
-    alert(
-      `TODO: Zi, take me to ${destination.latitude}, ${destination.longitude}, please!`
-    );
-  };
-
-  const handleToggleReaction = (emoji: ReactionEmoji) => {
-    // TODO:
-  };
-
   const renderVenueCard = ({ item }: ListRenderItemInfo<Venue>) => (
-    <View style={ExploreScreenStyles.venueCardContainer}>
-      <Text style={ExploreScreenStyles.venueName}>{item.name}</Text>
-      <View style={ExploreScreenStyles.venueDetailsContainer}>
-        <View>
-          <Text style={ExploreScreenStyles.venueAddress}>{item.address}</Text>
-          <Text style={ExploreScreenStyles.venueDistance}>0.3 miles</Text>
-          <View style={ExploreScreenStyles.reactButtonsContainer}>
-            {Object.keys(item.reactions).map((emoji, index) => {
-              const { count, didReact } =
-                item.reactions[emoji as ReactionEmoji];
-
-              return (
-                <TouchableOpacity
-                  key={index}
-                  activeOpacity={0.75}
-                  style={[
-                    ExploreScreenStyles.reactButtonContainer,
-                    didReact && ExploreScreenStyles.buttonActive,
-                  ]}
-                  onPress={() => handleToggleReaction(emoji as ReactionEmoji)}>
-                  <Text style={ExploreScreenStyles.reactButtonEmoji}>
-                    {emoji}
-                  </Text>
-                  <Text style={ExploreScreenStyles.reactButtonCount}>
-                    {count}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.75}
-          onPress={() => handleStartNavigation(item.location)}
-          style={ExploreScreenStyles.navigateButton}>
-          <Text style={ExploreScreenStyles.navigateButtonText}>GO</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <VenueCard venue={item} />
   );
 
   const renderVenueCardSeparator = () => (
@@ -197,7 +149,7 @@ const ExploreScreen = () => {
                   onPress={() => setSortFilter(currentFilter)}
                   style={[
                     ExploreScreenStyles.filterButton,
-                    isActive && ExploreScreenStyles.buttonActive,
+                    isActive && ExploreScreenStyles.filterButtonActive,
                   ]}>
                   <Text
                     style={[
@@ -222,89 +174,6 @@ const ExploreScreen = () => {
         />
       </View>
     </SafeAreaView>
-
-    //       <View style={ExploreScreenStyles.trending}>
-    //         {/* TODO: currently hard coding trending explore cards */}
-    //         {/* <ExploreCard
-    //           name='Jason Aldeans'
-    //           address='10 Broadway'
-    //           lat='0.1m'
-    //           long='0.1m'
-    //           reactions = {{'🔥': 3, '🕺': 2, '🎉': 12, '⚠️': 5, '💩': 11}}
-    //         />
-    //         <ExploreCard
-    //           name='Tin Roof'
-    //           address='134 Demonbreun St'
-    //           lat='0.1m'
-    //           long='0.1m'
-    //           reactions = {{'🔥': 3, '🕺': 2, '🎉': 12, '⚠️': 5, '💩': 11}}
-    //         /> */}
-    //         {/* TODO: turn this into a pressable */}
-    //         <View style={ExploreScreenStyles.seeMore}>
-    //           <Text style={ExploreScreenStyles.seeMoreText}>See more...</Text>
-    //         </View>
-    //       </View>
-
-    //       {/* Filter venues by search */}
-    //       <View style={ExploreScreenStyles.barContainer}>
-    //         {venues
-    //           .filter(
-    //             (item: {
-    //               name: string;
-    //               address: string;
-    //               lat: string;
-    //               long: string;
-    //               location: { latitude: string; longitude: string };
-    //             }) => {
-    //               if (searchInput === '') return item;
-    //               else if (
-    //                 item.name.toLowerCase().includes(searchInput.toLowerCase())
-    //               )
-    //                 return item;
-    //             }
-    //           )
-    //           .sort((a: Venue, b: Venue) => {
-    //             if (selectedEmoji === '') {
-    //               return 0;
-    //             }
-    //             const aReaction =
-    //               a.reactions && a.reactions[selectedEmoji]
-    //                 ? a.reactions[selectedEmoji]
-    //                 : 0;
-    //             const bReaction =
-    //               b.reactions && b.reactions[selectedEmoji]
-    //                 ? b.reactions[selectedEmoji]
-    //                 : 0;
-    //             return bReaction - aReaction;
-    //           })
-    //           .map(
-    //             (
-    //               item: {
-    //                 name: string;
-    //                 address: string;
-    //                 lat: string;
-    //                 long: string;
-    //                 location: { latitude: string; longitude: string };
-    //                 reactions: Object;
-    //                 _id: string;
-    //               },
-    //               index
-    //             ) => (
-    //               <ExploreCard
-    //                 key={item.name}
-    //                 name={item.name}
-    //                 address={item.address}
-    //                 lat={item.location.latitude}
-    //                 long={item.location.longitude}
-    //                 reactions={item.reactions}
-    //                 id={item._id}
-    //               />
-    //             )
-    //           )}
-    //       </View>
-    //     </ScrollView>
-    //   </SafeAreaView>
-    // </View>
   );
 };
 
