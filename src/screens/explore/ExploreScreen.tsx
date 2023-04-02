@@ -136,6 +136,7 @@ const ExploreScreen = () => {
           value={searchInput}
           onChangeText={setSearchInput}
           style={ExploreScreenStyles.searchBar}
+          keyboardAppearance='dark'
         />
         <View style={ExploreScreenStyles.filtersContainer}>
           {Object.values({ ...ExploreSortFilter, ...ReactionEmoji }).map(
