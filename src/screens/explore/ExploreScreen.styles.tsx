@@ -68,4 +68,16 @@ export default StyleSheet.create({
   venueCardSeparator: {
     height: 5,
   },
+  emptyVenuesContainer: {
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexGrow: 1,
+  },
+  emptyVenuesText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
+    color: COLORS.GRAY,
+    textAlign: 'center',
+  },
 });

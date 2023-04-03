@@ -130,6 +130,14 @@ const ExploreScreen = () => {
     <View style={ExploreScreenStyles.venueCardSeparator} />
   );
 
+  const EmptyVenuesComponent = () => (
+    <View style={ExploreScreenStyles.emptyVenuesContainer}>
+      <Text style={ExploreScreenStyles.emptyVenuesText}>
+        🦗 Seems a bit empty here...
+      </Text>
+    </View>
+  );
+
   return (
     <SafeAreaView
       testID={TabRoute.EXPLORE}
@@ -169,15 +177,19 @@ const ExploreScreen = () => {
             }
           )}
         </View>
-        <FlatList
-          style={ExploreScreenStyles.venueList}
-          contentContainerStyle={ExploreScreenStyles.venueListContent}
-          data={filteredVenues}
-          renderItem={renderVenueCard}
-          keyExtractor={venue => venue._id}
-          ItemSeparatorComponent={renderVenueCardSeparator}
-          indicatorStyle='white'
-        />
+        {filteredVenues.length > 0 ? (
+          <FlatList
+            style={ExploreScreenStyles.venueList}
+            contentContainerStyle={ExploreScreenStyles.venueListContent}
+            data={filteredVenues}
+            renderItem={renderVenueCard}
+            keyExtractor={venue => venue._id}
+            ItemSeparatorComponent={renderVenueCardSeparator}
+            indicatorStyle='white'
+          />
+        ) : (
+          <EmptyVenuesComponent />
+        )}
       </View>
     </SafeAreaView>
   );
