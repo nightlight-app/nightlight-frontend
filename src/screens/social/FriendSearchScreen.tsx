@@ -78,7 +78,7 @@ let users = TEST_USERS;
         value={searchInput}
         onChangeText={handleSearchChange}
         style={FriendSearchScreenStyles.searchBar}
-        placeholder='Find your friends!'
+        placeholder='Search by name to find your friends!'
       />
       <FlatList
         style={FriendSearchScreenStyles.contactList}

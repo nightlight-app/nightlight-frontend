@@ -216,6 +216,11 @@ export interface FriendCardProps {
   url: string;
 }
 
+export interface NotificationCardProps {
+  index: number,
+  message: string
+}
+
 export interface SearchUserCardProps {
   firstName: string;
   lastName: string;

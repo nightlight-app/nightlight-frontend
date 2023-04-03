@@ -45,7 +45,7 @@ import {
 } from 'expo-notifications';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
 import FriendSearchScreen from './screens/social/FriendSearchScreen';
-
+import NotificationsScreen from './screens/social/NotificationsScreen';
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
@@ -82,6 +82,10 @@ const SocialScreenStack = () => {
       <SocialStack.Screen
         name={SocialRoute.FRIEND_SEARCH}
         component={FriendSearchScreen}
+      />
+      <SocialStack.Screen
+        name={SocialRoute.NOTIFICATIONS}
+        component ={NotificationsScreen}
       />
     </SocialStack.Navigator>
   );
@@ -160,7 +164,7 @@ const App = () => {
     // Listen for notifications (received while app is open or in background)
     notificationListener.current = addNotificationReceivedListener(
       notification => {
-        setNotification(notification);
+       setNotification(notification);
       }
     );
 
