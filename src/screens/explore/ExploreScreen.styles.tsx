@@ -72,7 +72,7 @@ export default StyleSheet.create({
     paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
     justifyContent: 'center',
     alignItems: 'center',
-    flexGrow: 1,
+    paddingTop: 50,
   },
   emptyVenuesText: {
     fontFamily: Fonts.COMFORTAA_BOLD,

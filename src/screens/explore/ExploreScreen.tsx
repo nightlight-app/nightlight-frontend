@@ -7,8 +7,6 @@ import {
   TouchableOpacity,
   FlatList,
   ListRenderItemInfo,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from 'react-native';
 import axios from 'axios';
 import { SERVER_URL } from '@env';
@@ -132,7 +130,7 @@ const ExploreScreen = () => {
     <View style={ExploreScreenStyles.venueCardSeparator} />
   );
 
-  const EmptyVenuesComponent = () => (
+  const renderEmptyVenues = () => (
     <View style={ExploreScreenStyles.emptyVenuesContainer}>
       <Text style={ExploreScreenStyles.emptyVenuesText}>
         Seems a bit empty here... 🦗
@@ -141,65 +139,61 @@ const ExploreScreen = () => {
   );
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView
-        testID={TabRoute.EXPLORE}
-        style={ExploreScreenStyles.container}>
-        <View style={ExploreScreenStyles.contentContainer}>
-          <Text style={ExploreScreenStyles.title}>Explore</Text>
-          <TextInput
-            placeholder="Let's explore..."
-            value={searchInput}
-            onChangeText={setSearchInput}
-            style={ExploreScreenStyles.searchBar}
-            keyboardAppearance='dark'
-            autoComplete='off'
-            autoCorrect={false}
-            clearButtonMode='while-editing'
-            returnKeyType='search'
-          />
-          <View style={ExploreScreenStyles.filtersContainer}>
-            {Object.values({ ...ExploreSortFilter, ...ReactionEmoji }).map(
-              (currentFilter, index) => {
-                const isActive = currentFilter === sortFilter;
+    <SafeAreaView
+      testID={TabRoute.EXPLORE}
+      style={ExploreScreenStyles.container}>
+      <View style={ExploreScreenStyles.contentContainer}>
+        <Text style={ExploreScreenStyles.title}>Explore</Text>
+        <TextInput
+          placeholder="Let's explore..."
+          value={searchInput}
+          onChangeText={setSearchInput}
+          style={ExploreScreenStyles.searchBar}
+          keyboardAppearance='dark'
+          autoComplete='off'
+          autoCorrect={false}
+          clearButtonMode='while-editing'
+          returnKeyType='search'
+        />
+        <View style={ExploreScreenStyles.filtersContainer}>
+          {Object.values({ ...ExploreSortFilter, ...ReactionEmoji }).map(
+            (currentFilter, index) => {
+              const isActive = currentFilter === sortFilter;
 
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    activeOpacity={0.75}
-                    onPress={() => setSortFilter(currentFilter)}
+              return (
+                <TouchableOpacity
+                  key={index}
+                  activeOpacity={0.75}
+                  onPress={() => setSortFilter(currentFilter)}
+                  style={[
+                    ExploreScreenStyles.filterButton,
+                    isActive && ExploreScreenStyles.filterButtonActive,
+                  ]}>
+                  <Text
                     style={[
-                      ExploreScreenStyles.filterButton,
-                      isActive && ExploreScreenStyles.filterButtonActive,
+                      ExploreScreenStyles.filterText,
+                      isActive && ExploreScreenStyles.filterTextActive,
                     ]}>
-                    <Text
-                      style={[
-                        ExploreScreenStyles.filterText,
-                        isActive && ExploreScreenStyles.filterTextActive,
-                      ]}>
-                      {currentFilter}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              }
-            )}
-          </View>
-          {filteredVenues.length > 0 ? (
-            <FlatList
-              style={ExploreScreenStyles.venueList}
-              contentContainerStyle={ExploreScreenStyles.venueListContent}
-              data={filteredVenues}
-              renderItem={renderVenueCard}
-              keyExtractor={venue => venue._id}
-              ItemSeparatorComponent={renderVenueCardSeparator}
-              indicatorStyle='white'
-            />
-          ) : (
-            <EmptyVenuesComponent />
+                    {currentFilter}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }
           )}
         </View>
-      </SafeAreaView>
-    </TouchableWithoutFeedback>
+        <FlatList
+          style={ExploreScreenStyles.venueList}
+          contentContainerStyle={ExploreScreenStyles.venueListContent}
+          data={filteredVenues}
+          renderItem={renderVenueCard}
+          keyExtractor={venue => venue._id}
+          ListEmptyComponent={renderEmptyVenues}
+          scrollEnabled={filteredVenues.length > 0}
+          ItemSeparatorComponent={renderVenueCardSeparator}
+          indicatorStyle='white'
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
