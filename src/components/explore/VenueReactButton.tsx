@@ -13,7 +13,9 @@ const VenueReactButton = ({ venue, reaction }: VenueReactButtonProps) => {
     setDidReact(prev => !prev);
 
     // TODO: Asynchronously update reaction in DB
-    alert(`TODO: Toggle reaction for ${reaction}!`);
+    console.log(
+      `TODO: Toggle reaction for ${reaction} on venue ${venue._id} for user _!`
+    );
 
     // TODO: Revert the UI update if the DB update fails
   };

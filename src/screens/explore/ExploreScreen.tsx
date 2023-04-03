@@ -7,12 +7,16 @@ import {
   TouchableOpacity,
   FlatList,
   ListRenderItemInfo,
-  Alert,
 } from 'react-native';
 import axios from 'axios';
 import { SERVER_URL } from '@env';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
-import { ExploreSortFilter, ReactionEmoji, TabRoute, Venue } from '@nightlight/src/types';
+import {
+  ExploreSortFilter,
+  ReactionEmoji,
+  TabRoute,
+  Venue,
+} from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import VenueCard from '@nightlight/components/explore/VenueCard';
 
@@ -57,7 +61,9 @@ const ExploreScreen = () => {
       switch (sortFilter) {
         case ExploreSortFilter.ALL:
           // TODO: sort by distance
-          Alert.alert('Sort by distance not implemented yet! :(');
+          console.log(
+            '[Explore] TODO: sort by distance has not been implemented yet :('
+          );
           break;
         case ExploreSortFilter.TRENDING:
           tempVenues.sort(
@@ -76,11 +82,18 @@ const ExploreScreen = () => {
         case ReactionEmoji.POOP:
         case ReactionEmoji.PARTY:
           // FIXME: getting error when sortFilter is 🛡️
-          tempVenues = tempVenues.sort(
-            (venueA, venueB) =>
-              venueB.reactions[sortFilter as ReactionEmoji].count -
-              venueA.reactions[sortFilter as ReactionEmoji].count
-          );
+          try {
+            tempVenues = tempVenues.sort(
+              (venueA, venueB) =>
+                venueB.reactions[sortFilter as ReactionEmoji].count -
+                venueA.reactions[sortFilter as ReactionEmoji].count
+            );
+          } catch (e) {
+            console.error(
+              `[Explore] Error sorting by reaction '${sortFilter}': `,
+              e
+            );
+          }
           break;
         default:
           console.error('[Explore] Invalid sort filter: ', sortFilter);
