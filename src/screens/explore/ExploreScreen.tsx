@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   FlatList,
   ListRenderItemInfo,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import axios from 'axios';
 import { SERVER_URL } from '@env';
@@ -139,59 +141,61 @@ const ExploreScreen = () => {
   );
 
   return (
-    <SafeAreaView
-      testID={TabRoute.EXPLORE}
-      style={ExploreScreenStyles.container}>
-      <View style={ExploreScreenStyles.contentContainer}>
-        <Text style={ExploreScreenStyles.title}>Explore</Text>
-        <TextInput
-          placeholder="Let's explore..."
-          value={searchInput}
-          onChangeText={setSearchInput}
-          style={ExploreScreenStyles.searchBar}
-          keyboardAppearance='dark'
-        />
-        <View style={ExploreScreenStyles.filtersContainer}>
-          {Object.values({ ...ExploreSortFilter, ...ReactionEmoji }).map(
-            (currentFilter, index) => {
-              const isActive = currentFilter === sortFilter;
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView
+        testID={TabRoute.EXPLORE}
+        style={ExploreScreenStyles.container}>
+        <View style={ExploreScreenStyles.contentContainer}>
+          <Text style={ExploreScreenStyles.title}>Explore</Text>
+          <TextInput
+            placeholder="Let's explore..."
+            value={searchInput}
+            onChangeText={setSearchInput}
+            style={ExploreScreenStyles.searchBar}
+            keyboardAppearance='dark'
+          />
+          <View style={ExploreScreenStyles.filtersContainer}>
+            {Object.values({ ...ExploreSortFilter, ...ReactionEmoji }).map(
+              (currentFilter, index) => {
+                const isActive = currentFilter === sortFilter;
 
-              return (
-                <TouchableOpacity
-                  key={index}
-                  activeOpacity={0.75}
-                  onPress={() => setSortFilter(currentFilter)}
-                  style={[
-                    ExploreScreenStyles.filterButton,
-                    isActive && ExploreScreenStyles.filterButtonActive,
-                  ]}>
-                  <Text
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    activeOpacity={0.75}
+                    onPress={() => setSortFilter(currentFilter)}
                     style={[
-                      ExploreScreenStyles.filterText,
-                      isActive && ExploreScreenStyles.filterTextActive,
+                      ExploreScreenStyles.filterButton,
+                      isActive && ExploreScreenStyles.filterButtonActive,
                     ]}>
-                    {currentFilter}
-                  </Text>
-                </TouchableOpacity>
-              );
-            }
+                    <Text
+                      style={[
+                        ExploreScreenStyles.filterText,
+                        isActive && ExploreScreenStyles.filterTextActive,
+                      ]}>
+                      {currentFilter}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }
+            )}
+          </View>
+          {filteredVenues.length > 0 ? (
+            <FlatList
+              style={ExploreScreenStyles.venueList}
+              contentContainerStyle={ExploreScreenStyles.venueListContent}
+              data={filteredVenues}
+              renderItem={renderVenueCard}
+              keyExtractor={venue => venue._id}
+              ItemSeparatorComponent={renderVenueCardSeparator}
+              indicatorStyle='white'
+            />
+          ) : (
+            <EmptyVenuesComponent />
           )}
         </View>
-        {filteredVenues.length > 0 ? (
-          <FlatList
-            style={ExploreScreenStyles.venueList}
-            contentContainerStyle={ExploreScreenStyles.venueListContent}
-            data={filteredVenues}
-            renderItem={renderVenueCard}
-            keyExtractor={venue => venue._id}
-            ItemSeparatorComponent={renderVenueCardSeparator}
-            indicatorStyle='white'
-          />
-        ) : (
-          <EmptyVenuesComponent />
-        )}
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
