@@ -49,7 +49,8 @@ export default StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        paddingLeft: '5%'
       },
       notifCircle: {
         width: 25,
@@ -58,11 +59,11 @@ export default StyleSheet.create({
         backgroundColor: COLORS.RED,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 5,
+        marginLeft: '3%',
       },
       numberText: {
-        fontFamily: Fonts.COMFORTAA_REGULAR,
-        fontSize: 16,
+        fontFamily: Fonts.COMFORTAA_BOLD,
+        fontSize: 14,
         color: COLORS.WHITE,
       },
 });
