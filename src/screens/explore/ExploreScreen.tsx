@@ -35,6 +35,7 @@ const ExploreScreen = () => {
 
   // TODO: IMPORTANT!! make a load more button to continue pagination
 
+  // filter / sort venues on search input or sort filter change
   useEffect(() => {
     let tempVenues = venues;
 

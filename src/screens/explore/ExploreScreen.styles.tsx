@@ -1,17 +1,19 @@
 import { StyleSheet } from 'react-native';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
 import {
+  DEVICE_HEIGHT,
+  EMERGENCY_BUTTON_RADIUS,
   NAVBAR_HEIGHT,
-  SAFE_AREA_BOTTOM_MARGIN,
 } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    flexGrow: 1,
+    height: DEVICE_HEIGHT,
   },
   contentContainer: {
     paddingHorizontal: 10,
+    flex: 1,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -59,11 +61,9 @@ export default StyleSheet.create({
   filterTextActive: {
     color: COLORS.WHITE,
   },
-  venueList: {
-    marginBottom: SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT,
-  },
+  venueList: {},
   venueListContent: {
-    flexGrow: 1,
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   venueCardSeparator: {
     height: 5,
