@@ -135,7 +135,7 @@ const ExploreScreen = () => {
   const EmptyVenuesComponent = () => (
     <View style={ExploreScreenStyles.emptyVenuesContainer}>
       <Text style={ExploreScreenStyles.emptyVenuesText}>
-        🦗 Seems a bit empty here...
+        Seems a bit empty here... 🦗
       </Text>
     </View>
   );
@@ -153,6 +153,10 @@ const ExploreScreen = () => {
             onChangeText={setSearchInput}
             style={ExploreScreenStyles.searchBar}
             keyboardAppearance='dark'
+            autoComplete='off'
+            autoCorrect={false}
+            clearButtonMode='while-editing'
+            returnKeyType='search'
           />
           <View style={ExploreScreenStyles.filtersContainer}>
             {Object.values({ ...ExploreSortFilter, ...ReactionEmoji }).map(
