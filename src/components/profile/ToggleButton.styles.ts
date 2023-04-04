@@ -22,5 +22,14 @@ export default StyleSheet.create({
     height: 25,
     width: 25,
     borderRadius: 25 / 2,
+    shadowColor: COLORS.NIGHTLIGHT_BLACK,
+    shadowOffset: {
+        width: 0,
+        height: 0,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3,
+    borderColor: COLORS.GRAY,
+    borderWidth: 1,
   },
 });
