@@ -1,22 +1,42 @@
 import React, { useState } from 'react';
 import { View, Image, Text, Button, Pressable } from 'react-native';
-import UserCardStyles from '@nightlight/components/social/UserCard.styles';
+import UserCardStyles from '@nightlight/components/social/SearchUserCard.styles';
 import { SearchUserCardProps } from '@nightlight/src/types';
 import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import axios from 'axios';
 
 const SearchUserCard = ({
   firstName,
   lastName,
   index,
   isAdded,
+  image
 }: SearchUserCardProps) => {
   let isEvenIndex = index % 2 !== 0;
   const [added, setAdded] = useState(isAdded);
   const [addText, setAddText] = useState(added? "ADDED" : "ADD");
+ 
 
   const handlePress = () => {
     setAdded(!added);
     setAddText(added? "ADD" : "ADDED");
+
+    // send request to backend to add friend
+    if(added){
+      axios
+      .patch(
+        `${SERVER_URL}/users/${userId}/requestFriend`,
+        {}
+      )
+      .then(response => {
+        setDisplayedUsers(response.data.users);
+      })
+      .catch(e => {
+        console.log('Error: ', e.response.data.message);
+        setDisplayedUsers([]);
+      });
+    }
   }
 
   return (
@@ -27,7 +47,7 @@ const SearchUserCard = ({
       ]}>
       <View style={UserCardStyles.leftSide}>
         <Image
-          source={require('@nightlight/assets/images/anon.png')}
+          source={image==='@nightlight/assets/images/anon.png'?require('@nightlight/assets/images/anon.png'): {uri: `${image}`}}
           style={UserCardStyles.profileImage}
         />
         <View>

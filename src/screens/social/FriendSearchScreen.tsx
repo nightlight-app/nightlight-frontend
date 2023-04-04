@@ -1,55 +1,77 @@
 import { SocialRoute, User } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, TextInput, ListRenderItemInfo, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TextInput,
+  ListRenderItemInfo,
+  FlatList,
+} from 'react-native';
 import FriendSearchScreenStyles from './FriendSearchScreen.styles';
 import { TEST_USERS } from '@nightlight/src/testData';
-import SearchUserCard from '@nightlight/components/social/UserCard';
+import SearchUserCard from '@nightlight/components/social/SearchUserCard';
+import axios from 'axios';
+import { SERVER_URL } from '@env';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const FriendSearchScreen = () => {
-//TODO need to pull users from backend
-let users = TEST_USERS;
-
-// get users from backend
-// useEffect(() => {
-
-
-// })
-
-
-     // keep track of user's search input
+  const { userDocument } = useAuthContext();
+  // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
-  const [displayedUsers, setDisplayedUsers] =
-  useState<User[]>(users);
+  const [displayedUsers, setDisplayedUsers] = useState<User[]>([]);
   const handleSearchChange = (text: string) => setSearchInput(text);
-
 
   // TODO: improve search algorithm?
   useEffect(() => {
-    if (!searchInput) setDisplayedUsers(users);
-    else
-      setDisplayedUsers(
-        users.filter((user: User) =>
-          user.firstName.toLowerCase().includes(searchInput.toLowerCase()) || user.lastName.toLowerCase().includes(searchInput.toLowerCase())
-        )
-      );
+    axios
+      .get(
+        `${SERVER_URL}/users/search/?query=${searchInput}&count=${10}&page=${1}`,
+        {}
+      )
+      .then(response => {
+        setDisplayedUsers(response.data.users);
+      })
+      .catch(e => {
+        console.log('Error: ', e.response.data.message);
+        setDisplayedUsers([]);
+      });
+    setDisplayedUsers(
+      displayedUsers.filter(
+        (user: User) =>
+          user.firstName.toLowerCase().includes(searchInput.toLowerCase()) ||
+          user.lastName.toLowerCase().includes(searchInput.toLowerCase())
+      )
+    );
   }, [searchInput]);
 
-   // TODO: fix type?
-   const renderUser = ({
-    item,
-    index,
-  }: ListRenderItemInfo<User>) => {
+  // TODO: fix type?
+  const renderUser = ({ item, index }: ListRenderItemInfo<User>) => {
     const isFirstItem = index === 0;
-    const isLastItem = index === users.length - 1;
+    const isLastItem = index === displayedUsers.length - 1;
+ // check if user is already a friend
+   let isAdded = false
+   if(userDocument.friends?.includes(item._id)){
+    isAdded = true;
+   }
 
+   //check if user is self
+    if(userDocument._id === item._id){
+      return null;
+    }
     return (
       <SearchUserCard
         index={index}
         firstName={item.firstName}
-        lastName = {item.lastName}
+        lastName={item.lastName}
         isFirstItem={isFirstItem}
         isLastItem={isLastItem}
-        isAdded = {false}
+        isAdded={isAdded}
+        image={
+          item.imgUrlProfileSmall === undefined
+            ? '@nightlight/assets/images/anon.png'
+            : item.imgUrlProfileSmall
+        }
       />
     );
   };
@@ -65,9 +87,6 @@ let users = TEST_USERS;
       </Text>
     </View>
   );
-
-
-
 
   return (
     <SafeAreaView

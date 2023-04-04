@@ -9,9 +9,9 @@ const NotificationsScreen = () => {
   const [counter, setCounter] = useState(0);
   //TODO: need to pull notifications from backend (getNotifications)
 
-  useEffect(() => {
-    setCounter(notifications.length)
-  });
+//   useEffect(() => {
+//     setCounter(notifications.length)
+//   });
 
   // called when there are no active group
   const renderEmptyGroup = () => (
@@ -35,10 +35,12 @@ const NotificationsScreen = () => {
             </View>
         </View>
         <View>
-          {notifications.map((item: { body: string }, index) => (
+          {notifications.map((item: { body: string, userId: { $oid: string }}, index) => (
             <NotificationCard
-              index={index}
-              message={item.body}></NotificationCard>
+            index={index}
+            message={item.body}
+            userId={item.userId.$oid}
+              ></NotificationCard>
           ))}
         </View>
       </ScrollView>

@@ -218,7 +218,8 @@ export interface FriendCardProps {
 
 export interface NotificationCardProps {
   index: number,
-  message: string
+  message: string,
+  userId: string
 }
 
 export interface SearchUserCardProps {
@@ -228,6 +229,7 @@ export interface SearchUserCardProps {
   isAdded: boolean;
   isFirstItem: boolean;
   isLastItem: boolean;
+  image: string;
 }
 
 /**

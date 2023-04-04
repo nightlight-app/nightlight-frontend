@@ -38,7 +38,13 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   textbox: {
-    width: '70%',
+    width: '65%',
     marginLeft: '2%',
   },
+  time: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 10,
+    color: COLORS.GRAY,
+    marginLeft: '3%'
+  }
 });
