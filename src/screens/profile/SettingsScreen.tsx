@@ -42,6 +42,27 @@ const SettingsScreen = () => {
     );
   }, [notifyEmergencyAlerts]);
 
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to delete your account? This action cannot be undone.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () =>
+            alert(
+              'TODO: prompt user to enter password, then delete account in Firebase and remove user from database'
+            ),
+          style: 'destructive',
+        },
+      ]
+    );
+  };
+
   const handleSignOut = () => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
       {
@@ -98,7 +119,7 @@ const SettingsScreen = () => {
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>Account</Text>
           <Button
-            onPress={() => alert('TODO: delete account')}
+            onPress={handleDeleteAccount}
             text='Delete Account'
             textColor={COLORS.RED}
             style={SettingsScreenStyles.dangerButton}
