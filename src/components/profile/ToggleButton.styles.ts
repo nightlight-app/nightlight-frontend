@@ -1,27 +1,28 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '@nightlight/src/global.styles';
+import { TOGGLE_BUTTON_DIAMETER, TOGGLE_BUTTON_RADIUS } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
-    height: 25,
-    width: 50,
+    height: TOGGLE_BUTTON_DIAMETER,
+    width: TOGGLE_BUTTON_DIAMETER * 2,
     position: 'relative',
-    borderRadius: 25 / 2,
-    paddingRight: 25 / 2,
+    borderRadius: TOGGLE_BUTTON_RADIUS,
+    paddingRight: TOGGLE_BUTTON_RADIUS,
   },
   slider: {
     position: 'absolute',
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    borderRadius: 25 / 2,
+    borderRadius: TOGGLE_BUTTON_RADIUS,
     height: '100%',
   },
   button: {
     position: 'absolute',
     backgroundColor: COLORS.WHITE,
-    height: 25,
-    width: 25,
-    borderRadius: 25 / 2,
+    height: TOGGLE_BUTTON_DIAMETER,
+    width: TOGGLE_BUTTON_DIAMETER,
+    borderRadius: TOGGLE_BUTTON_RADIUS,
     shadowColor: COLORS.NIGHTLIGHT_BLACK,
     shadowOffset: {
         width: 0,

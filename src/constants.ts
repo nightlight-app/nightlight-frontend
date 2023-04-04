@@ -61,3 +61,7 @@ export const MIN_PASSWORD_LENGTH: number = 6; // minimum length of the password 
 // Error Messages for Users
 export const UNEXPECTED_ERROR_MESSAGE: string =
   "Well, that wasn't supposed to happen... contact us if this keeps happening (nightlight.headquarters@gmail.com).";
+
+// Toggle button
+export const TOGGLE_BUTTON_DIAMETER: number = 28; // diameter of the toggle button in points
+export const TOGGLE_BUTTON_RADIUS: number = TOGGLE_BUTTON_DIAMETER / 2; // radius of the toggle button in points
