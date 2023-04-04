@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, SafeAreaView, View, Alert } from 'react-native';
 import SettingsScreenStyles from '@nightlight/src/screens/profile/SettingsScreen.styles';
 import Button from '@nightlight/components/Button';
@@ -20,6 +20,27 @@ const SettingsScreen = () => {
   const handleToggleNotifyEmergencyAlerts = () => {
     setNotifyEmergencyAlerts(prev => !prev);
   };
+
+  useEffect(() => {
+    console.log(
+      '[Settings] TODO: change notifyFriendRequests to',
+      notifyFriendRequests
+    );
+  }, [notifyFriendRequests]);
+
+  useEffect(() => {
+    console.log(
+      '[Settings] TODO: change notifyGroupInvitations to',
+      notifyGroupInvitations
+    );
+  }, [notifyGroupInvitations]);
+
+  useEffect(() => {
+    console.log(
+      '[Settings] TODO: change notifyEmergencyAlerts to',
+      notifyEmergencyAlerts
+    );
+  }, [notifyEmergencyAlerts]);
 
   const handleSignOut = () => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
