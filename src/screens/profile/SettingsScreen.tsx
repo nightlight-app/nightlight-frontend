@@ -3,6 +3,7 @@ import SettingsScreenStyles from '@nightlight/src/screens/profile/SettingsScreen
 import Button from '@nightlight/components/Button';
 import { COLORS } from '@nightlight/src/global.styles';
 import { handleFirebaseSignOut } from '@nightlight/src/utils/utils';
+import ToggleButton from '@nightlight/components/profile/ToggleButton';
 
 const SettingsScreen = () => {
   const handleSignOut = () => {
@@ -47,12 +48,7 @@ const SettingsScreen = () => {
                 description
               </Text>
             </View>
-            <View
-              style={{
-                backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-                height: 25,
-                width: 50,
-              }}></View>
+            <ToggleButton />
           </View>
           <View style={SettingsScreenStyles.settingContainer}>
             <View>
@@ -63,12 +59,7 @@ const SettingsScreen = () => {
                 description
               </Text>
             </View>
-            <View
-              style={{
-                backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-                height: 25,
-                width: 50,
-              }}></View>
+            <ToggleButton />
           </View>
           <View style={SettingsScreenStyles.settingContainer}>
             <View>
@@ -79,12 +70,7 @@ const SettingsScreen = () => {
                 description
               </Text>
             </View>
-            <View
-              style={{
-                backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-                height: 25,
-                width: 50,
-              }}></View>
+            <ToggleButton />
           </View>
         </View>
         <View style={SettingsScreenStyles.category}>
