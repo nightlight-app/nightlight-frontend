@@ -49,7 +49,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
 
   // TODO:
   const handleSettingsPress = () => {
-    Alert.alert('TODO: navigate to settings');
+    navigation.navigate(ProfileRoute.SETTINGS);
   };
 
   // TODO:
@@ -115,13 +115,6 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         <Text style={ProfileScreenStyles.phoneNumber}>
           {formatPhoneNumber(user.phone)}
         </Text>
-
-        {/* TODO: move logout button? */}
-        <Button
-          onPress={handleFirebaseSignOut}
-          text='Logout'
-          style={ProfileScreenStyles.logOutButton}
-        />
 
         {/* Profile Statistics */}
         <View style={ProfileScreenStyles.profileStatsContainer}>
