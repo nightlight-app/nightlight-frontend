@@ -4,7 +4,7 @@ import SettingsScreenStyles from '@nightlight/src/screens/profile/SettingsScreen
 import Button from '@nightlight/components/Button';
 import { COLORS } from '@nightlight/src/global.styles';
 import { handleFirebaseSignOut } from '@nightlight/src/utils/utils';
-import ToggleButton from '@nightlight/components/profile/ToggleButton';
+import ToggleSetting from '@nightlight/components/profile/ToggleSetting';
 
 const SettingsScreen = () => {
   const [notifyFriendRequests, setNotifyFriendRequests] = useState(true);
@@ -75,53 +75,25 @@ const SettingsScreen = () => {
         </View>
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>Notifications</Text>
-          <View style={SettingsScreenStyles.settingContainer}>
-            <View style={SettingsScreenStyles.settingDetails}>
-              <Text style={SettingsScreenStyles.settingLabel}>
-                Friend requests
-              </Text>
-              <Text style={SettingsScreenStyles.settingDescription}>
-                Get notified when you receive a friend request
-              </Text>
-            </View>
-            <ToggleButton
-              value={notifyFriendRequests}
-              toggleValue={handleToggleNotifyFriendRequests}
-            />
-          </View>
-          <View style={SettingsScreenStyles.settingContainer}>
-            <View style={SettingsScreenStyles.settingDetails}>
-              <Text style={SettingsScreenStyles.settingLabel}>
-                Group invitations
-              </Text>
-              <Text style={SettingsScreenStyles.settingDescription}>
-                Get notified when you're invited to a group
-              </Text>
-            </View>
-            <ToggleButton
-              value={notifyGroupInvitations}
-              toggleValue={handleToggleNotifyGroupInvitations}
-            />
-          </View>
-          <View style={SettingsScreenStyles.settingContainer}>
-            <View style={SettingsScreenStyles.settingDetails}>
-              <Text
-                style={[
-                  SettingsScreenStyles.settingLabel,
-                  SettingsScreenStyles.dangerLabel,
-                ]}>
-                Emergency alerts (recommended)
-              </Text>
-              <Text style={SettingsScreenStyles.settingDescription}>
-                Get notified when one of your group members is in an emergency
-                situation
-              </Text>
-            </View>
-            <ToggleButton
-              value={notifyEmergencyAlerts}
-              toggleValue={handleToggleNotifyEmergencyAlerts}
-            />
-          </View>
+          <ToggleSetting
+            label='Friend requests'
+            description='Get notified when you receive a friend request'
+            value={notifyFriendRequests}
+            toggleValue={handleToggleNotifyFriendRequests}
+          />
+          <ToggleSetting
+            label='Group invitations'
+            description='Get notified when you receive a group invitation'
+            value={notifyGroupInvitations}
+            toggleValue={handleToggleNotifyGroupInvitations}
+          />
+          <ToggleSetting
+            label='Emergency alerts (recommended)'
+            description='Get notified when one of your group members is in an emergency situation'
+            value={notifyEmergencyAlerts}
+            toggleValue={handleToggleNotifyEmergencyAlerts}
+            dangerous
+          />
         </View>
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>Account</Text>

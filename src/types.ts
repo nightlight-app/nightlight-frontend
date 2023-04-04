@@ -310,3 +310,9 @@ export interface ToggleButtonProps {
   value: boolean;
   toggleValue: () => void;
 }
+
+export interface ToggleSettingProps extends ToggleButtonProps {
+  label: string;
+  description?: string;
+  dangerous?: boolean;
+}

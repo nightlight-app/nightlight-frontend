@@ -30,31 +30,6 @@ export default StyleSheet.create({
     fontSize: 12,
     color: COLORS.GRAY,
   },
-  settingContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginVertical: 5,
-  },
-  settingDetails: {
-    marginRight: 10,
-    flex: 1,
-  },
-  settingLabel: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 14,
-    color: COLORS.GRAY,
-  },
-  settingDescription: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 12,
-    color: COLORS.DARK_GRAY,
-    marginTop: 3,
-  },
-  dangerLabel: {
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    color: COLORS.RED,
-  },
   dangerButton: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     borderColor: COLORS.RED,
