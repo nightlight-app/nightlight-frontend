@@ -18,7 +18,7 @@ import {
   Venue,
 } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import VenueCard from '@nightlight/components/explore/VenueCard';
+import VenueCard from '@nightlight/components/explore/ExploreCard';
 
 const ExploreScreen = () => {
   const [venues, setVenues] = useState<Venue[]>([]); // keep track of list of venues queried

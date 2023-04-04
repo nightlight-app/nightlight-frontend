@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Location, ReactionEmoji, Venue } from '@nightlight/src/types';
-import VenueCardStyles from '@nightlight/components/explore/VenueCard.styles';
-import VenueReactButton from './VenueReactButton';
+import ExploreCardStyles from '@nightlight/components/explore/ExploreCard.styles';
+import VenueReactButton from '@nightlight/components/VenueReactButton';
 
 const VenueCard = ({ venue }: { venue: Venue }) => {
   const handleStartNavigation = (destination: Location) => {
@@ -11,13 +11,13 @@ const VenueCard = ({ venue }: { venue: Venue }) => {
   };
 
   return (
-    <View style={VenueCardStyles.venueCardContainer}>
-      <Text style={VenueCardStyles.venueName}>{venue.name}</Text>
-      <View style={VenueCardStyles.venueDetailsContainer}>
+    <View style={ExploreCardStyles.venueCardContainer}>
+      <Text style={ExploreCardStyles.venueName}>{venue.name}</Text>
+      <View style={ExploreCardStyles.venueDetailsContainer}>
         <View>
-          <Text style={VenueCardStyles.venueAddress}>{venue.address}</Text>
-          <Text style={VenueCardStyles.venueDistance}>0.3 miles</Text>
-          <View style={VenueCardStyles.reactButtonsContainer}>
+          <Text style={ExploreCardStyles.venueAddress}>{venue.address}</Text>
+          <Text style={ExploreCardStyles.venueDistance}>0.3 miles</Text>
+          <View style={ExploreCardStyles.reactButtonsContainer}>
             {Object.keys(venue.reactions).map((emoji, index) => (
               <VenueReactButton
                 key={index}
@@ -30,8 +30,8 @@ const VenueCard = ({ venue }: { venue: Venue }) => {
         <TouchableOpacity
           activeOpacity={0.75}
           onPress={() => handleStartNavigation(venue.location)}
-          style={VenueCardStyles.navigateButton}>
-          <Text style={VenueCardStyles.navigateButtonText}>GO</Text>
+          style={ExploreCardStyles.navigateButton}>
+          <Text style={ExploreCardStyles.navigateButtonText}>GO</Text>
         </TouchableOpacity>
       </View>
     </View>

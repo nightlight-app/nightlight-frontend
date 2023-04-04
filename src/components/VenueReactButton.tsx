@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { ReactionEmoji, VenueReactButtonProps } from '@nightlight/src/types';
-import VenueReactButtonStyles from '@nightlight/components/explore/VenueReactButton.styles';
+import VenueReactButtonStyles from '@nightlight/components/VenueReactButton.styles';
 
 const VenueReactButton = ({ venue, reaction }: VenueReactButtonProps) => {
   const [count, setCount] = useState(venue.reactions[reaction].count);
@@ -18,6 +18,7 @@ const VenueReactButton = ({ venue, reaction }: VenueReactButtonProps) => {
     );
 
     // TODO: Revert the UI update if the DB update fails
+    // TODO: If DB update fails we should also show the error message similar to what we have in signup/login page.
   };
 
   return (

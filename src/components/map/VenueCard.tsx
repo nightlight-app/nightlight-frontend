@@ -44,6 +44,7 @@ const VenueCard = ({ venue, onClose }: VenueCardProps) => {
     }
   };
 
+  // TODO: Refactor to use VenueReactButton
   const renderReactButton = (emoji: ReactionEmoji, key: number) => {
     const { count, didReact } = reactions[emoji];
 
