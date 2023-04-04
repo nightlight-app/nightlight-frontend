@@ -29,7 +29,12 @@ const SettingsScreen = () => {
           <Text style={SettingsScreenStyles.categoryDescription}>
             Who can see your location?
           </Text>
-          <View style={{ backgroundColor: COLORS.NIGHTLIGHT_BLACK, height: 40, marginVertical: 5 }}></View>
+          <View
+            style={{
+              backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+              height: 40,
+              marginVertical: 5,
+            }}></View>
         </View>
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>Notifications</Text>
