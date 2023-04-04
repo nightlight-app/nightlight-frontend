@@ -302,3 +302,7 @@ export interface VenueReactButtonProps {
   venue: Venue;
   reaction: ReactionEmoji;
 }
+
+export interface ExploreCardProps {
+  venue: Venue;
+}

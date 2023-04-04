@@ -1,9 +1,10 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Location, ReactionEmoji, Venue } from '@nightlight/src/types';
+import { Location, ReactionEmoji } from '@nightlight/src/types';
 import ExploreCardStyles from '@nightlight/components/explore/ExploreCard.styles';
 import VenueReactButton from '@nightlight/components/VenueReactButton';
+import { ExploreCardProps } from '@nightlight/src/types';
 
-const VenueCard = ({ venue }: { venue: Venue }) => {
+const ExploreCard = ({ venue }: ExploreCardProps) => {
   const handleStartNavigation = (destination: Location) => {
     alert(
       `TODO: Zi, take me to ${destination.latitude}, ${destination.longitude}, please!`
@@ -37,4 +38,4 @@ const VenueCard = ({ venue }: { venue: Venue }) => {
     </View>
   );
 };
-export default VenueCard;
+export default ExploreCard;
