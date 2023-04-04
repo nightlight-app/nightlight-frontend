@@ -1,118 +1,83 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
-
-const { height, width } = Dimensions.get('window');
+import {
+  DEVICE_HEIGHT,
+  EMERGENCY_BUTTON_RADIUS,
+  NAVBAR_HEIGHT,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
-    display: 'flex',
-    flexGrow: 1,
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
+    height: DEVICE_HEIGHT,
   },
-  safeview: {
-    marginBottom: 114,
-    width: '100%',
-    maxWidth: 650,
-    height: height,
-  },
-  headerContainer: {
-    paddingBottom: 15,
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    shadowColor: COLORS.BLACK,
-    shadowOffset: {
-      height: 4,
-      width: 0,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.3,
+  contentContainer: {
+    paddingHorizontal: 10,
+    flex: 1,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 24,
     color: COLORS.WHITE,
-    alignSelf: 'center',
+    marginVertical: 10,
+    textAlign: 'center',
+  },
+  searchBar: {
+    backgroundColor: COLORS.WHITE,
+    color: COLORS.BLACK,
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 14,
     padding: 10,
-  },
-  trending: {
-    display: 'flex',
-    width: '98%',
-    alignItems: 'center',
     borderRadius: 10,
-    borderColor: COLORS.ORANGE,
-    borderWidth: 1,
-    marginTop: 3,
-    paddingTop: 7,
-    paddingBottom: 7,
+    marginHorizontal: 20,
   },
-  seeMore: {
-    width: '95%',
+  filtersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 20,
+  },
+  filterButton: {
     backgroundColor: COLORS.DARK_GRAY,
-    borderRadius: 5,
-    display: 'flex',
-    alignItems: 'center',
+    borderRadius: 10,
     justifyContent: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 5,
   },
-  seeMoreText: {
+  filterButtonActive: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    shadowOpacity: 1,
+    shadowColor: COLORS.NIGHTLIGHT_BLUE,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowRadius: 4,
+  },
+  filterText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 14,
     color: COLORS.GRAY,
   },
-  barContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '97%',
-    alignItems: 'center',
-    marginTop: 7,
+  filterTextActive: {
+    color: COLORS.WHITE,
   },
-  search: {
-    width: '90%',
-    alignSelf: 'center',
-    height: 25,
-    backgroundColor: COLORS.WHITE,
-    borderRadius: 10,
-    display: 'flex',
-    alignItems: 'flex-start',
+  venueList: {},
+  venueListContent: {
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+  },
+  venueCardSeparator: {
+    height: 5,
+  },
+  emptyVenuesContainer: {
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
     justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 50,
   },
-  searchText: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
+  emptyVenuesText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 14,
     color: COLORS.GRAY,
-    marginLeft: 10,
-  },
-  trendbox: {
-    display: 'flex',
-    marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  reactionContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginRight: 20,
-  },
-  trendingText: {
-    color: COLORS.ORANGE,
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 16,
-    marginLeft: 20,
-  },
-  reactionBox: {
-    backgroundColor: COLORS.GRAY,
-    borderRadius: 10,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 3,
-    padding: 2,
-  },
-  allText: {
-    color: COLORS.WHITE,
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 15,
-    margin: 3,
+    textAlign: 'center',
   },
 });
