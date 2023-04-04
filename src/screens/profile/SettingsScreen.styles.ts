@@ -36,6 +36,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginVertical: 5,
   },
+  settingDetails: {
+    marginRight: 10,
+    flex: 1,
+  },
   settingLabel: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
@@ -44,8 +48,12 @@ export default StyleSheet.create({
   settingDescription: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 12,
-    color: COLORS.GRAY,
+    color: COLORS.DARK_GRAY,
     marginTop: 3,
+  },
+  dangerLabel: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    color: COLORS.RED,
   },
   dangerButton: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,

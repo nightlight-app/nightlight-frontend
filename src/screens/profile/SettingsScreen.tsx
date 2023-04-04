@@ -76,12 +76,12 @@ const SettingsScreen = () => {
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>Notifications</Text>
           <View style={SettingsScreenStyles.settingContainer}>
-            <View>
+            <View style={SettingsScreenStyles.settingDetails}>
               <Text style={SettingsScreenStyles.settingLabel}>
                 Friend requests
               </Text>
               <Text style={SettingsScreenStyles.settingDescription}>
-                description
+                Get notified when you receive a friend request
               </Text>
             </View>
             <ToggleButton
@@ -90,12 +90,12 @@ const SettingsScreen = () => {
             />
           </View>
           <View style={SettingsScreenStyles.settingContainer}>
-            <View>
+            <View style={SettingsScreenStyles.settingDetails}>
               <Text style={SettingsScreenStyles.settingLabel}>
                 Group invitations
               </Text>
               <Text style={SettingsScreenStyles.settingDescription}>
-                description
+                Get notified when you're invited to a group
               </Text>
             </View>
             <ToggleButton
@@ -104,12 +104,17 @@ const SettingsScreen = () => {
             />
           </View>
           <View style={SettingsScreenStyles.settingContainer}>
-            <View>
-              <Text style={SettingsScreenStyles.settingLabel}>
-                Emergency alerts
+            <View style={SettingsScreenStyles.settingDetails}>
+              <Text
+                style={[
+                  SettingsScreenStyles.settingLabel,
+                  SettingsScreenStyles.dangerLabel,
+                ]}>
+                Emergency alerts (recommended)
               </Text>
               <Text style={SettingsScreenStyles.settingDescription}>
-                description
+                Get notified when one of your group members is in an emergency
+                situation
               </Text>
             </View>
             <ToggleButton
