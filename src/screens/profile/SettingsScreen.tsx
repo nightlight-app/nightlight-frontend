@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Text, SafeAreaView, View, Alert } from 'react-native';
 import SettingsScreenStyles from '@nightlight/src/screens/profile/SettingsScreen.styles';
 import Button from '@nightlight/components/Button';
@@ -6,6 +7,20 @@ import { handleFirebaseSignOut } from '@nightlight/src/utils/utils';
 import ToggleButton from '@nightlight/components/profile/ToggleButton';
 
 const SettingsScreen = () => {
+  const [notifyFriendRequests, setNotifyFriendRequests] = useState(true);
+  const [notifyGroupInvitations, setNotifyGroupInvitations] = useState(true);
+  const [notifyEmergencyAlerts, setNotifyEmergencyAlerts] = useState(true);
+
+  const handleToggleNotifyFriendRequests = () => {
+    setNotifyFriendRequests(prev => !prev);
+  };
+  const handleToggleNotifyGroupInvitations = () => {
+    setNotifyGroupInvitations(prev => !prev);
+  };
+  const handleToggleNotifyEmergencyAlerts = () => {
+    setNotifyEmergencyAlerts(prev => !prev);
+  };
+
   const handleSignOut = () => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
       {
@@ -48,7 +63,10 @@ const SettingsScreen = () => {
                 description
               </Text>
             </View>
-            <ToggleButton />
+            <ToggleButton
+              value={notifyFriendRequests}
+              toggleValue={handleToggleNotifyFriendRequests}
+            />
           </View>
           <View style={SettingsScreenStyles.settingContainer}>
             <View>
@@ -59,7 +77,10 @@ const SettingsScreen = () => {
                 description
               </Text>
             </View>
-            <ToggleButton />
+            <ToggleButton
+              value={notifyGroupInvitations}
+              toggleValue={handleToggleNotifyGroupInvitations}
+            />
           </View>
           <View style={SettingsScreenStyles.settingContainer}>
             <View>
@@ -70,7 +91,10 @@ const SettingsScreen = () => {
                 description
               </Text>
             </View>
-            <ToggleButton />
+            <ToggleButton
+              value={notifyEmergencyAlerts}
+              toggleValue={handleToggleNotifyEmergencyAlerts}
+            />
           </View>
         </View>
         <View style={SettingsScreenStyles.category}>

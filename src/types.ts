@@ -305,3 +305,8 @@ export interface MoodButtonAnimation {
   entry: EntryExitAnimationFunction;
   exit: EntryExitAnimationFunction;
 }
+
+export interface ToggleButtonProps {
+  value: boolean;
+  toggleValue: () => void;
+}

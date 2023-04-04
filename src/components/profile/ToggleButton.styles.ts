@@ -10,20 +10,17 @@ export default StyleSheet.create({
     borderRadius: 25 / 2,
     paddingRight: 25 / 2,
   },
+  slider: {
+    position: 'absolute',
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    borderRadius: 25 / 2,
+    height: '100%',
+  },
   button: {
     position: 'absolute',
     backgroundColor: COLORS.WHITE,
     height: 25,
     width: 25,
     borderRadius: 25 / 2,
-    right: 0,
-  },
-  slider: {
-    position: 'absolute',
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    borderTopLeftRadius: 25 / 2,
-    borderBottomLeftRadius: 25 / 2,
-    height: '100%',
-    width: '100%',
   },
 });
