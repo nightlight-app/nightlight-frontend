@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Text, SafeAreaView, View, Alert } from 'react-native';
+import axios from 'axios';
 import SettingsScreenStyles from '@nightlight/screens/settings/SettingsScreen.styles';
 import Button from '@nightlight/components/Button';
 import { COLORS } from '@nightlight/src/global.styles';
@@ -8,8 +9,12 @@ import ToggleSetting from '@nightlight/components/settings/ToggleSetting';
 import HorizontalSelect from '@nightlight/components/settings/HorizontalSelect';
 import { LOCATION_VISIBILITY_OPTIONS } from '@nightlight/src/constants';
 import { LocationVisibilityValue } from '@nightlight/src/types';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { SERVER_URL } from '@env';
 
 const SettingsScreen = () => {
+  const { userDocument } = useAuthContext();
+
   const [locationVisibility, setLocationVisibility] = useState<
     LocationVisibilityValue | undefined
   >();
@@ -73,6 +78,16 @@ const SettingsScreen = () => {
   }, [notifyEmergencyAlerts]);
 
   const handleDeleteAccount = () => {
+    // TODO: test this?
+    try {
+      axios.delete(`${SERVER_URL}/users/${userDocument?._id}`);
+    } catch (error) {
+      // TODO: banner
+      console.error(error);
+    }
+  };
+
+  const handleDeleteAccountPress = () => {
     Alert.alert(
       'Delete Account',
       'Are you sure you want to delete your account? This action cannot be undone.',
@@ -83,10 +98,7 @@ const SettingsScreen = () => {
         },
         {
           text: 'Delete',
-          onPress: () =>
-            alert(
-              'TODO: prompt user to enter password, then delete account in Firebase and remove user from database'
-            ),
+          onPress: handleDeleteAccount,
           style: 'destructive',
         },
       ]
@@ -148,7 +160,7 @@ const SettingsScreen = () => {
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>Account</Text>
           <Button
-            onPress={handleDeleteAccount}
+            onPress={handleDeleteAccountPress}
             text='Delete Account'
             textColor={COLORS.RED}
             style={SettingsScreenStyles.dangerButton}
