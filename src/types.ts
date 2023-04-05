@@ -316,3 +316,14 @@ export interface VenueReactButtonProps {
 export interface ExploreCardProps {
   venue: Venue;
 }
+
+export interface SelectOption {
+  label: string;
+  value: any;
+}
+
+export interface SelectProps {
+  options: SelectOption[];
+  value: any;
+  onChangeValue: (value: any) => void;
+}

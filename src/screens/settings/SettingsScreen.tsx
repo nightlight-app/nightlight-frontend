@@ -5,8 +5,10 @@ import Button from '@nightlight/components/Button';
 import { COLORS } from '@nightlight/src/global.styles';
 import { handleFirebaseSignOut } from '@nightlight/src/utils/utils';
 import ToggleSetting from '@nightlight/components/settings/ToggleSetting';
+import HorizontalSelect from '@nightlight/components/settings/HorizontalSelect';
 
 const SettingsScreen = () => {
+  const [locationVisibility, setLocationVisibility] = useState('friendsGroup');
   const [notifyFriendRequests, setNotifyFriendRequests] = useState(true);
   const [notifyGroupInvitations, setNotifyGroupInvitations] = useState(true);
   const [notifyEmergencyAlerts, setNotifyEmergencyAlerts] = useState(true);
@@ -87,12 +89,15 @@ const SettingsScreen = () => {
           <Text style={SettingsScreenStyles.categoryDescription}>
             Who can see your location?
           </Text>
-          <View
-            style={{
-              backgroundColor: COLORS.NIGHTLIGHT_BLACK,
-              height: 40,
-              marginVertical: 5,
-            }}></View>
+          <HorizontalSelect
+            options={[
+              { label: 'No one', value: 'noOne' },
+              { label: 'Friends', value: 'friends' },
+              { label: 'Friends + Group', value: 'friendsGroup' },
+            ]}
+            value={locationVisibility}
+            onChangeValue={setLocationVisibility}
+          />
         </View>
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>Notifications</Text>
