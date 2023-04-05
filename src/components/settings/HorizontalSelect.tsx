@@ -3,17 +3,24 @@ import HorizontalSelectStyles from '@nightlight/components/settings/HorizontalSe
 import { SelectProps } from '@nightlight/src/types';
 
 const HorizontalSelect = ({ options, value, onChangeValue }: SelectProps) => {
+  const optionWidth: number = 100 / options.length;
+  const valueIndex = options.findIndex(option => option.value === value);
+
   return (
     <View style={HorizontalSelectStyles.container}>
+      <View
+        style={{
+          ...HorizontalSelectStyles.selectIndicator,
+          width: optionWidth + '%',
+          left: optionWidth * valueIndex + '%',
+        }}
+      />
       {options.map((option, index) => {
         return (
           <Pressable
             key={index}
             onPress={() => onChangeValue(option.value)}
-            style={[
-              HorizontalSelectStyles.optionContainer,
-              option.value === value && { backgroundColor: 'green' },
-            ]}>
+            style={HorizontalSelectStyles.optionContainer}>
             <Text style={HorizontalSelectStyles.optionLabel}>
               {option.label}
             </Text>

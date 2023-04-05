@@ -66,3 +66,6 @@ export const UNEXPECTED_ERROR_MESSAGE: string =
 export const TOGGLE_BUTTON_DIAMETER: number = 28; // diameter of the toggle button in points
 export const TOGGLE_BUTTON_RADIUS: number = TOGGLE_BUTTON_DIAMETER / 2; // radius of the toggle button in points
 export const TOGGLE_BUTTON_ANIMATION_DURATION: number = 150; // duration of the toggle button animation in milliseconds
+
+// Horizontal select
+export const HORIZONTAL_SELECT_PADDING: number = 4; // padding of the horizontal select in points
