@@ -1,5 +1,9 @@
 import { Dimensions } from 'react-native';
-import { MoodEmoji } from '@nightlight/src/types';
+import {
+  LocationVisibilityValue,
+  MoodEmoji,
+  SelectOption,
+} from '@nightlight/src/types';
 import { WithSpringConfig } from 'react-native-reanimated';
 
 // General
@@ -69,3 +73,13 @@ export const TOGGLE_BUTTON_ANIMATION_DURATION: number = 150; // duration of the 
 
 // Horizontal select
 export const HORIZONTAL_SELECT_PADDING: number = 4; // padding of the horizontal select in points
+
+// Settings
+export const LOCATION_VISIBILITY_OPTIONS: SelectOption[] = [
+  { label: 'No one', value: LocationVisibilityValue.NO_ONE },
+  { label: 'Friends', value: LocationVisibilityValue.FRIENDS },
+  {
+    label: 'Friends + Group',
+    value: LocationVisibilityValue.FRIENDS_AND_GROUP,
+  },
+];

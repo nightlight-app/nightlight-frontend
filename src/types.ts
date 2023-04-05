@@ -66,6 +66,12 @@ export enum ExploreSortFilter {
   TRENDING = 'Trending',
 }
 
+export enum LocationVisibilityValue {
+  NO_ONE = 'noOne',
+  FRIENDS = 'friends',
+  FRIENDS_AND_GROUP = 'friendsAndGroup',
+}
+
 export interface Reaction {
   count: number;
   didReact: boolean;
@@ -299,7 +305,7 @@ export interface MoodButtonAnimation {
 }
 
 export interface ToggleButtonProps {
-  value: boolean;
+  value: boolean | undefined;
   toggleValue: () => void;
 }
 

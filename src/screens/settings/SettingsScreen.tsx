@@ -6,12 +6,22 @@ import { COLORS } from '@nightlight/src/global.styles';
 import { handleFirebaseSignOut } from '@nightlight/src/utils/utils';
 import ToggleSetting from '@nightlight/components/settings/ToggleSetting';
 import HorizontalSelect from '@nightlight/components/settings/HorizontalSelect';
+import { LOCATION_VISIBILITY_OPTIONS } from '@nightlight/src/constants';
+import { LocationVisibilityValue } from '@nightlight/src/types';
 
 const SettingsScreen = () => {
-  const [locationVisibility, setLocationVisibility] = useState('friendsGroup');
-  const [notifyFriendRequests, setNotifyFriendRequests] = useState(true);
-  const [notifyGroupInvitations, setNotifyGroupInvitations] = useState(true);
-  const [notifyEmergencyAlerts, setNotifyEmergencyAlerts] = useState(true);
+  const [locationVisibility, setLocationVisibility] = useState<
+    LocationVisibilityValue | undefined
+  >();
+  const [notifyFriendRequests, setNotifyFriendRequests] = useState<
+    boolean | undefined
+  >();
+  const [notifyGroupInvitations, setNotifyGroupInvitations] = useState<
+    boolean | undefined
+  >();
+  const [notifyEmergencyAlerts, setNotifyEmergencyAlerts] = useState<
+    boolean | undefined
+  >();
 
   const handleToggleNotifyFriendRequests = () => {
     setNotifyFriendRequests(prev => !prev);
@@ -22,6 +32,24 @@ const SettingsScreen = () => {
   const handleToggleNotifyEmergencyAlerts = () => {
     setNotifyEmergencyAlerts(prev => !prev);
   };
+
+  useEffect(() => {
+    console.log(
+      '[Settings] TODO: Fetch user settings from database? or local storage?'
+    );
+
+    setLocationVisibility(LOCATION_VISIBILITY_OPTIONS.at(-1)?.value);
+    setNotifyFriendRequests(true);
+    setNotifyGroupInvitations(true);
+    setNotifyEmergencyAlerts(true);
+  }, []);
+
+  useEffect(() => {
+    console.log(
+      '[Settings] TODO: change locationVisibility to',
+      locationVisibility
+    );
+  }, [locationVisibility]);
 
   useEffect(() => {
     console.log(
@@ -90,11 +118,7 @@ const SettingsScreen = () => {
             Who can see your location?
           </Text>
           <HorizontalSelect
-            options={[
-              { label: 'No one', value: 'noOne' },
-              { label: 'Friends', value: 'friends' },
-              { label: 'Friends + Group', value: 'friendsGroup' },
-            ]}
+            options={LOCATION_VISIBILITY_OPTIONS}
             value={locationVisibility}
             onChangeValue={setLocationVisibility}
           />
