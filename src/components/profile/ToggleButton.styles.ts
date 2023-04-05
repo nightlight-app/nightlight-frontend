@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { COLORS } from '@nightlight/src/global.styles';
-import { TOGGLE_BUTTON_DIAMETER, TOGGLE_BUTTON_RADIUS } from '@nightlight/src/constants';
+import {
+  TOGGLE_BUTTON_DIAMETER,
+  TOGGLE_BUTTON_RADIUS,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
@@ -16,6 +19,8 @@ export default StyleSheet.create({
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
     borderRadius: TOGGLE_BUTTON_RADIUS,
     height: '100%',
+    borderColor: COLORS.NIGHTLIGHT_GRAY,
+    borderWidth: 1,
   },
   button: {
     position: 'absolute',
@@ -25,8 +30,8 @@ export default StyleSheet.create({
     borderRadius: TOGGLE_BUTTON_RADIUS,
     shadowColor: COLORS.NIGHTLIGHT_BLACK,
     shadowOffset: {
-        width: 0,
-        height: 0,
+      width: 0,
+      height: 0,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3,
