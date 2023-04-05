@@ -3,7 +3,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
-import ToggleButtonStyles from '@nightlight/src/components/profile/ToggleButton.styles';
+import ToggleButtonStyles from '@nightlight/components/settings/ToggleButton.styles';
 import { ToggleButtonProps } from '@nightlight/src/types';
 import {
   TOGGLE_BUTTON_DIAMETER,

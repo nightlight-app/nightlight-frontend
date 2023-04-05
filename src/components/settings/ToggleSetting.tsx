@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
-import ToggleButton from '@nightlight/src/components/profile/ToggleButton';
-import ToggleSettingStyles from '@nightlight/src/components/profile/ToggleSetting.styles';
+import ToggleButton from '@nightlight/src/components/settings/ToggleButton';
+import ToggleSettingStyles from '@nightlight/src/components/settings/ToggleSetting.styles';
 import { ToggleSettingProps } from '@nightlight/src/types';
 
 const ToggleSetting = ({

@@ -30,7 +30,7 @@ import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import SocialScreen from '@nightlight/screens/social/SocialScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
-import SettingsScreen from '@nightlight/screens/profile/SettingsScreen';
+import SettingsScreen from '@nightlight/screens/settings/SettingsScreen';
 import { Subscription } from 'expo-modules-core';
 import {
   addNotificationReceivedListener,

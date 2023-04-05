@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Text, SafeAreaView, View, Alert } from 'react-native';
-import SettingsScreenStyles from '@nightlight/src/screens/profile/SettingsScreen.styles';
+import SettingsScreenStyles from '@nightlight/screens/settings/SettingsScreen.styles';
 import Button from '@nightlight/components/Button';
 import { COLORS } from '@nightlight/src/global.styles';
 import { handleFirebaseSignOut } from '@nightlight/src/utils/utils';
-import ToggleSetting from '@nightlight/components/profile/ToggleSetting';
+import ToggleSetting from '@nightlight/components/settings/ToggleSetting';
 
 const SettingsScreen = () => {
   const [notifyFriendRequests, setNotifyFriendRequests] = useState(true);
