@@ -45,13 +45,16 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
 
   // whether the camera is following user (both location and device heading)
   const [isCameraFollowingUser, setIsCameraFollowingUser] =
-    useState<boolean>(false);
+    useState<boolean>(true);
 
   // set up socket on first mount
   useEffect(() => {
     // if user is not in a group, do not set up socket
     if (!groupId) return;
-    console.log('setting up socket for user', userDocument?.firstName);
+
+    console.log(
+      `[Map] Setting up socket for user ${userDocument?.firstName} ${userDocument?.lastName}}`
+    );
 
     // tell server to add this user to a socket group
     socket.emit('joinGroup', groupId);
