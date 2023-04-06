@@ -77,13 +77,19 @@ const SettingsScreen = () => {
     );
   }, [notifyEmergencyAlerts]);
 
-  const handleDeleteAccount = () => {
-    // TODO: test this?
+  const handleDeleteAccount = async () => {
+    const userId = userDocument?._id;
+    // FIXME: endpoint not working?
     try {
-      axios.delete(`${SERVER_URL}/users/${userDocument?._id}`);
-    } catch (error) {
+      await axios.delete(`${SERVER_URL}/users/${userId}`);
+      console.log(`[Settings] Successfully deleted account with ID ${userId}.`);
+      handleFirebaseSignOut();
+    } catch (error: any) {
       // TODO: banner
-      console.error(error);
+      console.error(
+        `[Settings] Error deleting account with ID ${userId}:`,
+        error
+      );
     }
   };
 
