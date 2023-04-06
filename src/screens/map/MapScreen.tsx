@@ -82,7 +82,7 @@ const MapScreen = () => {
       <NightlightMap onError={handleShowErrorCard} />
 
       {/* For development purpose */}
-      {/* <View
+      <View
         style={{
           position: 'absolute',
           top: 120,
@@ -121,7 +121,7 @@ const MapScreen = () => {
           }}>
           <Text>Show Error Card</Text>
         </Pressable>
-      </View> */}
+      </View>
 
       {/* Conditionally render group button */}
       {userDocument?.currentGroup ? (

@@ -238,18 +238,12 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
       <View style={MapScreenStyles.mapControlContainer}>
         <Pressable
           onPress={resetCameraHeadingToNorth}
-          style={[
-            MapScreenStyles.mapControlButton,
-            MapScreenStyles.orientMapButton,
-          ]}>
+          style={MapScreenStyles.mapControlButton}>
           <Ionicons name='md-compass' size={32} color={COLORS.WHITE} />
         </Pressable>
         <Pressable
           onPress={toggleCameraFollow}
-          style={[
-            MapScreenStyles.mapControlButton,
-            MapScreenStyles.currentLocationButton,
-          ]}>
+          style={MapScreenStyles.mapControlButton}>
           <MaterialCommunityIcons
             name={`navigation-variant${
               isCameraFollowingUser ? '' : '-outline'
