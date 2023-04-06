@@ -23,20 +23,20 @@ const SearchUserCard = ({
     setAddText(added? "ADD" : "ADDED");
 
     // send request to backend to add friend
-    if(added){
-      axios
-      .patch(
-        `${SERVER_URL}/users/${userId}/requestFriend`,
-        {}
-      )
-      .then(response => {
-        setDisplayedUsers(response.data.users);
-      })
-      .catch(e => {
-        console.log('Error: ', e.response.data.message);
-        setDisplayedUsers([]);
-      });
-    }
+    // if(added){
+    //   axios
+    //   .patch(
+    //     `${SERVER_URL}/users/${userId}/friends`,
+    //     {}
+    //   )
+    //   .then(response => {
+    //     setDisplayedUsers(response.data.users);
+    //   })
+    //   .catch(e => {
+    //     console.log('Error: ', e.response.data.message);
+    //     setDisplayedUsers([]);
+    //   });
+    // }
   }
 
   return (

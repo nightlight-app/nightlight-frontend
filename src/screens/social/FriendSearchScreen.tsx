@@ -51,12 +51,12 @@ const FriendSearchScreen = () => {
     const isLastItem = index === displayedUsers.length - 1;
  // check if user is already a friend
    let isAdded = false
-   if(userDocument.friends?.includes(item._id)){
+   if(userDocument?.friends?.includes(item._id)){
     isAdded = true;
    }
 
    //check if user is self
-    if(userDocument._id === item._id){
+    if(userDocument?._id === item._id){
       return null;
     }
     return (

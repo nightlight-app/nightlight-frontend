@@ -41,20 +41,20 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
         console.log('Error: ', e);
       });
 
-      //get active group
-      let groupid = userDocument?.currentGroup;
-      if(groupid){
-        axios
-        .get(`${SERVER_URL}/groups/?groupId=${groupid}`)
-        .then(res => {
-          console.log(res.data)
-          setActiveGroup(res.data.group);
-          setGroupCount(activeGroup.length);
-        })
-        .catch(e=> {
-          console.log('Error: ', e)
-        })
-      }
+  //     //get active group
+  //     let groupid = userDocument?.currentGroup;
+  //     if(groupid){
+  //       axios
+  //       .get(`${SERVER_URL}/groups/?groupId=${groupid}`)
+  //       .then(res => {
+  //         console.log(res.data)
+  //         setActiveGroup(res.data.group);
+  //         setGroupCount(activeGroup.length);
+  //       })
+  //       .catch(e=> {
+  //         console.log('Error: ', e)
+  //       })
+  //     }
   }, []);
 
   // called when there are no active group
