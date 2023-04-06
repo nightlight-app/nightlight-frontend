@@ -230,6 +230,7 @@ export interface SearchUserCardProps {
   isFirstItem: boolean;
   isLastItem: boolean;
   image: string;
+  friendId: string;
 }
 
 /**

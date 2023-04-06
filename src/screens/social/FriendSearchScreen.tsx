@@ -21,16 +21,19 @@ const FriendSearchScreen = () => {
   const [searchInput, setSearchInput] = useState<string>('');
   const [displayedUsers, setDisplayedUsers] = useState<User[]>([]);
   const handleSearchChange = (text: string) => setSearchInput(text);
+  const [page, setPage] = useState(1);
 
   // TODO: improve search algorithm?
   useEffect(() => {
     axios
       .get(
-        `${SERVER_URL}/users/search/?query=${searchInput}&count=${10}&page=${1}`,
+        `${SERVER_URL}/users/search/?query=${searchInput}&count=${10}&page=${page}`,
         {}
       )
       .then(response => {
         setDisplayedUsers(response.data.users);
+        // TODO: fix pagination
+        // setPage(page + 1);
       })
       .catch(e => {
         console.log('Error: ', e.response.data.message);
@@ -72,6 +75,7 @@ const FriendSearchScreen = () => {
             ? '@nightlight/assets/images/anon.png'
             : item.imgUrlProfileSmall
         }
+        friendId={item._id}
       />
     );
   };

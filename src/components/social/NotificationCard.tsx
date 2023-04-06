@@ -13,6 +13,8 @@ const NotificationCard = ({ index, message, userId }: NotificationCardProps) => 
   let isEvenIndex = index % 2 !== 0;
   let [userImage, setUserImage] = useState('@nightlight/assets/images/anon.png');
   
+ //TODO pull notifications from backend
+
   //TODO change from hard coded time
     let time = "1 hr ago"
 
@@ -30,7 +32,7 @@ const NotificationCard = ({ index, message, userId }: NotificationCardProps) => 
     },[]);
 
     // check if notification is a friend request or group invite
-    
+
 
   return (
     <View
@@ -40,7 +42,7 @@ const NotificationCard = ({ index, message, userId }: NotificationCardProps) => 
       ]}>
       <View style={NotificationCardStyles.leftSide}>
         <Image
-          source={{uri: `${userImage}`}}
+          source={userImage==='@nightlight/assets/images/anon.png'?require('@nightlight/assets/images/anon.png'): {uri: `${userImage}`}}
           style={NotificationCardStyles.profileImage}
         />
         <View style={NotificationCardStyles.textbox}>

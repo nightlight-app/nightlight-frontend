@@ -41,6 +41,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
         console.log('Error: ', e);
       });
 
+
   //     //get active group
   //     let groupid = userDocument?.currentGroup;
   //     if(groupid){
