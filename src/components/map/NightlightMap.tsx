@@ -1,11 +1,11 @@
 import { MAPBOX_API_KEY, SERVER_URL } from '@env';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Pressable, Image } from 'react-native';
-import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import MapboxGL, { Camera, CameraStop } from '@rnmapbox/maps';
-import { COLORS } from '@nightlight/src/global.styles';
-import { Ionicons } from '@expo/vector-icons';
 import { Position } from '@turf/helpers/dist/js/lib/geojson';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
+import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
 import {
   Markers,
@@ -13,7 +13,6 @@ import {
   UserMarkerMap,
 } from '@nightlight/src/types';
 import { socket } from '@nightlight/src/service/socketService';
-import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 // initial camera settings
@@ -234,12 +233,16 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
         </MapboxGL.MapView>
       </View>
 
-      {/* Interactable Buttons */}
+      {/* Map Control Buttons */}
       <View style={MapScreenStyles.mapControlContainer}>
         <Pressable
           onPress={resetCameraHeadingToNorth}
           style={MapScreenStyles.mapControlButton}>
-          <Ionicons name='md-compass' size={32} color={COLORS.WHITE} />
+          <MaterialCommunityIcons
+            name='compass'
+            size={32}
+            color={COLORS.WHITE}
+          />
         </Pressable>
         <Pressable
           onPress={toggleCameraFollow}
