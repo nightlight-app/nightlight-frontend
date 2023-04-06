@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
 import { activeGroup, friends, TEST_USERS } from '@nightlight/src/testData';
-import axios from 'axios';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const SocialScreen = () => {
@@ -22,10 +21,10 @@ const SocialScreen = () => {
   useEffect(() => {
     console.log(userDocument);
     // console.log(user);
-    // axios
-    //   .get(
-    //     `http://localhost:6060/user/?userId=${user.uid}`
-    //   )
+    // fetch(`http://localhost:6060/user/?userId=${user.uid}`, {
+    //   method: 'GET',
+    // })
+    //   .then(res => res.json())
     //   .then(response => {
     //     console.log(response);
     //   })

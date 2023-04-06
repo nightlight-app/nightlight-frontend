@@ -8,7 +8,6 @@ import {
   FlatList,
   ListRenderItemInfo,
 } from 'react-native';
-import axios from 'axios';
 import { SERVER_URL } from '@env';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import {
@@ -108,10 +107,13 @@ const ExploreScreen = () => {
   useEffect(() => {
     // TODO: figure out backend and fallback response if no venues received
     console.log('[Explore] Fetching venues...');
-    axios
-      .get(
-        `${SERVER_URL}/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`
-      )
+    fetch(
+      `${SERVER_URL}/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
+      {
+        method: 'GET',
+      }
+    )
+      .then(res => res.json())
       .then(response => {
         console.log('[Explore] Venues fetched!');
         setPage(page + 1);
