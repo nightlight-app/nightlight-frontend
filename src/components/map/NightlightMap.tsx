@@ -116,10 +116,19 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     }
   }, [camera.current]);
 
+  // reset camera heading to north when camera is no longer following user
+  useEffect(() => {
+    if (!isCameraFollowingUser) {
+      resetCameraHeadingToNorth();
+    }
+  }, [isCameraFollowingUser]);
+
   /**
    * Toggle the isCameraFollowingUser variable
    */
-  const toggleCameraFollow = () => setIsCameraFollowingUser(prev => !prev);
+  const toggleCameraFollow = () => {
+    setIsCameraFollowingUser(prev => !prev);
+  };
 
   /**
    * Reset the camera's heading to point to North
@@ -128,7 +137,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     if (camera.current) {
       camera.current.setCamera({
         heading: 0,
-        animationDuration: 1000,
+        animationDuration: 500,
         animationMode: 'easeTo',
       });
     }
@@ -195,7 +204,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
 
           {/* UserLocation tracker */}
           <MapboxGL.UserLocation
-            // showsUserHeadingIndicator={true} // TODO: uncomment after demo
+            showsUserHeadingIndicator={true}
             renderMode={'native'}
             visible={true}
             minDisplacement={1}
@@ -235,7 +244,8 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
 
       {/* Map Control Buttons */}
       <View style={MapScreenStyles.mapControlContainer}>
-        <Pressable
+        {/* Change Orientation Button */}
+        {/* <Pressable
           onPress={resetCameraHeadingToNorth}
           style={MapScreenStyles.mapControlButton}>
           <MaterialCommunityIcons
@@ -243,7 +253,9 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
             size={32}
             color={COLORS.WHITE}
           />
-        </Pressable>
+        </Pressable> */}
+
+        {/* User Attach Button */}
         <Pressable
           onPress={toggleCameraFollow}
           style={MapScreenStyles.mapControlButton}>
