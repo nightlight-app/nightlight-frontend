@@ -28,7 +28,6 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@rnmapbox/maps": "github:rnmapbox/maps",
-    "axios": "^1.3.4",
     "dotenv": "^16.0.3",
     "expo": "~48.0.9",
     "expo-app-loading": "~2.1.1",
