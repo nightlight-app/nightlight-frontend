@@ -211,7 +211,7 @@ export interface FriendCardProps {
   name: string;
   index: number;
   isInGroup: boolean;
-  url: string;
+  imgUrl: string;
 }
 
 export interface NotificationCardProps {

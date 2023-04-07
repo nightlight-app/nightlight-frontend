@@ -2,13 +2,12 @@ import React from 'react';
 import { View, Image, Text } from 'react-native';
 import FriendCardStyles from '@nightlight/components/social/FriendCard.styles';
 import { FriendCardProps } from '@nightlight/src/types';
-import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
 import PinSvg from '@nightlight/src/components/svgs/PinSvg';
 
-const FriendCard = ({ name, index, isInGroup, url }: FriendCardProps) => {
+const FriendCard = ({ name, index, isInGroup, imgUrl }: FriendCardProps) => {
   let isEvenIndex = index % 2 !== 0;
 
-  let imgPath = url;
+  let imgPath = imgUrl;
 
   return (
     <View

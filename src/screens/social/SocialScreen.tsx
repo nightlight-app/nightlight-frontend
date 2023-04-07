@@ -101,7 +101,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
                 index={index}
                 name={item.name}
                 isInGroup
-                url='@nightlight/assets/images/anon.png'
+                imgUrl='@nightlight/assets/images/anon.png'
               />
             ))}
             {/* TODO add glow  */}
@@ -127,7 +127,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
                   key={index}
                   index={index}
                   name={item.firstName + ' ' + item.lastName}
-                  url={item.imgUrlProfileSmall}
+                  imgUrl={item.imgUrlProfileSmall}
                   isInGroup={false}
                 />
               )
