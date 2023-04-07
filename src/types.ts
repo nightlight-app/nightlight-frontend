@@ -12,7 +12,7 @@ import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
 
 export enum TabRoute {
   MAP = 'Map',
-  SOCIAL_STACK = 'Social',
+  SOCIAL_STACK = 'SocialStack',
   EMERGENCY_BUTTON = 'EmergencyButton',
   EXPLORE = 'Explore',
   PROFILE_STACK = 'ProfileStack',
