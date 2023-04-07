@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, Text } from 'react-native';
 import FriendCardStyles from '@nightlight/components/social/FriendCard.styles';
 import { FriendCardProps, NotificationCardProps } from '@nightlight/src/types';
-import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
 import PinSvg from '@nightlight/src/components/svgs/PinSvg';
 import NotificationCardStyles from './NotificationCard.styles';
 import FriendCard from './FriendCard';
@@ -14,15 +13,15 @@ const NotificationCard = ({
   message,
   userId,
 }: NotificationCardProps) => {
-  let isEvenIndex = index % 2 !== 0;
-  let [userImage, setUserImage] = useState(
+  const isEvenIndex = index % 2 !== 0;
+  const [userImage, setUserImage] = useState(
     '@nightlight/assets/images/anon.png'
   );
 
   //TODO pull notifications from backend
 
   //TODO change from hard coded time
-  let time = '1 hr ago';
+  const time = '1 hr ago';
 
   // get user image from backend
   useEffect(() => {
