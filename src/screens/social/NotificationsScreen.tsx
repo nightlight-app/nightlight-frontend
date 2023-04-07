@@ -2,10 +2,10 @@ import { SocialRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import NotificationsScreenStyles from './NotificationsScreen.styles';
-import { testNotifications } from '@nightlight/src/testData';
+import { TEST_NOTIFICATIONS } from '@nightlight/src/testData';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
 const NotificationsScreen = () => {
-  const [notifications, setNotifications] = useState(testNotifications);
+  const [notifications, setNotifications] = useState(TEST_NOTIFICATIONS);
   const [counter, setCounter] = useState(0);
   //TODO: need to pull notifications from backend (getNotifications)
 

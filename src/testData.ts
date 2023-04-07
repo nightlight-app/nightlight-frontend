@@ -212,7 +212,7 @@ export const friends = [
   },
 ];
 
-export const testNotifications = [
+export const TEST_NOTIFICATIONS = [
   {
     _id: {
       $oid: '6428c7cf16a44c86f667fefb',

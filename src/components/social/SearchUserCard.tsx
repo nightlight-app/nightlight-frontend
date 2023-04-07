@@ -20,7 +20,7 @@ const SearchUserCard = ({
   const { userDocument } = useAuthContext();
 
   const handlePress = () => {
-    setAdded(!added);
+    setAdded(prev => !prev);
     setAddText(added ? 'ADD' : 'ADDED');
 
     // send request to backend to add friend

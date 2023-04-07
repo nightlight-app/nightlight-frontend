@@ -1,7 +1,7 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { DEVICE_WIDTH } from '@nightlight/src/constants';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
 
-const { height, width } = Dimensions.get('window');
 export default StyleSheet.create({
   screenContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
@@ -54,7 +54,7 @@ export default StyleSheet.create({
   notifCircle: {
     width: 25,
     height: 25,
-    borderRadius: width / 2,
+    borderRadius: DEVICE_WIDTH / 2,
     backgroundColor: COLORS.RED,
     alignItems: 'center',
     justifyContent: 'center',
