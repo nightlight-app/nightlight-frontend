@@ -15,6 +15,7 @@ import {
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { SERVER_URL } from '@env';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
+import { customFetch } from '@nightlight/src/api';
 
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
@@ -100,16 +101,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       if (shouldUpdateNotificationToken) {
         // get the notification token and send it to the server
         const notificationToken = await registerForPushNotificationsAsync();
-        await fetch(
-          `${SERVER_URL}/users/${retrievedUser._id}/addNotificationToken`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            method: 'PATCH',
-            body: JSON.stringify({ notificationToken }),
-          }
-        );
+        await customFetch(`/users/${retrievedUser._id}/addNotificationToken`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ notificationToken }),
+        });
       }
     } catch (e) {
       console.log('Error in updateUserDocument', e);

@@ -21,9 +21,10 @@ import {
   generateGroupName,
   getDatetimeHoursAfter as getDatetimeAfterHours,
 } from '@nightlight/src/utils/utils';
+import { customFetch } from '@nightlight/src/api';
 
 const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
-  const { userDocument, updateUserDocument } = useAuthContext();
+  const { userSession, userDocument, updateUserDocument } = useAuthContext();
   const [availableUsers, setAvailableUsers] = useState<User[]>([]);
   const [displayedAvailableUsers, setDisplayedAvailableUsers] = useState<
     User[]
@@ -32,10 +33,13 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
   const [searchText, setSearchText] = useState<string>('');
 
   useEffect(() => {
+    if (!userSession) return;
     // fetch the list of available users based on the current user's friends
-    fetch(`${SERVER_URL}/users/${userDocument?._id}/friends`, { method: 'GET' })
-      .then(res => res.json())
+    customFetch(userSession, `/users/${userDocument?._id}/friends`, {
+      method: 'GET',
+    })
       .then(data => {
+        console.log('i have data: ', data);
         setAvailableUsers(data.friends);
       })
       .catch(e => {
