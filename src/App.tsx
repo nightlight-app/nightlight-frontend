@@ -8,6 +8,14 @@ import {
 } from '@expo-google-fonts/comfortaa';
 import { Roboto_500Medium } from '@expo-google-fonts/roboto';
 import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen';
+import { Subscription } from 'expo-modules-core';
+import {
+  addNotificationReceivedListener,
+  addNotificationResponseReceivedListener,
+  removeNotificationSubscription,
+  setNotificationHandler,
+  Notification,
+} from 'expo-notifications';
 
 // TODO: export navigators to separate files?
 
@@ -36,17 +44,10 @@ import SocialScreen from '@nightlight/screens/social/SocialScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
 import SettingsScreen from '@nightlight/screens/settings/SettingsScreen';
-import { Subscription } from 'expo-modules-core';
-import {
-  addNotificationReceivedListener,
-  addNotificationResponseReceivedListener,
-  removeNotificationSubscription,
-  setNotificationHandler,
-  Notification,
-} from 'expo-notifications';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
-import FriendSearchScreen from './screens/social/FriendSearchScreen';
-import NotificationsScreen from './screens/social/NotificationsScreen';
+import FriendSearchScreen from '@nightlight/screens/social/FriendSearchScreen';
+import NotificationsScreen from '@nightlight/screens/social/NotificationsScreen';
+
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
