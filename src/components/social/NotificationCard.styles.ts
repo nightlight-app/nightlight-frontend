@@ -45,6 +45,6 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 10,
     color: COLORS.GRAY,
-    marginLeft: '3%'
-  }
+    marginLeft: '3%',
+  },
 });

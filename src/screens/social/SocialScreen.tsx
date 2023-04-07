@@ -16,7 +16,7 @@ import { SERVER_URL } from '@env';
 const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   // number of members in active group
   const [groupCount, setGroupCount] = useState(0);
-  const [activeGroup, setActiveGroup] = useState([])
+  const [activeGroup, setActiveGroup] = useState([]);
 
   // user id
   const { userDocument } = useAuthContext();
@@ -24,9 +24,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
 
   // number of friends
   const [friendCount, setFriendCount] = useState(0);
-  const [friends, setFriends] = useState([])
-
-
+  const [friends, setFriends] = useState([]);
 
   // get active group and friend from backend
   useEffect(() => {
@@ -41,21 +39,20 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
         console.log('Error: ', e);
       });
 
-
-  //     //get active group
-  //     let groupid = userDocument?.currentGroup;
-  //     if(groupid){
-  //       axios
-  //       .get(`${SERVER_URL}/groups/?groupId=${groupid}`)
-  //       .then(res => {
-  //         console.log(res.data)
-  //         setActiveGroup(res.data.group);
-  //         setGroupCount(activeGroup.length);
-  //       })
-  //       .catch(e=> {
-  //         console.log('Error: ', e)
-  //       })
-  //     }
+    //     //get active group
+    //     let groupid = userDocument?.currentGroup;
+    //     if(groupid){
+    //       axios
+    //       .get(`${SERVER_URL}/groups/?groupId=${groupid}`)
+    //       .then(res => {
+    //         console.log(res.data)
+    //         setActiveGroup(res.data.group);
+    //         setGroupCount(activeGroup.length);
+    //       })
+    //       .catch(e=> {
+    //         console.log('Error: ', e)
+    //       })
+    //     }
   }, []);
 
   // called when there are no active group
@@ -74,7 +71,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
 
   const handleNavigateToNotifications = () => {
     navigation.navigate(SocialRoute.NOTIFICATIONS);
-  }
+  };
 
   return (
     <View testID={TabRoute.SOCIAL_STACK} style={SocialScreenStyles.container}>
@@ -117,15 +114,24 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             </View>
           </View>
           <View style={SocialScreenStyles.friendBox}>
-            {friends.map((item: { firstName: string, lastName: string, imgUrlProfileSmall: string }, index) => (
-              <FriendCard
-                key={index}
-                index={index}
-                name={item.firstName + ' ' + item.lastName}
-                url = {item.imgUrlProfileSmall}
-                isInGroup={false}
-              />
-            ))}
+            {friends.map(
+              (
+                item: {
+                  firstName: string;
+                  lastName: string;
+                  imgUrlProfileSmall: string;
+                },
+                index
+              ) => (
+                <FriendCard
+                  key={index}
+                  index={index}
+                  name={item.firstName + ' ' + item.lastName}
+                  url={item.imgUrlProfileSmall}
+                  isInGroup={false}
+                />
+              )
+            )}
           </View>
         </ScrollView>
       </SafeAreaView>

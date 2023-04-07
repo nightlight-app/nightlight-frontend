@@ -51,7 +51,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    marginRight: 10
+    marginRight: 10,
     // marginRight: 10,
     // marginBottom: 10,
   },
@@ -61,12 +61,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    marginRight: 10
-
+    marginRight: 10,
   },
   addButtonText: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 13,
     color: COLORS.WHITE,
-  }
+  },
 });

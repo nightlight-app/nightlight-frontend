@@ -85,7 +85,7 @@ const SocialScreenStack = () => {
       />
       <SocialStack.Screen
         name={SocialRoute.NOTIFICATIONS}
-        component ={NotificationsScreen}
+        component={NotificationsScreen}
       />
     </SocialStack.Navigator>
   );
@@ -164,7 +164,7 @@ const App = () => {
     // Listen for notifications (received while app is open or in background)
     notificationListener.current = addNotificationReceivedListener(
       notification => {
-       setNotification(notification);
+        setNotification(notification);
       }
     );
 

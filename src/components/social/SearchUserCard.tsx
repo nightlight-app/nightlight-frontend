@@ -13,46 +13,45 @@ const SearchUserCard = ({
   index,
   isAdded,
   image,
-  friendId
+  friendId,
 }: SearchUserCardProps) => {
   let isEvenIndex = index % 2 !== 0;
   const [added, setAdded] = useState(isAdded);
-  const [addText, setAddText] = useState(added? "ADDED" : "ADD");
+  const [addText, setAddText] = useState(added ? 'ADDED' : 'ADD');
   const { userDocument } = useAuthContext();
 
   const handlePress = () => {
     setAdded(!added);
-    setAddText(added? "ADD" : "ADDED");
+    setAddText(added ? 'ADD' : 'ADDED');
 
     // send request to backend to add friend
-    if(!added){
+    if (!added) {
       axios
-      .patch(
-        `${SERVER_URL}/users/${userDocument?._id}/requestFriend/?friendId=${friendId}`,
-        {}
-      )
-      .then(response => {
-        console.log(response.data)
-      })
-      .catch(e => {
-        console.log('Error: ', e.response.data.message);
-      });
-    }
-    else {
+        .patch(
+          `${SERVER_URL}/users/${userDocument?._id}/requestFriend/?friendId=${friendId}`,
+          {}
+        )
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log('Error: ', e.response.data.message);
+        });
+    } else {
       // send request to backend to remove friend
       axios
-      .patch(
-        `${SERVER_URL}/users/${userDocument?._id}/removeFriend/?friendId=${friendId}`,
-        {}
-      )
-      .then(response => {
-        console.log(response.data)
-      })
-      .catch(e => {
-        console.log('Error: ', e.response.data.message);
-      });
+        .patch(
+          `${SERVER_URL}/users/${userDocument?._id}/removeFriend/?friendId=${friendId}`,
+          {}
+        )
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log('Error: ', e.response.data.message);
+        });
     }
-  }
+  };
 
   return (
     <View
@@ -62,7 +61,11 @@ const SearchUserCard = ({
       ]}>
       <View style={UserCardStyles.leftSide}>
         <Image
-          source={image==='@nightlight/assets/images/anon.png'?require('@nightlight/assets/images/anon.png'): {uri: `${image}`}}
+          source={
+            image === '@nightlight/assets/images/anon.png'
+              ? require('@nightlight/assets/images/anon.png')
+              : { uri: `${image}` }
+          }
           style={UserCardStyles.profileImage}
         />
         <View>

@@ -32,7 +32,7 @@ export enum ProfileRoute {
 export enum SocialRoute {
   SOCIAL = 'Social',
   FRIEND_SEARCH = 'FriendSearch',
-  NOTIFICATIONS = 'Notifications'
+  NOTIFICATIONS = 'Notifications',
 }
 
 export enum MapCardType {
@@ -209,9 +209,9 @@ export interface FriendCardProps {
 }
 
 export interface NotificationCardProps {
-  index: number,
-  message: string,
-  userId: string
+  index: number;
+  message: string;
+  userId: string;
 }
 
 export interface SearchUserCardProps {
@@ -263,7 +263,6 @@ export interface EmergencyContact {
   name: string;
   phone: string;
 }
-
 
 export interface Markers {
   // the title of the marker

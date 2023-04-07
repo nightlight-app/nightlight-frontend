@@ -9,30 +9,35 @@ import FriendCard from './FriendCard';
 import axios from 'axios';
 import { SERVER_URL } from '@env';
 
-const NotificationCard = ({ index, message, userId }: NotificationCardProps) => {
+const NotificationCard = ({
+  index,
+  message,
+  userId,
+}: NotificationCardProps) => {
   let isEvenIndex = index % 2 !== 0;
-  let [userImage, setUserImage] = useState('@nightlight/assets/images/anon.png');
-  
- //TODO pull notifications from backend
+  let [userImage, setUserImage] = useState(
+    '@nightlight/assets/images/anon.png'
+  );
+
+  //TODO pull notifications from backend
 
   //TODO change from hard coded time
-    let time = "1 hr ago"
+  let time = '1 hr ago';
 
   // get user image from backend
-    useEffect(() => {
-        axios
-        .get(`${SERVER_URL}/users/?userId=${userId}/`)
-        .then(res => {
-          console.log(res.data)
-          setUserImage(res.data.imgUrlProfileSmall)
-        })
-        .catch(e => {
-          console.log('Error: ', e);
-        });
-    },[]);
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/users/?userId=${userId}/`)
+      .then(res => {
+        console.log(res.data);
+        setUserImage(res.data.imgUrlProfileSmall);
+      })
+      .catch(e => {
+        console.log('Error: ', e);
+      });
+  }, []);
 
-    // check if notification is a friend request or group invite
-
+  // check if notification is a friend request or group invite
 
   return (
     <View
@@ -42,7 +47,11 @@ const NotificationCard = ({ index, message, userId }: NotificationCardProps) => 
       ]}>
       <View style={NotificationCardStyles.leftSide}>
         <Image
-          source={userImage==='@nightlight/assets/images/anon.png'?require('@nightlight/assets/images/anon.png'): {uri: `${userImage}`}}
+          source={
+            userImage === '@nightlight/assets/images/anon.png'
+              ? require('@nightlight/assets/images/anon.png')
+              : { uri: `${userImage}` }
+          }
           style={NotificationCardStyles.profileImage}
         />
         <View style={NotificationCardStyles.textbox}>
