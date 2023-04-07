@@ -12,7 +12,7 @@ import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
 
 export enum TabRoute {
   MAP = 'Map',
-  SOCIAL = 'Social',
+  SOCIAL_STACK = 'SocialStack',
   EMERGENCY_BUTTON = 'EmergencyButton',
   EXPLORE = 'Explore',
   PROFILE_STACK = 'ProfileStack',
@@ -27,6 +27,12 @@ export enum ProfileRoute {
   PROFILE = 'Profile',
   EMERGENCY_CONTACTS = 'EmergencyContacts',
   SETTINGS = 'Settings',
+}
+
+export enum SocialRoute {
+  SOCIAL = 'Social',
+  FRIEND_SEARCH = 'FriendSearch',
+  NOTIFICATIONS = 'Notifications',
 }
 
 export enum MapCardType {
@@ -205,6 +211,24 @@ export interface FriendCardProps {
   name: string;
   index: number;
   isInGroup: boolean;
+  imgUrl: string;
+}
+
+export interface NotificationCardProps {
+  index: number;
+  message: string;
+  userId: string;
+}
+
+export interface SearchUserCardProps {
+  firstName: string;
+  lastName: string;
+  index: number;
+  isAdded: boolean;
+  isFirstItem: boolean;
+  isLastItem: boolean;
+  image: string;
+  friendId: string;
 }
 
 /**

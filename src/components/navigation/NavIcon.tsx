@@ -25,7 +25,7 @@ const NavIcon = ({
             color={isFocused ? focusColor : color}
           />
         );
-      case TabRoute.SOCIAL:
+      case TabRoute.SOCIAL_STACK:
         return (
           <MaterialCommunityIcons
             name='account-group'
