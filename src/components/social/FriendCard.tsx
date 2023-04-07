@@ -5,9 +5,9 @@ import { FriendCardProps } from '@nightlight/src/types';
 import PinSvg from '@nightlight/src/components/svgs/PinSvg';
 
 const FriendCard = ({ name, index, isInGroup, imgUrl }: FriendCardProps) => {
-  let isEvenIndex = index % 2 !== 0;
+  const isEvenIndex = index % 2 !== 0;
 
-  let imgPath = imgUrl;
+  const imgPath = imgUrl;
 
   return (
     <View
@@ -27,9 +27,9 @@ const FriendCard = ({ name, index, isInGroup, imgUrl }: FriendCardProps) => {
           )}
         </View>
       </View>
-      <View style={FriendCardStyles.rowview}>
+      <View style={FriendCardStyles.rowView}>
+        {/* TODO: use expo icon instead of svg? */}
         {isInGroup && <PinSvg />}
-        {/* <EllipseSvg style={FriendCardStyles.ellipse} /> */}
       </View>
     </View>
   );

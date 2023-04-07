@@ -40,7 +40,7 @@ export default StyleSheet.create({
   ellipse: {
     margin: 15,
   },
-  rowview: {
+  rowView: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
