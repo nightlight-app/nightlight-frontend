@@ -67,9 +67,9 @@ export enum ExploreSortFilter {
 }
 
 export enum LocationVisibilityValue {
-  NO_ONE = 'noOne',
-  FRIENDS = 'friends',
-  FRIENDS_AND_GROUP = 'friendsAndGroup',
+  NO_ONE = 'NoOne',
+  FRIENDS = 'Friends',
+  FRIENDS_AND_GROUP = 'FriendsAndGroup',
 }
 
 export interface Reaction {
