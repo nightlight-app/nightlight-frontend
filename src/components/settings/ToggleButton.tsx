@@ -10,7 +10,12 @@ import {
   TOGGLE_BUTTON_ANIMATION_DURATION,
 } from '@nightlight/src/constants';
 
-const ToggleButton = ({ value, toggleValue }: ToggleButtonProps) => {
+const ToggleButton = ({
+  // the current value of the toggle
+  value,
+  // a callback function called when the user toggles the value
+  toggleValue,
+}: ToggleButtonProps) => {
   const sliderAnimation = useAnimatedStyle(() => ({
     width: value
       ? withTiming(TOGGLE_BUTTON_DIAMETER * 2, {
