@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, Pressable } from 'react-native';
 import FriendCardStyles from '@nightlight/components/social/FriendCard.styles';
 import { FriendCardProps, NotificationCardProps } from '@nightlight/src/types';
 import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
@@ -13,6 +13,7 @@ const NotificationCard = ({
   index,
   message,
   userId,
+  type,
 }: NotificationCardProps) => {
   let isEvenIndex = index % 2 !== 0;
   let [userImage, setUserImage] = useState(
@@ -33,19 +34,17 @@ const NotificationCard = ({
         setUserImage(res.data.imgUrlProfileSmall);
       })
       .catch(e => {
-        console.log('Error: ', e);
+        // no profile photo found
       });
   }, []);
-
-  // check if notification is a friend request or group invite
 
   return (
     <View
       style={[
         NotificationCardStyles.container,
-        isEvenIndex && NotificationCardStyles.containerAlt,
+        type==='groupInvite' && NotificationCardStyles.containerAlt,
       ]}>
-      <View style={NotificationCardStyles.leftSide}>
+      <View  style={NotificationCardStyles.card}>
         <Image
           source={
             userImage === '@nightlight/assets/images/anon.png'
@@ -59,6 +58,18 @@ const NotificationCard = ({
         </View>
         <Text style={NotificationCardStyles.time}>{time}</Text>
       </View>
+      {type === 'groupInvite' || type==='friendRequest' ? (
+        <View style={NotificationCardStyles.buttonrow}>
+        <Pressable style={NotificationCardStyles.accept}>
+          <Text style={NotificationCardStyles.acceptButtonText}>Accept</Text>
+        </Pressable>
+        <Pressable style={NotificationCardStyles.decline}>
+          <Text style={NotificationCardStyles.declineButtonText}>Decline</Text>
+        </Pressable>
+      </View>
+      ) : (
+        null
+      )}
     </View>
   );
 };

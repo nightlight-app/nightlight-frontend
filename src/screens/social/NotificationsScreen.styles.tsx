@@ -14,19 +14,6 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginVertical: 10,
   },
-  searchBar: {
-    backgroundColor: COLORS.WHITE,
-    color: COLORS.GRAY,
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 14,
-    marginVertical: 20,
-    marginHorizontal: 20,
-    padding: 10,
-    borderRadius: 10,
-  },
-  contactList: {
-    marginHorizontal: 10,
-  },
   contactSeparator: {
     height: 2,
   },
@@ -65,4 +52,9 @@ export default StyleSheet.create({
     fontSize: 14,
     color: COLORS.WHITE,
   },
+  notifList: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  }
 });

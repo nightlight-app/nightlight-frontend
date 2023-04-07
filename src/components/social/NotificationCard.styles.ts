@@ -4,15 +4,16 @@ const { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    paddingBottom: 10,
+    width: '95%',
+    borderRadius: 10,
+    marginBottom: 10,
+    paddingHorizontal: 5
   },
   containerAlt: {
-    backgroundColor: '#1E1E1E',
+    borderColor: COLORS.GREEN,
+    borderWidth: 2,
   },
   profileImage: {
     width: height * 0.05,
@@ -22,10 +23,11 @@ export default StyleSheet.create({
     borderColor: COLORS.WHITE,
     margin: 10,
   },
-  leftSide: {
+  card: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   message: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
@@ -47,4 +49,34 @@ export default StyleSheet.create({
     color: COLORS.GRAY,
     marginLeft: '3%',
   },
+  buttonrow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 6
+  },
+  accept: {
+    backgroundColor: COLORS.GREEN,
+    padding: 3,
+    borderRadius: 5,
+    borderColor: '#2E491B'
+  },
+  decline: {
+    backgroundColor: COLORS.RED,
+    padding: 3,
+    borderRadius: 5,
+    borderColor: '#732014'
+  
+  },
+  declineButtonText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 12,
+    color: '#732014',
+  },
+  acceptButtonText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 12,
+    color: '#2E491B'
+  }
 });

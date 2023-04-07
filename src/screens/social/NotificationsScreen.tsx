@@ -9,16 +9,22 @@ const NotificationsScreen = () => {
   const [counter, setCounter] = useState(0);
   //TODO: need to pull notifications from backend (getNotifications)
 
-  //   useEffect(() => {
-  //     setCounter(notifications.length)
-  //   });
+  useEffect(() => {
+    let count = 0;
+    notifications.forEach((item) => {
+      if (item.data.notificationType === "friendRequest" || item.data.notificationType === "groupInvite") {
+        count++;
+      }
+    });
+    setCounter(count);
+  }, [notifications]);
 
-  // called when there are no active group
+  // called when there are no notifications
   const renderEmptyGroup = () => (
     // TODO: figure out what to put here
     <View>
       <Text style={NotificationsScreenStyles.emptyAvailableUsersText}>
-        No active group
+        No notifications yet
       </Text>
     </View>
   );
@@ -34,12 +40,21 @@ const NotificationsScreen = () => {
             <Text style={NotificationsScreenStyles.numberText}>{counter}</Text>
           </View>
         </View>
-        <View>
-          {notifications.map(
-            (item: { body: string; userId: { $oid: string } }, index) => (
+        <View style={NotificationsScreenStyles.notifList}>
+          {notifications.sort((a,b)=> {
+            if (a.data.notificationType === "friendRequest" || a.data.notificationType === "groupInvite") {
+              return -1;
+            } else if (b.data.notificationType === "friendRequest" || b.data.notificationType === "groupInvite") {
+              return 1;
+            } else {
+              return 0;
+            }
+          }).map(
+            (item: { body: string; userId: { $oid: string }; data: {notificationType: string} }, index) => (
               <NotificationCard
                 index={index}
                 message={item.body}
+                type = {item.data.notificationType}
                 userId={item.userId.$oid}></NotificationCard>
             )
           )}

@@ -218,6 +218,7 @@ export interface NotificationCardProps {
   index: number;
   message: string;
   userId: string;
+  type: string;
 }
 
 export interface SearchUserCardProps {
