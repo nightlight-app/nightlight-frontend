@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, View, Text } from 'react-native';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import CreateGroupButton from '@nightlight/components/map/CreateGroupButton';
@@ -22,31 +22,35 @@ const MapScreen = () => {
     useState<MapCardType | null>(null);
 
   // keep track of the user to show in the user card
-  const [activeUser, setActiveUser] = useState<User>();
+  const [activeUserCard, setActiveUserCard] = useState<User>();
 
   // handlers for map card buttons
   const handleShowVenueCard = () => setActiveMapCardType(MapCardType.VENUE);
   // TODO: use loading indicator instead of TEST_USER
   const handleShowUserCard = (userToShow = TEST_USERS[0]) => {
-    setActiveUser(userToShow);
-
-    if (
-      activeMapCardType !== MapCardType.USER ||
-      activeUser?._id !== userToShow._id
-    ) {
-      // close the card first
-      setActiveMapCardType(null);
-      // then open the user card
-      setActiveMapCardType(MapCardType.USER);
-    } else {
-      // close whatever card is currently open
-      setActiveMapCardType(null);
-    }
+    setActiveMapCardType(MapCardType.USER);
+    setActiveUserCard(userToShow);
   };
   const handleShowCreateGroupCard = () =>
     setActiveMapCardType(MapCardType.CREATE_GROUP);
   const handleShowErrorCard = () => setActiveMapCardType(MapCardType.ERROR);
-  const handleCloseMapCard = () => setActiveMapCardType(null);
+  const handleCloseMapCard = () => {
+    setActiveMapCardType(null);
+    setActiveUserCard(undefined);
+  };
+
+  useEffect(() => {
+    // if user to show changes to another user, close the map card (then it will be re-opened)
+    if (activeUserCard) {
+      setActiveMapCardType(null);
+    }
+  }, [activeUserCard]);
+
+  useEffect(() => {
+    // if map card is closed but there is a user to show, open the user card
+    if (activeMapCardType === null && activeUserCard)
+      setActiveMapCardType(MapCardType.USER);
+  }, [activeMapCardType]);
 
   // render the selected map card
   const renderMapCard = (type: MapCardType) => {
@@ -57,13 +61,15 @@ const MapScreen = () => {
           <VenueCard venue={TEST_VENUES[0]} onClose={handleCloseMapCard} />
         );
       case MapCardType.USER:
-        return (
-          <UserCard
-            // Renders a fallback user if activeUser is undefined
-            user={activeUser || TEST_USERS[0]}
-            onClose={handleCloseMapCard}
-          />
-        );
+        if (!activeUserCard)
+          return (
+            <ErrorCard
+              message='There was an error determining which user to show!'
+              onClose={handleCloseMapCard}
+            />
+          );
+
+        return <UserCard user={activeUserCard} onClose={handleCloseMapCard} />;
       case MapCardType.CREATE_GROUP:
         return (
           <CreateGroupCard
@@ -102,7 +108,7 @@ const MapScreen = () => {
           <Text>Show Venue Card</Text>
         </Pressable>
         <Pressable
-          onPress={handleShowUserCard}
+          onPress={() => handleShowUserCard(TEST_USERS[0])}
           style={{
             backgroundColor: COLORS.GREEN,
             padding: 10,
@@ -123,7 +129,7 @@ const MapScreen = () => {
         </Pressable>
       </View>
 
-      {/* Conditionally render group button */}
+      {/* Render group members if user is in a group, otherwise render Create Group Button */}
       {userDocument?.currentGroup ? (
         <GroupMembers
           userOnPress={handleShowUserCard}
