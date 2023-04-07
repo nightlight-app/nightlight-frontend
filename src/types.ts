@@ -67,6 +67,11 @@ export enum SignUpInputField {
   PHONE_NUMBER = 'Phone Number',
 }
 
+export enum ExploreSortFilter {
+  ALL = 'All',
+  TRENDING = 'Trending',
+}
+
 export interface Reaction {
   count: number;
   didReact: boolean;
@@ -175,13 +180,6 @@ export interface MapCardButtonProps {
   onPress: () => void;
 }
 
-export interface ExploreCardProps {
-  name: string;
-  address: string;
-  lat: string;
-  long: string;
-}
-
 export interface EmergencyContactProps {
   name: string;
   phone: string;
@@ -201,12 +199,6 @@ export interface CreateGroupCardProps extends MapCardProps {}
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
-}
-
-export interface VenueReactionProps {
-  emoji: string;
-  value: number;
-  active: boolean;
 }
 
 export interface FriendCardProps {
@@ -329,4 +321,13 @@ export interface UserCircleProps {
 export interface MoodButtonAnimation {
   entry: EntryExitAnimationFunction;
   exit: EntryExitAnimationFunction;
+}
+
+export interface VenueReactButtonProps {
+  venue: Venue;
+  reaction: ReactionEmoji;
+}
+
+export interface ExploreCardProps {
+  venue: Venue;
 }

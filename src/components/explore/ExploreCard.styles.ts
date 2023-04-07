@@ -2,11 +2,15 @@ import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
+  venueCardContainer: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    padding: 10,
+    borderRadius: 10,
+  },
   venueName: {
     color: COLORS.WHITE,
     fontSize: 20,
     fontFamily: Fonts.COMFORTAA_BOLD,
-    maxWidth: '90%',
     marginBottom: 5,
   },
   venueDetailsContainer: {
@@ -29,33 +33,6 @@ export default StyleSheet.create({
   reactButtonsContainer: {
     flexDirection: 'row',
     maxWidth: '100%',
-  },
-  reactButtonContainer: {
-    backgroundColor: COLORS.DARK_GRAY,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginRight: 5,
-    flexDirection: 'row',
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-  },
-  reactButtonActive: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    shadowColor: COLORS.NIGHTLIGHT_BLUE,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowRadius: 4,
-  },
-  reactButtonEmoji: {
-    fontSize: 12,
-    marginRight: 3,
-  },
-  reactButtonCount: {
-    color: COLORS.WHITE,
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 12,
   },
   navigateButton: {
     backgroundColor: COLORS.GREEN,

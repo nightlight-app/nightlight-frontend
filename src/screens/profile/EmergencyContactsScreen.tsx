@@ -102,6 +102,7 @@ const EmergencyContactsScreen = () => {
         onChangeText={handleSearchChange}
         style={EmergencyContactsScreenStyles.searchBar}
         placeholder='Search contacts'
+        keyboardAppearance='dark'
       />
       <FlatList
         style={EmergencyContactsScreenStyles.contactList}

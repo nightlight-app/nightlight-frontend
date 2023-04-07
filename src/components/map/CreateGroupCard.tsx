@@ -243,6 +243,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
         placeholderTextColor={COLORS.GRAY}
         onChangeText={setSearchText}
         value={searchText}
+        keyboardAppearance='dark'
       />
 
       {/* Available friends */}

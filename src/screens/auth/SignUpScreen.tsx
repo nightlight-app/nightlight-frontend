@@ -367,6 +367,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           ]}
           value={firstName}
           onChangeText={setFirstName}
+          keyboardAppearance='dark'
         />
         <View style={SignUpScreenStyles.greetingEndContainer}>
           <TextInput
@@ -380,6 +381,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             ]}
             value={lastName}
             onChangeText={setLastName}
+            keyboardAppearance='dark'
           />
           <Text
             style={[
@@ -426,6 +428,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             SignUpScreenStyles.textInputError,
         ]}
         keyboardType='email-address'
+        keyboardAppearance='dark'
         value={email}
         onChangeText={setEmail}
       />
@@ -447,6 +450,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           placeholder='********'
           secureTextEntry={!isPasswordVisible}
           autoCapitalize='none'
+          keyboardAppearance='dark'
           style={[
             SignUpScreenStyles.textInput,
             errorFields.includes(SignUpInputField.PASSWORD) &&
@@ -470,6 +474,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           placeholder="Let's confirm that ^"
           secureTextEntry={!isConfirmPasswordVisible}
           autoCapitalize='none'
+          keyboardAppearance='dark'
           style={[
             SignUpScreenStyles.textInput,
             errorFields.includes(SignUpInputField.CONFIRM_PASSWORD) &&
@@ -516,6 +521,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           ]}
           keyboardType='number-pad'
           maxLength={14}
+          keyboardAppearance='dark'
           value={formatPhoneNumber(phoneNumber) || phoneNumber}
           onChangeText={handlePhoneNumberChange}
         />
