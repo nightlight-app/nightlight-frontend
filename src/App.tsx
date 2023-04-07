@@ -35,6 +35,7 @@ import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import SocialScreen from '@nightlight/screens/social/SocialScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
+import SettingsScreen from '@nightlight/screens/settings/SettingsScreen';
 import { Subscription } from 'expo-modules-core';
 import {
   addNotificationReceivedListener,
@@ -103,7 +104,10 @@ const ProfileScreenStack = () => (
       name={ProfileRoute.EMERGENCY_CONTACTS}
       component={EmergencyContactsScreen}
     />
-    {/* <Stack.Screen name={ProfileRoute.SETTINGS} component={SettingsScreen} /> */}
+    <ProfileStack.Screen
+      name={ProfileRoute.SETTINGS}
+      component={SettingsScreen}
+    />
   </ProfileStack.Navigator>
 );
 

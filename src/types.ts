@@ -72,6 +72,12 @@ export enum ExploreSortFilter {
   TRENDING = 'Trending',
 }
 
+export enum LocationVisibilityValue {
+  NO_ONE = 'NoOne',
+  FRIENDS = 'Friends',
+  FRIENDS_AND_GROUP = 'FriendsAndGroup',
+}
+
 export interface Reaction {
   count: number;
   didReact: boolean;
@@ -322,6 +328,16 @@ export interface MoodButtonAnimation {
   exit: EntryExitAnimationFunction;
 }
 
+export interface ToggleButtonProps {
+  value: boolean | undefined;
+  toggleValue: () => void;
+}
+
+export interface ToggleSettingProps extends ToggleButtonProps {
+  label: string;
+  description?: string;
+  dangerous?: boolean;
+}
 export interface VenueReactButtonProps {
   venue: Venue;
   reaction: ReactionEmoji;
@@ -329,4 +345,15 @@ export interface VenueReactButtonProps {
 
 export interface ExploreCardProps {
   venue: Venue;
+}
+
+export interface SelectOption {
+  label: string;
+  value: any;
+}
+
+export interface SelectProps {
+  options: SelectOption[];
+  value: any;
+  onChangeValue: (value: any) => void;
 }
