@@ -6,15 +6,20 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-const HorizontalSelect = ({ options, value, onChangeValue }: SelectProps) => {
+const HorizontalSelect = ({
+  // the available options to select from { label: string, value: string }
+  options,
+  // the currently value selected
+  value,
+  // a callback function called when the user selects a new value (accepted as arg)
+  onChangeValue,
+}: SelectProps) => {
   const optionWidthPct = 100 / options.length;
   const valueIndex = options.findIndex(option => option.value === value);
 
   const selectIndicatorAnimation = useAnimatedStyle(() => ({
     width: optionWidthPct + '%',
-    left: withTiming(valueIndex)
-      ? withTiming(optionWidthPct * valueIndex + '%')
-      : 0,
+    left: withTiming(optionWidthPct * valueIndex + '%'),
   }));
 
   return (
