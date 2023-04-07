@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text } from 'react-native';
-import FriendCardStyles from '@nightlight/components/social/FriendCard.styles';
-import { FriendCardProps, NotificationCardProps } from '@nightlight/src/types';
-import PinSvg from '@nightlight/src/components/svgs/PinSvg';
+import { NotificationCardProps } from '@nightlight/src/types';
 import NotificationCardStyles from './NotificationCard.styles';
-import FriendCard from './FriendCard';
 import axios from 'axios';
 import { SERVER_URL } from '@env';
 
@@ -14,9 +11,7 @@ const NotificationCard = ({
   userId,
 }: NotificationCardProps) => {
   const isEvenIndex = index % 2 !== 0;
-  const [userImage, setUserImage] = useState(
-    '@nightlight/assets/images/anon.png'
-  );
+  const [userImage, setUserImage] = useState();
 
   //TODO pull notifications from backend
 
@@ -47,9 +42,9 @@ const NotificationCard = ({
       <View style={NotificationCardStyles.leftSide}>
         <Image
           source={
-            userImage === '@nightlight/assets/images/anon.png'
-              ? require('@nightlight/assets/images/anon.png')
-              : { uri: `${userImage}` }
+            userImage
+              ? { uri: `${userImage}` }
+              : require('@nightlight/assets/images/anon.png')
           }
           style={NotificationCardStyles.profileImage}
         />
