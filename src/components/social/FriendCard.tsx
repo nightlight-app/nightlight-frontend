@@ -30,7 +30,7 @@ const FriendCard = ({ name, index, isInGroup,url }: FriendCardProps) => {
       </View>
       <View style={FriendCardStyles.rowview}>
         {isInGroup && <PinSvg />}
-        <EllipseSvg style={FriendCardStyles.ellipse} />
+        {/* <EllipseSvg style={FriendCardStyles.ellipse} /> */}
       </View>
     </View>
   );
