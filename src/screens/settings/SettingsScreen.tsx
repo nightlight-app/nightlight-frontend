@@ -128,6 +128,8 @@ const SettingsScreen = () => {
     <SafeAreaView style={SettingsScreenStyles.container}>
       <View style={SettingsScreenStyles.contentContainer}>
         <Text style={SettingsScreenStyles.title}>Settings</Text>
+
+        {/* Location Visibility */}
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>
             Location Visibility
@@ -141,6 +143,8 @@ const SettingsScreen = () => {
             onChangeValue={setLocationVisibility}
           />
         </View>
+
+        {/* Notifications */}
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>Notifications</Text>
           <ToggleSetting
@@ -163,6 +167,8 @@ const SettingsScreen = () => {
             dangerous
           />
         </View>
+
+        {/* Account */}
         <View style={SettingsScreenStyles.category}>
           <Text style={SettingsScreenStyles.categoryLabel}>Account</Text>
           <Button
