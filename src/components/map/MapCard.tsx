@@ -25,7 +25,7 @@ const MapCard = ({
       }}
       entering={SlideInDown.springify().damping(25).stiffness(300)}
       // FIXME: slide out animation is not working
-      exiting={SlideOutDown.mass(0.1)}> 
+      exiting={SlideOutDown.mass(0.1)}>
       <View
         style={{
           ...MapCardStyles.contentContainer,
