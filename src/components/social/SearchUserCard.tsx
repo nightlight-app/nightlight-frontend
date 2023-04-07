@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Image, Text, Button, Pressable } from 'react-native';
+import { View, Image, Text, Pressable } from 'react-native';
 import UserCardStyles from '@nightlight/components/social/SearchUserCard.styles';
 import { SearchUserCardProps } from '@nightlight/src/types';
-import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import axios from 'axios';
 import { SERVER_URL } from '@env';
