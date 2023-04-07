@@ -1,6 +1,10 @@
 import { MAPBOX_API_KEY, SERVER_URL } from '@env';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Pressable, Image } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 import MapboxGL, { Camera, CameraStop } from '@rnmapbox/maps';
 import { UserTrackingMode } from '@rnmapbox/maps/javascript/components/Camera';
 import { Position } from '@turf/helpers/dist/js/lib/geojson';
@@ -178,6 +182,20 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     });
   };
 
+  const locationButtonAnimation = useAnimatedStyle(() => ({
+    transform: [
+      {
+        rotate: withTiming(`${isCameraFollowingUserHeading ? -45 : 0}deg`),
+      },
+      {
+        translateY: withTiming(isCameraFollowingUserHeading ? 3 : 0),
+      },
+      {
+        translateX: withTiming(isCameraFollowingUserHeading ? -3 : 0),
+      },
+    ],
+  }));
+
   return (
     <View style={NightlightMapStyles.page}>
       <View style={NightlightMapStyles.container}>
@@ -262,20 +280,15 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
         <Pressable
           onPress={handleLocationButtonPress}
           style={MapScreenStyles.mapControlButton}>
-          <MaterialCommunityIcons
-            name={`navigation-variant${
-              isCameraFollowingUserLocation ? '' : '-outline'
-            }`}
-            size={32}
-            color={COLORS.NIGHTLIGHT_BLUE}
-            style={{
-              transform: [
-                {
-                  rotate: `${isCameraFollowingUserHeading ? -45 : 0}deg`,
-                },
-              ],
-            }}
-          />
+          <Animated.View style={locationButtonAnimation}>
+            <MaterialCommunityIcons
+              name={`navigation-variant${
+                isCameraFollowingUserLocation ? '' : '-outline'
+              }`}
+              size={32}
+              color={COLORS.NIGHTLIGHT_BLUE}
+            />
+          </Animated.View>
         </Pressable>
       </View>
     </View>
