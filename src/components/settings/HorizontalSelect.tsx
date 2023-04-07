@@ -7,7 +7,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 const HorizontalSelect = ({
-  // the available options to select from { label: string, value: string }
+  // the available options to select from { label: string, value: any }
   options,
   // the currently value selected
   value,
