@@ -53,7 +53,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
     //         console.log('Error: ', e)
     //       })
     //     }
-  });
+  }, []);
 
   // called when there are no active group
   const renderEmptyGroup = () => (
