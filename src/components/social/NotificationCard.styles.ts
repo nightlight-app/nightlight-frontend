@@ -27,22 +27,24 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  name: {
+  message: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 20,
+    fontSize: 14,
     color: COLORS.WHITE,
   },
-  activeText: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 10,
-    color: COLORS.GRAY,
-  },
-  ellipse: {
-    margin: 15,
-  },
-  rowView: {
+  rowview: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  textbox: {
+    width: '65%',
+    marginLeft: '2%',
+  },
+  time: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 10,
+    color: COLORS.GRAY,
+    marginLeft: '3%',
   },
 });

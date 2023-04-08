@@ -211,3 +211,336 @@ export const friends = [
     name: TEST_USERS[0].firstName + ' ' + TEST_USERS[0].lastName[0] + '.',
   },
 ];
+
+export const TEST_NOTIFICATIONS = [
+  {
+    _id: {
+      $oid: '6428c7cf16a44c86f667fefb',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667feef',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7cf16a44c86f667ff0a',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667feeb',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7cf16a44c86f667fef9',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667fee7',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7cf16a44c86f667fefa',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667fee9',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7cf16a44c86f667ff12',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667fef1',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d016a44c86f667ff1a',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667fef3',
+    },
+    title: 'Group invitation declined 😢',
+    body: 'Graham5 Hemingway5 rejected invitation to group.',
+    data: {
+      notificationType: 'groupInviteDeclined',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d016a44c86f667ff20',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667fef3',
+    },
+    title: 'New group member! 😎',
+    body: 'Graham2 Hemingway2 has joined your group.',
+    data: {
+      notificationType: 'groupInviteAccepted',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d016a44c86f667ff26',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667fee9',
+    },
+    title: 'New group member! 😎',
+    body: 'Graham5 Hemingway5 has joined your group.',
+    data: {
+      notificationType: 'groupInviteAccepted',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d016a44c86f667ff25',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667fef3',
+    },
+    title: 'New group member! 😎',
+    body: 'Graham5 Hemingway5 has joined your group.',
+    data: {
+      notificationType: 'groupInviteAccepted',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d237bdfcdc87631119',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667fef3',
+    },
+    title: 'Group expired! 👋',
+    body: 'Your group has expired. We hope you had a safe night!',
+    data: {
+      notificationType: 'groupExpired',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d237bdfcdc8763111a',
+    },
+    userId: {
+      $oid: '6428c7cf16a44c86f667fee9',
+    },
+    title: 'Group expired! 👋',
+    body: 'Your group has expired. We hope you had a safe night!',
+    data: {
+      notificationType: 'groupExpired',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d616a44c86f667ff48',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff37',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d616a44c86f667ff47',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff35',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d616a44c86f667ff49',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff3d',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d716a44c86f667ff5a',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff39',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d716a44c86f667ff60',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff3f',
+    },
+    title: 'New group invite! 🎉',
+    body: 'Graham3 Hemingway3 has invited you to join their group.',
+    data: {
+      notificationType: 'groupInvite',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d716a44c86f667ff66',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff41',
+    },
+    title: 'New group member! 😎',
+    body: 'John1 Doe1 has joined your group.',
+    data: {
+      notificationType: 'groupInviteAccepted',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d716a44c86f667ff6b',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff41',
+    },
+    title: 'New group member! 😎',
+    body: 'Graham2 Hemingway2 has joined your group.',
+    data: {
+      notificationType: 'groupInviteAccepted',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d716a44c86f667ff6c',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff35',
+    },
+    title: 'New group member! 😎',
+    body: 'Graham2 Hemingway2 has joined your group.',
+    data: {
+      notificationType: 'groupInviteAccepted',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d716a44c86f667ff75',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff37',
+    },
+    title: 'New group member! 😎',
+    body: 'Graham3 Hemingway3 has joined your group.',
+    data: {
+      notificationType: 'groupInviteAccepted',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d716a44c86f667ff73',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff41',
+    },
+    title: 'New group member! 😎',
+    body: 'Graham3 Hemingway3 has joined your group.',
+    data: {
+      notificationType: 'groupInviteAccepted',
+    },
+    delay: 0,
+    __v: 0,
+  },
+  {
+    _id: {
+      $oid: '6428c7d716a44c86f667ff74',
+    },
+    userId: {
+      $oid: '6428c7d616a44c86f667ff35',
+    },
+    title: 'New group member! 😎',
+    body: 'Graham3 Hemingway3 has joined your group.',
+    data: {
+      notificationType: 'groupInviteAccepted',
+    },
+    delay: 0,
+    __v: 0,
+  },
+];
