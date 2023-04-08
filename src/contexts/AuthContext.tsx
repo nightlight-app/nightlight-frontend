@@ -98,16 +98,17 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       // update userDocument state
       setUserDocument(retrievedUser);
 
-      if (shouldUpdateNotificationToken) {
+      if (shouldUpdateNotificationToken && userSession) {
         // get the notification token and send it to the server
         const notificationToken = await registerForPushNotificationsAsync();
-        await customFetch(`/users/${retrievedUser._id}/addNotificationToken`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ notificationToken }),
-        });
+        await customFetch(
+          userSession,
+          `/users/${retrievedUser._id}/addNotificationToken`,
+          {
+            method: 'PATCH',
+            body: JSON.stringify({ notificationToken }),
+          }
+        );
       }
     } catch (e) {
       console.log('Error in updateUserDocument', e);
