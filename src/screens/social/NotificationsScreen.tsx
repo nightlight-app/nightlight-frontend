@@ -38,6 +38,7 @@ const NotificationsScreen = () => {
           {notifications.map(
             (item: { body: string; userId: { $oid: string } }, index) => (
               <NotificationCard
+                key={index}
                 index={index}
                 message={item.body}
                 userId={item.userId.$oid}></NotificationCard>
