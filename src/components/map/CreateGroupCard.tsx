@@ -88,7 +88,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   // Creates a group with the selected users
   const handleCreateGroup = () => {
-    if (!userDocument) {
+    if (!userDocument || !userSession) {
       if (onError) onError();
       return;
     }
@@ -103,27 +103,23 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
       expirationDatetime: getDatetimeAfterHours(8),
     };
 
-    console.log('Attempting to create group...', groupObject);
-
     // send a POST request to the server to create the group
-    fetch(`${SERVER_URL}/groups?userId=${userDocument?._id}`, {
+    customFetch(userSession, `/groups?userId=${userDocument?._id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(groupObject),
     })
-      .then(res => res.json())
       .then(data => {
-        // if response has an error message, display to user
-        if (data.message) Alert.alert(data.message);
-        else {
-          // otherwise, display success and close card
-          console.log('HERE IS THE GROUP', data);
-          Alert.alert('Group created successfully!');
-        }
+        // display success and close card
+        Alert.alert(data.message);
         updateUserDocument({});
         onClose();
+      })
+      .catch(e => {
+        if (onError) onError();
+        console.log(e);
       });
   };
 
