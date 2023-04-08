@@ -8,6 +8,14 @@ import {
 } from '@expo-google-fonts/comfortaa';
 import { Roboto_500Medium } from '@expo-google-fonts/roboto';
 import { preventAutoHideAsync, hideAsync } from 'expo-splash-screen';
+import { Subscription } from 'expo-modules-core';
+import {
+  addNotificationReceivedListener,
+  addNotificationResponseReceivedListener,
+  removeNotificationSubscription,
+  setNotificationHandler,
+  Notification,
+} from 'expo-notifications';
 
 // TODO: export navigators to separate files?
 
@@ -17,7 +25,12 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { AuthRoute, ProfileRoute, TabRoute } from '@nightlight/src/types';
+import {
+  AuthRoute,
+  ProfileRoute,
+  TabRoute,
+  SocialRoute,
+} from '@nightlight/src/types';
 import {
   AuthProvider,
   useAuthContext,
@@ -30,19 +43,15 @@ import ExploreScreen from '@nightlight/screens/explore/ExploreScreen';
 import SocialScreen from '@nightlight/screens/social/SocialScreen';
 import ProfileScreen from '@nightlight/screens/profile/ProfileScreen';
 import EmergencyContactsScreen from '@nightlight/screens/profile/EmergencyContactsScreen';
-import { Subscription } from 'expo-modules-core';
-import {
-  addNotificationReceivedListener,
-  addNotificationResponseReceivedListener,
-  removeNotificationSubscription,
-  setNotificationHandler,
-  Notification,
-} from 'expo-notifications';
+import SettingsScreen from '@nightlight/screens/settings/SettingsScreen';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
+import FriendSearchScreen from '@nightlight/screens/social/FriendSearchScreen';
+import NotificationsScreen from '@nightlight/screens/social/NotificationsScreen';
 
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
+const SocialStack = createNativeStackNavigator();
 
 // Prevent hiding the splash screen
 preventAutoHideAsync();
@@ -66,6 +75,24 @@ const AuthScreenStack = () => {
   );
 };
 
+const SocialScreenStack = () => {
+  return (
+    <SocialStack.Navigator
+      initialRouteName={SocialRoute.SOCIAL}
+      screenOptions={{ headerShown: false }}>
+      <SocialStack.Screen name={SocialRoute.SOCIAL} component={SocialScreen} />
+      <SocialStack.Screen
+        name={SocialRoute.FRIEND_SEARCH}
+        component={FriendSearchScreen}
+      />
+      <SocialStack.Screen
+        name={SocialRoute.NOTIFICATIONS}
+        component={NotificationsScreen}
+      />
+    </SocialStack.Navigator>
+  );
+};
+
 const ProfileScreenStack = () => (
   <ProfileStack.Navigator
     initialRouteName={ProfileRoute.PROFILE}
@@ -78,7 +105,10 @@ const ProfileScreenStack = () => (
       name={ProfileRoute.EMERGENCY_CONTACTS}
       component={EmergencyContactsScreen}
     />
-    {/* <Stack.Screen name={ProfileRoute.SETTINGS} component={SettingsScreen} /> */}
+    <ProfileStack.Screen
+      name={ProfileRoute.SETTINGS}
+      component={SettingsScreen}
+    />
   </ProfileStack.Navigator>
 );
 
@@ -95,7 +125,11 @@ const Main = () => {
           screenOptions={{ headerShown: false }}
           tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}>
           <Tab.Screen name={TabRoute.MAP} component={MapScreen} />
-          <Tab.Screen name={TabRoute.SOCIAL} component={SocialScreen} />
+          <Tab.Screen
+            name={TabRoute.SOCIAL_STACK}
+            component={SocialScreenStack}
+            initialParams={{ screen: SocialRoute.SOCIAL }}
+          />
 
           {/* Placeholder to allocate space for emergency button to render in tab bar */}
           <Tab.Screen

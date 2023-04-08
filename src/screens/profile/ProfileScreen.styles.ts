@@ -134,9 +134,4 @@ export default StyleSheet.create({
     marginBottom:
       SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
-
-  // TODO: refactor logout button
-  logOutButton: {
-    marginVertical: 15,
-  },
 });
