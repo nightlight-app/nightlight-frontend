@@ -10,7 +10,6 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 const NotificationsScreen = () => {
   const [notifications, setNotifications] = useState([]);
   const [counter, setCounter] = useState(0);
-  //TODO: need to pull notifications from backend (getNotifications)
 
   // user id
   const { userDocument } = useAuthContext();
@@ -66,12 +65,13 @@ const NotificationsScreen = () => {
               return 0;
             }
           }).map(
-            (item: { body: string; userId: { $oid: string }; data: {notificationType: string} }, index) => (
+            (item: { body: string; userId: { $oid: string }; data: {notificationType: string, sentDateTime: string} }, index) => (
               <NotificationCard
                 index={index}
                 message={item.body}
                 type = {item.data.notificationType}
-                userId={item.userId.$oid}></NotificationCard>
+                time={item.data.sentDateTime}
+                friendId={item.userId.$oid}></NotificationCard>
             )
           )}
         </View>

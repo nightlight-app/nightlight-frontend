@@ -218,8 +218,9 @@ export interface FriendCardProps {
 export interface NotificationCardProps {
   index: number;
   message: string;
-  userId: string;
+  friendId: string;
   type: string;
+  time: string;
 }
 
 export interface SearchUserCardProps {
