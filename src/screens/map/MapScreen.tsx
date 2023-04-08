@@ -25,15 +25,20 @@ const MapScreen = () => {
   const [activeUserCard, setActiveUserCard] = useState<User>();
 
   // handlers for map card buttons
-  const handleShowVenueCard = () => setActiveMapCardType(MapCardType.VENUE);
+  const handleShowVenueCard = () => {
+    setActiveMapCardType(MapCardType.VENUE);
+  };
+  const handleShowCreateGroupCard = () => {
+    setActiveMapCardType(MapCardType.CREATE_GROUP);
+  };
+  const handleShowErrorCard = () => {
+    setActiveMapCardType(MapCardType.ERROR);
+  };
   // TODO: use loading indicator instead of TEST_USER
   const handleShowUserCard = (userToShow = TEST_USERS[0]) => {
     setActiveMapCardType(MapCardType.USER);
     setActiveUserCard(userToShow);
   };
-  const handleShowCreateGroupCard = () =>
-    setActiveMapCardType(MapCardType.CREATE_GROUP);
-  const handleShowErrorCard = () => setActiveMapCardType(MapCardType.ERROR);
   const handleCloseMapCard = () => {
     setActiveMapCardType(null);
     setActiveUserCard(undefined);
@@ -41,9 +46,7 @@ const MapScreen = () => {
 
   useEffect(() => {
     // if user to show changes to another user, close the map card (then it will be re-opened)
-    if (activeUserCard) {
-      setActiveMapCardType(null);
-    }
+    if (activeUserCard) setActiveMapCardType(null);
   }, [activeUserCard]);
 
   useEffect(() => {
@@ -60,6 +63,7 @@ const MapScreen = () => {
         return (
           <VenueCard venue={TEST_VENUES[0]} onClose={handleCloseMapCard} />
         );
+
       case MapCardType.USER:
         if (!activeUserCard)
           return (
@@ -68,8 +72,8 @@ const MapScreen = () => {
               onClose={handleCloseMapCard}
             />
           );
-
         return <UserCard user={activeUserCard} onClose={handleCloseMapCard} />;
+
       case MapCardType.CREATE_GROUP:
         return (
           <CreateGroupCard
@@ -77,6 +81,7 @@ const MapScreen = () => {
             onError={handleShowErrorCard}
           />
         );
+
       default:
         return <ErrorCard onClose={handleCloseMapCard} />;
     }
