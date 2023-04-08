@@ -1,36 +1,41 @@
-import { View, Text, Pressable } from 'react-native';
-import styles from '@nightlight/components/explore/ExploreCard.styles';
-import VenueReaction from '@nightlight/components/venue-reaction/VenueReaction';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Location, ReactionEmoji } from '@nightlight/src/types';
+import ExploreCardStyles from '@nightlight/components/explore/ExploreCard.styles';
+import VenueReactButton from '@nightlight/components/VenueReactButton';
 import { ExploreCardProps } from '@nightlight/src/types';
 
-const ExploreCard = (Props: ExploreCardProps) => {
+const ExploreCard = ({ venue }: ExploreCardProps) => {
+  const handleStartNavigation = (destination: Location) => {
+    alert(
+      `TODO: Zi, take me to ${destination.latitude}, ${destination.longitude}, please!`
+    );
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.venueTitle}>{Props.name}</Text>
-      </View>
-      <View style={styles.lowerContainer}>
-        <View style={styles.reactionContainer}>
-          <Text style={styles.venueAddress}>{Props.address}</Text>
-          <View style={styles.reactionGroup}>
-            <VenueReaction emoji='🔥' value={8} active={false} />
-            <VenueReaction emoji='😄' value={2} active={true} />
-            <VenueReaction emoji='🎉' value={12} active={false} />
-            <VenueReaction emoji='⚠️' value={5} active={false} />
-            <VenueReaction emoji='💩' value={11} active={false} />
+    <View style={ExploreCardStyles.venueCardContainer}>
+      <Text style={ExploreCardStyles.venueName}>{venue.name}</Text>
+      <View style={ExploreCardStyles.venueDetailsContainer}>
+        <View>
+          <Text style={ExploreCardStyles.venueAddress}>{venue.address}</Text>
+          <Text style={ExploreCardStyles.venueDistance}>0.3 miles</Text>
+          <View style={ExploreCardStyles.reactButtonsContainer}>
+            {Object.keys(venue.reactions).map((emoji, index) => (
+              <VenueReactButton
+                key={index}
+                venue={venue}
+                reaction={emoji as ReactionEmoji}
+              />
+            ))}
           </View>
         </View>
-        <Pressable
-          style={styles.goButton}
-          onPress={() =>
-            console.log('latitude: ', Props.lat, 'longitude: ', Props.long)
-          }>
-          <Text style={styles.goButtonText}>GO</Text>
-          <Text style={styles.goButtonSubText}>0.1m</Text>
-        </Pressable>
+        <TouchableOpacity
+          activeOpacity={0.75}
+          onPress={() => handleStartNavigation(venue.location)}
+          style={ExploreCardStyles.navigateButton}>
+          <Text style={ExploreCardStyles.navigateButtonText}>GO</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
-
 export default ExploreCard;

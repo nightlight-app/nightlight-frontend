@@ -1,5 +1,8 @@
 import { SvgProps } from 'react-native-svg';
-import { SharedValue } from 'react-native-reanimated';
+import {
+  EntryExitAnimationFunction,
+  SharedValue,
+} from 'react-native-reanimated';
 import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 import type { User as FirebaseUser } from 'firebase/auth';
@@ -9,7 +12,7 @@ import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
 
 export enum TabRoute {
   MAP = 'Map',
-  SOCIAL = 'Social',
+  SOCIAL_STACK = 'SocialStack',
   EMERGENCY_BUTTON = 'EmergencyButton',
   EXPLORE = 'Explore',
   PROFILE_STACK = 'ProfileStack',
@@ -24,6 +27,12 @@ export enum ProfileRoute {
   PROFILE = 'Profile',
   EMERGENCY_CONTACTS = 'EmergencyContacts',
   SETTINGS = 'Settings',
+}
+
+export enum SocialRoute {
+  SOCIAL = 'Social',
+  FRIEND_SEARCH = 'FriendSearch',
+  NOTIFICATIONS = 'Notifications',
 }
 
 export enum MapCardType {
@@ -56,6 +65,17 @@ export enum SignUpInputField {
   PASSWORD = 'Password',
   CONFIRM_PASSWORD = 'Confirm Password',
   PHONE_NUMBER = 'Phone Number',
+}
+
+export enum ExploreSortFilter {
+  ALL = 'All',
+  TRENDING = 'Trending',
+}
+
+export enum LocationVisibilityValue {
+  NO_ONE = 'NoOne',
+  FRIENDS = 'Friends',
+  FRIENDS_AND_GROUP = 'FriendsAndGroup',
 }
 
 export interface Reaction {
@@ -167,13 +187,6 @@ export interface MapCardButtonProps {
   onPress: () => void;
 }
 
-export interface ExploreCardProps {
-  name: string;
-  address: string;
-  lat: string;
-  long: string;
-}
-
 export interface EmergencyContactProps {
   name: string;
   phone: string;
@@ -195,16 +208,28 @@ export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
 
-export interface VenueReactionProps {
-  emoji: string;
-  value: number;
-  active: boolean;
-}
-
 export interface FriendCardProps {
   name: string;
   index: number;
   isInGroup: boolean;
+  imgUrl: string;
+}
+
+export interface NotificationCardProps {
+  index: number;
+  message: string;
+  userId: string;
+}
+
+export interface SearchUserCardProps {
+  firstName: string;
+  lastName: string;
+  index: number;
+  isAdded: boolean;
+  isFirstItem: boolean;
+  isLastItem: boolean;
+  image: string;
+  friendId: string;
 }
 
 /**
@@ -297,4 +322,39 @@ export interface GroupMembersProps {
 
 export interface UserCircleProps {
   userId: string;
+}
+
+export interface MoodButtonAnimation {
+  entry: EntryExitAnimationFunction;
+  exit: EntryExitAnimationFunction;
+}
+
+export interface ToggleButtonProps {
+  value: boolean | undefined;
+  toggleValue: () => void;
+}
+
+export interface ToggleSettingProps extends ToggleButtonProps {
+  label: string;
+  description?: string;
+  dangerous?: boolean;
+}
+export interface VenueReactButtonProps {
+  venue: Venue;
+  reaction: ReactionEmoji;
+}
+
+export interface ExploreCardProps {
+  venue: Venue;
+}
+
+export interface SelectOption {
+  label: string;
+  value: any;
+}
+
+export interface SelectProps {
+  options: SelectOption[];
+  value: any;
+  onChangeValue: (value: any) => void;
 }

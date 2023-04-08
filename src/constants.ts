@@ -1,5 +1,9 @@
 import { Dimensions } from 'react-native';
-import { MoodEmoji } from '@nightlight/src/types';
+import {
+  LocationVisibilityValue,
+  MoodEmoji,
+  SelectOption,
+} from '@nightlight/src/types';
 import { WithSpringConfig } from 'react-native-reanimated';
 
 // General
@@ -71,3 +75,21 @@ export const MIN_PASSWORD_LENGTH: number = 6; // minimum length of the password 
 // Error Messages for Users
 export const UNEXPECTED_ERROR_MESSAGE: string =
   "Well, that wasn't supposed to happen... contact us if this keeps happening (nightlight.headquarters@gmail.com).";
+
+// Toggle button
+export const TOGGLE_BUTTON_DIAMETER: number = 28; // diameter of the toggle button in points
+export const TOGGLE_BUTTON_RADIUS: number = TOGGLE_BUTTON_DIAMETER / 2; // radius of the toggle button in points
+export const TOGGLE_BUTTON_ANIMATION_DURATION: number = 150; // duration of the toggle button animation in milliseconds
+
+// Horizontal select
+export const HORIZONTAL_SELECT_PADDING: number = 4; // padding of the horizontal select in points
+
+// Settings
+export const LOCATION_VISIBILITY_OPTIONS: SelectOption[] = [
+  { label: 'No one', value: LocationVisibilityValue.NO_ONE },
+  { label: 'Friends', value: LocationVisibilityValue.FRIENDS },
+  {
+    label: 'Friends + Group',
+    value: LocationVisibilityValue.FRIENDS_AND_GROUP,
+  },
+];

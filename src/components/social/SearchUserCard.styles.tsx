@@ -12,13 +12,13 @@ export default StyleSheet.create({
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
   },
   containerAlt: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#1E1E1E', // TODO: use color from global.styles
   },
   profileImage: {
     width: DEVICE_HEIGHT * 0.05,
     height: DEVICE_HEIGHT * 0.05,
     borderRadius: (DEVICE_HEIGHT * 0.15) / 2,
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: COLORS.WHITE,
     margin: 10,
   },
@@ -29,7 +29,7 @@ export default StyleSheet.create({
   },
   name: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 20,
+    fontSize: 18,
     color: COLORS.WHITE,
   },
   activeText: {
@@ -40,9 +40,32 @@ export default StyleSheet.create({
   ellipse: {
     margin: 15,
   },
-  rowView: {
+  rowview: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  addButton: {
+    padding: 6,
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginRight: 10,
+    // marginRight: 10,
+    // marginBottom: 10,
+  },
+  addedButton: {
+    padding: 6,
+    backgroundColor: COLORS.GRAY,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginRight: 10,
+  },
+  addButtonText: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 13,
+    color: COLORS.WHITE,
   },
 });

@@ -28,6 +28,7 @@ import {
 } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
+import { Path } from 'react-native-svg';
 import Button from '@nightlight/components/Button';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
@@ -49,7 +50,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
 
   // TODO:
   const handleSettingsPress = () => {
-    Alert.alert('TODO: navigate to settings');
+    navigation.navigate(ProfileRoute.SETTINGS);
   };
 
   // TODO:
@@ -116,13 +117,6 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
           {formatPhoneNumber(user.phone)}
         </Text>
 
-        {/* TODO: move logout button? */}
-        <Button
-          onPress={handleFirebaseSignOut}
-          text='Logout'
-          style={ProfileScreenStyles.logOutButton}
-        />
-
         {/* Profile Statistics */}
         <View style={ProfileScreenStyles.profileStatsContainer}>
           <View style={ProfileScreenStyles.profileStatContainer}>
@@ -166,7 +160,15 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         <View style={ProfileScreenStyles.calendarContainer}>
           {[...Array(MONTHS_PER_YEAR)].map((_, index) => (
             <View key={index} style={ProfileScreenStyles.monthView}>
-              <BottleSvg />
+              <BottleSvg>
+                {/* <Path d={BottleSvg} fill="#c4c4c4" /> */}
+                <Path
+                  d={`M20,180 L80,180 L80,${180 - 0.5 * 140} L20,${
+                    180 - 0.5 * 140
+                  }Z`}
+                  fill='#0080ff'
+                />
+              </BottleSvg>
               <Text style={ProfileScreenStyles.monthText}>
                 {getMonthText(index)}
               </Text>

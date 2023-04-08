@@ -113,6 +113,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
               errorMessage !== null && SignInScreenStyles.errorInput,
             ]}
             autoCapitalize='none'
+            keyboardAppearance='dark'
             value={email}
             onChangeText={setEmail}
           />
@@ -127,6 +128,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
               ]}
               autoCapitalize='none'
               secureTextEntry={!isPasswordVisible}
+              keyboardAppearance='dark'
               value={password}
               onChangeText={setPassword}
             />
