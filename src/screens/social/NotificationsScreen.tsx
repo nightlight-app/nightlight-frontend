@@ -4,14 +4,30 @@ import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import NotificationsScreenStyles from './NotificationsScreen.styles';
 import { testNotifications } from '@nightlight/src/testData';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
+import axios from 'axios';
+import { SERVER_URL } from '@env';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 const NotificationsScreen = () => {
-  const [notifications, setNotifications] = useState(testNotifications);
+  const [notifications, setNotifications] = useState([]);
   const [counter, setCounter] = useState(0);
   //TODO: need to pull notifications from backend (getNotifications)
 
+  // user id
+  const { userDocument } = useAuthContext();
+  let userid = userDocument?._id;
+
   useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/notifications/?userId=${userid}`)
+      .then(res => {
+        setNotifications(res.data.notifications);
+      })
+      .catch(e => {
+        console.log('Error: ', e);
+      });
+
     let count = 0;
-    notifications.forEach((item) => {
+    notifications.forEach((item: {data:{notificationType: string}}) => {
       if (item.data.notificationType === "friendRequest" || item.data.notificationType === "groupInvite") {
         count++;
       }
@@ -41,7 +57,7 @@ const NotificationsScreen = () => {
           </View>
         </View>
         <View style={NotificationsScreenStyles.notifList}>
-          {notifications.sort((a,b)=> {
+          {notifications.sort((a: {data:{notificationType: string}},b: {data:{notificationType: string}})=> {
             if (a.data.notificationType === "friendRequest" || a.data.notificationType === "groupInvite") {
               return -1;
             } else if (b.data.notificationType === "friendRequest" || b.data.notificationType === "groupInvite") {

@@ -6,6 +6,7 @@ import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
 import PinSvg from '@nightlight/src/components/svgs/PinSvg';
 import NotificationCardStyles from './NotificationCard.styles';
 import FriendCard from './FriendCard';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import axios from 'axios';
 import { SERVER_URL } from '@env';
 
@@ -19,8 +20,6 @@ const NotificationCard = ({
   let [userImage, setUserImage] = useState(
     '@nightlight/assets/images/anon.png'
   );
-
-  //TODO pull notifications from backend
 
   //TODO change from hard coded time
   let time = '1 hr ago';
@@ -42,9 +41,9 @@ const NotificationCard = ({
     <View
       style={[
         NotificationCardStyles.container,
-        type==='groupInvite' && NotificationCardStyles.containerAlt,
+        type === 'groupInvite' && NotificationCardStyles.containerGreen, type === 'friendRequest' && NotificationCardStyles.containerBlue,
       ]}>
-      <View  style={NotificationCardStyles.card}>
+      <View style={NotificationCardStyles.card}>
         <Image
           source={
             userImage === '@nightlight/assets/images/anon.png'
@@ -58,18 +57,20 @@ const NotificationCard = ({
         </View>
         <Text style={NotificationCardStyles.time}>{time}</Text>
       </View>
-      {type === 'groupInvite' || type==='friendRequest' ? (
+      {type === 'groupInvite' || type === 'friendRequest' ? (
         <View style={NotificationCardStyles.buttonrow}>
-        <Pressable style={NotificationCardStyles.accept}>
-          <Text style={NotificationCardStyles.acceptButtonText}>Accept</Text>
-        </Pressable>
-        <Pressable style={NotificationCardStyles.decline}>
-          <Text style={NotificationCardStyles.declineButtonText}>Decline</Text>
-        </Pressable>
-      </View>
-      ) : (
-        null
-      )}
+          <Pressable style={NotificationCardStyles.accept}>
+            <Ionicons name='checkmark' size={20} color='#2E491B' />
+            <Text style={NotificationCardStyles.acceptButtonText}>Accept</Text>
+          </Pressable>
+          <Pressable style={NotificationCardStyles.decline}>
+            <Feather name='x' size={20} color='#732014' />
+            <Text style={NotificationCardStyles.declineButtonText}>
+              Decline
+            </Text>
+          </Pressable>
+        </View>
+      ) : null}
     </View>
   );
 };

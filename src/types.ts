@@ -178,6 +178,7 @@ export interface MapCardProps {
   buttonRight?: MapCardButtonProps;
 }
 
+
 export interface MapCardButtonProps {
   backgroundColor: string;
   borderColor: string;

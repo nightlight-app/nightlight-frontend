@@ -1,5 +1,6 @@
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 import { Dimensions, StyleSheet } from 'react-native';
+
 const { height, width } = Dimensions.get('window');
 
 export default StyleSheet.create({
@@ -11,8 +12,12 @@ export default StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 5
   },
-  containerAlt: {
+  containerGreen: {
     borderColor: COLORS.GREEN,
+    borderWidth: 2,
+  },
+  containerBlue: {
+    borderColor: COLORS.NIGHTLIGHT_BLUE,
     borderWidth: 2,
   },
   profileImage: {
@@ -54,19 +59,23 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 6
+    paddingHorizontal: 6,
   },
   accept: {
     backgroundColor: COLORS.GREEN,
     padding: 3,
     borderRadius: 5,
-    borderColor: '#2E491B'
+    borderColor: '#2E491B',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   decline: {
     backgroundColor: COLORS.RED,
     padding: 3,
     borderRadius: 5,
-    borderColor: '#732014'
+    borderColor: '#732014',
+    flexDirection: 'row',
+    alignItems: 'center',
   
   },
   declineButtonText: {
