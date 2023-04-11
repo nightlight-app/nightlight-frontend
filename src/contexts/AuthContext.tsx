@@ -129,14 +129,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         const notificationToken = await registerForPushNotificationsAsync();
 
         if (notificationToken) {
-          await customFetch(
-            userSession,
-            `/users/${retrievedUser._id}/addNotificationToken`,
-            {
+          await customFetch({
+            resourceUrl: `/users/${retrievedUser._id}/addNotificationToken`,
+            options: {
               method: 'PATCH',
               body: JSON.stringify({ notificationToken }),
-            }
-          );
+            },
+          });
         }
       }
     } catch (e) {

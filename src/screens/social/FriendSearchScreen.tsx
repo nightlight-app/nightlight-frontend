@@ -11,9 +11,9 @@ import {
 import FriendSearchScreenStyles from './FriendSearchScreen.styles';
 import { TEST_USERS } from '@nightlight/src/testData';
 import SearchUserCard from '@nightlight/components/social/SearchUserCard';
-import axios from 'axios';
 import { SERVER_URL } from '@env';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { customFetch } from '@nightlight/src/api';
 
 const FriendSearchScreen = () => {
   const { userDocument } = useAuthContext();
@@ -25,11 +25,12 @@ const FriendSearchScreen = () => {
 
   // TODO: improve search algorithm?
   useEffect(() => {
-    axios
-      .get(
-        `${SERVER_URL}/users/search/?query=${searchInput}&count=${10}&page=${page}`,
-        {}
-      )
+    customFetch({
+      resourceUrl: `/users/search/?query=${searchInput}&count=${10}&page=${page}`,
+      options: {
+        method: 'GET',
+      },
+    })
       .then(response => {
         setDisplayedUsers(response.data.users);
         // TODO: fix pagination

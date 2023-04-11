@@ -23,8 +23,11 @@ const NotificationCard = ({
   useEffect(() => {
     if (!userSession) return;
 
-    customFetch(userSession, `/users?userId=${userId}`, {
-      method: 'GET',
+    customFetch({
+      resourceUrl: `/users?userId=${userId}`,
+      options: {
+        method: 'GET',
+      },
     })
       .then(res => {
         setUserImage(res.users[0].imgUrlProfileSmall);
