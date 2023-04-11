@@ -190,7 +190,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       let response: Response | undefined;
       try {
         const data = await customFetch({
-          resourceUrl: `/users/${userId}/uploadProfileImg`,
+          resourceUrl: `/users/${userId}/upload-profile-img`,
           options: {
             method: 'PATCH',
             body: formData,

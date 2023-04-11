@@ -130,7 +130,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
         if (notificationToken) {
           await customFetch({
-            resourceUrl: `/users/${retrievedUser._id}/addNotificationToken`,
+            resourceUrl: `/users/${retrievedUser._id}/add-notification-token`,
             options: {
               method: 'PATCH',
               body: JSON.stringify({ notificationToken }),

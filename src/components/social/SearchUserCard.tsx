@@ -25,7 +25,7 @@ const SearchUserCard = ({
     // send request to backend to add friend
     if (!added) {
       customFetch({
-        resourceUrl: `/users/${userDocument?._id}/requestFriend/?friendId=${friendId}`,
+        resourceUrl: `/users/${userDocument?._id}/request-friend/?friendId=${friendId}`,
         options: {
           method: 'PATCH',
         },
@@ -39,7 +39,7 @@ const SearchUserCard = ({
     } else {
       // send request to backend to remove friend
       customFetch({
-        resourceUrl: `/users/${userDocument?._id}/removeFriend/?friendId=${friendId}`,
+        resourceUrl: `/users/${userDocument?._id}/remove-friend/?friendId=${friendId}`,
         options: {
           method: 'PATCH',
         },
