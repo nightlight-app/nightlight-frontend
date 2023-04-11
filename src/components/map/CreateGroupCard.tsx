@@ -114,7 +114,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
       .then(data => {
         // display success and close card
         Alert.alert(data.message);
-        updateUserDocument({});
+        updateUserDocument();
         onClose();
       })
       .catch(e => {

@@ -207,7 +207,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
         console.log('[MongoDB] Successfully attached profile picture!');
 
-        updateUserDocument({ firebaseUid: firebaseUid || undefined });
+        updateUserDocument();
       } catch (error: unknown) {
         console.error(
           `[MongoDB] Error attaching profile picture!\nUser ID: ${userId}\nProfile Picture URI: ${profilePictureUri}\nFilename: ${filename}\nType: ${type}\nResponse: ${
