@@ -8,7 +8,6 @@ import {
   FlatList,
   ListRenderItemInfo,
 } from 'react-native';
-import { SERVER_URL } from '@env';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import {
   ExploreSortFilter,
@@ -18,6 +17,7 @@ import {
 } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
+import { customFetch } from '@nightlight/src/api';
 
 const ExploreScreen = () => {
   const [venues, setVenues] = useState<Venue[]>([]); // keep track of list of venues queried
@@ -107,13 +107,12 @@ const ExploreScreen = () => {
   useEffect(() => {
     // TODO: figure out backend and fallback response if no venues received
     console.log('[Explore] Fetching venues...');
-    fetch(
-      `${SERVER_URL}/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
-      {
+    customFetch({
+      resourceUrl: `/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
+      options: {
         method: 'GET',
-      }
-    )
-      .then(res => res.json())
+      },
+    })
       .then(response => {
         console.log('[Explore] Venues fetched!');
         setPage(page + 1);

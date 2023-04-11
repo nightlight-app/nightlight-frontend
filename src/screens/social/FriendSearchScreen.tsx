@@ -9,9 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 import FriendSearchScreenStyles from './FriendSearchScreen.styles';
-import { TEST_USERS } from '@nightlight/src/testData';
 import SearchUserCard from '@nightlight/components/social/SearchUserCard';
-import { SERVER_URL } from '@env';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 

@@ -1,4 +1,3 @@
-import { SERVER_URL } from '@env';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Pressable, Animated } from 'react-native';
@@ -7,6 +6,7 @@ import UserCircle from '@nightlight/components/map/UserCircle';
 import { Foundation } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
 import { GroupMembersProps, User } from '@nightlight/src/types';
+import { customFetch } from '@nightlight/src/api';
 
 const GroupMembers = ({
   userOnPress,
@@ -22,17 +22,18 @@ const GroupMembers = ({
   // fetch the current group's members when the current group changes
   useEffect(() => {
     if (userDocument?.currentGroup) {
-      fetch(`${SERVER_URL}/groups?groupId=${userDocument.currentGroup}`, {
-        method: 'GET',
-      })
-        .then(res => res.json())
-        .then(data => {
-          // filter out the current user's _id from the group members
-          const filteredMembers = data.group.members.filter(
-            (member: string) => member !== userDocument._id
-          );
-          setGroupMembers(filteredMembers);
-        });
+      customFetch({
+        resourceUrl: `/groups?groupId=${userDocument.currentGroup}`,
+        options: {
+          method: 'GET',
+        },
+      }).then(data => {
+        // filter out the current user's _id from the group members
+        const filteredMembers = data.group.members.filter(
+          (member: string) => member !== userDocument._id
+        );
+        setGroupMembers(filteredMembers);
+      });
     }
   }, [userDocument?.currentGroup]);
 
@@ -41,10 +42,12 @@ const GroupMembers = ({
    * the userOnPress function which renders the UserCard component
    */
   const handleUserOnClick = (userId: string) => {
-    fetch(`${SERVER_URL}/users?userId=${userId}`, {
-      method: 'GET',
+    customFetch({
+      resourceUrl: `/users?userId=${userId}`,
+      options: {
+        method: 'GET',
+      },
     })
-      .then(res => res.json())
       .then(data => {
         // TODO: mongoose returns the date as string, so need to convert to Date object
         // think of a better way to do this (maybe a util function that parses User?)

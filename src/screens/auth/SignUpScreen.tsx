@@ -20,7 +20,6 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { SERVER_URL } from '@env';
 import {
   NativeStackScreenProps,
   SignUpInputField,
@@ -39,6 +38,7 @@ import {
 } from '@nightlight/src/constants';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import SmileyFaceSvg from '@nightlight/components/svgs/SmileyFaceSvg';
+import { customFetch } from '@nightlight/src/api';
 
 const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -132,19 +132,20 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         phone: phoneNumber,
       };
 
-      response = await fetch(`${SERVER_URL}/users`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const data = await customFetch({
+        resourceUrl: `/users`,
+        options: {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
         },
-        body: JSON.stringify(body),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
+      if (!data) {
         console.error('[MongoDB] Failed to create user in database.');
-        console.log(`[MongoDB] ${response.status} Response:`, data);
+        console.log(`[MongoDB] Response:`, data);
 
         throw new Error(
           `An error occurred while creating a new user in the database.`
@@ -188,20 +189,20 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       // Upload profile picture to Cloudinary
       let response: Response | undefined;
       try {
-        response = await fetch(
-          `${SERVER_URL}/users/${userId}/uploadProfileImg`,
-          {
+        const data = await customFetch({
+          resourceUrl: `/users/${userId}/uploadProfileImg`,
+          options: {
             method: 'PATCH',
             body: formData,
             headers: {
               'Content-Type': 'multipart/form-data',
             },
-          }
-        );
+          },
+        });
 
-        if (!response.ok) {
+        if (!data) {
           throw new Error(
-            `[MongoDB] Failed to attach profile picture. Response: ${response.status} ${response.statusText}`
+            `[MongoDB] Failed to attach profile picture. Response: ${data}`
           );
         }
 

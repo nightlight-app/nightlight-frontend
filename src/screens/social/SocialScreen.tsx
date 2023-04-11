@@ -10,7 +10,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import { SERVER_URL } from '@env';
 import { customFetch } from '@nightlight/src/api';
 
 const SocialScreen = ({ navigation }: BottomTabScreenProps) => {

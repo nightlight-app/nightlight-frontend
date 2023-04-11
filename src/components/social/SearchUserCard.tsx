@@ -3,7 +3,6 @@ import { View, Image, Text, Pressable } from 'react-native';
 import UserCardStyles from '@nightlight/components/social/SearchUserCard.styles';
 import { SearchUserCardProps } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import { SERVER_URL } from '@env';
 import { customFetch } from '@nightlight/src/api';
 
 const SearchUserCard = ({

@@ -9,7 +9,6 @@ import HorizontalSelect from '@nightlight/components/settings/HorizontalSelect';
 import { LOCATION_VISIBILITY_OPTIONS } from '@nightlight/src/constants';
 import { LocationVisibilityValue } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import { SERVER_URL } from '@env';
 import { customFetch } from '@nightlight/src/api';
 
 const SettingsScreen = () => {

@@ -16,7 +16,6 @@ import { COLORS } from '@nightlight/src/global.styles';
 import CreateGroupCardStyles from '@nightlight/components/map/CreateGroupCard.styles';
 import CloseButton from '@nightlight/components/CloseButton';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import { SERVER_URL } from '@env';
 import {
   generateGroupName,
   getDatetimeHoursAfter as getDatetimeAfterHours,

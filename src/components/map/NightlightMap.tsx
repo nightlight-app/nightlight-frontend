@@ -1,4 +1,4 @@
-import { MAPBOX_API_KEY, SERVER_URL } from '@env';
+import { MAPBOX_API_KEY } from '@env';
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Pressable, Image } from 'react-native';
 import Animated, {
@@ -19,6 +19,7 @@ import {
 } from '@nightlight/src/types';
 import { socket } from '@nightlight/src/service/socketService';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { customFetch } from '@nightlight/src/api';
 
 // initial camera settings
 const initialCamera: CameraStop = {
@@ -79,10 +80,12 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
         // then add them to the list
         // TODO: this is a bit inefficient as we only need imgUrlProfileLarge.
         // could we have a specific endpoint for this?
-        fetch(`${SERVER_URL}/users?userId=${socketData.userId}`, {
-          method: 'GET',
+        customFetch({
+          resourceUrl: `/users?userId=${socketData.userId}`,
+          options: {
+            method: 'GET',
+          },
         })
-          .then(res => res.json())
           .then(friendData => {
             const newObj: Markers = {
               location: socketData.location,
