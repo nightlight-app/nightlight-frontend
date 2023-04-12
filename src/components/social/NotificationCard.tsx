@@ -73,7 +73,7 @@ const NotificationCard = ({
       },
     })
       .then(res => {
-        console.log(res.data);
+        console.log(res);
       })
       .catch(e => {
         console.log('Error:', e);
@@ -103,17 +103,17 @@ const NotificationCard = ({
       </View>
       {type === 'groupInvite' || type === 'friendRequest' ? (
         <View style={NotificationCardStyles.buttonrow}>
-          <Pressable
-            style={NotificationCardStyles.accept}
-            onPress={handleAcceptFriendRequest}>
-            <Ionicons name='checkmark' size={20} color='#2E491B' />
-            <Text style={NotificationCardStyles.acceptButtonText}>Accept</Text>
-          </Pressable>
           <Pressable style={NotificationCardStyles.decline}>
             <Feather name='x' size={20} color='#732014' />
             <Text style={NotificationCardStyles.declineButtonText}>
               Decline
             </Text>
+          </Pressable>
+          <Pressable
+            style={NotificationCardStyles.accept}
+            onPress={handleAcceptFriendRequest}>
+            <Ionicons name='checkmark' size={20} color='#2E491B' />
+            <Text style={NotificationCardStyles.acceptButtonText}>Accept</Text>
           </Pressable>
         </View>
       ) : null}

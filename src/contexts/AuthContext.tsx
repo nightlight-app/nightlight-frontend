@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       console.log('[Firebase] Authentication state changed:', user?.uid);
       setUserSession(user);
+      updateUserDocument();
     });
 
     return () => unsubscribe();
@@ -109,6 +110,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
       // await for the response to be parsed as json
       const userDocumentData = await userDocumentResponse.json();
+
+      console.log('use data', userDocumentData);
 
       // handle error
       if (userDocumentData.users.length !== 1) {

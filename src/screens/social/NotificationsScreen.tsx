@@ -21,7 +21,7 @@ const NotificationsScreen = () => {
       },
     })
       .then(res => {
-        setNotifications(res.data.notifications);
+        setNotifications(res.notifications);
       })
       .catch(e => {
         console.log('Error: ', e);

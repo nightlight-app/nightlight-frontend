@@ -27,11 +27,14 @@ export const customFetch = async ({
   resourceUrl,
   // Fetch options
   options,
+  // optionally override the userSessionToken
+  sessionToken,
 }: {
   resourceUrl: string;
   options: RequestInit;
+  sessionToken?: string;
 }): Promise<any> => {
-  if (!userSessionToken) {
+  if (!userSessionToken && !sessionToken) {
     console.log('[customFetch] session id token is null');
     return;
   }
@@ -41,12 +44,14 @@ export const customFetch = async ({
     return;
   }
 
+  const token = sessionToken || userSessionToken;
+
   try {
     const response = await fetch(`${SERVER_URL}${resourceUrl}`, {
       ...options,
       headers: {
         ...options.headers,
-        Authorization: `Bearer ${userSessionToken}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 

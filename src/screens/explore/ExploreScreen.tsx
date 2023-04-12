@@ -42,7 +42,7 @@ const ExploreScreen = () => {
   useEffect(() => {
     let tempVenues = venues;
 
-    if (venues.length > 0) {
+    if (venues?.length > 0) {
       console.log(
         `[Explore] Searching venues by '${searchInput}' and sorting venues by '${sortFilter}'...`
       );
@@ -114,9 +114,9 @@ const ExploreScreen = () => {
       },
     })
       .then(response => {
-        console.log('[Explore] Venues fetched!');
+        console.log('[Explore] Venues fetched!', response);
         setPage(page + 1);
-        setVenues(response.data.venues);
+        setVenues(response.venues);
       })
       .catch(e => {
         console.log('[Explore]', JSON.stringify(e));

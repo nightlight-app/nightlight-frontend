@@ -31,10 +31,10 @@ const SearchUserCard = ({
         },
       })
         .then(response => {
-          console.log(response.data);
+          console.log(response);
         })
         .catch(e => {
-          console.log('Error: ', e.response.data.message);
+          console.log('Error: ', e.response.message);
         });
     } else {
       // send request to backend to remove friend

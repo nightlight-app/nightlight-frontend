@@ -117,7 +117,12 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
    */
   const handleCreateAccountPress = async () => {
     // Sign up user with Firebase
-    const firebaseUid = await handleFirebaseSignUp(email, password);
+    const userSession = await handleFirebaseSignUp(email, password);
+
+    if (!userSession) {
+      console.log('[handleCreateAccountPress] could not login!');
+      return;
+    }
 
     // Create user in database
     console.log('[MongoDB] Creating new user in database...');
@@ -128,9 +133,13 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         firstName,
         lastName,
         email,
-        firebaseUid,
+        firebaseUid: userSession.uid,
         phone: phoneNumber,
+        isEmergency: false,
       };
+
+      console.log('body is: ', body);
+      console.log('firebase is: ', userSession);
 
       const data = await customFetch({
         resourceUrl: `/users`,
@@ -141,7 +150,10 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           },
           body: JSON.stringify(body),
         },
+        sessionToken: await userSession.getIdToken(),
       });
+
+      console.log('did this work? ', data);
 
       if (!data) {
         console.error('[MongoDB] Failed to create user in database.');
@@ -158,7 +170,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       );
     } catch (error: unknown) {
       console.error(
-        `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}.`
+        `[MongoDB] Error creating new user in database! Firebase UID: ${userSession}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}.`
       );
       console.log(error);
       setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);

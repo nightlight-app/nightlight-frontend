@@ -35,7 +35,8 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
       },
     })
       .then(res => {
-        setFriends(res.data.friends);
+        console.log('THIS IS SOCIAL', res);
+        setFriends(res.friends);
         setFriendCount(friends.length);
       })
       .catch(e => {
