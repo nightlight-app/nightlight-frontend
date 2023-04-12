@@ -116,7 +116,7 @@ const ExploreScreen = () => {
       .then(response => {
         console.log('[Explore] Venues fetched!');
         setPage(page + 1);
-        setVenues(response.data.venues);
+        setVenues(response.venues);
       })
       .catch(e => {
         console.log('[Explore]', JSON.stringify(e));

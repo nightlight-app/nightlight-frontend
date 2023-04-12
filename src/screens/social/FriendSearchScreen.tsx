@@ -30,12 +30,12 @@ const FriendSearchScreen = () => {
       },
     })
       .then(response => {
-        setDisplayedUsers(response.data.users);
+        setDisplayedUsers(response.users);
         // TODO: fix pagination
         // setPage(page + 1);
       })
       .catch(e => {
-        console.log('Error: ', e.response.data.message);
+        console.log('Error: ', e.response.message);
         setDisplayedUsers([]);
       });
     setDisplayedUsers(
