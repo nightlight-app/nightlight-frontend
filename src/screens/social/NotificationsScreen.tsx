@@ -2,11 +2,9 @@ import { SocialRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import NotificationsScreenStyles from './NotificationsScreen.styles';
-import { TEST_NOTIFICATIONS } from '@nightlight/src/testData';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
-import axios from 'axios';
-import { SERVER_URL } from '@env';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { customFetch } from '@nightlight/src/api';
 const NotificationsScreen = () => {
   const [notifications, setNotifications] = useState([]);
   const [counter, setCounter] = useState(0);
@@ -16,8 +14,12 @@ const NotificationsScreen = () => {
   let userid = userDocument?._id;
 
   useEffect(() => {
-    axios
-      .get(`${SERVER_URL}/notifications/?userId=${userid}`)
+    customFetch({
+      resourceUrl: `/notifications/?userId=${userid}`,
+      options: {
+        method: 'GET',
+      },
+    })
       .then(res => {
         setNotifications(res.data.notifications);
       })
