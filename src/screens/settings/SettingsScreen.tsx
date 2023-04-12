@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Text, SafeAreaView, View, Alert } from 'react-native';
-import axios from 'axios';
 import SettingsScreenStyles from '@nightlight/screens/settings/SettingsScreen.styles';
 import Button from '@nightlight/components/Button';
 import { COLORS } from '@nightlight/src/global.styles';
@@ -10,7 +9,7 @@ import HorizontalSelect from '@nightlight/components/settings/HorizontalSelect';
 import { LOCATION_VISIBILITY_OPTIONS } from '@nightlight/src/constants';
 import { LocationVisibilityValue } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import { SERVER_URL } from '@env';
+import { customFetch } from '@nightlight/src/api';
 
 const SettingsScreen = () => {
   const { userDocument } = useAuthContext();
@@ -81,7 +80,12 @@ const SettingsScreen = () => {
     const userId = userDocument?._id;
     // FIXME: endpoint not working?
     try {
-      await axios.delete(`${SERVER_URL}/users/${userId}`);
+      await customFetch({
+        resourceUrl: `/users/${userId}`,
+        options: {
+          method: 'DELETE',
+        },
+      });
       console.log(`[Settings] Successfully deleted account with ID ${userId}.`);
       handleFirebaseSignOut();
     } catch (error: any) {

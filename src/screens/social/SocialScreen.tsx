@@ -9,9 +9,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
-import axios from 'axios';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import { SERVER_URL } from '@env';
+import { customFetch } from '@nightlight/src/api';
 
 const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   // number of members in active group
@@ -29,8 +28,12 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   // get active group and friend from backend
   useEffect(() => {
     //get friends
-    axios
-      .get(`${SERVER_URL}/users/${userid}/friends/`)
+    customFetch({
+      resourceUrl: `/users/${userid}/friends/`,
+      options: {
+        method: 'GET',
+      },
+    })
       .then(res => {
         setFriends(res.data.friends);
         setFriendCount(friends.length);
@@ -39,21 +42,25 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
         console.log('Error: ', e);
       });
 
-    //     //get active group
-    //     let groupid = userDocument?.currentGroup;
-    //     if(groupid){
-    //       axios
-    //       .get(`${SERVER_URL}/groups/?groupId=${groupid}`)
-    //       .then(res => {
-    //         console.log(res.data)
-    //         setActiveGroup(res.data.group);
-    //         setGroupCount(activeGroup.length);
-    //       })
-    //       .catch(e=> {
-    //         console.log('Error: ', e)
-    //       })
-    //     }
-  });
+    //get active group
+    // let groupid = userDocument?.currentGroup;
+    // if (groupid) {
+    //   customFetch({
+    //     resourceUrl: `/groups/?groupId=${groupid}`,
+    //     options: {
+    //       method: 'GET',
+    //     },
+    //   })
+    //     .then(res => {
+    //       console.log(res.data);
+    //       setActiveGroup(res.data.group);
+    //       setGroupCount(activeGroup.length);
+    //     })
+    //     .catch(e => {
+    //       console.log('Error: ', e);
+    //     });
+    // }
+  }, []);
 
   // called when there are no active group
   const renderEmptyGroup = () => (

@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, Text } from 'react-native';
 import { NotificationCardProps } from '@nightlight/src/types';
 import NotificationCardStyles from './NotificationCard.styles';
-import axios from 'axios';
-import { SERVER_URL } from '@env';
+import { customFetch } from '@nightlight/src/api';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const NotificationCard = ({
   index,
   message,
   userId,
 }: NotificationCardProps) => {
+  const { userSession } = useAuthContext();
   const isEvenIndex = index % 2 !== 0;
   const [userImage, setUserImage] = useState();
 
@@ -20,14 +21,19 @@ const NotificationCard = ({
 
   // get user image from backend
   useEffect(() => {
-    axios
-      .get(`${SERVER_URL}/users/?userId=${userId}/`)
+    if (!userSession) return;
+
+    customFetch({
+      resourceUrl: `/users?userId=${userId}`,
+      options: {
+        method: 'GET',
+      },
+    })
       .then(res => {
-        console.log(res.data);
-        setUserImage(res.data.imgUrlProfileSmall);
+        setUserImage(res.users[0].imgUrlProfileSmall);
       })
       .catch(e => {
-        console.log('Error: ', e);
+        console.log('[NotificationCard] Error: ', e);
       });
   }, []);
 

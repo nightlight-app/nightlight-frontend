@@ -16,14 +16,14 @@ import { COLORS } from '@nightlight/src/global.styles';
 import CreateGroupCardStyles from '@nightlight/components/map/CreateGroupCard.styles';
 import CloseButton from '@nightlight/components/CloseButton';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import { SERVER_URL } from '@env';
 import {
   generateGroupName,
   getDatetimeHoursAfter as getDatetimeAfterHours,
 } from '@nightlight/src/utils/utils';
+import { customFetch } from '@nightlight/src/api';
 
 const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
-  const { userDocument, updateUserDocument } = useAuthContext();
+  const { userSession, userDocument, updateUserDocument } = useAuthContext();
   const [availableUsers, setAvailableUsers] = useState<User[]>([]);
   const [displayedAvailableUsers, setDisplayedAvailableUsers] = useState<
     User[]
@@ -32,9 +32,14 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
   const [searchText, setSearchText] = useState<string>('');
 
   useEffect(() => {
+    if (!userSession) return;
     // fetch the list of available users based on the current user's friends
-    fetch(`${SERVER_URL}/users/${userDocument?._id}/friends`, { method: 'GET' })
-      .then(res => res.json())
+    customFetch({
+      resourceUrl: `/users/${userDocument?._id}/friends`,
+      options: {
+        method: 'GET',
+      },
+    })
       .then(data => {
         setAvailableUsers(data.friends);
       })
@@ -84,7 +89,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   // Creates a group with the selected users
   const handleCreateGroup = () => {
-    if (!userDocument) {
+    if (!userDocument || !userSession) {
       if (onError) onError();
       return;
     }
@@ -99,27 +104,26 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
       expirationDatetime: getDatetimeAfterHours(8),
     };
 
-    console.log('Attempting to create group...', groupObject);
-
     // send a POST request to the server to create the group
-    fetch(`${SERVER_URL}/groups?userId=${userDocument?._id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    customFetch({
+      resourceUrl: `/groups?userId=${userDocument?._id}`,
+      options: {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(groupObject),
       },
-      body: JSON.stringify(groupObject),
     })
-      .then(res => res.json())
       .then(data => {
-        // if response has an error message, display to user
-        if (data.message) Alert.alert(data.message);
-        else {
-          // otherwise, display success and close card
-          console.log('HERE IS THE GROUP', data);
-          Alert.alert('Group created successfully!');
-        }
-        updateUserDocument({});
+        // display success and close card
+        Alert.alert(data.message);
+        updateUserDocument();
         onClose();
+      })
+      .catch(e => {
+        if (onError) onError();
+        console.log(e);
       });
   };
 
