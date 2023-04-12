@@ -156,23 +156,24 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
           style={SignInScreenStyles.signInButton}
         />
 
+        {/* TODO: temporarily commenting out google signin for apple deployment */}
         {/* Divider */}
-        <View style={SignInScreenStyles.signInOptionDividerContainer}>
+        {/* <View style={SignInScreenStyles.signInOptionDividerContainer}>
           <View style={SignInScreenStyles.signInOptionDividerLine} />
           <Text style={SignInScreenStyles.signInOptionText}>
             or continue with
           </Text>
           <View style={SignInScreenStyles.signInOptionDividerLine} />
-        </View>
+        </View> */}
 
         {/* Sign in with Google */}
-        <Button
+        {/* <Button
           onPress={handleSignInWithGooglePress}
           icon={<AntDesign name='google' size={20} color={COLORS.DARK_GRAY} />}
           text='Sign in with Google'
           textColor={COLORS.DARK_GRAY}
           style={SignInScreenStyles.signInWithGoogleButton}
-        />
+        /> */}
 
         {/* Sign Up Message */}
         <View style={SignInScreenStyles.signUpMessageContainer}>
