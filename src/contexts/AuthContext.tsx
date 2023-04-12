@@ -15,12 +15,13 @@ import {
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { SERVER_URL } from '@env';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
+import { customFetch } from '@nightlight/src/api';
 
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
   userDocument: undefined,
   // initialize updateUserDocument to an empty function with arbitrary params (_ is a convention for unused params)
-  updateUserDocument: (_: UpdateUserDocumentInterface) => {},
+  updateUserDocument: (_?: UpdateUserDocumentInterface) => {},
 } as AuthContextInterface);
 
 export const useAuthContext = () => {
@@ -45,39 +46,65 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       console.log('[Firebase] Authentication state changed:', user?.uid);
       setUserSession(user);
-
-      // fetch userDocument from mongoDB if user is logged in
-      if (user)
-        updateUserDocument({
-          firebaseUid: user.uid as string,
-          shouldUpdateNotificationToken: true,
-        });
     });
 
     return () => unsubscribe();
   }, []);
 
+  // If userSession changes, update userDocument
+  useEffect(() => {
+    if (userSession) {
+      updateUserDocument({
+        shouldUpdateNotificationToken: true,
+      });
+    }
+  }, [userSession]);
+
   /**
-   * Update the userDocument state.
-   * Uses mongoDB id by default.
-   * Optionally, pass in a firebaseUid to fetch via firebaseUid instead of mongoDB id.
-   * @param firebaseUid - the firebase uid of the user
-   * @param shouldUpdateNotificationToken - whether to update the notification token (default: false)
+   * Helper method for getting the user's firebase token
+   */
+  const getUserFirebaseToken = async () => {
+    if (!userSession) {
+      console.log(
+        '[AuthContext] getUserFirebaseToken called but no userSession available'
+      );
+      return;
+    }
+    return await userSession.getIdToken();
+  };
+
+  /**
+   * Helper method for getting the user's firebase uid
+   */
+  const getUserFirebaseUid = async () => {
+    if (!userSession) {
+      console.log(
+        '[AuthContext] getUserFirebaseUid called but no userSession available'
+      );
+      return;
+    }
+    return await userSession.uid;
+  };
+
+  /**
+   * Update the userDocument state by fetching the user's document from mongoDB and updating the state
+   * @param shouldUpdateNotificationToken - whether to update the notification token in mongoDB (default: false)
    */
   const updateUserDocument = async ({
-    firebaseUid,
     shouldUpdateNotificationToken = false,
-  }: UpdateUserDocumentInterface) => {
-    let url = `${SERVER_URL}/users?`;
-
-    url += firebaseUid
-      ? `firebaseUid=${firebaseUid}`
-      : `userId=${userDocument?._id}`;
+  }: UpdateUserDocumentInterface = {}) => {
+    const firebaseUid = await getUserFirebaseUid();
+    const url = `${SERVER_URL}/users?firebaseUid=${firebaseUid}`;
 
     try {
+      const token = await getUserFirebaseToken();
+
       // fetch from mongoDB and update userDocument
       const userDocumentResponse = await fetch(url, {
         method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       // await for the response to be parsed as json
@@ -94,22 +121,22 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
       const retrievedUser = userDocumentData.users[0];
 
-      // update userDocument state
+      // update userDocument state to propagate changes to the rest of the app
       setUserDocument(retrievedUser);
 
-      if (shouldUpdateNotificationToken) {
+      if (shouldUpdateNotificationToken && userSession) {
         // get the notification token and send it to the server
         const notificationToken = await registerForPushNotificationsAsync();
-        await fetch(
-          `${SERVER_URL}/users/${retrievedUser._id}/addNotificationToken`,
-          {
-            headers: {
-              'Content-Type': 'application/json',
+
+        if (notificationToken) {
+          await customFetch({
+            resourceUrl: `/users/${retrievedUser._id}/add-notification-token`,
+            options: {
+              method: 'PATCH',
+              body: JSON.stringify({ notificationToken }),
             },
-            method: 'PATCH',
-            body: JSON.stringify({ notificationToken }),
-          }
-        );
+          });
+        }
       }
     } catch (e) {
       console.log('Error in updateUserDocument', e);

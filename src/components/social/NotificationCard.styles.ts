@@ -1,7 +1,6 @@
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-import { Dimensions, StyleSheet } from 'react-native';
-
-const { height, width } = Dimensions.get('window');
+import { StyleSheet } from 'react-native';
+import { DEVICE_HEIGHT } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
@@ -10,7 +9,7 @@ export default StyleSheet.create({
     width: '95%',
     borderRadius: 10,
     marginBottom: 10,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
   },
   containerGreen: {
     borderColor: COLORS.GREEN,
@@ -21,9 +20,9 @@ export default StyleSheet.create({
     borderWidth: 2,
   },
   profileImage: {
-    width: height * 0.05,
-    height: height * 0.05,
-    borderRadius: (height * 0.15) / 2,
+    width: DEVICE_HEIGHT * 0.05,
+    height: DEVICE_HEIGHT * 0.05,
+    borderRadius: (DEVICE_HEIGHT * 0.15) / 2,
     borderWidth: 2,
     borderColor: COLORS.WHITE,
     margin: 10,
@@ -52,7 +51,7 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 10,
     color: COLORS.GRAY,
-    paddingRight: '3%'
+    paddingRight: '3%',
   },
   buttonrow: {
     display: 'flex',
@@ -76,7 +75,6 @@ export default StyleSheet.create({
     borderColor: '#732014',
     flexDirection: 'row',
     alignItems: 'center',
-  
   },
   declineButtonText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -86,6 +84,6 @@ export default StyleSheet.create({
   acceptButtonText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 12,
-    color: '#2E491B'
-  }
+    color: '#2E491B',
+  },
 });

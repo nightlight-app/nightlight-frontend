@@ -2,7 +2,7 @@ import { SocialRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import NotificationsScreenStyles from './NotificationsScreen.styles';
-import { testNotifications } from '@nightlight/src/testData';
+import { TEST_NOTIFICATIONS } from '@nightlight/src/testData';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
 import axios from 'axios';
 import { SERVER_URL } from '@env';
@@ -26,8 +26,11 @@ const NotificationsScreen = () => {
       });
 
     let count = 0;
-    notifications.forEach((item: {data:{notificationType: string}}) => {
-      if (item.data.notificationType === "friendRequest" || item.data.notificationType === "groupInvite") {
+    notifications.forEach((item: { data: { notificationType: string } }) => {
+      if (
+        item.data.notificationType === 'friendRequest' ||
+        item.data.notificationType === 'groupInvite'
+      ) {
         count++;
       }
     });
@@ -56,24 +59,45 @@ const NotificationsScreen = () => {
           </View>
         </View>
         <View style={NotificationsScreenStyles.notifList}>
-          {notifications.sort((a: {data:{notificationType: string}},b: {data:{notificationType: string}})=> {
-            if (a.data.notificationType === "friendRequest" || a.data.notificationType === "groupInvite") {
-              return -1;
-            } else if (b.data.notificationType === "friendRequest" || b.data.notificationType === "groupInvite") {
-              return 1;
-            } else {
-              return 0;
-            }
-          }).map(
-            (item: { body: string; userId: { $oid: string }; data: {notificationType: string, sentDateTime: string} }, index) => (
-              <NotificationCard
-                index={index}
-                message={item.body}
-                type = {item.data.notificationType}
-                time={item.data.sentDateTime}
-                friendId={item.userId.$oid}></NotificationCard>
+          {notifications
+            .sort(
+              (
+                a: { data: { notificationType: string } },
+                b: { data: { notificationType: string } }
+              ) => {
+                if (
+                  a.data.notificationType === 'friendRequest' ||
+                  a.data.notificationType === 'groupInvite'
+                ) {
+                  return -1;
+                } else if (
+                  b.data.notificationType === 'friendRequest' ||
+                  b.data.notificationType === 'groupInvite'
+                ) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              }
             )
-          )}
+            .map(
+              (
+                item: {
+                  body: string;
+                  userId: { $oid: string };
+                  data: { notificationType: string; sentDateTime: string };
+                },
+                index
+              ) => (
+                <NotificationCard
+                  key={index}
+                  index={index}
+                  message={item.body}
+                  type={item.data.notificationType}
+                  time={item.data.sentDateTime}
+                  friendId={item.userId.$oid}></NotificationCard>
+              )
+            )}
         </View>
       </ScrollView>
     </SafeAreaView>

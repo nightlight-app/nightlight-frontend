@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { View, Image, Text, Button, Pressable } from 'react-native';
+import { View, Image, Text, Pressable } from 'react-native';
 import UserCardStyles from '@nightlight/components/social/SearchUserCard.styles';
 import { SearchUserCardProps } from '@nightlight/src/types';
-import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import axios from 'axios';
-import { SERVER_URL } from '@env';
+import { customFetch } from '@nightlight/src/api';
 
 const SearchUserCard = ({
   firstName,
@@ -21,16 +19,17 @@ const SearchUserCard = ({
   const { userDocument } = useAuthContext();
 
   const handlePress = () => {
-    setAdded(!added);
+    setAdded(prev => !prev);
     setAddText(added ? 'ADD' : 'ADDED');
 
     // send request to backend to add friend
     if (!added) {
-      axios
-        .patch(
-          `${SERVER_URL}/users/${userDocument?._id}/requestFriend/?friendId=${friendId}`,
-          {}
-        )
+      customFetch({
+        resourceUrl: `/users/${userDocument?._id}/request-friend/?friendId=${friendId}`,
+        options: {
+          method: 'PATCH',
+        },
+      })
         .then(response => {
           console.log(response.data);
         })
@@ -39,11 +38,12 @@ const SearchUserCard = ({
         });
     } else {
       // send request to backend to remove friend
-      axios
-        .patch(
-          `${SERVER_URL}/users/${userDocument?._id}/removeFriend/?friendId=${friendId}`,
-          {}
-        )
+      customFetch({
+        resourceUrl: `/users/${userDocument?._id}/remove-friend/?friendId=${friendId}`,
+        options: {
+          method: 'PATCH',
+        },
+      })
         .then(response => {
           console.log(response.data);
         })

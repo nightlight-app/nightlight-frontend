@@ -1,9 +1,9 @@
-import { SERVER_URL } from '@env';
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text } from 'react-native';
 import UserCircleStyles from '@nightlight/components/map/UserCircle.styles';
 import { COLORS } from '@nightlight/src/global.styles';
 import { UserCircleProps } from '@nightlight/src/types';
+import { customFetch } from '@nightlight/src/api';
 
 const UserCircle = ({ userId: userId }: UserCircleProps) => {
   // stores the cloudinary url of the user's profile picture
@@ -17,10 +17,12 @@ const UserCircle = ({ userId: userId }: UserCircleProps) => {
 
   // query the user's image on first mount
   useEffect(() => {
-    fetch(`${SERVER_URL}/users?userId=${userId}`, {
-      method: 'GET',
+    customFetch({
+      resourceUrl: `/users/${userId}`,
+      options: {
+        method: 'GET',
+      },
     })
-      .then(res => res.json())
       .then(data => {
         setUserImgUrlProfile(data.users[0].imgUrlProfileLarge);
       })

@@ -212,7 +212,7 @@ export interface FriendCardProps {
   name: string;
   index: number;
   isInGroup: boolean;
-  url: string;
+  imgUrl: string;
 }
 
 export interface NotificationCardProps {
@@ -287,7 +287,7 @@ export interface UserMarkerMap {
 export interface AuthContextInterface {
   userSession: FirebaseUser | null | undefined;
   userDocument: User | null | undefined;
-  updateUserDocument: (_: UpdateUserDocumentInterface) => void;
+  updateUserDocument: (_?: UpdateUserDocumentInterface) => void;
 }
 
 export interface BannerProps {
@@ -297,7 +297,6 @@ export interface BannerProps {
 }
 
 export interface UpdateUserDocumentInterface {
-  firebaseUid?: string;
   shouldUpdateNotificationToken?: boolean;
 }
 

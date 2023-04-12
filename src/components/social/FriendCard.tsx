@@ -2,13 +2,12 @@ import React from 'react';
 import { View, Image, Text } from 'react-native';
 import FriendCardStyles from '@nightlight/components/social/FriendCard.styles';
 import { FriendCardProps } from '@nightlight/src/types';
-import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
 import PinSvg from '@nightlight/src/components/svgs/PinSvg';
 
-const FriendCard = ({ name, index, isInGroup, url }: FriendCardProps) => {
-  let isEvenIndex = index % 2 !== 0;
+const FriendCard = ({ name, index, isInGroup, imgUrl }: FriendCardProps) => {
+  const isEvenIndex = index % 2 !== 0;
 
-  let imgPath = url;
+  const imgPath = imgUrl;
 
   return (
     <View
@@ -28,9 +27,9 @@ const FriendCard = ({ name, index, isInGroup, url }: FriendCardProps) => {
           )}
         </View>
       </View>
-      <View style={FriendCardStyles.rowview}>
+      <View style={FriendCardStyles.rowView}>
+        {/* TODO: use expo icon instead of svg? */}
         {isInGroup && <PinSvg />}
-        {/* <EllipseSvg style={FriendCardStyles.ellipse} /> */}
       </View>
     </View>
   );

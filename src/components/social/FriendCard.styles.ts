@@ -1,6 +1,6 @@
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-import { Dimensions, StyleSheet } from 'react-native';
-const { height, width } = Dimensions.get('window');
+import { DEVICE_HEIGHT } from '@nightlight/src/constants';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
@@ -15,9 +15,9 @@ export default StyleSheet.create({
     backgroundColor: '#1E1E1E',
   },
   profileImage: {
-    width: height * 0.05,
-    height: height * 0.05,
-    borderRadius: (height * 0.15) / 2,
+    width: DEVICE_HEIGHT * 0.05,
+    height: DEVICE_HEIGHT * 0.05,
+    borderRadius: (DEVICE_HEIGHT * 0.15) / 2,
     borderWidth: 2,
     borderColor: COLORS.WHITE,
     margin: 10,
@@ -40,7 +40,7 @@ export default StyleSheet.create({
   ellipse: {
     margin: 15,
   },
-  rowview: {
+  rowView: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',

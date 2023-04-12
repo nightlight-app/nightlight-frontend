@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, Pressable } from 'react-native';
-import FriendCardStyles from '@nightlight/components/social/FriendCard.styles';
-import { FriendCardProps, NotificationCardProps } from '@nightlight/src/types';
-import EllipseSvg from '@nightlight/src/components/svgs/EllipseSvg';
-import PinSvg from '@nightlight/src/components/svgs/PinSvg';
+import { NotificationCardProps } from '@nightlight/src/types';
 import NotificationCardStyles from './NotificationCard.styles';
-import FriendCard from './FriendCard';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import axios from 'axios';
-import { SERVER_URL } from '@env';
+import { customFetch } from '@nightlight/src/api';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const NotificationCard = ({
@@ -18,26 +13,31 @@ const NotificationCard = ({
   friendId,
   type,
 }: NotificationCardProps) => {
-  let isEvenIndex = index % 2 !== 0;
-  let [userImage, setUserImage] = useState(
+  const { userSession, userDocument } = useAuthContext();
+  // user id
+  let userId = userDocument?._id;
+  const isEvenIndex = index % 2 !== 0;
+  const [userImage, setUserImage] = useState(
     '@nightlight/assets/images/anon.png'
   );
   let [formattedTime, setFormattedTime] = useState('');
 
-  // user id
-  const { userDocument } = useAuthContext();
-  let userId = userDocument?._id;
-    
   // get user image from backend
   useEffect(() => {
-    axios
-      .get(`${SERVER_URL}/users/?userId=${friendId}/`)
+    if (!userSession) return;
+
+    customFetch({
+      resourceUrl: `/users?userId=${userId}`,
+      options: {
+        method: 'GET',
+      },
+    })
       .then(res => {
-        console.log(res.data);
-        setUserImage(res.data.imgUrlProfileSmall);
+        setUserImage(res.users[0].imgUrlProfileSmall);
       })
       .catch(e => {
         // no profile photo found
+        console.log('[NotificationCard] Error: ', e);
       });
 
     // format time
@@ -66,11 +66,12 @@ const NotificationCard = ({
 
   // handle accept friend request
   const handleAcceptFriendRequest = () => {
-    axios
-      .patch(
-        `${SERVER_URL}/users/${userId}/acceptFriendRequest/?friendId=${friendId}`,
-        {}
-      )
+    customFetch({
+      resourceUrl: `/users/${userId}/accept-friend-request/?friendId=${friendId}`,
+      options: {
+        method: 'PATCH',
+      },
+    })
       .then(res => {
         console.log(res.data);
       })
@@ -89,9 +90,9 @@ const NotificationCard = ({
       <View style={NotificationCardStyles.card}>
         <Image
           source={
-            userImage === '@nightlight/assets/images/anon.png'
-              ? require('@nightlight/assets/images/anon.png')
-              : { uri: `${userImage}` }
+            userImage
+              ? { uri: `${userImage}` }
+              : require('@nightlight/assets/images/anon.png')
           }
           style={NotificationCardStyles.profileImage}
         />
