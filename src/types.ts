@@ -166,6 +166,7 @@ export interface ButtonProps {
   icon?: React.ReactNode;
   text?: string;
   textColor?: string;
+  testID?: string;
 }
 
 export interface MapCardProps {

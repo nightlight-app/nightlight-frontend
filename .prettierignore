@@ -38,3 +38,6 @@ yarn-error.log*
 next-env.d.ts
 
 .expo/
+
+ios/build
+ios/Pods

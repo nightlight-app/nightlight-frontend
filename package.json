@@ -16,8 +16,9 @@
     "ios": "npx expo run:ios",
     "eject": "npx expo prebuild",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "test": "jest --detectOpenHandles",
-    "test:coverage": "jest --coverage --collectCoverageFrom='./src/**'"
+    "test:unit": "jest --testPathPattern=__tests__",
+    "test:e2e-build": "detox build --configuration ios.sim.debug",
+    "test:e2e-run": "detox test -c ios.sim.debug"
   },
   "dependencies": {
     "@expo-google-fonts/comfortaa": "^0.2.3",

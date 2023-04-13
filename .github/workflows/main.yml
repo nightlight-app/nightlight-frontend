@@ -26,8 +26,8 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4.16.0
         with:
           commit_message: Apply Prettier formatting
-  test:
-    name: Run tests
+  unit-test:
+    name: Run jest tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -41,4 +41,66 @@ jobs:
       - name: Install packages
         run: npm ci
       - name: Run tests
-        run: npm test
+        run: npm test:unit
+    env:
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      FIREBASE_AUTHDOMAIN: ${{ secrets.FIREBASE_AUTHDOMAIN }}
+      FIREBASE_PROJECTID: ${{ secrets.FIREBASE_PROJECTID }}
+      FIREBASE_STORAGEBUCKET: ${{ secrets.FIREBASE_STORAGEBUCKET }}
+      FIREBASE_MESSAGINGSENDERID: ${{ secrets.FIREBASE_MESSAGINGSENDERID }}
+      FIREBASE_APPID: ${{ secrets.FIREBASE_APPID }}
+      FIREBASE_MEASUREMENTID: ${{ secrets.FIREBASE_MEASUREMENTID }}
+      MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
+      SERVER_URL: ${{ secrets.SERVER_URL }}
+  e2e-test:
+    name: Run Detox e2e tests
+    runs-on: macos-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Node
+        uses: actions/setup-node@v3
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install detox cli
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: npm install -g detox-cli
+      - name: Rebuild detox
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: npx detox clean-framework-cache && detox build-framework-cache
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: Cache Pods
+        uses: actions/cache@v1
+        id: podcache
+        with:
+          path: ios/Pods
+          key: pods-${{ hashFiles('**/Podfile.lock') }}
+
+      - name: Update Pods
+        run: |
+          gem update cocoapods xcodeproj
+          cd ios && pod install && cd ..
+      - run: brew tap wix/brew
+      - run: brew install applesimutils
+      - run: npx detox build e2e --configuration ios.sim.release
+      - run: npx detox test e2e --configuration ios.sim.release --cleanup --debug-synchronization 200
+    env:
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      FIREBASE_AUTHDOMAIN: ${{ secrets.FIREBASE_AUTHDOMAIN }}
+      FIREBASE_PROJECTID: ${{ secrets.FIREBASE_PROJECTID }}
+      FIREBASE_STORAGEBUCKET: ${{ secrets.FIREBASE_STORAGEBUCKET }}
+      FIREBASE_MESSAGINGSENDERID: ${{ secrets.FIREBASE_MESSAGINGSENDERID }}
+      FIREBASE_APPID: ${{ secrets.FIREBASE_APPID }}
+      FIREBASE_MEASUREMENTID: ${{ secrets.FIREBASE_MEASUREMENTID }}
+      MAPBOX_API_KEY: ${{ secrets.MAPBOX_API_KEY }}
+      SERVER_URL: ${{ secrets.SERVER_URL }}

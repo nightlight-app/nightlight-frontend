@@ -1,25 +1,40 @@
+// use default jest setup file
+import '@testing-library/jest-native/extend-expect';
+
 // mock async storage
-// https://react-native-async-storage.github.io/async-storage/docs/advanced/jest/
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
 );
 
-// configure jest for react native reanimated
-// setUpTests();
+export * from '@testing-library/react-native';
 
-// mock registerRootComponent to resolve error
-// jest.mock('expo');
+// mock native animated helper to resolve useNativeDriver error
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
-// mock useFonts so that it is loaded right away
+/**
+ * TODO: Un-used mocks. Left here for reference
+ */
+// // mock registerRootComponent to resolve error
+// jest.mock('expo', () => ({
+//   registerRootComponent: jest.fn(),
+// }));
+
+// // mock useFonts so that it is loaded right away
 // jest.mock('@expo-google-fonts/comfortaa', () => ({
 //   // useFonts will return [true] right away
 //   useFonts: ({}) => [true],
 // }));
 
-// mock the NightlightMap component so there are no issues with import
-// jest.mock('@nightlight/components/map/NightlightMap', '');
+// // mock useFonts so that it is loaded right away
+// jest.mock('@expo-google-fonts/roboto', () => ({
+//   // useFonts will return [true] right away
+//   useFonts: ({}) => [true],
+// }));
 
-// mock the react native mapbox
-// jest.mock('@rnmapbox/maps');
-
-// jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
+// // mock the react native mapbox
+// jest.mock('@rnmapbox/maps', () => ({
+//   MapView: () => null,
+//   Camera: () => null,
+//   CameraStop: () => null,
+//   setAccessToken: jest.fn(),
+// }));

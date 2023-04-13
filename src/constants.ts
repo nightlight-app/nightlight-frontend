@@ -48,6 +48,16 @@ export const MOOD_SPRING_CONFIG: WithSpringConfig = {
 // Map Card
 export const MAP_CARD_WIDTH = 370; // width of the map card in points
 
+// Testing IDs for E2E testing
+export const TEST_IDS = {
+  SIGNIN_EMAIL_INPUT: 'SIGNIN_EMAIL_INPUT',
+  SIGNIN_PASSWORD_INPUT: 'SIGNIN_PASSWORD_INPUT',
+  SIGNIN_PASSWORD_VISIBILITY: 'SIGNIN_PASSWORD_VISIBILITY',
+  SIGNIN_FORGOT_PASSWORD: 'SIGNIN_FORGOT_PASSWORD',
+  SIGNIN_BUTTON: 'SIGNIN_BUTTON',
+  SIGNUP_BUTTON: 'SIGNIN_SIGNUP_BUTTON',
+};
+
 // User Circle
 export const USER_CIRCLE_DIAMETER: number = 50; // diameter of the user circle in points
 
