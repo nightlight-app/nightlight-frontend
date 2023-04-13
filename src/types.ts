@@ -33,6 +33,7 @@ export enum SocialRoute {
   SOCIAL = 'Social',
   FRIEND_SEARCH = 'FriendSearch',
   NOTIFICATIONS = 'Notifications',
+  FRIEND_PROFILE = 'FriendProfile',
 }
 
 export enum MapCardType {
@@ -232,6 +233,11 @@ export interface SearchUserCardProps {
   isLastItem: boolean;
   image: string;
   friendId: string;
+  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
+}
+
+export interface FriendProfileScreenProps {
+  hidden: boolean;
 }
 
 /**

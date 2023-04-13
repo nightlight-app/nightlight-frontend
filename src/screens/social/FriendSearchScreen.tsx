@@ -12,6 +12,19 @@ import FriendSearchScreenStyles from './FriendSearchScreen.styles';
 import SearchUserCard from '@nightlight/components/social/SearchUserCard';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+const SearchStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name={SocialRoute.FRIEND_SEARCH}
+        component={FriendSearchScreen}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const FriendSearchScreen = () => {
   const { userDocument } = useAuthContext();
@@ -57,10 +70,11 @@ const FriendSearchScreen = () => {
       isAdded = true;
     }
 
-    //check if user is self
+    // check if user is self
     if (userDocument?._id === item._id) {
       return null;
     }
+
     return (
       <SearchUserCard
         index={index}
@@ -69,6 +83,7 @@ const FriendSearchScreen = () => {
         isFirstItem={isFirstItem}
         isLastItem={isLastItem}
         isAdded={isAdded}
+        navigation={navigation}
         image={
           item.imgUrlProfileSmall === undefined
             ? '@nightlight/assets/images/anon.png'
