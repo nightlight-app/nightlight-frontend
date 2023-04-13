@@ -1,4 +1,4 @@
-import { SocialRoute, User } from '@nightlight/src/types';
+import { BottomTabScreenProps, SocialRoute, User } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -12,21 +12,9 @@ import FriendSearchScreenStyles from './FriendSearchScreen.styles';
 import SearchUserCard from '@nightlight/components/social/SearchUserCard';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Stack = createNativeStackNavigator();
-const SearchStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name={SocialRoute.FRIEND_SEARCH}
-        component={FriendSearchScreen}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const FriendSearchScreen = () => {
+const FriendSearchScreen = ({navigation}: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
   // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');

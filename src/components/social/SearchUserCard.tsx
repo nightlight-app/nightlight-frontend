@@ -60,7 +60,8 @@ const SearchUserCard = ({
   return (
     <Pressable
       onPress={() => {
-        console.log('clicked');
+        console.log('clicked')
+        console.log(navigation);
         navigation.navigate(SocialRoute.FRIEND_SEARCH);
       }}>
       <View
