@@ -35,7 +35,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
       },
     })
       .then(res => {
-        setFriends(res.data.friends);
+        setFriends(res.friends);
         setFriendCount(friends.length);
       })
       .catch(e => {
@@ -52,8 +52,8 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
     //     },
     //   })
     //     .then(res => {
-    //       console.log(res.data);
-    //       setActiveGroup(res.data.group);
+    //       console.log(res);
+    //       setActiveGroup(res.group);
     //       setGroupCount(activeGroup.length);
     //     })
     //     .catch(e => {
