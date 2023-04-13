@@ -122,7 +122,6 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
     // Create user in database
     console.log('[MongoDB] Creating new user in database...');
     let userId: string | undefined;
-    let response: Response | undefined;
     try {
       const body = {
         firstName,
@@ -145,7 +144,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
       if (!data) {
         console.error('[MongoDB] Failed to create user in database.');
-        console.log(`[MongoDB] Response:`, data);
+        console.error(`[MongoDB] Response:`, data);
 
         throw new Error(
           `An error occurred while creating a new user in the database.`
@@ -156,11 +155,16 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       console.log(
         `[MongoDB] Successfully created new user in database! User ID: ${userId}`
       );
+
+      // Update user document in context after successful sign up
+      updateUserDocument({
+        shouldUpdateNotificationToken: true,
+      });
     } catch (error: unknown) {
       console.error(
         `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}.`
       );
-      console.log(error);
+      console.error('[MongoDB]', error);
       setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
       return;
     }
@@ -208,7 +212,10 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
         console.log('[MongoDB] Successfully attached profile picture!');
 
-        updateUserDocument();
+        // Update user document in context after successful sign up
+        updateUserDocument({
+          shouldUpdateNotificationToken: true,
+        });
       } catch (error: unknown) {
         console.error(
           `[MongoDB] Error attaching profile picture!\nUser ID: ${userId}\nProfile Picture URI: ${profilePictureUri}\nFilename: ${filename}\nType: ${type}\nResponse: ${

@@ -64,6 +64,8 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
       console.log('[Firebase] Successfully signed in user!', user.uid);
 
       resetInputFields();
+
+      // TODO: update user document with new notification token?
     } catch (error: any) {
       console.log('[Firebase] Error signing in user!');
 

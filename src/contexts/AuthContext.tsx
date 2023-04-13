@@ -7,16 +7,17 @@ import {
   useState,
 } from 'react';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
+import { SERVER_URL } from '@env';
 import {
   AuthContextInterface,
   UpdateUserDocumentInterface,
   User,
 } from '@nightlight/src/types';
 import { auth } from '@nightlight/src/config/firebaseConfig';
-import { SERVER_URL } from '@env';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
 import { customFetch } from '@nightlight/src/api';
 
+// Context that stores the user's Firebase session and user document from MongoDB
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
   userDocument: undefined,
@@ -24,22 +25,26 @@ export const AuthContext: Context<AuthContextInterface> = createContext({
   updateUserDocument: (_?: UpdateUserDocumentInterface) => {},
 } as AuthContextInterface);
 
+// Hook for child components to get the auth information
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
 
   if (context === undefined)
-    throw new Error('useAuthContext must be used within a AuthProvider');
+    throw new Error(
+      '[AuthContext] useAuthContext must be used within a AuthProvider.'
+    );
 
   return context;
 };
 
+// Provider component that wraps your app and makes auth object ...
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  // userSession stores mongoDB id and auth data
+  // userSession stores MongoDB ID and auth data
   const [userSession, setUserSession] = useState<
     FirebaseUser | null | undefined
   >(undefined);
 
-  // userDocument stores user data from mongoDB
+  // userDocument stores user data from MongoDB
   const [userDocument, setUserDocument] = useState<User | null | undefined>();
 
   useEffect(() => {
@@ -53,67 +58,61 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   // If userSession changes, update userDocument
   useEffect(() => {
-    if (userSession) {
-      updateUserDocument({
-        shouldUpdateNotificationToken: true,
-      });
+    console.log('[AuthContext] userSession changed:', userSession?.uid);
+    if (
+      userSession &&
+      // don't update userDocument if user is logging in for the first time (user document will not exist yet)
+      userSession.metadata.creationTime !== userSession.metadata.lastSignInTime
+    ) {
+      updateUserDocument();
+    } else {
+      setUserDocument(undefined);
     }
   }, [userSession]);
 
   /**
-   * Helper method for getting the user's firebase token
-   */
-  const getUserFirebaseToken = async () => {
-    if (!userSession) {
-      console.log(
-        '[AuthContext] getUserFirebaseToken called but no userSession available'
-      );
-      return;
-    }
-    return await userSession.getIdToken();
-  };
-
-  /**
-   * Helper method for getting the user's firebase uid
-   */
-  const getUserFirebaseUid = async () => {
-    if (!userSession) {
-      console.log(
-        '[AuthContext] getUserFirebaseUid called but no userSession available'
-      );
-      return;
-    }
-    return await userSession.uid;
-  };
-
-  /**
-   * Update the userDocument state by fetching the user's document from mongoDB and updating the state
+   * Update the userDocument state by fetching the user's document from MongoDB and updating the state
    * @param shouldUpdateNotificationToken - whether to update the notification token in mongoDB (default: false)
    */
   const updateUserDocument = async ({
     shouldUpdateNotificationToken = false,
   }: UpdateUserDocumentInterface = {}) => {
-    const firebaseUid = await getUserFirebaseUid();
-    const url = `${SERVER_URL}/users?firebaseUid=${firebaseUid}`;
+    console.log('[AuthContext] Updating userDocument...');
+
+    if (!userSession) {
+      setUserDocument(undefined);
+      console.log(
+        '[AuthContext] No user is logged in. userDocument has been reset.',
+        userSession
+      );
+      return;
+    }
+
+    // get the logged-in user's Firebase UID
+    const firebaseUid = userSession.uid;
 
     try {
-      const token = await getUserFirebaseToken();
+      // get the Firebase ID token for the user for authenticating request to backend
+      const token = await userSession.getIdToken();
 
-      // fetch from mongoDB and update userDocument
-      const userDocumentResponse = await fetch(url, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // fetch from MongoDB and update userDocument
+      const userDocumentResponse = await fetch(
+        `${SERVER_URL}/users?firebaseUid=${firebaseUid}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      // await for the response to be parsed as json
+      // await for the response to be parsed as JSON
       const userDocumentData = await userDocumentResponse.json();
 
-      // handle error
-      if (userDocumentData.users.length !== 1) {
-        console.log(
-          '[AuthContext] Expect 1 user document, got: ',
+      // handle error when not exactly 1 user document is returned
+      if (userDocumentData.users?.length !== 1) {
+        console.error(
+          '[AuthContext] Expected exactly 1 user document, received:',
           userDocumentData.users
         );
         return;
@@ -124,6 +123,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       // update userDocument state to propagate changes to the rest of the app
       setUserDocument(retrievedUser);
 
+      // if specified, update the user's notification token in MongoDB
       if (shouldUpdateNotificationToken && userSession) {
         // get the notification token and send it to the server
         const notificationToken = await registerForPushNotificationsAsync();
@@ -138,8 +138,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           });
         }
       }
-    } catch (e) {
-      console.log('Error in updateUserDocument', e);
+
+      console.log('[AuthContext] Successfully updated userDocument!');
+    } catch (error) {
+      console.error('[AuthContext] Error in updateUserDocument', error);
     }
   };
 
