@@ -471,7 +471,7 @@ PODS:
     - React-perflogger (= 0.71.6)
   - RNCAsyncStorage (1.17.11):
     - React-Core
-  - RNCMaskedView (0.2.8):
+  - RNCMaskedView (0.2.9):
     - React-Core
   - RNGestureHandler (2.9.0):
     - React-Core
@@ -781,7 +781,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 8692ac548bec648fa121980ccb4304afd136d584
   ReactCommon: 0982e4657e0ecdc3a90858fbb529d54cd0be8fb4
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
-  RNCMaskedView: bc0170f389056201c82a55e242e5d90070e18e5a
+  RNCMaskedView: 949696f25ec596bfc697fc88e6f95cf0c79669b6
   RNGestureHandler: 071d7a9ad81e8b83fe7663b303d132406a7d8f39
   rnmapbox-maps: 183ed3cb6ebde0c0492fefa652c05175730035ce
   RNReanimated: cc5e3aa479cb9170bcccf8204291a6950a3be128
