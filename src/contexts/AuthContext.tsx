@@ -37,7 +37,7 @@ export const useAuthContext = () => {
   return context;
 };
 
-// Provider component that wraps your app and makes auth object ...
+// Provider component that wraps app
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   // userSession stores MongoDB ID and auth data
   const [userSession, setUserSession] = useState<

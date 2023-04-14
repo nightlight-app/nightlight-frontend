@@ -140,12 +140,11 @@ export const handleFirebaseSignUp = async (
       firebaseUid
     );
     return firebaseUid;
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error(
       `[Firebase] Error signing up new user! Email: ${email}, password: ${password}`
     );
-    console.error(error);
-    return null;
+    throw error;
   }
 };
 
@@ -158,9 +157,9 @@ export const handleFirebaseSignOut = async () => {
   try {
     await signOut(auth);
     console.log('[Firebase] Successfully signed out user!');
-  } catch (error: unknown) {
-    console.log('[Firebase] Error signing out user!');
-    console.error(error);
+  } catch (error: any) {
+    console.error('[Firebase] Error signing out user!');
+    throw error;
   }
 };
 

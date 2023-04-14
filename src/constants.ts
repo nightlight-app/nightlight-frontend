@@ -59,6 +59,10 @@ export const SIGN_IN_ERROR_CODES: string[] = [
   'auth/internal-error',
 ]; // error codes to be caught when signing in
 
+// Firebase Sign Up Error Codes
+export const EMAIL_ALREADY_IN_USE_ERROR_CODE: string =
+  'auth/email-already-in-use'; // error code to be caught when signing up
+
 // Password Input
 export const MIN_PASSWORD_LENGTH: number = 6; // minimum length of the password input
 

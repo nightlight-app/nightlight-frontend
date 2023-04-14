@@ -33,6 +33,7 @@ import { COLORS } from '@nightlight/src/global.styles';
 import Button from '@nightlight/components/Button';
 import Banner from '@nightlight/components/Banner';
 import {
+  EMAIL_ALREADY_IN_USE_ERROR_CODE,
   MIN_PASSWORD_LENGTH,
   UNEXPECTED_ERROR_MESSAGE,
 } from '@nightlight/src/constants';
@@ -117,7 +118,22 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
    */
   const handleCreateAccountPress = async () => {
     // Sign up user with Firebase
-    const firebaseUid = await handleFirebaseSignUp(email, password);
+    let firebaseUid;
+    try {
+      firebaseUid = await handleFirebaseSignUp(email, password);
+    } catch (error: any) {
+      if (error?.code === EMAIL_ALREADY_IN_USE_ERROR_CODE) {
+        setErrorFields([SignUpInputField.EMAIL]);
+        setErrorBannerMessage(
+          'An account with this email address already exists.'
+        );
+
+        setActiveIndex(1); // go to email input field
+      }
+
+      console.error(error);
+      return;
+    }
 
     // Create user in database
     console.log('[MongoDB] Creating new user in database...');
