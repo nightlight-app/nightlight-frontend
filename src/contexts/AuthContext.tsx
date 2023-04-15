@@ -8,11 +8,7 @@ import {
 } from 'react';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import { SERVER_URL } from '@env';
-import {
-  AuthContextInterface,
-  UpdateUserDocumentInterface,
-  User,
-} from '@nightlight/src/types';
+import { AuthContextInterface, User } from '@nightlight/src/types';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
 import { customFetch } from '@nightlight/src/api';
@@ -21,8 +17,10 @@ import { customFetch } from '@nightlight/src/api';
 export const AuthContext: Context<AuthContextInterface> = createContext({
   userSession: undefined,
   userDocument: undefined,
-  // initialize updateUserDocument to an empty function with arbitrary params (_ is a convention for unused params)
-  updateUserDocument: (_?: UpdateUserDocumentInterface) => {},
+  updateUserDocument: (
+    user: FirebaseUser | null,
+    shouldUpdateNotificationToken: boolean
+  ) => {},
 } as AuthContextInterface);
 
 // Hook for child components to get the auth information
@@ -45,55 +43,68 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   >(undefined);
 
   // userDocument stores user data from MongoDB
-  const [userDocument, setUserDocument] = useState<User | null | undefined>();
+  const [userDocument, setUserDocument] = useState<User | null | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       console.log('[Firebase] Authentication state changed:', user?.uid);
       setUserSession(user);
+
+      // if user is logging in for the first time, userDocument will not exist yet
+      if (user && user.metadata.creationTime === user.metadata.lastSignInTime) {
+        console.log(
+          '[AuthContext] User is logging in for the first time. userDocument will be updated after user document is created.'
+        );
+      } else {
+        updateUserDocument(user);
+      }
     });
 
     return () => unsubscribe();
   }, []);
 
   // If userSession changes, update userDocument
-  useEffect(() => {
-    console.log('[AuthContext] userSession changed:', userSession?.uid);
-    if (
-      userSession &&
-      // don't update userDocument if user is logging in for the first time (user document will not exist yet)
-      userSession.metadata.creationTime !== userSession.metadata.lastSignInTime
-    ) {
-      updateUserDocument();
-    } else {
-      setUserDocument(undefined);
-    }
-  }, [userSession]);
+  // useEffect(() => {
+  //   console.log('[AuthContext] userSession changed:', userSession?.uid);
+  //   if (
+  //     userSession &&
+  //     // don't update userDocument if user is logging in for the first time (user document will not exist yet)
+  //     userSession.metadata.creationTime !== userSession.metadata.lastSignInTime
+  //   ) {
+  //     updateUserDocument();
+  //   } else {
+  //     setUserDocument(undefined);
+  //   }
+  // }, [userSession]);
 
   /**
    * Update the userDocument state by fetching the user's document from MongoDB and updating the state
+   * @param user - the user's Firebase session or null if user is not logged in
    * @param shouldUpdateNotificationToken - whether to update the notification token in mongoDB (default: false)
    */
-  const updateUserDocument = async ({
-    shouldUpdateNotificationToken = false,
-  }: UpdateUserDocumentInterface = {}) => {
+  const updateUserDocument = async (
+    user: FirebaseUser | null,
+    shouldUpdateNotificationToken: boolean = false
+  ) => {
     console.log('[AuthContext] Updating userDocument...');
 
-    if (!userSession) {
+    if (!user) {
       setUserDocument(undefined);
       console.log(
-        '[AuthContext] No user is logged in. userDocument has been reset.',
-        userSession
+        '[AuthContext] No user is logged in. userDocument has been reset. userSession:',
+        user
       );
       return;
     }
 
     // get the logged-in user's Firebase UID
-    const firebaseUid = userSession.uid;
+    const firebaseUid = user.uid;
 
     try {
       // get the Firebase ID token for the user for authenticating request to backend
-      const token = await userSession.getIdToken();
+      const token = await user.getIdToken();
 
       // fetch from MongoDB and update userDocument
       const userDocumentResponse = await fetch(
