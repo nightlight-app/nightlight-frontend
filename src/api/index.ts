@@ -62,6 +62,8 @@ export const customFetch = async ({
       },
     });
 
+    console.log('[customFetch]', JSON.stringify(response, null, 2));
+
     const data = await response.json();
 
     return data;

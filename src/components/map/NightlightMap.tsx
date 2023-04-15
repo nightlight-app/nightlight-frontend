@@ -54,7 +54,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     if (!groupId) return;
 
     console.log(
-      `[Map] Setting up socket for user ${userDocument?.firstName} ${userDocument?.lastName}...`
+      `[NightlightMap] Setting up socket for user ${userDocument?.firstName} ${userDocument?.lastName}...`
     );
 
     // tell server to add this user to a socket group
