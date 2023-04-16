@@ -16,6 +16,7 @@ const UserCircle = ({ userId: userId }: UserCircleProps) => {
   const [userEmojiStatus, setUserEmojiStatus] = useState<string>('');
 
   // query the user's image on first mount
+  // FIXME: getting 404?
   useEffect(() => {
     customFetch({
       resourceUrl: `/users/${userId}`,
@@ -26,7 +27,7 @@ const UserCircle = ({ userId: userId }: UserCircleProps) => {
       .then(data => {
         setUserImgUrlProfile(data.users[0].imgUrlProfileLarge);
       })
-      .catch(e => console.error(e));
+      .catch(e => console.error('[UserCircle]', e));
   }, []);
 
   return (
