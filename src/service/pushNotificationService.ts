@@ -27,7 +27,7 @@ export const registerForPushNotificationsAsync = async () => {
 
     // Alert that the user does not allow push notifications
     if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
+      console.warn('[PNS] Failed to get push token for push notification!');
       return;
     }
 
@@ -42,7 +42,7 @@ export const registerForPushNotificationsAsync = async () => {
     console.log(token);
   } else {
     // Alert that the user must use a physical device to receive push notifications
-    alert('Must use physical device for Push Notifications');
+    console.warn('[PNS] Must use physical device for Push Notifications');
   }
 
   // Set notification settings for Android

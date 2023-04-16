@@ -44,7 +44,7 @@ export const customFetch = async ({
   options: RequestInit;
 }): Promise<any> => {
   if (!userSessionToken) {
-    console.error('[customFetch] Session ID token is null.');
+    console.error('[customFetch] Session ID token is null. ');
     return;
   }
 
@@ -54,6 +54,11 @@ export const customFetch = async ({
   }
 
   try {
+    console.log(
+      '[customFetch] Sending request...',
+      `${options?.method || 'GET'} ${SERVER_URL}${resourceUrl}`
+    );
+
     const response = await fetch(`${SERVER_URL}${resourceUrl}`, {
       ...options,
       headers: {
@@ -62,15 +67,33 @@ export const customFetch = async ({
       },
     });
 
-    console.log('[customFetch]', JSON.stringify(response, null, 2));
+    if (!response.ok) {
+      console.error(
+        '[customFetch] Response was not OK:',
+        '\n',
+        'Request:',
+        options?.method || 'GET',
+        response.url,
+        '\n',
+        'Response:',
+        response.status,
+        response.statusText,
+        JSON.stringify(response, null, 2)
+      );
+      return;
+    }
 
     const data = await response.json();
 
     return data;
   } catch (error: any) {
-    console.error('[customFetch] Error while fetching: ', error);
-    console.error('[customFetch] resourceUrl: ', resourceUrl);
-    console.error('[customFetch] options: ', options);
+    console.error(
+      '[customFetch] Unexepcted error while fetching...\n',
+      `resourceUrl: ${resourceUrl}\n`,
+      'options:',
+      JSON.stringify(options, null, 2),
+      error
+    );
     throw new Error(error);
   }
 };
