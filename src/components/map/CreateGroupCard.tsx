@@ -45,7 +45,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
       })
       .catch(e => {
         if (onError) onError();
-        console.log(e);
+        console.error(e);
       });
   }, []);
 
@@ -123,7 +123,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
       })
       .catch(e => {
         if (onError) onError();
-        console.log(e);
+        console.error(e);
       });
   };
 

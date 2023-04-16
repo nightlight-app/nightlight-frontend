@@ -26,7 +26,7 @@ const UserCircle = ({ userId: userId }: UserCircleProps) => {
       .then(data => {
         setUserImgUrlProfile(data.users[0].imgUrlProfileLarge);
       })
-      .catch(e => console.log(e));
+      .catch(e => console.error(e));
   }, []);
 
   return (

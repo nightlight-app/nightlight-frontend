@@ -39,7 +39,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
         setFriendCount(friends.length);
       })
       .catch(e => {
-        console.log('Error: ', e);
+        console.error('Error: ', e);
       });
 
     //get active group

@@ -34,7 +34,7 @@ const SearchUserCard = ({
           console.log(response);
         })
         .catch(e => {
-          console.log('Error: ', e.response.message);
+          console.error('Error: ', e.response.message);
         });
     } else {
       // send request to backend to remove friend
@@ -48,7 +48,7 @@ const SearchUserCard = ({
           console.log(response);
         })
         .catch(e => {
-          console.log('Error: ', e.response.message);
+          console.error('Error: ', e.response.message);
         });
     }
   };

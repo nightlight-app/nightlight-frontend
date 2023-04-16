@@ -35,7 +35,7 @@ const FriendSearchScreen = () => {
         // setPage(page + 1);
       })
       .catch(e => {
-        console.log('Error: ', e.response.message);
+        console.error('Error: ', e.response.message);
         setDisplayedUsers([]);
       });
     setDisplayedUsers(

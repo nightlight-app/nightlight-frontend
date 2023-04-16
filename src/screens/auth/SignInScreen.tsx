@@ -67,7 +67,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
 
       // TODO: update user document with new notification token?
     } catch (error: any) {
-      console.log('[Firebase] Error signing in user!');
+      console.error('[Firebase] Error signing in user!');
 
       // TODO: see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
       if (SIGN_IN_ERROR_CODES.includes(error?.code)) {

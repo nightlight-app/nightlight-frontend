@@ -103,7 +103,6 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       }
     } catch (error: any) {
       console.error(error);
-      console.log(error);
       setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
     }
   };
@@ -244,7 +243,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
             response?.status
           } ${JSON.stringify(response)}\nForm Data: ${JSON.stringify(formData)}`
         );
-        console.log(error);
+        console.error(error);
         setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
       }
     }

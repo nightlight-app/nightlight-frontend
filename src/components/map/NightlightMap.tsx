@@ -95,7 +95,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
           })
           .catch(e => {
             if (onError) onError();
-            console.log(e);
+            console.error(e);
           });
       }
     });
