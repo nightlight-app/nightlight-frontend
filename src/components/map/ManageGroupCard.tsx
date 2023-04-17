@@ -9,7 +9,7 @@ import {
   Alert,
   TouchableOpacity,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import MapCard from '@nightlight/components/map/MapCard';
 import { CreateGroupCardProps, Group, User } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
@@ -45,7 +45,9 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
         // filter to only include friends in the same group as the current user initially
         setSelectedUsers(
           (data.friends as User[]).filter(
-            friend => friend.currentGroup === userDocument?.currentGroup
+            friend =>
+              friend.currentGroup === userDocument?.currentGroup ||
+              friend.invitedGroups?.includes(userDocument?.currentGroup || '')
           )
         );
       })
@@ -57,10 +59,10 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   // If availableUsers changes, update displayedAvailableUsers
   useEffect(() => {
-    // filter out users that are already in the current group
+    // sort the list so already-in-group users are at the top
     setDisplayedAvailableUsers(
-      availableUsers.filter(
-        (user: User) => user.currentGroup !== userDocument?.currentGroup
+      availableUsers.sort((a, _) =>
+        a.currentGroup === userDocument?.currentGroup ? -1 : 1
       )
     );
   }, [availableUsers]);
@@ -141,7 +143,10 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   // function to render the list of selected friends
   const renderSelectedUser = ({ item }: ListRenderItemInfo<User>) => {
-    const userIsInSameGroup = item.currentGroup === userDocument?.currentGroup;
+    const userIsInGroup = item.currentGroup === userDocument?.currentGroup;
+    const userIsInvitedToGroup = item.invitedGroups?.includes(
+      userDocument?.currentGroup || ''
+    );
 
     return (
       <View style={CreateGroupCardStyles.selectedUserContainer}>
@@ -150,7 +155,7 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
           source={{ uri: item.imgUrlProfileSmall }}
         />
         {/* Only render close button if the user isn't already in the group */}
-        {!userIsInSameGroup && (
+        {!userIsInGroup && !userIsInvitedToGroup && (
           <CloseButton
             onPress={() => deselectUser(item)}
             size={8}
@@ -163,12 +168,17 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   // function to render the list of available friends
   const renderAvailableUser = ({ item, index }: ListRenderItemInfo<User>) => {
+    const userIsInGroup = item.currentGroup === userDocument?.currentGroup;
+    const userIsInvitedToGroup = item.invitedGroups?.includes(
+      userDocument?.currentGroup || ''
+    );
     const isFirstItem = index === 0;
     const isLastItem = index === availableUsers.length - 1;
-    const isSelected = selectedUsers.includes(item);
+    const isSelected = selectedUsers.includes(item) || userIsInGroup;
 
     return (
       <TouchableOpacity
+        disabled={userIsInGroup || userIsInvitedToGroup}
         onPress={() => selectUser(item)}
         style={[
           CreateGroupCardStyles.availableUserContainer,
@@ -183,17 +193,24 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
         <Text style={CreateGroupCardStyles.availableUserName}>
           {item.firstName} {item.lastName}
         </Text>
-        <View style={CreateGroupCardStyles.selectCheckboxContainer}>
-          {isSelected ? (
-            <Ionicons
-              name='ios-checkmark-circle'
-              size={20}
-              color={COLORS.GREEN}
-            />
-          ) : (
-            <View style={CreateGroupCardStyles.selectCheckboxOutline} />
-          )}
-        </View>
+        {!userIsInGroup && !userIsInvitedToGroup && (
+          <View style={CreateGroupCardStyles.selectCheckboxContainer}>
+            {isSelected ? (
+              <Ionicons
+                name='ios-checkmark-circle'
+                size={20}
+                color={COLORS.GREEN}
+              />
+            ) : (
+              <View style={CreateGroupCardStyles.selectCheckboxOutline} />
+            )}
+          </View>
+        )}
+        {userIsInvitedToGroup && (
+          <View>
+            <MaterialIcons name='schedule' size={24} color={COLORS.WHITE} />
+          </View>
+        )}
       </TouchableOpacity>
     );
   };
