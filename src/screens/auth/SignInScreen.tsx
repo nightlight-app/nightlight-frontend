@@ -67,8 +67,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
 
       resetInputFields();
 
-      // TODO: update user document with new notification token?
-      console.log('updating user document with token');
+      console.log('[SignInScreen] Updating user document with token...');
       updateUserDocument(user, true);
     } catch (error: any) {
       console.error('[Firebase] Error signing in user!');
