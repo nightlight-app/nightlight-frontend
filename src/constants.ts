@@ -45,6 +45,9 @@ export const MOOD_SPRING_CONFIG: WithSpringConfig = {
   mass: 0.75,
 }; // mood button spring animation config
 
+// Map
+export const DISPLAYED_GROUP_MEMBERS_LIMIT = 4;
+
 // Map Card
 export const MAP_CARD_WIDTH = 370; // width of the map card in points
 

@@ -1,5 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { USER_CIRCLE_DIAMETER } from '@nightlight/src/constants';
+import {
+  USER_CIRCLE_DIAMETER,
+  DISPLAYED_GROUP_MEMBERS_LIMIT,
+} from '@nightlight/src/constants';
+import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
   container: {
@@ -21,6 +25,24 @@ export default StyleSheet.create({
     width: '100%',
     borderRadius: USER_CIRCLE_DIAMETER / 2,
     position: 'absolute',
+  },
+  additionalMembersCountContainer: {
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    height: USER_CIRCLE_DIAMETER * 0.75,
+    width: USER_CIRCLE_DIAMETER * 0.75,
+    borderRadius: USER_CIRCLE_DIAMETER / 2,
+    borderColor: COLORS.NIGHTLIGHT_BLACK,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: -8,
+    zIndex: -DISPLAYED_GROUP_MEMBERS_LIMIT,
+  },
+  additionalMembersCount: {
+    color: COLORS.GRAY,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    textAlign: 'center',
+    fontSize: 14,
   },
   addButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.25)',

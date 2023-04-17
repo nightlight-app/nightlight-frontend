@@ -1,14 +1,13 @@
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Pressable, View } from 'react-native';
+import { SafeAreaView, Pressable, View, Text } from 'react-native';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
 import { Foundation } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
 import { User } from '@nightlight/src/types';
 import { customFetch } from '@nightlight/src/api';
-
-const DISPLAYED_GROUP_MEMBERS_LIMIT = 4;
+import { DISPLAYED_GROUP_MEMBERS_LIMIT } from '@nightlight/src/constants';
 
 const GroupMembers = () => {
   // get the current user's document
@@ -39,7 +38,6 @@ const GroupMembers = () => {
         );
         setGroupMembers(filteredMembers);
         setInvitedGroupMembers(data.group.invitedMembers);
-        // setInvitedGroupMembers([...filteredMembers, ...filteredMembers]);
       });
     }
   }, []);
@@ -84,6 +82,19 @@ const GroupMembers = () => {
             )}
           </View>
         ))}
+
+        {groupMembers.length + invitedGroupMembers.length >
+          DISPLAYED_GROUP_MEMBERS_LIMIT - 1 && (
+          <View style={GroupMembersStyles.additionalMembersCountContainer}>
+            <Text style={GroupMembersStyles.additionalMembersCount}>
+              +
+              {groupMembers.length +
+                invitedGroupMembers.length +
+                1 -
+                DISPLAYED_GROUP_MEMBERS_LIMIT}
+            </Text>
+          </View>
+        )}
 
         {/* Add button */}
         <View style={GroupMembersStyles.addButton}>
