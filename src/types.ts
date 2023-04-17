@@ -39,6 +39,7 @@ export enum MapCardType {
   VENUE = 'Venue',
   USER = 'User',
   CREATE_GROUP = 'CreateGroup',
+  MANAGE_GROUP = 'ManageGroup',
   ERROR = 'Error',
 }
 

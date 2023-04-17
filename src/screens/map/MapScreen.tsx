@@ -11,6 +11,7 @@ import NightlightMap from '@nightlight/components/map/NightlightMap';
 import { TEST_USERS, TEST_VENUES } from '@nightlight/src/testData';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import GroupMembers from '@nightlight/components/map/GroupMembers';
+import ManageGroupCard from '@nightlight/components/map/ManageGroupCard';
 
 const MapScreen = () => {
   // get the current user's document
@@ -29,6 +30,9 @@ const MapScreen = () => {
   };
   const handleShowCreateGroupCard = () => {
     setActiveMapCardType(MapCardType.CREATE_GROUP);
+  };
+  const handleShowManageGroupCard = () => {
+    setActiveMapCardType(MapCardType.MANAGE_GROUP);
   };
   const handleShowErrorCard = () => {
     setActiveMapCardType(MapCardType.ERROR);
@@ -80,6 +84,9 @@ const MapScreen = () => {
             onError={handleShowErrorCard}
           />
         );
+
+      case MapCardType.MANAGE_GROUP:
+        return <ManageGroupCard onClose={handleCloseMapCard} />;
 
       default:
         return <ErrorCard onClose={handleCloseMapCard} />;
@@ -137,7 +144,7 @@ const MapScreen = () => {
       {userDocument?.currentGroup ? (
         <GroupMembers
           userOnPress={handleShowUserCard}
-          addGroupOnPress={handleShowCreateGroupCard}
+          addGroupOnPress={handleShowManageGroupCard}
           onError={handleShowErrorCard}
         />
       ) : (
