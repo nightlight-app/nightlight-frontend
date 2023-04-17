@@ -338,3 +338,8 @@ export interface SelectProps {
   value: any;
   onChangeValue: (value: any) => void;
 }
+
+export interface DisplayedGroupMember {
+  userId: string;
+  isInvited: boolean;
+}

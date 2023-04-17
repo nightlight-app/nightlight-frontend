@@ -5,7 +5,7 @@ import { Foundation, MaterialIcons } from '@expo/vector-icons';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
 import { COLORS } from '@nightlight/src/global.styles';
-import { User } from '@nightlight/src/types';
+import { DisplayedGroupMember, User } from '@nightlight/src/types';
 import { customFetch } from '@nightlight/src/api';
 import { DISPLAYED_GROUP_MEMBERS_LIMIT } from '@nightlight/src/constants';
 
@@ -19,7 +19,7 @@ const GroupMembers = () => {
   const [groupMembers, setGroupMembers] = useState<string[]>([]);
   const [invitedGroupMembers, setInvitedGroupMembers] = useState<string[]>([]);
   const [displayedGroupMembers, setDisplayedGroupMembers] = useState<
-    { user: string; isInvited: boolean }[]
+    DisplayedGroupMember[]
   >([]);
 
   // FIXME: this does not work as expected because currentUserGroup is not updated
@@ -44,9 +44,9 @@ const GroupMembers = () => {
 
   // update the displayed group members when the group members or invited group members change
   useEffect(() => {
-    const allOtherMembers = [
-      ...groupMembers.map(user => ({ user, isInvited: false })),
-      ...invitedGroupMembers.map(user => ({ user, isInvited: true })),
+    const allOtherMembers: DisplayedGroupMember[] = [
+      ...groupMembers.map(userId => ({ userId, isInvited: false })),
+      ...invitedGroupMembers.map(userId => ({ userId, isInvited: true })),
     ];
 
     setDisplayedGroupMembers(
@@ -67,7 +67,7 @@ const GroupMembers = () => {
         <UserCircle userId={currentUserId} />
 
         {/* Other group members */}
-        {displayedGroupMembers.map(({ user, isInvited }, index) => (
+        {displayedGroupMembers.map(({ userId, isInvited }, index) => (
           <View
             key={index}
             style={[
@@ -76,7 +76,7 @@ const GroupMembers = () => {
                 zIndex: groupMembers.length - index - 2,
               },
             ]}>
-            <UserCircle userId={user} />
+            <UserCircle userId={userId} />
             {isInvited && (
               <View style={GroupMembersStyles.invitedGroupMemberOverlay}>
                 <MaterialIcons name='schedule' size={24} color={COLORS.GRAY} />
@@ -85,6 +85,7 @@ const GroupMembers = () => {
           </View>
         ))}
 
+        {/* Additional group members count */}
         {groupMembers.length + invitedGroupMembers.length >
           DISPLAYED_GROUP_MEMBERS_LIMIT - 1 && (
           <View style={GroupMembersStyles.additionalMembersCountContainer}>
