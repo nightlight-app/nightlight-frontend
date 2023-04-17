@@ -81,7 +81,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
         // TODO: this is a bit inefficient as we only need imgUrlProfileLarge.
         // could we have a specific endpoint for this?
         customFetch({
-          resourceUrl: `/users?userId=${socketData.userId}`,
+          resourceUrl: `/users?userIds=${socketData.userId}`,
           options: {
             method: 'GET',
           },
