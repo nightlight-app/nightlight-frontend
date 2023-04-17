@@ -42,6 +42,12 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
     })
       .then(data => {
         setAvailableUsers(data.friends);
+        // filter to only include friends in the same group as the current user initially
+        setSelectedUsers(
+          (data.friends as User[]).filter(
+            friend => friend.currentGroup === userDocument?.currentGroup
+          )
+        );
       })
       .catch(e => {
         if (onError) onError();
@@ -50,7 +56,14 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
   }, []);
 
   // If availableUsers changes, update displayedAvailableUsers
-  useEffect(() => setDisplayedAvailableUsers(availableUsers), [availableUsers]);
+  useEffect(() => {
+    // filter out users that are already in the current group
+    setDisplayedAvailableUsers(
+      availableUsers.filter(
+        (user: User) => user.currentGroup !== userDocument?.currentGroup
+      )
+    );
+  }, [availableUsers]);
 
   // Filters the list of available users by first name or last name based on the search text
   useEffect(() => {
@@ -88,31 +101,30 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
   };
 
   // Creates a group with the selected users
-  const handleCreateGroup = () => {
+  const handleInviteToGroup = () => {
     if (!userDocument || !userSession) {
       if (onError) onError();
       return;
     }
-    if (selectedUsers.length === 0) return Alert.alert('No users selected!');
 
-    // create a group object
-    const groupObject: Group = {
-      name: generateGroupName([userDocument, ...selectedUsers]),
-      members: [userDocument._id],
-      invitedMembers: selectedUsers.map(user => user._id),
-      creationDatetime: new Date(),
-      expirationDatetime: getDatetimeAfterHours(8),
-    };
+    // filter out users that are already in the group
+    const usersToInvite = selectedUsers.filter((user: User) => {
+      return user.currentGroup !== userDocument?.currentGroup;
+    });
+
+    if (usersToInvite.length === 0) return Alert.alert('No users selected!');
+
+    const invitedMembers = usersToInvite.map(user => user._id);
 
     // send a POST request to the server to create the group
     customFetch({
-      resourceUrl: `/groups?userId=${userDocument?._id}`,
+      resourceUrl: `/groups/${userDocument?.currentGroup}/invite-members?userId=${userDocument?._id}`,
       options: {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(groupObject),
+        body: JSON.stringify({ users: invitedMembers }),
       },
     })
       .then(data => {
@@ -129,17 +141,22 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   // function to render the list of selected friends
   const renderSelectedUser = ({ item }: ListRenderItemInfo<User>) => {
+    const userIsInSameGroup = item.currentGroup === userDocument?.currentGroup;
+
     return (
       <View style={CreateGroupCardStyles.selectedUserContainer}>
         <Image
           style={CreateGroupCardStyles.selectedUserImg}
           source={{ uri: item.imgUrlProfileSmall }}
         />
-        <CloseButton
-          onPress={() => deselectUser(item)}
-          size={8}
-          style={CreateGroupCardStyles.removeUserButton}
-        />
+        {/* Only render close button if the user isn't already in the group */}
+        {!userIsInSameGroup && (
+          <CloseButton
+            onPress={() => deselectUser(item)}
+            size={8}
+            style={CreateGroupCardStyles.removeUserButton}
+          />
+        )}
       </View>
     );
   };
@@ -205,29 +222,29 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   return (
     <MapCard
-      borderColor={COLORS.GREEN}
+      borderColor={COLORS.NIGHTLIGHT_BLUE}
       onClose={onClose}
       // TODO: left button will be for saved groups
       buttonLeft={{
         backgroundColor: COLORS.RED,
         borderColor: COLORS.DARK_RED,
         iconComponent: null,
-        text: 'Cancel',
+        text: 'Leave',
         onPress: onClose,
       }}
       buttonRight={{
         backgroundColor: COLORS.GREEN,
         borderColor: COLORS.DARK_GREEN,
         iconComponent: null,
-        text: 'Create',
-        onPress: handleCreateGroup,
+        text: 'Invite',
+        onPress: handleInviteToGroup,
       }}>
-      <Text style={CreateGroupCardStyles.title}>New Group</Text>
+      <Text style={CreateGroupCardStyles.title}>Manage Group</Text>
 
       {/* Select friends */}
       <View>
         <Text style={CreateGroupCardStyles.selectedUsersText}>
-          Selected Friends ({selectedUsers.length})
+          Group Members ({selectedUsers.length})
         </Text>
         <FlatList
           style={CreateGroupCardStyles.selectedUsersList}
