@@ -7,7 +7,6 @@ import UserCard from '@nightlight/components/map/UserCard';
 import CreateGroupCard from '@nightlight/components/map/CreateGroupCard';
 import ErrorCard from '@nightlight/components/map/ErrorCard';
 import { MapCardType, TabRoute, User } from '@nightlight/src/types';
-import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMap from '@nightlight/components/map/NightlightMap';
 import { TEST_USERS, TEST_VENUES } from '@nightlight/src/testData';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';

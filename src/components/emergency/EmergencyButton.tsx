@@ -284,6 +284,7 @@ const EmergencyButton = () => {
   const longPressGesture: LongPressGesture = Gesture.LongPress()
     .minDuration(EMERGENCY_TIME_THRESHOLD)
     .maxDistance(DEVICE_HEIGHT) // weird behavior-value pairing...?
+    .shouldCancelWhenOutside(false)
     .onStart(() => {
       // At start of long press...
       runOnJS(hideMoodsHandler)();

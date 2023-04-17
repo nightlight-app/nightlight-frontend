@@ -45,7 +45,7 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
       })
       .catch(e => {
         if (onError) onError();
-        console.log(e);
+        console.error(e);
       });
   }, []);
 
@@ -118,12 +118,12 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
       .then(data => {
         // display success and close card
         Alert.alert(data.message);
-        updateUserDocument();
+        updateUserDocument(userSession);
         onClose();
       })
       .catch(e => {
         if (onError) onError();
-        console.log(e);
+        console.error(e);
       });
   };
 

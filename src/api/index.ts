@@ -8,10 +8,18 @@ let userSessionToken: string | null = null;
 // Listen for auth state changes and update the session token accordingly
 onAuthStateChanged(auth, user => {
   if (user) {
-    user.getIdToken().then(token => {
-      userSessionToken = token;
-    });
-  } else userSessionToken = null;
+    console.log(
+      '[onAuthStateChanged] New user logged in. Setting userSessionToken for custom fetch.'
+    );
+
+    // super brute force way to get the token without using async getIdToken()
+    userSessionToken = (user as any).stsTokenManager.accessToken as string;
+  } else {
+    console.log(
+      '[onAuthStateChanged] User is null. Setting userSessionToken to null.'
+    );
+    userSessionToken = null;
+  }
 });
 
 /**
@@ -27,41 +35,61 @@ export const customFetch = async ({
   resourceUrl,
   // Fetch options
   options,
-  // optionally override the userSessionToken
-  sessionToken,
 }: {
   resourceUrl: string;
   options: RequestInit;
-  sessionToken?: string;
 }): Promise<any> => {
-  if (!userSessionToken && !sessionToken) {
-    console.log('[customFetch] session id token is null');
+  if (!userSessionToken) {
+    console.error('[customFetch] Session ID token is null. ');
     return;
   }
 
   if (resourceUrl[0] !== '/') {
-    console.log('[customFetch] resourceUrl must start with /');
+    console.error('[customFetch] resourceUrl must start with /');
     return;
   }
 
-  const token = sessionToken || userSessionToken;
-
   try {
+    console.log(
+      '[customFetch] Sending request...',
+      `${options?.method || 'GET'} ${SERVER_URL}${resourceUrl}`
+    );
+
     const response = await fetch(`${SERVER_URL}${resourceUrl}`, {
       ...options,
       headers: {
         ...options.headers,
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${userSessionToken}`,
       },
     });
+
+    if (!response.ok) {
+      console.error(
+        '[customFetch] Response was not OK:',
+        '\n',
+        'Request:',
+        options?.method || 'GET',
+        response.url,
+        '\n',
+        'Response:',
+        response.status,
+        response.statusText,
+        JSON.stringify(response, null, 2)
+      );
+      return;
+    }
 
     const data = await response.json();
 
     return data;
   } catch (error: any) {
-    console.log('[customFetch] error while fetching: ', error);
-    console.log('[customFetch] resourceUrl: ', resourceUrl);
-    console.log('[customFetch] options: ', options);
-    return;
+    console.error(
+      '[customFetch] Unexepcted error while fetching...\n',
+      `resourceUrl: ${resourceUrl}\n`,
+      'options:',
+      JSON.stringify(options, null, 2),
+      error
+    );
+    throw new Error(error);
   }
 };
