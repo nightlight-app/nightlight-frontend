@@ -19,7 +19,7 @@ export const AuthContext: Context<AuthContextInterface> = createContext({
   userDocument: undefined,
   updateUserDocument: (
     user: FirebaseUser | null,
-    shouldUpdateNotificationToken: boolean
+    shouldUpdateNotificationToken?: boolean
   ) => {},
 } as AuthContextInterface);
 
@@ -64,20 +64,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     return () => unsubscribe();
   }, []);
-
-  // If userSession changes, update userDocument
-  // useEffect(() => {
-  //   console.log('[AuthContext] userSession changed:', userSession?.uid);
-  //   if (
-  //     userSession &&
-  //     // don't update userDocument if user is logging in for the first time (user document will not exist yet)
-  //     userSession.metadata.creationTime !== userSession.metadata.lastSignInTime
-  //   ) {
-  //     updateUserDocument();
-  //   } else {
-  //     setUserDocument(undefined);
-  //   }
-  // }, [userSession]);
 
   /**
    * Update the userDocument state by fetching the user's document from MongoDB and updating the state

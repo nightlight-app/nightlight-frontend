@@ -14,10 +14,6 @@ onAuthStateChanged(auth, user => {
 
     // super brute force way to get the token without using async getIdToken()
     userSessionToken = (user as any).stsTokenManager.accessToken as string;
-    // user.getIdToken().then(token => {
-    //   userSessionToken = token;
-    //   console.log('userSessionToken is now', userSessionToken);
-    // });
   } else {
     console.log(
       '[onAuthStateChanged] User is null. Setting userSessionToken to null.'
