@@ -119,7 +119,7 @@ const ExploreScreen = () => {
         setVenues(response.venues);
       })
       .catch(e => {
-        console.log('[Explore]', JSON.stringify(e));
+        console.error('[Explore]', JSON.stringify(e));
       });
   }, []);
 

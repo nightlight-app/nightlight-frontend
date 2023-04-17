@@ -24,7 +24,7 @@ const NotificationCard = ({
     if (!userSession) return;
 
     customFetch({
-      resourceUrl: `/users?userId=${userId}`,
+      resourceUrl: `/users?userIds=${userId}`,
       options: {
         method: 'GET',
       },

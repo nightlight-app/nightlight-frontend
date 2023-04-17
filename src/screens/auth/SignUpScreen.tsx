@@ -20,9 +20,11 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import type { User as FirebaseUser } from 'firebase/auth';
 import {
   NativeStackScreenProps,
   SignUpInputField,
+  User,
 } from '@nightlight/src/types';
 import SignUpScreenStyles from '@nightlight/screens/auth/SignUpScreen.styles';
 import {
@@ -33,6 +35,7 @@ import { COLORS } from '@nightlight/src/global.styles';
 import Button from '@nightlight/components/Button';
 import Banner from '@nightlight/components/Banner';
 import {
+  EMAIL_ALREADY_IN_USE_ERROR_CODE,
   MIN_PASSWORD_LENGTH,
   UNEXPECTED_ERROR_MESSAGE,
 } from '@nightlight/src/constants';
@@ -100,7 +103,6 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       }
     } catch (error: any) {
       console.error(error);
-      console.log(error);
       setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
     }
   };
@@ -117,18 +119,38 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
    */
   const handleCreateAccountPress = async () => {
     // Sign up user with Firebase
-    const firebaseUid = await handleFirebaseSignUp(email, password);
+    let firebaseUser: FirebaseUser | null | undefined;
+    try {
+      firebaseUser = await handleFirebaseSignUp(email, password);
+
+      if (!firebaseUser) {
+        throw new Error(
+          '[SignUpScreen] An error occurred while signing up with Firebase.'
+        );
+      }
+    } catch (error: any) {
+      if (error?.code === EMAIL_ALREADY_IN_USE_ERROR_CODE) {
+        setErrorFields([SignUpInputField.EMAIL]);
+        setErrorBannerMessage(
+          'An account with this email address already exists.'
+        );
+
+        setActiveIndex(1); // go to email input field
+      }
+
+      console.error(error);
+      return;
+    }
 
     // Create user in database
     console.log('[MongoDB] Creating new user in database...');
     let userId: string | undefined;
-    let response: Response | undefined;
     try {
       const body = {
         firstName,
         lastName,
         email,
-        firebaseUid,
+        firebaseUid: firebaseUser.uid,
         phone: phoneNumber,
       };
 
@@ -145,22 +167,27 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
       if (!data) {
         console.error('[MongoDB] Failed to create user in database.');
-        console.log(`[MongoDB] Response:`, data);
+        console.error(`[MongoDB] Response:`, data);
 
         throw new Error(
           `An error occurred while creating a new user in the database.`
         );
       }
 
-      userId = data?.user._id;
+      // Ah, this
+      const user: User = data.user;
+
       console.log(
-        `[MongoDB] Successfully created new user in database! User ID: ${userId}`
+        `[MongoDB] Successfully created new user in database! User ID: ${user._id}`
       );
+
+      // Update user document in context after successful sign up
+      updateUserDocument(firebaseUser, true);
     } catch (error: unknown) {
       console.error(
-        `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUid}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}.`
+        `[MongoDB] Error creating new user in database! Firebase UID: ${firebaseUser.uid}, first name: ${firstName}, last name: ${lastName}, email: ${email}, phone number: ${phoneNumber}.`
       );
-      console.log(error);
+      console.error('[MongoDB]', error);
       setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
       return;
     }
@@ -172,7 +199,7 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
       // Get type from URI
       const type = profilePictureUri.split('.').pop();
 
-      // TODO: Construct filename
+      // TODO: Construct filename?
       const filename = `${userId}.${type}`;
 
       // Construct the form data to post the image to Cloudinary
@@ -208,14 +235,15 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
 
         console.log('[MongoDB] Successfully attached profile picture!');
 
-        updateUserDocument();
+        // Update user document in context after successful sign up
+        updateUserDocument(firebaseUser, true);
       } catch (error: unknown) {
         console.error(
           `[MongoDB] Error attaching profile picture!\nUser ID: ${userId}\nProfile Picture URI: ${profilePictureUri}\nFilename: ${filename}\nType: ${type}\nResponse: ${
             response?.status
           } ${JSON.stringify(response)}\nForm Data: ${JSON.stringify(formData)}`
         );
-        console.log(error);
+        console.error(error);
         setErrorBannerMessage(UNEXPECTED_ERROR_MESSAGE);
       }
     }

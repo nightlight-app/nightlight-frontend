@@ -43,7 +43,7 @@ const GroupMembers = ({
    */
   const handleUserOnClick = (userId: string) => {
     customFetch({
-      resourceUrl: `/users?userId=${userId}`,
+      resourceUrl: `/users?userIds=${userId}`,
       options: {
         method: 'GET',
       },
@@ -57,7 +57,7 @@ const GroupMembers = ({
       })
       .catch(e => {
         if (onError) onError();
-        console.log(e);
+        console.error(e);
       });
   };
 
