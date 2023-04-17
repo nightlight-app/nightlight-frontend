@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { USER_CIRCLE_DIAMETER } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
@@ -9,6 +10,17 @@ export default StyleSheet.create({
   groupMembersList: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  memberContainer: {
+    marginLeft: -10,
+  },
+  invitedGroupMemberOverlay: {
+    backgroundColor: 'black',
+    opacity: 0.7,
+    height: '100%',
+    width: '100%',
+    borderRadius: USER_CIRCLE_DIAMETER / 2,
+    position: 'absolute',
   },
   addButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.25)',

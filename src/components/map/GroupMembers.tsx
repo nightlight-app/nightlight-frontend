@@ -16,7 +16,7 @@ const GroupMembers = () => {
 
   // keep track of the current group's members _ids
   const [groupMembers, setGroupMembers] = useState<string[]>([]);
-  const [pendingGroupMembers, setPendingGroupMembers] = useState<string[]>([]);
+  const [invitedGroupMembers, setInvitedGroupMembers] = useState<string[]>([]);
 
   // FIXME: this does not work as expected because currentUserGroup is not updated
   // fetch the current group's members when the current group changes
@@ -33,7 +33,7 @@ const GroupMembers = () => {
           (member: string) => member !== currentUserId
         );
         setGroupMembers(filteredMembers);
-        setPendingGroupMembers(data.group.invitedMembers);
+        setInvitedGroupMembers(data.group.invitedMembers);
       });
     }
   }, []);
@@ -54,25 +54,29 @@ const GroupMembers = () => {
         {groupMembers.map((member, index) => (
           <View
             key={index}
-            style={{
-              zIndex: groupMembers.length - index - 2,
-              marginLeft: -(index + 1) * 10,
-            }}>
+            style={[
+              GroupMembersStyles.memberContainer,
+              {
+                zIndex: groupMembers.length - index - 2,
+              },
+            ]}>
             <UserCircle userId={member} />
           </View>
         ))}
 
-        {/* Pending group members */}
-        {pendingGroupMembers.map((member, index) => (
+        {/* Invited group members */}
+        {invitedGroupMembers.map((member, index) => (
           <View
             key={index}
-            style={{
-              zIndex:
-                pendingGroupMembers.length - groupMembers.length - index - 3,
-              marginLeft: -(index + 1) * 10,
-              opacity: 0.3,
-            }}>
+            style={[
+              GroupMembersStyles.memberContainer,
+              {
+                zIndex:
+                  invitedGroupMembers.length - groupMembers.length - index - 1,
+              },
+            ]}>
             <UserCircle userId={member} />
+            <View style={GroupMembersStyles.invitedGroupMemberOverlay} />
           </View>
         ))}
 
