@@ -1,9 +1,9 @@
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Pressable, View, Text } from 'react-native';
+import { Foundation, MaterialIcons } from '@expo/vector-icons';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
-import { Foundation } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
 import { User } from '@nightlight/src/types';
 import { customFetch } from '@nightlight/src/api';
@@ -78,7 +78,9 @@ const GroupMembers = () => {
             ]}>
             <UserCircle userId={user} />
             {isInvited && (
-              <View style={GroupMembersStyles.invitedGroupMemberOverlay} />
+              <View style={GroupMembersStyles.invitedGroupMemberOverlay}>
+                <MaterialIcons name='schedule' size={24} color={COLORS.GRAY} />
+              </View>
             )}
           </View>
         ))}

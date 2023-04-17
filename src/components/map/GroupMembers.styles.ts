@@ -25,6 +25,8 @@ export default StyleSheet.create({
     width: '100%',
     borderRadius: USER_CIRCLE_DIAMETER / 2,
     position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   additionalMembersCountContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
