@@ -11,7 +11,6 @@ import { SERVER_URL } from '@env';
 import { AuthContextInterface, User } from '@nightlight/src/types';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
-import { customFetch } from '@nightlight/src/api';
 
 // Context that stores the user's Firebase session and user document from MongoDB
 export const AuthContext: Context<AuthContextInterface> = createContext({
@@ -121,18 +120,22 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setUserDocument(retrievedUser);
 
       // if specified, update the user's notification token in MongoDB
-      if (shouldUpdateNotificationToken && userSession) {
+      if (shouldUpdateNotificationToken) {
         // get the notification token and send it to the server
         const notificationToken = await registerForPushNotificationsAsync();
 
         if (notificationToken) {
-          await customFetch({
-            resourceUrl: `/users/${retrievedUser._id}/add-notification-token`,
-            options: {
+          await fetch(
+            `${SERVER_URL}/users/${retrievedUser._id}/add-notification-token`,
+            {
               method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
               body: JSON.stringify({ notificationToken }),
-            },
-          });
+            }
+          );
         }
       }
 

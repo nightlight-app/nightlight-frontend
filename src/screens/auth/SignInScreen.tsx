@@ -24,12 +24,14 @@ import {
   SIGN_IN_ERROR_CODES,
   UNEXPECTED_ERROR_MESSAGE,
 } from '@nightlight/src/constants';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { updateUserDocument } = useAuthContext();
 
   // Hide error message when inputs change
   useEffect(() => {
@@ -66,6 +68,8 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
       resetInputFields();
 
       // TODO: update user document with new notification token?
+      console.log('updating user document with token');
+      updateUserDocument(user, true);
     } catch (error: any) {
       console.error('[Firebase] Error signing in user!');
 
