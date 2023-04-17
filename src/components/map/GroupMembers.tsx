@@ -8,6 +8,8 @@ import { COLORS } from '@nightlight/src/global.styles';
 import { User } from '@nightlight/src/types';
 import { customFetch } from '@nightlight/src/api';
 
+const DISPLAYED_GROUP_MEMBERS_LIMIT = 4;
+
 const GroupMembers = () => {
   // get the current user's document
   const { userDocument } = useAuthContext();
@@ -17,6 +19,9 @@ const GroupMembers = () => {
   // keep track of the current group's members _ids
   const [groupMembers, setGroupMembers] = useState<string[]>([]);
   const [invitedGroupMembers, setInvitedGroupMembers] = useState<string[]>([]);
+  const [displayedGroupMembers, setDisplayedGroupMembers] = useState<
+    { user: string; isInvited: boolean }[]
+  >([]);
 
   // FIXME: this does not work as expected because currentUserGroup is not updated
   // fetch the current group's members when the current group changes
@@ -34,9 +39,22 @@ const GroupMembers = () => {
         );
         setGroupMembers(filteredMembers);
         setInvitedGroupMembers(data.group.invitedMembers);
+        // setInvitedGroupMembers([...filteredMembers, ...filteredMembers]);
       });
     }
   }, []);
+
+  // update the displayed group members when the group members or invited group members change
+  useEffect(() => {
+    const allOtherMembers = [
+      ...groupMembers.map(user => ({ user, isInvited: false })),
+      ...invitedGroupMembers.map(user => ({ user, isInvited: true })),
+    ];
+
+    setDisplayedGroupMembers(
+      allOtherMembers.slice(0, DISPLAYED_GROUP_MEMBERS_LIMIT - 1)
+    );
+  }, [groupMembers, invitedGroupMembers]);
 
   const handleGroupPress = () => {
     alert('Group Pressed!');
@@ -51,7 +69,7 @@ const GroupMembers = () => {
         <UserCircle userId={currentUserId} />
 
         {/* Other group members */}
-        {groupMembers.map((member, index) => (
+        {displayedGroupMembers.map(({ user, isInvited }, index) => (
           <View
             key={index}
             style={[
@@ -60,23 +78,10 @@ const GroupMembers = () => {
                 zIndex: groupMembers.length - index - 2,
               },
             ]}>
-            <UserCircle userId={member} />
-          </View>
-        ))}
-
-        {/* Invited group members */}
-        {invitedGroupMembers.map((member, index) => (
-          <View
-            key={index}
-            style={[
-              GroupMembersStyles.memberContainer,
-              {
-                zIndex:
-                  invitedGroupMembers.length - groupMembers.length - index - 1,
-              },
-            ]}>
-            <UserCircle userId={member} />
-            <View style={GroupMembersStyles.invitedGroupMemberOverlay} />
+            <UserCircle userId={user} />
+            {isInvited && (
+              <View style={GroupMembersStyles.invitedGroupMemberOverlay} />
+            )}
           </View>
         ))}
 
