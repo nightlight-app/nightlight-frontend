@@ -56,5 +56,6 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 16,
+    textAlign: 'center',
   },
 });
