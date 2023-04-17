@@ -233,7 +233,6 @@ export interface SearchUserCardProps {
   isLastItem: boolean;
   image: string;
   friendId: string;
-  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
 }
 
 export interface FriendProfileScreenProps {

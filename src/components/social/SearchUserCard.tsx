@@ -15,7 +15,6 @@ const SearchUserCard = ({
   isAdded,
   image,
   friendId,
-  navigation
 }: SearchUserCardProps) => {
   let isEvenIndex = index % 2 !== 0;
   const [added, setAdded] = useState(isAdded);
@@ -58,12 +57,6 @@ const SearchUserCard = ({
   };
 
   return (
-    <Pressable
-      onPress={() => {
-        console.log('clicked')
-        console.log(navigation);
-        navigation.navigate(SocialRoute.FRIEND_SEARCH);
-      }}>
       <View
         style={[
           UserCardStyles.container,
@@ -95,7 +88,6 @@ const SearchUserCard = ({
           </Pressable>
         </View>
       </View>
-    </Pressable>
   );
 };
 

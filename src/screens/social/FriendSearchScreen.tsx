@@ -7,14 +7,18 @@ import {
   TextInput,
   ListRenderItemInfo,
   FlatList,
+  Pressable,
 } from 'react-native';
 import FriendSearchScreenStyles from './FriendSearchScreen.styles';
 import SearchUserCard from '@nightlight/components/social/SearchUserCard';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
-import { NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  NativeStackScreenProps,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 
-const FriendSearchScreen = ({navigation}: BottomTabScreenProps) => {
+const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
   // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
@@ -64,21 +68,25 @@ const FriendSearchScreen = ({navigation}: BottomTabScreenProps) => {
     }
 
     return (
-      <SearchUserCard
-        index={index}
-        firstName={item.firstName}
-        lastName={item.lastName}
-        isFirstItem={isFirstItem}
-        isLastItem={isLastItem}
-        isAdded={isAdded}
-        navigation={navigation}
-        image={
-          item.imgUrlProfileSmall === undefined
-            ? '@nightlight/assets/images/anon.png'
-            : item.imgUrlProfileSmall
-        }
-        friendId={item._id}
-      />
+      <Pressable
+        onPress={() => {
+          navigation.navigate(SocialRoute.FRIEND_PROFILE, {item});
+        }}>
+        <SearchUserCard
+          index={index}
+          firstName={item.firstName}
+          lastName={item.lastName}
+          isFirstItem={isFirstItem}
+          isLastItem={isLastItem}
+          isAdded={isAdded}
+          image={
+            item.imgUrlProfileSmall === undefined
+              ? '@nightlight/assets/images/anon.png'
+              : item.imgUrlProfileSmall
+          }
+          friendId={item._id}
+        />
+      </Pressable>
     );
   };
 
