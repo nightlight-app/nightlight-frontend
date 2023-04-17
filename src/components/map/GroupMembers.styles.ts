@@ -1,26 +1,17 @@
-import { USER_CIRCLE_DIAMETER } from '@nightlight/src/constants';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
     position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 10,
     top: 10,
     left: 10,
+  },
+  groupMembersList: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  userList: {
-    maxWidth: 150,
-    flexDirection: 'row',
-  },
-  userCircleTouchable: {
-    borderRadius: USER_CIRCLE_DIAMETER / 2,
-  },
-  addMember: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+  addButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
     width: 25,
     height: 25,
     borderRadius: 25 / 2,
