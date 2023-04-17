@@ -24,12 +24,14 @@ import {
   SIGN_IN_ERROR_CODES,
   UNEXPECTED_ERROR_MESSAGE,
 } from '@nightlight/src/constants';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { updateUserDocument } = useAuthContext();
 
   // Hide error message when inputs change
   useEffect(() => {
@@ -64,8 +66,11 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
       console.log('[Firebase] Successfully signed in user!', user.uid);
 
       resetInputFields();
+
+      console.log('[SignInScreen] Updating user document with token...');
+      updateUserDocument(user, true);
     } catch (error: any) {
-      console.log('[Firebase] Error signing in user!');
+      console.error('[Firebase] Error signing in user!');
 
       // TODO: see https://cloud.google.com/identity-platform/docs/admin/email-enumeration-protection
       if (SIGN_IN_ERROR_CODES.includes(error?.code)) {

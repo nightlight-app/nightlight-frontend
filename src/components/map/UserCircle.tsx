@@ -18,7 +18,7 @@ const UserCircle = ({ userId: userId }: UserCircleProps) => {
   // query the user's image on first mount
   useEffect(() => {
     customFetch({
-      resourceUrl: `/users/${userId}`,
+      resourceUrl: `/users?userIds=${userId}`,
       options: {
         method: 'GET',
       },
@@ -26,7 +26,7 @@ const UserCircle = ({ userId: userId }: UserCircleProps) => {
       .then(data => {
         setUserImgUrlProfile(data.users[0].imgUrlProfileLarge);
       })
-      .catch(e => console.log(e));
+      .catch(e => console.error('[UserCircle]', e));
   }, []);
 
   return (

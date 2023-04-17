@@ -293,17 +293,16 @@ export interface UserMarkerMap {
 export interface AuthContextInterface {
   userSession: FirebaseUser | null | undefined;
   userDocument: User | null | undefined;
-  updateUserDocument: (_?: UpdateUserDocumentInterface) => void;
+  updateUserDocument: (
+    user: FirebaseUser | null,
+    shouldUpdateNotificationToken?: boolean
+  ) => void;
 }
 
 export interface BannerProps {
   message: string;
   backgroundColor?: string;
   textColor?: string;
-}
-
-export interface UpdateUserDocumentInterface {
-  shouldUpdateNotificationToken?: boolean;
 }
 
 export interface NightlightMapProps {

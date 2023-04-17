@@ -54,7 +54,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     if (!groupId) return;
 
     console.log(
-      `[Map] Setting up socket for user ${userDocument?.firstName} ${userDocument?.lastName}...`
+      `[NightlightMap] Setting up socket for user ${userDocument?.firstName} ${userDocument?.lastName}...`
     );
 
     // tell server to add this user to a socket group
@@ -81,7 +81,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
         // TODO: this is a bit inefficient as we only need imgUrlProfileLarge.
         // could we have a specific endpoint for this?
         customFetch({
-          resourceUrl: `/users?userId=${socketData.userId}`,
+          resourceUrl: `/users?userIds=${socketData.userId}`,
           options: {
             method: 'GET',
           },
@@ -95,7 +95,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
           })
           .catch(e => {
             if (onError) onError();
-            console.log(e);
+            console.error(e);
           });
       }
     });
