@@ -1,93 +1,108 @@
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Pressable, Animated } from 'react-native';
+import { SafeAreaView, Pressable, View, Text } from 'react-native';
+import { Foundation, MaterialIcons } from '@expo/vector-icons';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
-import { Foundation } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
-import { GroupMembersProps, User } from '@nightlight/src/types';
+import { DisplayedGroupMember, User } from '@nightlight/src/types';
 import { customFetch } from '@nightlight/src/api';
+import { DISPLAYED_GROUP_MEMBERS_LIMIT } from '@nightlight/src/constants';
 
-const GroupMembers = ({
-  userOnPress,
-  addGroupOnPress,
-  onError,
-}: GroupMembersProps) => {
+const GroupMembers = () => {
   // get the current user's document
   const { userDocument } = useAuthContext();
+  const { _id: currentUserId, currentGroup: currentUserGroup } =
+    userDocument as User;
 
   // keep track of the current group's members _ids
   const [groupMembers, setGroupMembers] = useState<string[]>([]);
+  const [invitedGroupMembers, setInvitedGroupMembers] = useState<string[]>([]);
+  const [displayedGroupMembers, setDisplayedGroupMembers] = useState<
+    DisplayedGroupMember[]
+  >([]);
 
+  // FIXME: this does not work as expected because currentUserGroup is not updated
   // fetch the current group's members when the current group changes
   useEffect(() => {
-    if (userDocument?.currentGroup) {
+    if (currentUserGroup) {
       customFetch({
-        resourceUrl: `/groups?groupId=${userDocument.currentGroup}`,
+        resourceUrl: `/groups?groupId=${currentUserGroup}`,
         options: {
           method: 'GET',
         },
       }).then(data => {
         // filter out the current user's _id from the group members
         const filteredMembers = data.group.members.filter(
-          (member: string) => member !== userDocument._id
+          (member: string) => member !== currentUserId
         );
         setGroupMembers(filteredMembers);
+        setInvitedGroupMembers(data.group.invitedMembers);
       });
     }
-  }, [userDocument?.currentGroup]);
+  }, []);
 
-  /**
-   * Handles user circle press by querying the user's data and passing it to
-   * the userOnPress function which renders the UserCard component
-   */
-  const handleUserOnClick = (userId: string) => {
-    customFetch({
-      resourceUrl: `/users?userIds=${userId}`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(data => {
-        // TODO: mongoose returns the date as string, so need to convert to Date object
-        // think of a better way to do this (maybe a util function that parses User?)
-        const user = data.users[0] as User;
-        user.lastActive.time = new Date(user.lastActive.time);
-        userOnPress(user);
-      })
-      .catch(e => {
-        if (onError) onError();
-        console.error(e);
-      });
+  // update the displayed group members when the group members or invited group members change
+  useEffect(() => {
+    const allOtherMembers: DisplayedGroupMember[] = [
+      ...groupMembers.map(userId => ({ userId, isInvited: false })),
+      ...invitedGroupMembers.map(userId => ({ userId, isInvited: true })),
+    ];
+
+    setDisplayedGroupMembers(
+      allOtherMembers.slice(0, DISPLAYED_GROUP_MEMBERS_LIMIT - 1)
+    );
+  }, [groupMembers, invitedGroupMembers]);
+
+  const handleGroupPress = () => {
+    alert('Group Pressed!');
   };
 
   return (
     <SafeAreaView style={GroupMembersStyles.container}>
-      {/* Display the list of user circles */}
-      <Animated.ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        decelerationRate={'normal'}
-        style={GroupMembersStyles.userList}>
-        {groupMembers.map((member, index) => (
-          <Pressable
+      <Pressable
+        style={GroupMembersStyles.groupMembersList}
+        onPress={handleGroupPress}>
+        {/* Render self first */}
+        <UserCircle userId={currentUserId} />
+
+        {/* Other group members */}
+        {displayedGroupMembers.map(({ userId, isInvited }, index) => (
+          <View
             key={index}
             style={[
-              GroupMembersStyles.userCircleTouchable,
+              GroupMembersStyles.memberContainer,
               {
-                zIndex: groupMembers.length - index,
-                left: -index * 10,
+                zIndex: groupMembers.length - index - 2,
               },
-            ]}
-            onPress={() => handleUserOnClick(member)}>
-            <UserCircle userId={member} />
-          </Pressable>
+            ]}>
+            <UserCircle userId={userId} />
+            {isInvited && (
+              <View style={GroupMembersStyles.invitedGroupMemberOverlay}>
+                <MaterialIcons name='schedule' size={24} color={COLORS.GRAY} />
+              </View>
+            )}
+          </View>
         ))}
-      </Animated.ScrollView>
 
-      {/* Display a button to add member */}
-      <Pressable onPress={addGroupOnPress} style={GroupMembersStyles.addMember}>
-        <Foundation name='plus' size={15} color={COLORS.WHITE} />
+        {/* Additional group members count */}
+        {groupMembers.length + invitedGroupMembers.length >
+          DISPLAYED_GROUP_MEMBERS_LIMIT - 1 && (
+          <View style={GroupMembersStyles.additionalMembersCountContainer}>
+            <Text style={GroupMembersStyles.additionalMembersCount}>
+              +
+              {groupMembers.length +
+                invitedGroupMembers.length +
+                1 -
+                DISPLAYED_GROUP_MEMBERS_LIMIT}
+            </Text>
+          </View>
+        )}
+
+        {/* Add button */}
+        <View style={GroupMembersStyles.addButton}>
+          <Foundation name='plus' size={15} color={COLORS.WHITE} />
+        </View>
       </Pressable>
     </SafeAreaView>
   );
