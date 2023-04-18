@@ -17,6 +17,7 @@ import ManageGroupCardStyles from '@nightlight/components/map/ManageGroupCard.st
 import CloseButton from '@nightlight/components/CloseButton';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
+import { checkUserPendingInvitation } from '@nightlight/src/utils/utils';
 
 const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
   const { userSession, userDocument, updateUserDocument } = useAuthContext();
@@ -40,11 +41,19 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
         setAvailableUsers(data.friends);
         // filter to only include friends in the same group as the current user initially
         setSelectedUsers(
-          (data.friends as User[]).filter(
-            friend =>
-              friend.currentGroup === userDocument?.currentGroup ||
-              friend.invitedGroups?.includes(userDocument?.currentGroup || '')
-          )
+          (data.friends as User[])
+            // filter to only include friends in the same group as the current user initially
+            // TODO: extract filter function
+            .filter(
+              friend =>
+                friend.currentGroup === userDocument?.currentGroup ||
+                friend.invitedGroups?.includes(userDocument?.currentGroup || '')
+            )
+            // sort the list so already-in-group users are at the top
+            // TODO: extract sort function
+            .sort(friend =>
+              friend.currentGroup === userDocument?.currentGroup ? -1 : 1
+            )
         );
       })
       .catch(e => {
@@ -55,11 +64,42 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
 
   // If availableUsers changes, update displayedAvailableUsers
   useEffect(() => {
+    const currentGroup = userDocument?.currentGroup || '';
+
+    if (!currentGroup) return;
+
     // sort the list so already-in-group users are at the top
     setDisplayedAvailableUsers(
-      availableUsers.sort((a, _) =>
-        a.currentGroup === userDocument?.currentGroup ? -1 : 1
-      )
+      // TODO: extract sort function
+      availableUsers.sort((a, b) => {
+        if (
+          a.currentGroup === currentGroup &&
+          b.currentGroup !== currentGroup
+        ) {
+          return -1; // a comes before b if a's group matches and b's does not
+        } else if (
+          a.currentGroup !== currentGroup &&
+          b.currentGroup === currentGroup
+        ) {
+          return 1; // b comes before a if b's group matches and a's does not
+        } else {
+          // if the groups are the same, compare by invitedGroups
+          const isUserAIvitedToGroup = checkUserPendingInvitation(
+            a,
+            currentGroup
+          );
+          const isUserBInvitedToGroup = checkUserPendingInvitation(
+            b,
+            currentGroup
+          );
+
+          if (isUserAIvitedToGroup && !isUserBInvitedToGroup) {
+            return -1; // a comes before b if a is invited to the group and b is not
+          } else if (!isUserAIvitedToGroup && isUserBInvitedToGroup) {
+            return 1; // b comes before a if b is invited to the group and a is not
+          } else return 0; // no change if both users are invited or not invited
+        }
+      })
     );
   }, [availableUsers]);
 

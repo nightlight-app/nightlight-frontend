@@ -7,7 +7,7 @@ import {
 import type { User as FirebaseUser } from 'firebase/auth';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
-import { User } from '@nightlight/src/types';
+import { Group, User } from '@nightlight/src/types';
 import {
   DAYS_PER_MONTH,
   HOURS_PER_DAY,
@@ -200,4 +200,17 @@ export const generateGroupName = (users: User[]): string => {
         users.length - 2
       } others`;
   }
+};
+
+/**
+ * Checks whether a user has a pending invitation to a group
+ * @param user - user to check
+ * @param groupId - group id to check
+ * @returns {boolean} - whether the user has pending invitations to the group
+ */
+export const checkUserPendingInvitation = (
+  user: User,
+  groupId: string
+): boolean => {
+  return user.invitedGroups?.includes(groupId) || false;
 };
