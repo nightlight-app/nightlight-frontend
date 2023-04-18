@@ -15,17 +15,19 @@ const SearchUserCard = ({
   isAdded,
   image,
   friendId,
+  isRequested
 }: SearchUserCardProps) => {
   let isEvenIndex = index % 2 !== 0;
   const [added, setAdded] = useState(isAdded);
-  const [addText, setAddText] = useState(added ? 'ADDED' : 'ADD');
+  const [requested, setRequested] = useState(isRequested);
+  const [statusText, setStatusText] = useState(added ? 'ADDED' : requested? 'REQUESTED': 'ADD');
   const { userDocument } = useAuthContext();
 
   const handlePress = () => {
     setAdded(prev => !prev);
-    setAddText(added ? 'ADD' : 'ADDED');
+    setStatusText(added ? 'ADD' : 'REQUESTED');
 
-    // send request to backend to add friend
+    // send request to backend to request friend
     if (!added) {
       customFetch({
         resourceUrl: `/users/${userDocument?._id}/request-friend/?friendId=${friendId}`,
@@ -84,7 +86,7 @@ const SearchUserCard = ({
               UserCardStyles.addButton,
               added && UserCardStyles.addedButton,
             ]}>
-            <Text style={UserCardStyles.addButtonText}>{addText}</Text>
+            <Text style={UserCardStyles.addButtonText}>{statusText}</Text>
           </Pressable>
         </View>
       </View>

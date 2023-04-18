@@ -233,6 +233,7 @@ export interface SearchUserCardProps {
   isLastItem: boolean;
   image: string;
   friendId: string;
+  isRequested: boolean;
 }
 
 export interface FriendProfileScreenProps {

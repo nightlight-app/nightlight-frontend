@@ -37,7 +37,7 @@ const NotificationsScreen = () => {
       }
     });
     setCounter(count);
-  }, [notifications]);
+  }, []);
 
   // called when there are no notifications
   const renderEmptyGroup = () => (
@@ -86,8 +86,7 @@ const NotificationsScreen = () => {
               (
                 item: {
                   body: string;
-                  userId: { $oid: string };
-                  data: { notificationType: string; sentDateTime: string };
+                  data: { notificationType: string; sentDateTime: string; senderId: string };
                 },
                 index
               ) => (
@@ -97,7 +96,7 @@ const NotificationsScreen = () => {
                   message={item.body}
                   type={item.data.notificationType}
                   time={item.data.sentDateTime}
-                  friendId={item.userId.$oid}></NotificationCard>
+                  friendId={item.data.senderId}></NotificationCard>
               )
             )}
         </View>

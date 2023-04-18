@@ -7,10 +7,10 @@ import { customFetch } from '@nightlight/src/api';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 const NotificationCard = ({
+  friendId,
   index,
   message,
   time,
-  friendId,
   type,
 }: NotificationCardProps) => {
   const { userSession, userDocument } = useAuthContext();
@@ -21,19 +21,19 @@ const NotificationCard = ({
     '@nightlight/assets/images/anon.png'
   );
   let [formattedTime, setFormattedTime] = useState('');
-
+  console.log('friendid', friendId);
   // get user image from backend
   useEffect(() => {
     if (!userSession) return;
 
     customFetch({
-      resourceUrl: `/users?userIds=${userId}`,
+      resourceUrl: `/users?userIds=${friendId}`,
       options: {
         method: 'GET',
       },
     })
       .then(res => {
-        setUserImage(res.users[0].imgUrlProfileSmall);
+        setUserImage(res?.users[0].imgUrlProfileSmall);
       })
       .catch(e => {
         // no profile photo found
@@ -54,7 +54,7 @@ const NotificationCard = ({
     } else if (timeDiffInDays < 1) {
       setFormattedTime(`${Math.floor(timeDiffInHours)} hr`);
     } else if (timeDiffInWeeks < 1) {
-      setFormattedTime(`${Math.floor(timeDiffInDays)} day`);
+      setFormattedTime(`${Math.floor(timeDiffInDays)} days`);
     } else if (timeDiffInMonths < 1) {
       setFormattedTime(`${Math.floor(timeDiffInWeeks)} wk`);
     } else if (timeDiffInYears < 1) {
@@ -64,22 +64,40 @@ const NotificationCard = ({
     }
   }, []);
 
-  // handle accept friend request
-  const handleAcceptFriendRequest = () => {
-    customFetch({
-      resourceUrl: `/users/${userId}/accept-friend-request/?friendId=${friendId}`,
-      options: {
-        method: 'PATCH',
-      },
-    })
-      .then(res => {
-        console.log(res);
+  const handleAcceptRequest = () => {
+    // check type of notification
+    if (type === 'friendRequest') {
+      customFetch({
+        resourceUrl: `/users/${userId}/accept-friend-request/?friendId=${friendId}`,
+        options: {
+          method: 'PATCH',
+        },
       })
-      .catch(e => {
-        console.log('Error:', e);
-      });
+        .then(res => {
+          console.log(res);
+        })
+        .catch(e => {
+          console.log('Error:', e);
+        });
+    } else {
+      customFetch({
+        resourceUrl: `/users/${userId}/accept-group-invite/?groupId=${friendId}`,
+        options: {
+          method: 'PATCH',
+        },
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(e => {
+          console.log('Error:', e);
+        });
+    }
   };
 
+  const handleDeclineRequest = () => {
+    console.log('declined');
+  };
   return (
     <View
       style={[
@@ -90,7 +108,7 @@ const NotificationCard = ({
       <View style={NotificationCardStyles.card}>
         <Image
           source={
-            userImage
+            userImage != undefined
               ? { uri: `${userImage}` }
               : require('@nightlight/assets/images/anon.png')
           }
@@ -103,7 +121,9 @@ const NotificationCard = ({
       </View>
       {type === 'groupInvite' || type === 'friendRequest' ? (
         <View style={NotificationCardStyles.buttonrow}>
-          <Pressable style={NotificationCardStyles.decline}>
+          <Pressable
+            style={NotificationCardStyles.decline}
+            onPress={handleDeclineRequest}>
             <Feather name='x' size={20} color='#732014' />
             <Text style={NotificationCardStyles.declineButtonText}>
               Decline
@@ -111,7 +131,7 @@ const NotificationCard = ({
           </Pressable>
           <Pressable
             style={NotificationCardStyles.accept}
-            onPress={handleAcceptFriendRequest}>
+            onPress={handleAcceptRequest}>
             <Ionicons name='checkmark' size={20} color='#2E491B' />
             <Text style={NotificationCardStyles.acceptButtonText}>Accept</Text>
           </Pressable>

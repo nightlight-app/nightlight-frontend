@@ -29,7 +29,7 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
   // TODO: improve search algorithm?
   useEffect(() => {
     customFetch({
-      resourceUrl: `/users/search/?query=${searchInput}&count=${10}&page=${page}`,
+      resourceUrl: `/users/search/?query=${searchInput}&count=${300}&page=${page}`,
       options: {
         method: 'GET',
       },
@@ -62,6 +62,12 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
       isAdded = true;
     }
 
+    // check if user has been requested
+    let isRequested = false;
+    if (userDocument?.friendRequests?.includes(item._id)) {
+      isRequested = true;
+    }
+
     // check if user is self
     if (userDocument?._id === item._id) {
       return null;
@@ -79,6 +85,7 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
           isFirstItem={isFirstItem}
           isLastItem={isLastItem}
           isAdded={isAdded}
+          isRequested={isRequested}
           image={
             item.imgUrlProfileSmall === undefined
               ? '@nightlight/assets/images/anon.png'
