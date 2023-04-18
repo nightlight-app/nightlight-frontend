@@ -34,7 +34,7 @@ export default StyleSheet.create({
     height: GROUP_MEMBER_CIRCLE_DIAMETER,
     width: GROUP_MEMBER_CIRCLE_DIAMETER,
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
-    borderRadius: 30,
+    borderRadius: GROUP_MEMBER_CIRCLE_DIAMETER / 2,
   },
   selectedUserName: {
     color: COLORS.WHITE,

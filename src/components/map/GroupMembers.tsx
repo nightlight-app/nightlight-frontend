@@ -18,6 +18,8 @@ const GroupMembers = ({ onPress }: ButtonProps) => {
   // keep track of the current group's members _ids
   const [groupMembers, setGroupMembers] = useState<string[]>([]);
   const [invitedGroupMembers, setInvitedGroupMembers] = useState<string[]>([]);
+
+  // keep track of the displayed group members _ids and whether they are invited
   const [displayedGroupMembers, setDisplayedGroupMembers] = useState<
     DisplayedGroupMember[]
   >([]);
