@@ -173,9 +173,12 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
       return;
     }
 
-    // filter out users that are already in the group
+    // filter out users that are already in the group and users that are already invited
     const usersToInvite = selectedUsers.filter((user: User) => {
-      return user.currentGroup !== userDocument?.currentGroup;
+      return (
+        user.currentGroup !== userDocument?.currentGroup &&
+        !checkUserPendingInvitation(user, userDocument?.currentGroup || '')
+      );
     });
 
     if (usersToInvite.length === 0) return Alert.alert('No users selected!');
@@ -194,6 +197,7 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
       },
     })
       .then(data => {
+        // update the user document
         updateUserDocument(userSession);
         // display success and close card
         Alert.alert(data.message);
