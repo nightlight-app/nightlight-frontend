@@ -11,7 +11,7 @@ const UserCircle = ({ userId }: UserCircleProps) => {
   const [userImgUrlProfile, setUserImgUrlProfile] = useState<string>('');
 
   // stores the user's last active status and conditionally render the borderColor
-  const [userStatus, setUserStatus] = useState<string>('');
+  const [userStatus, setUserStatus] = useState<string>(COLORS.GRAY);
 
   // TODO: the user's current emoji status
   const [userEmojiStatus, setUserEmojiStatus] = useState<string>('');
