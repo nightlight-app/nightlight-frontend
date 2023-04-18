@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
+import { EMERGENCY_BUTTON_RADIUS, NAVBAR_HEIGHT } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   screenContainer: {
@@ -25,6 +26,7 @@ export default StyleSheet.create({
   },
   contactList: {
     marginHorizontal: 10,
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   contactSeparator: {
     height: 2,
@@ -32,6 +34,7 @@ export default StyleSheet.create({
   emptyContactsContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   emptyContactsText: {
     fontFamily: Fonts.COMFORTAA_BOLD,

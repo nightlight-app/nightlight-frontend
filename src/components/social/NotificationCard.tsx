@@ -21,7 +21,7 @@ const NotificationCard = ({
     '@nightlight/assets/images/anon.png'
   );
   let [formattedTime, setFormattedTime] = useState('');
-  console.log('friendid', friendId);
+
   // get user image from backend
   useEffect(() => {
     if (!userSession) return;
@@ -54,7 +54,7 @@ const NotificationCard = ({
     } else if (timeDiffInDays < 1) {
       setFormattedTime(`${Math.floor(timeDiffInHours)} hr`);
     } else if (timeDiffInWeeks < 1) {
-      setFormattedTime(`${Math.floor(timeDiffInDays)} days`);
+      setFormattedTime(`${Math.floor(timeDiffInDays)} dy`);
     } else if (timeDiffInMonths < 1) {
       setFormattedTime(`${Math.floor(timeDiffInWeeks)} wk`);
     } else if (timeDiffInYears < 1) {
@@ -96,6 +96,7 @@ const NotificationCard = ({
   };
 
   const handleDeclineRequest = () => {
+    //TODO: handle decline request
     console.log('declined');
   };
   return (

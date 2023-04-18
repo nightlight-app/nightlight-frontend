@@ -41,25 +41,6 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
       .catch(e => {
         console.error('Error: ', e);
       });
-
-    //get active group
-    // let groupid = userDocument?.currentGroup;
-    // if (groupid) {
-    //   customFetch({
-    //     resourceUrl: `/groups/?groupId=${groupid}`,
-    //     options: {
-    //       method: 'GET',
-    //     },
-    //   })
-    //     .then(res => {
-    //       console.log(res);
-    //       setActiveGroup(res.group);
-    //       setGroupCount(activeGroup.length);
-    //     })
-    //     .catch(e => {
-    //       console.log('Error: ', e);
-    //     });
-    // }
   }, []);
 
   // called when there are no active group

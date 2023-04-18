@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { DEVICE_WIDTH } from '@nightlight/src/constants';
+import { DEVICE_WIDTH, EMERGENCY_BUTTON_RADIUS, NAVBAR_HEIGHT } from '@nightlight/src/constants';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
@@ -56,5 +56,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 10,
   }
 });

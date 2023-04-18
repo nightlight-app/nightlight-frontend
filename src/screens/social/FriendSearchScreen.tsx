@@ -53,6 +53,8 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
   }, [searchInput]);
 
   // TODO: fix type?
+
+  let myIndex = 0;
   const renderUser = ({ item, index }: ListRenderItemInfo<User>) => {
     const isFirstItem = index === 0;
     const isLastItem = index === displayedUsers.length - 1;
@@ -69,32 +71,32 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
     }
 
     // check if user is self
-    if (userDocument?._id === item._id) {
+    if (userDocument?._id === item._id ) {
       return null;
+    } else {
+      return (
+        <Pressable
+          onPress={() => {
+            navigation.navigate(SocialRoute.FRIEND_PROFILE, { item });
+          }}>
+          <SearchUserCard
+            index={myIndex++}
+            firstName={item.firstName}
+            lastName={item.lastName}
+            isFirstItem={isFirstItem}
+            isLastItem={isLastItem}
+            isAdded={isAdded}
+            isRequested={isRequested}
+            image={
+              item.imgUrlProfileSmall === undefined
+                ? '@nightlight/assets/images/anon.png'
+                : item.imgUrlProfileSmall
+            }
+            friendId={item._id}
+          />
+        </Pressable>
+      );
     }
-
-    return (
-      <Pressable
-        onPress={() => {
-          navigation.navigate(SocialRoute.FRIEND_PROFILE, {item});
-        }}>
-        <SearchUserCard
-          index={index}
-          firstName={item.firstName}
-          lastName={item.lastName}
-          isFirstItem={isFirstItem}
-          isLastItem={isLastItem}
-          isAdded={isAdded}
-          isRequested={isRequested}
-          image={
-            item.imgUrlProfileSmall === undefined
-              ? '@nightlight/assets/images/anon.png'
-              : item.imgUrlProfileSmall
-          }
-          friendId={item._id}
-        />
-      </Pressable>
-    );
   };
 
   const renderUserSeparator = () => (

@@ -22,21 +22,22 @@ const NotificationsScreen = () => {
     })
       .then(res => {
         setNotifications(res.notifications);
+        let count = 0;
+        notifications.forEach(
+          (item: { data: { notificationType: string } }) => {
+            if (
+              item.data.notificationType === 'friendRequest' ||
+              item.data.notificationType === 'groupInvite'
+            ) {
+              count++;
+            }
+          }
+        );
+        setCounter(count);
       })
       .catch(e => {
         console.log('Error: ', e);
       });
-
-    let count = 0;
-    notifications.forEach((item: { data: { notificationType: string } }) => {
-      if (
-        item.data.notificationType === 'friendRequest' ||
-        item.data.notificationType === 'groupInvite'
-      ) {
-        count++;
-      }
-    });
-    setCounter(count);
   }, []);
 
   // called when there are no notifications
@@ -61,6 +62,7 @@ const NotificationsScreen = () => {
           </View>
         </View>
         <View style={NotificationsScreenStyles.notifList}>
+          {counter === 0 && renderEmptyGroup()}
           {notifications
             .sort(
               (
@@ -86,7 +88,11 @@ const NotificationsScreen = () => {
               (
                 item: {
                   body: string;
-                  data: { notificationType: string; sentDateTime: string; senderId: string };
+                  data: {
+                    notificationType: string;
+                    sentDateTime: string;
+                    senderId: string;
+                  };
                 },
                 index
               ) => (
