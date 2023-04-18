@@ -1,6 +1,6 @@
 import { MAPBOX_API_KEY } from '@env';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Pressable, Image } from 'react-native';
+import { AppState, View, Pressable, Image, AppStateStatus } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -12,14 +12,9 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
-import {
-  Markers,
-  NightlightMapProps,
-  UserMarkerMap,
-} from '@nightlight/src/types';
+import { NightlightMapProps, UserMarkerMap } from '@nightlight/src/types';
 import { socket } from '@nightlight/src/service/socketService';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import { customFetch } from '@nightlight/src/api';
 import {
   LocationServiceEvent,
   locationServiceHandler,
@@ -126,6 +121,41 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
   const [userLocation, setUserLocation] = useState<MapboxGL.Location>(); // user's current location
   const [userMarkers, setUserMarkers] = useState<UserMarkerMap>({}); // map of user id to UserMarker (excluding the current user)
   const userMarkersRef = useRef<UserMarkerMap>({}); // reference to userMarkers. used for updating userMarkers in socket on
+  const appState = useRef<AppStateStatus>(AppState.currentState); // reference to current app state (active, inactive, background)
+
+  /**
+   * Detects when app comes to foreground/background
+   *
+   * Source: https://reactnative.dev/docs/appstate
+   */
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        // TODO: send PATCH request to /users/:userId/go-online
+        console.log('App has come to the foreground!');
+      }
+
+      if (
+        appState.current === 'active' &&
+        nextAppState.match(/inactive|background/)
+      ) {
+        // TODO: send PATCH request to /users/:userId/go-offline
+        // alongside req.body.location = { latitude, longitude }
+        console.log('App has come to the background!');
+      }
+
+      // update appState
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      // remove event listener
+      subscription.remove();
+    };
+  }, []);
 
   /**
    * Update userMarkersRef on every render so socket can access the latest userMarkers
