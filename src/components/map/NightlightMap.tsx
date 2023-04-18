@@ -20,6 +20,10 @@ import {
 import { socket } from '@nightlight/src/service/socketService';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
+import {
+  LocationServiceEvent,
+  locationServiceHandler,
+} from '@nightlight/src/service/locationService';
 
 // initial camera settings
 const initialCamera: CameraStop = {
@@ -145,44 +149,21 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     socket.emit('joinGroup', groupId);
 
     // receive location broadcast from server
-    socket.on('broadcastLocation', socketData => {
-      // ignore current users' location because it is already being tracked
-      if (socketData.userId === userDocument?._id) return;
-
-      // if the user is already in userMarkers, update their location right away
-      if (userMarkersRef.current[socketData.userId]) {
-        const newObj: Markers = {
-          imgUrl: userMarkersRef.current[socketData.userId].imgUrl,
-          location: socketData.location,
-        };
-        setUserMarkers(prev => ({ ...prev, [socketData.userId]: newObj }));
-      } else {
-        // if the user is not in userMarkers, fetch their profile picture url first
-        // then add them to the list
-        // TODO: this is a bit inefficient as we only need imgUrlProfileLarge.
-        // could we have a specific endpoint for this?
-        customFetch({
-          resourceUrl: `/users?userIds=${socketData.userId}`,
-          options: {
-            method: 'GET',
-          },
-        })
-          .then(friendData => {
-            const newObj: Markers = {
-              location: socketData.location,
-              imgUrl: friendData.users[0].imgUrlProfileLarge,
-            };
-            setUserMarkers(prev => ({ ...prev, [socketData.userId]: newObj }));
-          })
-          .catch(e => {
-            if (onError) onError();
-            console.error(e);
-          });
-      }
-    });
+    socket.on('broadcastLocation', broadcastEventData =>
+      locationServiceHandler({
+        event: LocationServiceEvent.BROADCAST_LOCATION,
+        eventData: broadcastEventData,
+        markers: userMarkersRef.current,
+        setUserMarkers: setUserMarkers,
+        userDocument: userDocument,
+      })
+    );
 
     // clean up by disconnecting with socket
     return () => {
+      console.log(
+        `[NightlightMap] Disconnecting from socket for user ${userDocument?.firstName} ${userDocument?.lastName}...`
+      );
       // leave the group so the server stops sending location updates to this user
       socket.emit('leaveGroup', groupId);
       socket.off(''); // disconnect from the socket
