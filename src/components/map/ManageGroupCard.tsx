@@ -203,7 +203,7 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
           </View>
         )}
         {userIsInvitedToGroup && (
-          <View>
+          <View style={ManageGroupCardStyles.selectCheckboxContainer}>
             <MaterialIcons name='schedule' size={24} color={COLORS.WHITE} />
           </View>
         )}
