@@ -5,11 +5,11 @@ import { Foundation, MaterialIcons } from '@expo/vector-icons';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
 import { COLORS } from '@nightlight/src/global.styles';
-import { DisplayedGroupMember, User } from '@nightlight/src/types';
+import { ButtonProps, DisplayedGroupMember, User } from '@nightlight/src/types';
 import { customFetch } from '@nightlight/src/api';
 import { DISPLAYED_GROUP_MEMBERS_LIMIT } from '@nightlight/src/constants';
 
-const GroupMembers = () => {
+const GroupMembers = ({ onPress }: ButtonProps) => {
   // get the current user's document
   const { userDocument } = useAuthContext();
   const { _id: currentUserId, currentGroup: currentUserGroup } =
@@ -54,15 +54,9 @@ const GroupMembers = () => {
     );
   }, [groupMembers, invitedGroupMembers]);
 
-  const handleGroupPress = () => {
-    alert('Group Pressed!');
-  };
-
   return (
     <SafeAreaView style={GroupMembersStyles.container}>
-      <Pressable
-        style={GroupMembersStyles.groupMembersList}
-        onPress={handleGroupPress}>
+      <Pressable style={GroupMembersStyles.groupMembersList} onPress={onPress}>
         {/* Render self first */}
         <UserCircle userId={currentUserId} />
 

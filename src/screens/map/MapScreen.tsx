@@ -142,7 +142,7 @@ const MapScreen = () => {
 
       {/* Render group members if user is in a group, otherwise render Create Group Button */}
       {userDocument?.currentGroup ? (
-        <GroupMembers />
+        <GroupMembers onPress={handleShowManageGroupCard} />
       ) : (
         <CreateGroupButton onPress={handleShowCreateGroupCard} />
       )}
