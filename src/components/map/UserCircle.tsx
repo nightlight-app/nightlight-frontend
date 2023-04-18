@@ -4,18 +4,19 @@ import UserCircleStyles from '@nightlight/components/map/UserCircle.styles';
 import { COLORS } from '@nightlight/src/global.styles';
 import { UserCircleProps } from '@nightlight/src/types';
 import { customFetch } from '@nightlight/src/api';
+import { getStatusColor } from '@nightlight/src/utils/utils';
 
-const UserCircle = ({ userId: userId }: UserCircleProps) => {
+const UserCircle = ({ userId }: UserCircleProps) => {
   // stores the cloudinary url of the user's profile picture
   const [userImgUrlProfile, setUserImgUrlProfile] = useState<string>('');
 
-  // TODO: stores the user's last active status and conditionally render the borderColor
+  // stores the user's last active status and conditionally render the borderColor
   const [userStatus, setUserStatus] = useState<string>('');
 
   // TODO: the user's current emoji status
   const [userEmojiStatus, setUserEmojiStatus] = useState<string>('');
 
-  // query the user's image on first mount
+  // query the user's image and last active time on first mount
   useEffect(() => {
     customFetch({
       resourceUrl: `/users?userIds=${userId}`,
@@ -24,9 +25,17 @@ const UserCircle = ({ userId: userId }: UserCircleProps) => {
       },
     })
       .then(data => {
-        setUserImgUrlProfile(data.users[0].imgUrlProfileLarge);
+        const { imgUrlProfileLarge, lastActive } = data.users[0];
+        const time = lastActive?.time;
+        const statusColor = time ? getStatusColor(new Date(time)) : COLORS.GRAY;
+
+        setUserImgUrlProfile(imgUrlProfileLarge);
+        setUserStatus(statusColor);
       })
-      .catch(e => console.error('[UserCircle]', e));
+      .catch(e => {
+        console.error('[UserCircle] Error fetching user with ID', userId);
+        throw e;
+      });
   }, []);
 
   return (
@@ -39,8 +48,7 @@ const UserCircle = ({ userId: userId }: UserCircleProps) => {
           style={[
             UserCircleStyles.image,
             {
-              // TODO: conditionally render the borderColor based on userStatus
-              borderColor: COLORS.GREEN,
+              borderColor: userStatus,
             },
           ]}
         />
