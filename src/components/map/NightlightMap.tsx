@@ -37,24 +37,102 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
   const { userDocument } = useAuthContext();
   const groupId = userDocument?.currentGroup;
 
+  // ======================================================
+  // ----------------------- CAMERA -----------------------
+  // ======================================================
+
   /**
-   * Location Tracking Variables
+   * Camera Tracking Variables
    */
-  const [userMarkers, setUserMarkers] = useState<UserMarkerMap>({}); // map of user id to UserMarker (excluding the current user)
   const camera = useRef<Camera>(null); // reference to MapboxGL's camera
-  const [userLocation, setUserLocation] = useState<MapboxGL.Location>(); // user's current location
   const [isCameraFollowingUserLocation, setIsCameraFollowingUserLocation] =
     useState<boolean>(true); // whether the camera is following user's location
   const [isCameraFollowingUserHeading, setIsCameraFollowingUserHeading] =
     useState<boolean>(false); // whether the camera is following user's heading
+
+  /**
+   * Sets the initial camera to user's location on first load
+   */
+  useEffect(() => {
+    if (userLocation && isCameraFollowingUserLocation) {
+      const { longitude, latitude } = userLocation.coords;
+      const position: Position = [longitude, latitude];
+
+      camera.current?.setCamera({
+        ...initialCamera,
+        centerCoordinate: position,
+      });
+    }
+  }, []);
+
+  /**
+   * Handle the onUserTrackingModeChange event emitted by Mapbox Camera.
+   *
+   * When userTrackingMode is string, the camera is currently tracking
+   * the user. This function should do nothing.
+   *
+   * When userTrackingMode is null, the camera no longer tracks the
+   * user. This function should set isCameraFollowingUser to false.
+   */
+  const handleUserTrackingModeChange = (event: {
+    nativeEvent: { payload: { followUserMode: string | null } };
+  }) => {
+    const { followUserMode } = event.nativeEvent.payload;
+
+    if (isCameraFollowingUserLocation && followUserMode === null) {
+      setIsCameraFollowingUserLocation(false);
+      setIsCameraFollowingUserHeading(false);
+    }
+  };
+
+  /**
+   * Handle the location button press event emitted by Mapbox Camera.
+   */
+  const handleLocationButtonPress = () => {
+    if (isCameraFollowingUserLocation) {
+      // if camera is already following user, toggle following user heading
+      setIsCameraFollowingUserHeading(prev => !prev);
+    } else {
+      // if camera is not following user, start following user
+      setIsCameraFollowingUserLocation(true);
+    }
+  };
+
+  // FIXME: this is not working
+  // useEffect(() => {
+  //   // if camera changes to not follow user heading, face north
+  //   if (!isCameraFollowingUserHeading) {
+  //     console.log('should face north');
+  //     camera.current?.setCamera({
+  //       ...initialCamera,
+  //       // heading: 0,
+  //       // animationDuration: 500,
+  //       // animationMode: 'easeTo',
+  //     });
+  //   }
+  // }, [isCameraFollowingUserHeading]);
+
+  // ========================================================
+  // ----------------------- LOCATION -----------------------
+  // ========================================================
+
+  /**
+   * Location Tracking Variables
+   */
+  const [userLocation, setUserLocation] = useState<MapboxGL.Location>(); // user's current location
+  const [userMarkers, setUserMarkers] = useState<UserMarkerMap>({}); // map of user id to UserMarker (excluding the current user)
   const userMarkersRef = useRef<UserMarkerMap>({}); // reference to userMarkers. used for updating userMarkers in socket on
 
-  // update userMarkersRef on every render so socket can access the latest userMarkers
+  /**
+   * Update userMarkersRef on every render so socket can access the latest userMarkers
+   */
   useEffect(() => {
     userMarkersRef.current = userMarkers;
   });
 
-  // set up socket on first mount
+  /**
+   * Set up socket on first mount
+   */
   useEffect(() => {
     // if user is not in a group or if userDocument is not yet loaded, do not set up socket
     if (!groupId || !userDocument) return;
@@ -111,64 +189,6 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     };
   }, [groupId, userDocument]);
 
-  // set the initial camera to user's location on first load
-  useEffect(() => {
-    if (userLocation && isCameraFollowingUserLocation) {
-      const { longitude, latitude } = userLocation.coords;
-      const position: Position = [longitude, latitude];
-
-      camera.current?.setCamera({
-        ...initialCamera,
-        centerCoordinate: position,
-      });
-    }
-  }, []);
-
-  // FIXME: this is not working
-  // useEffect(() => {
-  //   // if camera changes to not follow user heading, face north
-  //   if (!isCameraFollowingUserHeading) {
-  //     console.log('should face north');
-  //     camera.current?.setCamera({
-  //       ...initialCamera,
-  //       // heading: 0,
-  //       // animationDuration: 500,
-  //       // animationMode: 'easeTo',
-  //     });
-  //   }
-  // }, [isCameraFollowingUserHeading]);
-
-  //
-  const handleLocationButtonPress = () => {
-    if (isCameraFollowingUserLocation) {
-      // if camera is already following user, toggle following user heading
-      setIsCameraFollowingUserHeading(prev => !prev);
-    } else {
-      // if camera is not following user, start following user
-      setIsCameraFollowingUserLocation(true);
-    }
-  };
-
-  /**
-   * Handle the onUserTrackingModeChange event emitted by Mapbox Camera.
-   *
-   * When userTrackingMode is string, the camera is currently tracking
-   * the user. This function should do nothing.
-   *
-   * When userTrackingMode is null, the camera no longer tracks the
-   * user. This function should set isCameraFollowingUser to false.
-   */
-  const handleUserTrackingModeChange = (event: {
-    nativeEvent: { payload: { followUserMode: string | null } };
-  }) => {
-    const { followUserMode } = event.nativeEvent.payload;
-
-    if (isCameraFollowingUserLocation && followUserMode === null) {
-      setIsCameraFollowingUserLocation(false);
-      setIsCameraFollowingUserHeading(false);
-    }
-  };
-
   /**
    * Update the user's location and emit it to the socket server.
    * @param loc the user's current location
@@ -188,6 +208,13 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     });
   };
 
+  // ========================================================
+  // ----------------------- ANIMATIONS ---------------------
+  // ========================================================
+
+  /**
+   * Animated Styles for Location Button Toggle
+   */
   const locationButtonAnimation = useAnimatedStyle(() => ({
     transform: [
       {
