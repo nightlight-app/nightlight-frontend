@@ -158,6 +158,12 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
             style={ManageGroupCardStyles.removeUserButton}
           />
         )}
+        {/* Overlay pending */}
+        {userIsInvitedToGroup && (
+          <View style={ManageGroupCardStyles.invitedUserOverlay}>
+            <MaterialIcons name='schedule' size={24} color={COLORS.GRAY} />
+          </View>
+        )}
       </View>
     );
   };

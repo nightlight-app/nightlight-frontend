@@ -50,6 +50,16 @@ export default StyleSheet.create({
     backgroundColor: COLORS.RED,
     borderRadius: 10,
   },
+  invitedUserOverlay: {
+    backgroundColor: 'black',
+    opacity: 0.7,
+    height: '100%',
+    width: '100%',
+    borderRadius: GROUP_MEMBER_CIRCLE_DIAMETER / 2,
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   searchInput: {
     backgroundColor: COLORS.WHITE,
     borderColor: COLORS.GRAY,
