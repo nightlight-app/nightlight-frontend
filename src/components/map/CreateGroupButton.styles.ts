@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
+  container: {
+    position: 'absolute',
+  },
   button: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     borderRadius: 20,

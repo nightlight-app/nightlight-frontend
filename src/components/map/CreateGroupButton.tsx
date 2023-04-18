@@ -6,7 +6,7 @@ import { COLORS } from '@nightlight/src/global.styles';
 
 const CreateGroupButton = ({ onPress }: ButtonProps) => {
   return (
-    <SafeAreaView style={{ position: 'absolute' }}>
+    <SafeAreaView style={CreateGroupButtonStyles.container}>
       <TouchableHighlight
         onPress={onPress}
         style={CreateGroupButtonStyles.button}

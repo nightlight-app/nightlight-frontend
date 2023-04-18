@@ -301,23 +301,6 @@ export interface NightlightMapProps {
   onError?: () => void;
 }
 
-export interface GroupMembersProps {
-  /**
-   * Function to call when a user circle is pressed.
-   * @param userToShow User to show when circle is pressed.
-   */
-  userOnPress: (userToShow?: User) => void;
-  /**
-   * Function to call when the add button is pressed.
-   */
-  addGroupOnPress: () => void;
-
-  /**
-   * Function to call when error occurs.
-   */
-  onError?: () => void;
-}
-
 export interface UserCircleProps {
   userId: string;
 }
@@ -355,4 +338,9 @@ export interface SelectProps {
   options: SelectOption[];
   value: any;
   onChangeValue: (value: any) => void;
+}
+
+export interface DisplayedGroupMember {
+  userId: string;
+  isInvited: boolean;
 }
