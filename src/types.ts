@@ -204,6 +204,8 @@ export interface UserCardProps extends MapCardProps {
 
 export interface CreateGroupCardProps extends MapCardProps {}
 
+export interface ManageGroupCardProps extends MapCardProps {}
+
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }

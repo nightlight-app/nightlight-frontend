@@ -11,18 +11,14 @@ import {
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import MapCard from '@nightlight/components/map/MapCard';
-import { CreateGroupCardProps, Group, User } from '@nightlight/src/types';
+import { ManageGroupCardProps, User } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
-import CreateGroupCardStyles from '@nightlight/components/map/CreateGroupCard.styles';
+import ManageGroupCardStyles from '@nightlight/components/map/ManageGroupCard.styles';
 import CloseButton from '@nightlight/components/CloseButton';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import {
-  generateGroupName,
-  getDatetimeHoursAfter as getDatetimeAfterHours,
-} from '@nightlight/src/utils/utils';
 import { customFetch } from '@nightlight/src/api';
 
-const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
+const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
   const { userSession, userDocument, updateUserDocument } = useAuthContext();
   const [availableUsers, setAvailableUsers] = useState<User[]>([]);
   const [displayedAvailableUsers, setDisplayedAvailableUsers] = useState<
@@ -102,7 +98,7 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
     Alert.alert('TODO: navigate to add friends screen');
   };
 
-  // Creates a group with the selected users
+  // invite the selected users to the current group
   const handleInviteToGroup = () => {
     if (!userDocument || !userSession) {
       if (onError) onError();
@@ -149,9 +145,9 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
     );
 
     return (
-      <View style={CreateGroupCardStyles.selectedUserContainer}>
+      <View style={ManageGroupCardStyles.selectedUserContainer}>
         <Image
-          style={CreateGroupCardStyles.selectedUserImg}
+          style={ManageGroupCardStyles.selectedUserImg}
           source={{ uri: item.imgUrlProfileSmall }}
         />
         {/* Only render close button if the user isn't already in the group */}
@@ -159,7 +155,7 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
           <CloseButton
             onPress={() => deselectUser(item)}
             size={8}
-            style={CreateGroupCardStyles.removeUserButton}
+            style={ManageGroupCardStyles.removeUserButton}
           />
         )}
       </View>
@@ -181,20 +177,20 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
         disabled={userIsInGroup || userIsInvitedToGroup}
         onPress={() => selectUser(item)}
         style={[
-          CreateGroupCardStyles.availableUserContainer,
-          isFirstItem && CreateGroupCardStyles.availableUserTopItem,
-          isLastItem && CreateGroupCardStyles.availableUserBottomItem,
+          ManageGroupCardStyles.availableUserContainer,
+          isFirstItem && ManageGroupCardStyles.availableUserTopItem,
+          isLastItem && ManageGroupCardStyles.availableUserBottomItem,
         ]}
         activeOpacity={0.75}>
         <Image
-          style={CreateGroupCardStyles.availableUserImg}
+          style={ManageGroupCardStyles.availableUserImg}
           source={{ uri: item.imgUrlProfileSmall }}
         />
-        <Text style={CreateGroupCardStyles.availableUserName}>
+        <Text style={ManageGroupCardStyles.availableUserName}>
           {item.firstName} {item.lastName}
         </Text>
         {!userIsInGroup && !userIsInvitedToGroup && (
-          <View style={CreateGroupCardStyles.selectCheckboxContainer}>
+          <View style={ManageGroupCardStyles.selectCheckboxContainer}>
             {isSelected ? (
               <Ionicons
                 name='ios-checkmark-circle'
@@ -202,7 +198,7 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
                 color={COLORS.GREEN}
               />
             ) : (
-              <View style={CreateGroupCardStyles.selectCheckboxOutline} />
+              <View style={ManageGroupCardStyles.selectCheckboxOutline} />
             )}
           </View>
         )}
@@ -217,20 +213,20 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
   // item separator for the list of available friends
   const renderAvailableUserSeparator = () => (
-    <View style={CreateGroupCardStyles.availableUsersListSeparator} />
+    <View style={ManageGroupCardStyles.availableUsersListSeparator} />
   );
 
   // function to render the list of available friends
   const renderEmptyAvailableUsers = () => (
-    <View style={CreateGroupCardStyles.emptyAvailableUsersContainer}>
-      <Text style={CreateGroupCardStyles.emptyAvailableUsersText}>
+    <View style={ManageGroupCardStyles.emptyAvailableUsersContainer}>
+      <Text style={ManageGroupCardStyles.emptyAvailableUsersText}>
         Well, what are you waiting for? Go make some friends!
       </Text>
       <TouchableOpacity
         onPress={handleAddFriendsPress}
-        style={CreateGroupCardStyles.addFriendsButton}
+        style={ManageGroupCardStyles.addFriendsButton}
         activeOpacity={0.75}>
-        <Text style={CreateGroupCardStyles.addFriendsButtonText}>
+        <Text style={ManageGroupCardStyles.addFriendsButtonText}>
           + Add Friends
         </Text>
       </TouchableOpacity>
@@ -256,15 +252,15 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
         text: 'Invite',
         onPress: handleInviteToGroup,
       }}>
-      <Text style={CreateGroupCardStyles.title}>Manage Group</Text>
+      <Text style={ManageGroupCardStyles.title}>Manage Group</Text>
 
       {/* Select friends */}
       <View>
-        <Text style={CreateGroupCardStyles.selectedUsersText}>
+        <Text style={ManageGroupCardStyles.selectedUsersText}>
           Group Members ({selectedUsers.length})
         </Text>
         <FlatList
-          style={CreateGroupCardStyles.selectedUsersList}
+          style={ManageGroupCardStyles.selectedUsersList}
           horizontal
           data={selectedUsers}
           renderItem={renderSelectedUser}
@@ -276,7 +272,7 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
       {/* TODO: handle keyboard view stuff */}
       <TextInput
-        style={CreateGroupCardStyles.searchInput}
+        style={ManageGroupCardStyles.searchInput}
         placeholder='Search friends...'
         placeholderTextColor={COLORS.GRAY}
         onChangeText={setSearchText}
@@ -286,7 +282,7 @@ const ManageGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
 
       {/* Available friends */}
       <FlatList
-        style={CreateGroupCardStyles.availableUsersList}
+        style={ManageGroupCardStyles.availableUsersList}
         data={displayedAvailableUsers}
         renderItem={renderAvailableUser}
         keyExtractor={(_, index) => index.toString()}
