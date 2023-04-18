@@ -39,7 +39,7 @@ const UserCircle = ({ userId }: UserCircleProps) => {
   }, []);
 
   return (
-    <View>
+    <View style={UserCircleStyles.container}>
       {userImgUrlProfile && (
         <Image
           source={{
