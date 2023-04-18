@@ -40,7 +40,7 @@ const GroupMembers = ({ onPress }: ButtonProps) => {
         setInvitedGroupMembers(data.group.invitedMembers);
       });
     }
-  }, []);
+  }, [userDocument]);
 
   // update the displayed group members when the group members or invited group members change
   useEffect(() => {
