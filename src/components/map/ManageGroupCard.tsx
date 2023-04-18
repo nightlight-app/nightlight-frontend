@@ -138,6 +138,34 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
     Alert.alert('TODO: navigate to add friends screen');
   };
 
+  // handle leaving the current group
+  const handleLeaveGroup = () => {
+    if (!userDocument || !userSession) {
+      if (onError) onError();
+      return;
+    }
+
+    // send a PATCH request to the server to leave the group
+    customFetch({
+      resourceUrl: `/users/${userDocument?._id}/leave-group?groupId=${userDocument.currentGroup}`,
+      options: {
+        method: 'PATCH',
+      },
+    })
+      .then(data => {
+        // update the user document
+        updateUserDocument(userSession);
+        // alert the user that they have left the group
+        Alert.alert('You have left the group!');
+        // close the card
+        onClose();
+      })
+      .catch(e => {
+        if (onError) onError();
+        console.error(e);
+      });
+  };
+
   // invite the selected users to the current group
   const handleInviteToGroup = () => {
     if (!userDocument || !userSession) {
@@ -289,7 +317,7 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
         borderColor: COLORS.DARK_RED,
         iconComponent: null,
         text: 'Leave',
-        onPress: onClose,
+        onPress: handleLeaveGroup,
       }}
       buttonRight={{
         backgroundColor: COLORS.GREEN,
