@@ -16,6 +16,9 @@ const UserCircle = ({ userId }: UserCircleProps) => {
   // TODO: the user's current emoji status
   const [userEmojiStatus, setUserEmojiStatus] = useState<string>('');
 
+  // stores the user's initials
+  const [userInitials, setUserInitials] = useState<string>('');
+
   // query the user's image and last active time on first mount
   useEffect(() => {
     customFetch({
@@ -25,12 +28,15 @@ const UserCircle = ({ userId }: UserCircleProps) => {
       },
     })
       .then(data => {
-        const { imgUrlProfileLarge, lastActive } = data.users[0];
+        const { imgUrlProfileLarge, lastActive, firstName, lastName } =
+          data.users[0];
         const time = lastActive?.time;
         const statusColor = time ? getStatusColor(new Date(time)) : COLORS.GRAY;
+        const initials = `${firstName[0]}${lastName[0]}`;
 
         setUserImgUrlProfile(imgUrlProfileLarge);
         setUserStatus(statusColor);
+        setUserInitials(initials);
       })
       .catch(e => {
         console.error('[UserCircle] Error fetching user with ID', userId);
@@ -40,7 +46,7 @@ const UserCircle = ({ userId }: UserCircleProps) => {
 
   return (
     <View style={UserCircleStyles.container}>
-      {userImgUrlProfile && (
+      {userImgUrlProfile ? (
         <Image
           source={{
             uri: userImgUrlProfile,
@@ -52,6 +58,16 @@ const UserCircle = ({ userId }: UserCircleProps) => {
             },
           ]}
         />
+      ) : (
+        <View
+          style={[
+            UserCircleStyles.image,
+            {
+              borderColor: userStatus,
+            },
+          ]}>
+          <Text style={UserCircleStyles.initials}>{userInitials}</Text>
+        </View>
       )}
       {userEmojiStatus && (
         <View style={UserCircleStyles.emoji}>
