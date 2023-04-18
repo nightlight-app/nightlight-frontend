@@ -194,9 +194,9 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
       },
     })
       .then(data => {
+        updateUserDocument(userSession);
         // display success and close card
         Alert.alert(data.message);
-        updateUserDocument(userSession);
         onClose();
       })
       .catch(e => {
