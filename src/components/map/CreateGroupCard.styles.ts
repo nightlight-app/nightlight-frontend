@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-import { DEVICE_HEIGHT } from '@nightlight/src/constants';
+import {
+  DEVICE_HEIGHT,
+  GROUP_MEMBER_CIRCLE_DIAMETER,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   title: {
@@ -28,8 +31,8 @@ export default StyleSheet.create({
     marginHorizontal: 10,
   },
   selectedUserImg: {
-    height: 60,
-    width: 60,
+    height: GROUP_MEMBER_CIRCLE_DIAMETER,
+    width: GROUP_MEMBER_CIRCLE_DIAMETER,
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     borderRadius: 30,
   },
