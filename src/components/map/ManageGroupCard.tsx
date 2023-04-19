@@ -84,7 +84,7 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
           return 1; // b comes before a if b's group matches and a's does not
         } else {
           // if the groups are the same, compare by invitedGroups
-          const isUserAIvitedToGroup = checkUserPendingInvitation(
+          const isUserAInvitedToGroup = checkUserPendingInvitation(
             a,
             currentGroup
           );
@@ -93,9 +93,9 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
             currentGroup
           );
 
-          if (isUserAIvitedToGroup && !isUserBInvitedToGroup) {
+          if (isUserAInvitedToGroup && !isUserBInvitedToGroup) {
             return -1; // a comes before b if a is invited to the group and b is not
-          } else if (!isUserAIvitedToGroup && isUserBInvitedToGroup) {
+          } else if (!isUserAInvitedToGroup && isUserBInvitedToGroup) {
             return 1; // b comes before a if b is invited to the group and a is not
           } else return 0; // no change if both users are invited or not invited
         }
@@ -185,7 +185,7 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
 
     const invitedMembers = usersToInvite.map(user => user._id);
 
-    // send a POST request to the server to create the group
+    // send a PATCH request to the server to invite the selected users to the group
     customFetch({
       resourceUrl: `/groups/${userDocument?.currentGroup}/invite-members?userId=${userDocument?._id}`,
       options: {
