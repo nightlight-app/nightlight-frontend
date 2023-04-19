@@ -192,13 +192,7 @@ const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
         </View>
 
         {/* Error Banner */}
-        {errorMessage && (
-          <Banner
-            message={errorMessage}
-            backgroundColor={COLORS.RED}
-            textColor={COLORS.WHITE}
-          />
-        )}
+        {errorMessage && <Banner message={errorMessage} />}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

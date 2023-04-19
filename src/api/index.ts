@@ -52,7 +52,9 @@ export const customFetch = async ({
   try {
     console.log(
       '[customFetch] Sending request...',
-      `${options?.method || 'GET'} ${SERVER_URL}${resourceUrl}`
+      `${options?.method || 'GET'} ${SERVER_URL}${resourceUrl}\n`,
+      'options:',
+      JSON.stringify(options, null, 2)
     );
 
     const response = await fetch(`${SERVER_URL}${resourceUrl}`, {
@@ -64,19 +66,12 @@ export const customFetch = async ({
     });
 
     if (!response.ok) {
-      console.error(
-        '[customFetch] Response was not OK:',
-        '\n',
-        'Request:',
-        options?.method || 'GET',
-        response.url,
-        '\n',
-        'Response:',
-        response.status,
-        response.statusText,
-        JSON.stringify(response, null, 2)
+      throw new Error(
+        '[customFetch] Response was not OK: ' +
+          response.status +
+          response.statusText +
+          JSON.stringify(response, null, 2)
       );
-      return;
     }
 
     const data = await response.json();

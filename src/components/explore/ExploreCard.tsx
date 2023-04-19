@@ -4,7 +4,7 @@ import ExploreCardStyles from '@nightlight/components/explore/ExploreCard.styles
 import VenueReactButton from '@nightlight/components/VenueReactButton';
 import { ExploreCardProps } from '@nightlight/src/types';
 
-const ExploreCard = ({ venue }: ExploreCardProps) => {
+const ExploreCard = ({ venue, resetError, onError }: ExploreCardProps) => {
   const handleStartNavigation = (destination: Location) => {
     alert(
       `TODO: Zi, take me to ${destination.latitude}, ${destination.longitude}, please!`
@@ -24,6 +24,8 @@ const ExploreCard = ({ venue }: ExploreCardProps) => {
                 key={index}
                 venue={venue}
                 reaction={emoji as ReactionEmoji}
+                resetError={resetError}
+                onError={onError}
               />
             ))}
           </View>
