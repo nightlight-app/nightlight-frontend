@@ -199,7 +199,7 @@ export interface VenueCardProps extends MapCardProps {
 }
 
 export interface UserCardProps extends MapCardProps {
-  user: User;
+  userId: string;
 }
 
 export interface CreateGroupCardProps extends MapCardProps {}
