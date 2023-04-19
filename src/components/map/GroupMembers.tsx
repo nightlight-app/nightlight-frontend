@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Pressable, View, Text } from 'react-native';
 import { Foundation, MaterialIcons } from '@expo/vector-icons';
-import Animated, { SlideInLeft, SlideOutLeft } from 'react-native-reanimated';
+import Animated, {
+  CurvedTransition,
+  SlideInLeft,
+  SlideOutLeft,
+} from 'react-native-reanimated';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
@@ -68,7 +72,9 @@ const GroupMembers = ({ onPress }: ButtonProps) => {
 
           {/* Other group members */}
           {displayedGroupMembers.map(({ userId, isInvited }, index) => (
-            <View
+            <Animated.View
+              entering={SlideInLeft}
+              exiting={SlideOutLeft}
               key={index}
               style={[
                 GroupMembersStyles.memberContainer,
@@ -86,13 +92,16 @@ const GroupMembers = ({ onPress }: ButtonProps) => {
                   />
                 </View>
               )}
-            </View>
+            </Animated.View>
           ))}
 
           {/* Additional group members count */}
           {groupMembers.length + invitedGroupMembers.length >
             DISPLAYED_GROUP_MEMBERS_LIMIT - 1 && (
-            <View style={GroupMembersStyles.additionalMembersCountContainer}>
+            <Animated.View
+              entering={SlideInLeft}
+              exiting={SlideOutLeft}
+              style={GroupMembersStyles.additionalMembersCountContainer}>
               <Text style={GroupMembersStyles.additionalMembersCount}>
                 +
                 {groupMembers.length +
@@ -100,13 +109,15 @@ const GroupMembers = ({ onPress }: ButtonProps) => {
                   1 -
                   DISPLAYED_GROUP_MEMBERS_LIMIT}
               </Text>
-            </View>
+            </Animated.View>
           )}
 
           {/* Add button */}
-          <View style={GroupMembersStyles.addButton}>
+          <Animated.View
+            layout={CurvedTransition}
+            style={GroupMembersStyles.addButton}>
             <Foundation name='plus' size={15} color={COLORS.WHITE} />
-          </View>
+          </Animated.View>
         </Pressable>
       </Animated.View>
     </SafeAreaView>
