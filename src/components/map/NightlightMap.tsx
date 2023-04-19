@@ -47,11 +47,17 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     useState<boolean>(true); // whether the camera is following user's location
   const [isCameraFollowingUserHeading, setIsCameraFollowingUserHeading] =
     useState<boolean>(false); // whether the camera is following user's heading
+  const userMarkersRef = useRef<UserMarkerMap>({}); // reference to userMarkers. used for updating userMarkers in socket on
+
+  // update userMarkersRef on every render so socket can access the latest userMarkers
+  useEffect(() => {
+    userMarkersRef.current = userMarkers;
+  });
 
   // set up socket on first mount
   useEffect(() => {
-    // if user is not in a group, do not set up socket
-    if (!groupId) return;
+    // if user is not in a group or if userDocument is not yet loaded, do not set up socket
+    if (!groupId || !userDocument) return;
 
     console.log(
       `[NightlightMap] Setting up socket for user ${userDocument?.firstName} ${userDocument?.lastName}...`
@@ -62,16 +68,13 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
 
     // receive location broadcast from server
     socket.on('broadcastLocation', socketData => {
-      // ignore if userDocument is not yet loaded
-      if (!userDocument) return;
-
       // ignore current users' location because it is already being tracked
       if (socketData.userId === userDocument?._id) return;
 
       // if the user is already in userMarkers, update their location right away
-      if (userMarkers[socketData.userId]) {
+      if (userMarkersRef.current[socketData.userId]) {
         const newObj: Markers = {
-          imgUrl: userMarkers[socketData.userId].imgUrl,
+          imgUrl: userMarkersRef.current[socketData.userId].imgUrl,
           location: socketData.location,
         };
         setUserMarkers(prev => ({ ...prev, [socketData.userId]: newObj }));

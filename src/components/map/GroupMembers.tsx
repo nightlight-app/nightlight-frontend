@@ -1,15 +1,20 @@
-import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Pressable, View, Text } from 'react-native';
 import { Foundation, MaterialIcons } from '@expo/vector-icons';
+import Animated, {
+  CurvedTransition,
+  SlideInLeft,
+  SlideOutLeft,
+} from 'react-native-reanimated';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
 import { COLORS } from '@nightlight/src/global.styles';
-import { DisplayedGroupMember, User } from '@nightlight/src/types';
+import { ButtonProps, DisplayedGroupMember, User } from '@nightlight/src/types';
 import { customFetch } from '@nightlight/src/api';
 import { DISPLAYED_GROUP_MEMBERS_LIMIT } from '@nightlight/src/constants';
 
-const GroupMembers = () => {
+const GroupMembers = ({ onPress }: ButtonProps) => {
   // get the current user's document
   const { userDocument } = useAuthContext();
   const { _id: currentUserId, currentGroup: currentUserGroup } =
@@ -18,6 +23,8 @@ const GroupMembers = () => {
   // keep track of the current group's members _ids
   const [groupMembers, setGroupMembers] = useState<string[]>([]);
   const [invitedGroupMembers, setInvitedGroupMembers] = useState<string[]>([]);
+
+  // keep track of the displayed group members _ids and whether they are invited
   const [displayedGroupMembers, setDisplayedGroupMembers] = useState<
     DisplayedGroupMember[]
   >([]);
@@ -40,7 +47,7 @@ const GroupMembers = () => {
         setInvitedGroupMembers(data.group.invitedMembers);
       });
     }
-  }, []);
+  }, [userDocument]);
 
   // update the displayed group members when the group members or invited group members change
   useEffect(() => {
@@ -54,56 +61,65 @@ const GroupMembers = () => {
     );
   }, [groupMembers, invitedGroupMembers]);
 
-  const handleGroupPress = () => {
-    alert('Group Pressed!');
-  };
-
   return (
     <SafeAreaView style={GroupMembersStyles.container}>
-      <Pressable
-        style={GroupMembersStyles.groupMembersList}
-        onPress={handleGroupPress}>
-        {/* Render self first */}
-        <UserCircle userId={currentUserId} />
+      <Animated.View entering={SlideInLeft} exiting={SlideOutLeft}>
+        <Pressable
+          style={GroupMembersStyles.groupMembersList}
+          onPress={onPress}>
+          {/* Render self first */}
+          <UserCircle userId={currentUserId} />
 
-        {/* Other group members */}
-        {displayedGroupMembers.map(({ userId, isInvited }, index) => (
-          <View
-            key={index}
-            style={[
-              GroupMembersStyles.memberContainer,
-              {
-                zIndex: groupMembers.length - index - 2,
-              },
-            ]}>
-            <UserCircle userId={userId} />
-            {isInvited && (
-              <View style={GroupMembersStyles.invitedGroupMemberOverlay}>
-                <MaterialIcons name='schedule' size={24} color={COLORS.GRAY} />
-              </View>
-            )}
-          </View>
-        ))}
+          {/* Other group members */}
+          {displayedGroupMembers.map(({ userId, isInvited }, index) => (
+            <Animated.View
+              entering={SlideInLeft}
+              exiting={SlideOutLeft}
+              key={index}
+              style={[
+                GroupMembersStyles.memberContainer,
+                {
+                  zIndex: groupMembers.length - index - 2,
+                },
+              ]}>
+              <UserCircle userId={userId} />
+              {isInvited && (
+                <View style={GroupMembersStyles.invitedGroupMemberOverlay}>
+                  <MaterialIcons
+                    name='schedule'
+                    size={24}
+                    color={COLORS.GRAY}
+                  />
+                </View>
+              )}
+            </Animated.View>
+          ))}
 
-        {/* Additional group members count */}
-        {groupMembers.length + invitedGroupMembers.length >
-          DISPLAYED_GROUP_MEMBERS_LIMIT - 1 && (
-          <View style={GroupMembersStyles.additionalMembersCountContainer}>
-            <Text style={GroupMembersStyles.additionalMembersCount}>
-              +
-              {groupMembers.length +
-                invitedGroupMembers.length +
-                1 -
-                DISPLAYED_GROUP_MEMBERS_LIMIT}
-            </Text>
-          </View>
-        )}
+          {/* Additional group members count */}
+          {groupMembers.length + invitedGroupMembers.length >
+            DISPLAYED_GROUP_MEMBERS_LIMIT - 1 && (
+            <Animated.View
+              entering={SlideInLeft}
+              exiting={SlideOutLeft}
+              style={GroupMembersStyles.additionalMembersCountContainer}>
+              <Text style={GroupMembersStyles.additionalMembersCount}>
+                +
+                {groupMembers.length +
+                  invitedGroupMembers.length +
+                  1 -
+                  DISPLAYED_GROUP_MEMBERS_LIMIT}
+              </Text>
+            </Animated.View>
+          )}
 
-        {/* Add button */}
-        <View style={GroupMembersStyles.addButton}>
-          <Foundation name='plus' size={15} color={COLORS.WHITE} />
-        </View>
-      </Pressable>
+          {/* Add button */}
+          <Animated.View
+            layout={CurvedTransition}
+            style={GroupMembersStyles.addButton}>
+            <Foundation name='plus' size={15} color={COLORS.WHITE} />
+          </Animated.View>
+        </Pressable>
+      </Animated.View>
     </SafeAreaView>
   );
 };
