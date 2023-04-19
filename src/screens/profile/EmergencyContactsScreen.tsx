@@ -20,7 +20,7 @@ import AddContactPopup from '@nightlight/components/profile/AddContactPopup';
 const EmergencyContactsScreen = () => {
 
 const addContact = () => {
-  setRenderPopup(true)
+  setRenderPopup(!renderPopup)
 };
 
 
@@ -118,11 +118,11 @@ useEffect(()=> {
         indicatorStyle='white'
       />
       <Button
-        onPress={addContact}
+        onPress={()=>setRenderPopup(true)}
         text='Add New Contact'
         style={EmergencyContactsScreenStyles.addButton}
       />
-      {renderPopup && <AddContactPopup>/</AddContactPopup>}
+      {renderPopup && <AddContactPopup closePopup={()=>setRenderPopup(false)}>/</AddContactPopup>}
     </SafeAreaView>
   );
 };

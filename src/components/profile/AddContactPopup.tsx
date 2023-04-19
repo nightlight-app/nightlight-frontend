@@ -5,7 +5,7 @@ import { customFetch } from '@nightlight/src/api';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { Feather } from '@expo/vector-icons';
 
-const AddContactPopup = () => {
+const AddContactPopup = (closePopup: ()=>void) => {
   const { userDocument } = useAuthContext();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -18,9 +18,9 @@ const AddContactPopup = () => {
     setNumber(text);
   };
 
-  const handleExit = () => {
-
-  }
+  // const handleExit = () => {
+  //   addContact;
+  // };
 
   const handlePress = () => {
     const emergencyContact = {
@@ -45,8 +45,13 @@ const AddContactPopup = () => {
     <View style={AddContactPopupStyles.popupBox}>
       <View style={AddContactPopupStyles.titleRow}>
         <Text style={AddContactPopupStyles.contactTitle}>New Contact</Text>
-        <Pressable onPress={handleExit}>
-        <Feather style={AddContactPopupStyles.feather} name='x' size={24} color='white' />
+        <Pressable onPress={closePopup}>
+          <Feather
+            style={AddContactPopupStyles.feather}
+            name='x'
+            size={24}
+            color='white'
+          />
         </Pressable>
       </View>
       <TextInput
