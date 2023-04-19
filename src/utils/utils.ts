@@ -61,7 +61,9 @@ export const getStatusColor = (lastActiveTime: string): string => {
   const now = new Date();
   const lastActiveTimeDate = new Date(lastActiveTime);
 
-  console.log('getStatusColor', now, lastActiveTimeDate);
+  // FOR DEBUG PURPOSES
+  // console.log('[getStatusColor] Now:', now);
+  // console.log('[getStatusColor] Last Active:', lastActiveTimeDate);
 
   const seconds = Math.floor(
     (now.getTime() - lastActiveTimeDate.getTime()) / MS_PER_SECOND
