@@ -7,7 +7,6 @@ import { customFetch } from '@nightlight/src/api';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FriendSearchScreen from '@nightlight/screens/social/FriendSearchScreen';
 
-
 const SearchUserCard = ({
   firstName,
   lastName,
@@ -15,12 +14,14 @@ const SearchUserCard = ({
   isAdded,
   image,
   friendId,
-  isRequested
+  isRequested,
 }: SearchUserCardProps) => {
   let isEvenIndex = index % 2 !== 0;
   const [added, setAdded] = useState(isAdded);
   const [requested, setRequested] = useState(isRequested);
-  const [statusText, setStatusText] = useState(added ? 'ADDED' : requested? 'REQUESTED': 'ADD');
+  const [statusText, setStatusText] = useState(
+    added ? 'ADDED' : requested ? 'REQUESTED' : 'ADD'
+  );
   const { userDocument } = useAuthContext();
 
   const handlePress = () => {
@@ -59,37 +60,38 @@ const SearchUserCard = ({
   };
 
   return (
-      <View
-        style={[
-          UserCardStyles.container,
-          isEvenIndex && UserCardStyles.containerAlt,
-        ]}>
-        <View style={UserCardStyles.leftSide}>
-          <Image
-            source={
-              image === '@nightlight/assets/images/anon.png'
-                ? require('@nightlight/assets/images/anon.png')
-                : { uri: `${image}` }
-            }
-            style={UserCardStyles.profileImage}
-          />
-          <View>
-            <Text style={UserCardStyles.name}>
-              {firstName} {lastName}
-            </Text>
-          </View>
-        </View>
-        <View style={UserCardStyles.rowview}>
-          <Pressable
-            onPress={handlePress}
-            style={[
-              UserCardStyles.addButton,
-              added && UserCardStyles.grayButton, requested && UserCardStyles.grayButton
-            ]}>
-            <Text style={UserCardStyles.addButtonText}>{statusText}</Text>
-          </Pressable>
+    <View
+      style={[
+        UserCardStyles.container,
+        isEvenIndex && UserCardStyles.containerAlt,
+      ]}>
+      <View style={UserCardStyles.leftSide}>
+        <Image
+          source={
+            image === '@nightlight/assets/images/anon.png'
+              ? require('@nightlight/assets/images/anon.png')
+              : { uri: `${image}` }
+          }
+          style={UserCardStyles.profileImage}
+        />
+        <View>
+          <Text style={UserCardStyles.name}>
+            {firstName} {lastName}
+          </Text>
         </View>
       </View>
+      <View style={UserCardStyles.rowview}>
+        <Pressable
+          onPress={handlePress}
+          style={[
+            UserCardStyles.addButton,
+            added && UserCardStyles.grayButton,
+            requested && UserCardStyles.grayButton,
+          ]}>
+          <Text style={UserCardStyles.addButtonText}>{statusText}</Text>
+        </Pressable>
+      </View>
+    </View>
   );
 };
 

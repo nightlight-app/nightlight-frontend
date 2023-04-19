@@ -36,24 +36,23 @@ const NotificationsScreen = () => {
         setCounter(count);
 
         // sort notifications by time sent and type
-        {res.notifications
-          .sort(
-            (a: Notification, b: Notification) => {
-              if (
-                a.data.notificationType === 'friendRequest' ||
-                a.data.notificationType === 'groupInvite'
-              ) {
-                return -1;
-              } else if (
-                b.data.notificationType === 'friendRequest' ||
-                b.data.notificationType === 'groupInvite'
-              ) {
-                return 1;
-              } else {
-                return new Date(b.sentDateTime) - new Date(a.sentDateTime);
-              }
+        {
+          res.notifications.sort((a: Notification, b: Notification) => {
+            if (
+              a.data.notificationType === 'friendRequest' ||
+              a.data.notificationType === 'groupInvite'
+            ) {
+              return -1;
+            } else if (
+              b.data.notificationType === 'friendRequest' ||
+              b.data.notificationType === 'groupInvite'
+            ) {
+              return 1;
+            } else {
+              return new Date(b.sentDateTime) - new Date(a.sentDateTime);
             }
-          )}
+          });
+        }
         setNotifications(res.notifications);
       })
       .catch(e => {
@@ -73,40 +72,39 @@ const NotificationsScreen = () => {
 
   const renderNotifCard = ({ item, index }) => (
     <NotificationCard
-                  key={index}
-                  index={index}
-                  message={item.body}
-                  type={item.data.notificationType}
-                  time={item.data.sentDateTime}
-                  friendId={item.data.senderId}></NotificationCard>
+      key={index}
+      index={index}
+      message={item.body}
+      type={item.data.notificationType}
+      time={item.data.sentDateTime}
+      friendId={item.data.senderId}></NotificationCard>
   );
 
   const renderVenueCardSeparator = () => (
     <View style={NotificationsScreenStyles.notifCardSeparator} />
   );
 
-
   return (
     <SafeAreaView
       testID={SocialRoute.NOTIFICATIONS}
       style={NotificationsScreenStyles.screenContainer}>
-        <View style={NotificationsScreenStyles.topRow}>
-          <Text style={NotificationsScreenStyles.title}>Notifications</Text>
-          <View style={NotificationsScreenStyles.notifCircle}>
-            <Text style={NotificationsScreenStyles.numberText}>{counter}</Text>
-          </View>
+      <View style={NotificationsScreenStyles.topRow}>
+        <Text style={NotificationsScreenStyles.title}>Notifications</Text>
+        <View style={NotificationsScreenStyles.notifCircle}>
+          <Text style={NotificationsScreenStyles.numberText}>{counter}</Text>
         </View>
-        <FlatList 
+      </View>
+      <FlatList
         style={NotificationsScreenStyles.notifList}
-          contentContainerStyle={NotificationsScreenStyles.notifListContent}
-          data={notifications}
-          renderItem={renderNotifCard}
-          keyExtractor={notification => notification._id}
-          ListEmptyComponent={renderEmptyGroup}
-          scrollEnabled={notifications.length > 0}
-          ItemSeparatorComponent={renderVenueCardSeparator}
-          indicatorStyle='white'
-          />
+        contentContainerStyle={NotificationsScreenStyles.notifListContent}
+        data={notifications}
+        renderItem={renderNotifCard}
+        keyExtractor={notification => notification._id}
+        ListEmptyComponent={renderEmptyGroup}
+        scrollEnabled={notifications.length > 0}
+        ItemSeparatorComponent={renderVenueCardSeparator}
+        indicatorStyle='white'
+      />
     </SafeAreaView>
   );
 };

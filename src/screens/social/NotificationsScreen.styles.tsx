@@ -65,9 +65,9 @@ export default StyleSheet.create({
   notifListContent: {
     paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   notifCardSeparator: {
     height: 2,
-  }
+  },
 });

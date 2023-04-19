@@ -5,13 +5,14 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
 import { User } from '@nightlight/src/types';
 
-const FriendProfileScreen = (props: {route: {params: {item: User}}}) => {
-  
-  const user = (props.route.params.item);
+const FriendProfileScreen = (props: { route: { params: { item: User } } }) => {
+  const user = props.route.params.item;
   console.log(user.imgUrlProfileSmall);
 
   // set proper image
-  const image = user.imgUrlProfileSmall? { uri: user.imgUrlProfileSmall }: require('@nightlight/assets/images/anon.png') 
+  const image = user.imgUrlProfileSmall
+    ? { uri: user.imgUrlProfileSmall }
+    : require('@nightlight/assets/images/anon.png');
 
   return (
     <View style={ProfileScreenStyles.scrollViewContainer}>
@@ -26,10 +27,7 @@ const FriendProfileScreen = (props: {route: {params: {item: User}}}) => {
 
       {/* Profile Picture */}
       {/* TODO: add press action?? (expand or edit?) */}
-      <Image
-        source={image}
-        style={ProfileScreenStyles.profilePic}
-      />
+      <Image source={image} style={ProfileScreenStyles.profilePic} />
 
       {/* Profile Details */}
       <View style={ProfileScreenStyles.profileDetailsContainer}>

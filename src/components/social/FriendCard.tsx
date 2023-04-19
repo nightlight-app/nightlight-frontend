@@ -17,9 +17,11 @@ const FriendCard = ({ name, index, isInGroup, imgUrl }: FriendCardProps) => {
       ]}>
       <View style={FriendCardStyles.leftSide}>
         <Image
-          source={imgPath
-          ? { uri: `${imgPath}` }
-          : require('@nightlight/assets/images/anon.png')}
+          source={
+            imgPath
+              ? { uri: `${imgPath}` }
+              : require('@nightlight/assets/images/anon.png')
+          }
           style={FriendCardStyles.profileImage}
         />
         <View>
