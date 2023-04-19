@@ -58,6 +58,7 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
   const renderUser = ({ item, index }: ListRenderItemInfo<User>) => {
     const isFirstItem = index === 0;
     const isLastItem = index === displayedUsers.length - 1;
+    
     // check if user is already a friend
     let isAdded = false;
     if (userDocument?.friends?.includes(item._id)) {
@@ -66,7 +67,7 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
 
     // check if user has been requested
     let isRequested = false;
-    if (userDocument?.friendRequests?.includes(item._id)) {
+    if (userDocument?.sentFriendRequests?.includes(item._id)) {
       isRequested = true;
     }
 

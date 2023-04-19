@@ -32,7 +32,7 @@ const ExploreScreen = () => {
 
   // TODO: pagination query params
   const params = {
-    count: 10,
+    count: 100,
     page: page,
   };
 
@@ -115,7 +115,7 @@ const ExploreScreen = () => {
     })
       .then(response => {
         console.log('[Explore] Venues fetched!', response);
-        setPage(page + 1);
+        // setPage(page + 1);
         setVenues(response.venues);
       })
       .catch(e => {

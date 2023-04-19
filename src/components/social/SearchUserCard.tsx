@@ -84,7 +84,7 @@ const SearchUserCard = ({
             onPress={handlePress}
             style={[
               UserCardStyles.addButton,
-              added && UserCardStyles.addedButton,
+              added && UserCardStyles.grayButton, requested && UserCardStyles.grayButton
             ]}>
             <Text style={UserCardStyles.addButtonText}>{statusText}</Text>
           </Pressable>

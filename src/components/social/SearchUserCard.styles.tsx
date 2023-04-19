@@ -55,7 +55,7 @@ export default StyleSheet.create({
     // marginRight: 10,
     // marginBottom: 10,
   },
-  addedButton: {
+  grayButton: {
     padding: 6,
     backgroundColor: COLORS.GRAY,
     justifyContent: 'center',

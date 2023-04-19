@@ -96,8 +96,34 @@ const NotificationCard = ({
   };
 
   const handleDeclineRequest = () => {
-    //TODO: handle decline request
-    console.log('declined');
+    console.log('decline request');
+    if (type === 'friendRequest') {
+      customFetch({
+        resourceUrl: `/users/${userId}/decline-friend-request/?friendId=${friendId}`,
+        options: {
+          method: 'PATCH',
+        },
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(e => {
+          console.log('Error:', e);
+        });
+    } else {
+      customFetch({
+        resourceUrl: `/users/${userId}/decline-group-invite/?groupId=${friendId}`,
+        options: {
+          method: 'PATCH',
+        },
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(e => {
+          console.log('Error:', e);
+        });
+    }
   };
   return (
     <View

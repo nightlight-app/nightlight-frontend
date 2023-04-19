@@ -1,10 +1,11 @@
 import { SocialRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, FlatList } from 'react-native';
 import NotificationsScreenStyles from './NotificationsScreen.styles';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
+import NotificationCardStyles from '@nightlight/components/social/NotificationCard.styles';
 const NotificationsScreen = () => {
   const [notifications, setNotifications] = useState([]);
   const [counter, setCounter] = useState(0);
@@ -50,18 +51,32 @@ const NotificationsScreen = () => {
     </View>
   );
 
+  const renderNotifCard = ({ item, index }) => (
+    <NotificationCard
+                  key={index}
+                  index={index}
+                  message={item.body}
+                  type={item.data.notificationType}
+                  time={item.data.sentDateTime}
+                  friendId={item.data.senderId}></NotificationCard>
+  );
+
+  const renderVenueCardSeparator = () => (
+    <View style={NotificationsScreenStyles.notifCardSeparator} />
+  );
+
+
   return (
     <SafeAreaView
       testID={SocialRoute.NOTIFICATIONS}
       style={NotificationsScreenStyles.screenContainer}>
-      <ScrollView>
         <View style={NotificationsScreenStyles.topRow}>
           <Text style={NotificationsScreenStyles.title}>Notifications</Text>
           <View style={NotificationsScreenStyles.notifCircle}>
             <Text style={NotificationsScreenStyles.numberText}>{counter}</Text>
           </View>
         </View>
-        <View style={NotificationsScreenStyles.notifList}>
+        {/* <View style={NotificationsScreenStyles.notifList}>
           {counter === 0 && renderEmptyGroup()}
           {notifications
             .sort(
@@ -104,9 +119,19 @@ const NotificationsScreen = () => {
                   time={item.data.sentDateTime}
                   friendId={item.data.senderId}></NotificationCard>
               )
-            )}
-        </View>
-      </ScrollView>
+            )} */}
+        {/* </View> */}
+        <FlatList 
+        style={NotificationsScreenStyles.notifList}
+          contentContainerStyle={NotificationsScreenStyles.notifListContent}
+          data={notifications}
+          renderItem={renderNotifCard}
+          keyExtractor={notification => notification._id}
+          ListEmptyComponent={renderEmptyGroup}
+          scrollEnabled={notifications.length > 0}
+          ItemSeparatorComponent={renderVenueCardSeparator}
+          indicatorStyle='white'
+          />
     </SafeAreaView>
   );
 };
