@@ -74,7 +74,8 @@ export const customFetch = async ({
         'Response:',
         response.status,
         response.statusText,
-        JSON.stringify(response, null, 2)
+        response
+        // JSON.stringify(response, null, 2)
       );
       return;
     }

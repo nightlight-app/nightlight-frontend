@@ -12,33 +12,36 @@ import { EmergencyContact, ProfileRoute } from '@nightlight/src/types';
 import EmergencyContactsScreenStyles from '@nightlight/screens/profile/EmergencyContactsScreen.styles';
 import ContactCard from '@nightlight/components/profile/ContactCard';
 import Button from '@nightlight/components/Button';
+import { customFetch } from '@nightlight/src/api';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import AddContactPopup from '@nightlight/components/profile/AddContactPopup';
 
-// TODO: hard coded contacts for now, change to pull from backend
-const contacts = [
-  {
-    name: 'Mom',
-    phone: '1231112343',
-  },
-  {
-    name: 'Dad',
-    phone: '1232323485',
-  },
-  {
-    name: 'Roommate',
-    phone: '9188460185',
-  },
-  {
-    name: 'Zi',
-    phone: '6159361214',
-  },
-];
-
-// TODO:
-const addContact = () => {
-  Alert.alert('TODO: add contact');
-};
 
 const EmergencyContactsScreen = () => {
+
+const addContact = () => {
+  setRenderPopup(true)
+};
+
+
+const [renderPopup, setRenderPopup]=useState(false)
+const { userDocument } = useAuthContext();
+const [contacts, setContacts] = useState([])
+// get contacts from backend
+useEffect(()=> {
+  customFetch({
+    resourceUrl: `/users/${userDocument?._id}/emergency-contacts/`,
+    options: {
+      method: 'GET',
+    },
+  })
+    .then(response => {
+      setContacts(response.emergencyContacts)
+    })
+    .catch(e => {
+      console.error('[Emergency Contacts]', JSON.stringify(e));
+    });
+}, []);
   // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
   const [displayedContacts, setDisplayedContacts] =
@@ -119,6 +122,7 @@ const EmergencyContactsScreen = () => {
         text='Add New Contact'
         style={EmergencyContactsScreenStyles.addButton}
       />
+      {renderPopup && <AddContactPopup>/</AddContactPopup>}
     </SafeAreaView>
   );
 };
