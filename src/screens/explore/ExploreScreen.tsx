@@ -57,6 +57,7 @@ const ExploreScreen = () => {
       });
 
       console.log('[Explore] Venues fetched!');
+      // TODO: pagination
       // setPage(page + 1);
       setVenues(response.venues);
     } catch (error) {
