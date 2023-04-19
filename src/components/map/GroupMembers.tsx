@@ -1,94 +1,125 @@
-import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Pressable, Animated } from 'react-native';
+import { SafeAreaView, Pressable, View, Text } from 'react-native';
+import { Foundation, MaterialIcons } from '@expo/vector-icons';
+import Animated, {
+  CurvedTransition,
+  SlideInLeft,
+  SlideOutLeft,
+} from 'react-native-reanimated';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import GroupMembersStyles from '@nightlight/components/map/GroupMembers.styles';
 import UserCircle from '@nightlight/components/map/UserCircle';
-import { Foundation } from '@expo/vector-icons';
 import { COLORS } from '@nightlight/src/global.styles';
-import { GroupMembersProps, User } from '@nightlight/src/types';
+import { ButtonProps, DisplayedGroupMember, User } from '@nightlight/src/types';
 import { customFetch } from '@nightlight/src/api';
+import { DISPLAYED_GROUP_MEMBERS_LIMIT } from '@nightlight/src/constants';
 
-const GroupMembers = ({
-  userOnPress,
-  addGroupOnPress,
-  onError,
-}: GroupMembersProps) => {
+const GroupMembers = ({ onPress }: ButtonProps) => {
   // get the current user's document
   const { userDocument } = useAuthContext();
+  const { _id: currentUserId, currentGroup: currentUserGroup } =
+    userDocument as User;
 
   // keep track of the current group's members _ids
   const [groupMembers, setGroupMembers] = useState<string[]>([]);
+  const [invitedGroupMembers, setInvitedGroupMembers] = useState<string[]>([]);
 
+  // keep track of the displayed group members _ids and whether they are invited
+  const [displayedGroupMembers, setDisplayedGroupMembers] = useState<
+    DisplayedGroupMember[]
+  >([]);
+
+  // FIXME: this does not work as expected because currentUserGroup is not updated
   // fetch the current group's members when the current group changes
   useEffect(() => {
-    if (userDocument?.currentGroup) {
+    if (currentUserGroup) {
       customFetch({
-        resourceUrl: `/groups?groupId=${userDocument.currentGroup}`,
+        resourceUrl: `/groups?groupId=${currentUserGroup}`,
         options: {
           method: 'GET',
         },
       }).then(data => {
         // filter out the current user's _id from the group members
         const filteredMembers = data.group.members.filter(
-          (member: string) => member !== userDocument._id
+          (member: string) => member !== currentUserId
         );
         setGroupMembers(filteredMembers);
+        setInvitedGroupMembers(data.group.invitedMembers);
       });
     }
-  }, [userDocument?.currentGroup]);
+  }, [userDocument]);
 
-  /**
-   * Handles user circle press by querying the user's data and passing it to
-   * the userOnPress function which renders the UserCard component
-   */
-  const handleUserOnClick = (userId: string) => {
-    customFetch({
-      resourceUrl: `/users?userIds=${userId}`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(data => {
-        // TODO: mongoose returns the date as string, so need to convert to Date object
-        // think of a better way to do this (maybe a util function that parses User?)
-        const user = data.users[0] as User;
-        user.lastActive.time = new Date(user.lastActive.time);
-        userOnPress(user);
-      })
-      .catch(e => {
-        if (onError) onError();
-        console.error(e);
-      });
-  };
+  // update the displayed group members when the group members or invited group members change
+  useEffect(() => {
+    const allOtherMembers: DisplayedGroupMember[] = [
+      ...groupMembers.map(userId => ({ userId, isInvited: false })),
+      ...invitedGroupMembers.map(userId => ({ userId, isInvited: true })),
+    ];
+
+    setDisplayedGroupMembers(
+      allOtherMembers.slice(0, DISPLAYED_GROUP_MEMBERS_LIMIT - 1)
+    );
+  }, [groupMembers, invitedGroupMembers]);
 
   return (
     <SafeAreaView style={GroupMembersStyles.container}>
-      {/* Display the list of user circles */}
-      <Animated.ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        decelerationRate={'normal'}
-        style={GroupMembersStyles.userList}>
-        {groupMembers.map((member, index) => (
-          <Pressable
-            key={index}
-            style={[
-              GroupMembersStyles.userCircleTouchable,
-              {
-                zIndex: groupMembers.length - index,
-                left: -index * 10,
-              },
-            ]}
-            onPress={() => handleUserOnClick(member)}>
-            <UserCircle userId={member} />
-          </Pressable>
-        ))}
-      </Animated.ScrollView>
+      <Animated.View entering={SlideInLeft} exiting={SlideOutLeft}>
+        <Pressable
+          style={GroupMembersStyles.groupMembersList}
+          onPress={onPress}>
+          {/* Render self first */}
+          <UserCircle userId={currentUserId} />
 
-      {/* Display a button to add member */}
-      <Pressable onPress={addGroupOnPress} style={GroupMembersStyles.addMember}>
-        <Foundation name='plus' size={15} color={COLORS.WHITE} />
-      </Pressable>
+          {/* Other group members */}
+          {displayedGroupMembers.map(({ userId, isInvited }, index) => (
+            <Animated.View
+              entering={SlideInLeft}
+              exiting={SlideOutLeft}
+              key={index}
+              style={[
+                GroupMembersStyles.memberContainer,
+                {
+                  zIndex: groupMembers.length - index - 2,
+                },
+              ]}>
+              <UserCircle userId={userId} />
+              {isInvited && (
+                <View style={GroupMembersStyles.invitedGroupMemberOverlay}>
+                  <MaterialIcons
+                    name='schedule'
+                    size={24}
+                    color={COLORS.GRAY}
+                  />
+                </View>
+              )}
+            </Animated.View>
+          ))}
+
+          {/* Additional group members count */}
+          {groupMembers.length + invitedGroupMembers.length >
+            DISPLAYED_GROUP_MEMBERS_LIMIT - 1 && (
+            <Animated.View
+              entering={SlideInLeft}
+              exiting={SlideOutLeft}
+              style={GroupMembersStyles.additionalMembersCountContainer}>
+              <Text style={GroupMembersStyles.additionalMembersCount}>
+                +
+                {groupMembers.length +
+                  invitedGroupMembers.length +
+                  1 -
+                  DISPLAYED_GROUP_MEMBERS_LIMIT}
+              </Text>
+            </Animated.View>
+          )}
+
+          {/* Add button */}
+          <Animated.View
+            layout={CurvedTransition}
+            style={GroupMembersStyles.addButton}>
+            <Foundation name='plus' size={15} color={COLORS.WHITE} />
+          </Animated.View>
+        </Pressable>
+      </Animated.View>
     </SafeAreaView>
   );
 };

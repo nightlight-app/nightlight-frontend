@@ -1,6 +1,6 @@
 import { MAPBOX_API_KEY } from '@env';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Pressable, Image } from 'react-native';
+import { AppState, View, Pressable, Image, AppStateStatus } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -12,13 +12,13 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import MapScreenStyles from '@nightlight/screens/map/MapScreen.styles';
 import { COLORS } from '@nightlight/src/global.styles';
 import NightlightMapStyles from '@nightlight/components/map/NightlightMap.styles';
-import {
-  Markers,
-  NightlightMapProps,
-  UserMarkerMap,
-} from '@nightlight/src/types';
+import { NightlightMapProps, UserMarkerMap } from '@nightlight/src/types';
 import { socket } from '@nightlight/src/service/socketService';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import {
+  LocationServiceEvent,
+  locationServiceHandler,
+} from '@nightlight/src/service/locationService';
 import { customFetch } from '@nightlight/src/api';
 
 // initial camera settings
@@ -37,78 +37,22 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
   const { userDocument } = useAuthContext();
   const groupId = userDocument?.currentGroup;
 
+  // ======================================================
+  // ----------------------- CAMERA -----------------------
+  // ======================================================
+
   /**
-   * Location Tracking Variables
+   * Camera Tracking Variables
    */
-  const [userMarkers, setUserMarkers] = useState<UserMarkerMap>({}); // map of user id to UserMarker (excluding the current user)
   const camera = useRef<Camera>(null); // reference to MapboxGL's camera
-  const [userLocation, setUserLocation] = useState<MapboxGL.Location>(); // user's current location
   const [isCameraFollowingUserLocation, setIsCameraFollowingUserLocation] =
     useState<boolean>(true); // whether the camera is following user's location
   const [isCameraFollowingUserHeading, setIsCameraFollowingUserHeading] =
     useState<boolean>(false); // whether the camera is following user's heading
 
-  // set up socket on first mount
-  useEffect(() => {
-    // if user is not in a group, do not set up socket
-    if (!groupId) return;
-
-    console.log(
-      `[NightlightMap] Setting up socket for user ${userDocument?.firstName} ${userDocument?.lastName}...`
-    );
-
-    // tell server to add this user to a socket group
-    socket.emit('joinGroup', groupId);
-
-    // receive location broadcast from server
-    socket.on('broadcastLocation', socketData => {
-      // ignore if userDocument is not yet loaded
-      if (!userDocument) return;
-
-      // ignore current users' location because it is already being tracked
-      if (socketData.userId === userDocument?._id) return;
-
-      // if the user is already in userMarkers, update their location right away
-      if (userMarkers[socketData.userId]) {
-        const newObj: Markers = {
-          imgUrl: userMarkers[socketData.userId].imgUrl,
-          location: socketData.location,
-        };
-        setUserMarkers(prev => ({ ...prev, [socketData.userId]: newObj }));
-      } else {
-        // if the user is not in userMarkers, fetch their profile picture url first
-        // then add them to the list
-        // TODO: this is a bit inefficient as we only need imgUrlProfileLarge.
-        // could we have a specific endpoint for this?
-        customFetch({
-          resourceUrl: `/users?userIds=${socketData.userId}`,
-          options: {
-            method: 'GET',
-          },
-        })
-          .then(friendData => {
-            const newObj: Markers = {
-              location: socketData.location,
-              imgUrl: friendData.users[0].imgUrlProfileLarge,
-            };
-            setUserMarkers(prev => ({ ...prev, [socketData.userId]: newObj }));
-          })
-          .catch(e => {
-            if (onError) onError();
-            console.error(e);
-          });
-      }
-    });
-
-    // clean up by disconnecting with socket
-    return () => {
-      // leave the group so the server stops sending location updates to this user
-      socket.emit('leaveGroup', groupId);
-      socket.off(''); // disconnect from the socket
-    };
-  }, [groupId, userDocument]);
-
-  // set the initial camera to user's location on first load
+  /**
+   * Sets the initial camera to user's location on first load
+   */
   useEffect(() => {
     if (userLocation && isCameraFollowingUserLocation) {
       const { longitude, latitude } = userLocation.coords;
@@ -120,31 +64,6 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
       });
     }
   }, []);
-
-  // FIXME: this is not working
-  // useEffect(() => {
-  //   // if camera changes to not follow user heading, face north
-  //   if (!isCameraFollowingUserHeading) {
-  //     console.log('should face north');
-  //     camera.current?.setCamera({
-  //       ...initialCamera,
-  //       // heading: 0,
-  //       // animationDuration: 500,
-  //       // animationMode: 'easeTo',
-  //     });
-  //   }
-  // }, [isCameraFollowingUserHeading]);
-
-  //
-  const handleLocationButtonPress = () => {
-    if (isCameraFollowingUserLocation) {
-      // if camera is already following user, toggle following user heading
-      setIsCameraFollowingUserHeading(prev => !prev);
-    } else {
-      // if camera is not following user, start following user
-      setIsCameraFollowingUserLocation(true);
-    }
-  };
 
   /**
    * Handle the onUserTrackingModeChange event emitted by Mapbox Camera.
@@ -167,6 +86,148 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
   };
 
   /**
+   * Handle the location button press event emitted by Mapbox Camera.
+   */
+  const handleLocationButtonPress = () => {
+    if (isCameraFollowingUserLocation) {
+      // if camera is already following user, toggle following user heading
+      setIsCameraFollowingUserHeading(prev => !prev);
+    } else {
+      // if camera is not following user, start following user
+      setIsCameraFollowingUserLocation(true);
+    }
+  };
+
+  // FIXME: this is not working
+  // useEffect(() => {
+  //   // if camera changes to not follow user heading, face north
+  //   if (!isCameraFollowingUserHeading) {
+  //     console.log('should face north');
+  //     camera.current?.setCamera({
+  //       ...initialCamera,
+  //       // heading: 0,
+  //       // animationDuration: 500,
+  //       // animationMode: 'easeTo',
+  //     });
+  //   }
+  // }, [isCameraFollowingUserHeading]);
+
+  // ========================================================
+  // ----------------------- LOCATION -----------------------
+  // ========================================================
+
+  /**
+   * Location Tracking Variables
+   */
+  const [userLocation, setUserLocation] = useState<MapboxGL.Location>(); // user's current location
+  const [userMarkers, setUserMarkers] = useState<UserMarkerMap>({}); // map of user id to UserMarker (excluding the current user)
+  const userMarkersRef = useRef<UserMarkerMap>({}); // reference to userMarkers. used for updating userMarkers in socket on
+  const appState = useRef<AppStateStatus>(AppState.currentState); // reference to current app state (active, inactive, background)
+
+  /**
+   * Detects when app comes to foreground/background
+   *
+   * Source: https://reactnative.dev/docs/appstate
+   */
+  useEffect(() => {
+    if (userDocument?._id === undefined) return;
+
+    // notify server that user is online
+    if (AppState.currentState === 'active') {
+      console.log('[NightlightMap] App has come to the foreground!');
+      customFetch({
+        resourceUrl: `/users/${userDocument?._id}/go-online`,
+        options: { method: 'PATCH' },
+      });
+    }
+
+    // subscribe to app state changes
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      // notify server that user went online
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        customFetch({
+          resourceUrl: `/users/${userDocument?._id}/go-online`,
+          options: { method: 'PATCH' },
+        });
+      }
+
+      // notify server that user went offline
+      if (
+        appState.current === 'active' &&
+        nextAppState.match(/inactive|background/)
+      ) {
+        customFetch({
+          resourceUrl: `/users/${userDocument?._id}/go-offline`,
+          options: {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              location: {
+                longitude: userLocation?.coords.longitude,
+                latitude: userLocation?.coords.latitude,
+              },
+            }),
+          },
+        });
+      }
+
+      // update appState
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      // remove event listener
+      subscription.remove();
+    };
+  }, [userDocument]);
+
+  /**
+   * Update userMarkersRef on every render so socket can access the latest userMarkers
+   */
+  useEffect(() => {
+    userMarkersRef.current = userMarkers;
+  });
+
+  /**
+   * Set up socket on first mount
+   */
+  useEffect(() => {
+    // if user is not in a group or if userDocument is not yet loaded, do not set up socket
+    if (!groupId || !userDocument) return;
+
+    console.log(
+      `[NightlightMap] Setting up socket for user ${userDocument?.firstName} ${userDocument?.lastName}...`
+    );
+
+    // tell server to add this user to a socket group
+    socket.emit('joinGroup', groupId);
+
+    // receive location broadcast from server
+    socket.on('broadcastLocation', broadcastEventData =>
+      locationServiceHandler({
+        event: LocationServiceEvent.BROADCAST_LOCATION,
+        eventData: broadcastEventData,
+        markers: userMarkersRef.current,
+        setUserMarkers: setUserMarkers,
+        userDocument: userDocument,
+      })
+    );
+
+    // clean up by disconnecting with socket
+    return () => {
+      console.log(
+        `[NightlightMap] Disconnecting from socket for user ${userDocument?.firstName} ${userDocument?.lastName}...`
+      );
+      // leave the group so the server stops sending location updates to this user
+      socket.emit('leaveGroup', groupId);
+      socket.off(''); // disconnect from the socket
+    };
+  }, [groupId, userDocument]);
+
+  /**
    * Update the user's location and emit it to the socket server.
    * @param loc the user's current location
    */
@@ -185,6 +246,13 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
     });
   };
 
+  // ========================================================
+  // ----------------------- ANIMATIONS ---------------------
+  // ========================================================
+
+  /**
+   * Animated Styles for Location Button Toggle
+   */
   const locationButtonAnimation = useAnimatedStyle(() => ({
     transform: [
       {
@@ -244,7 +312,8 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
                   coordinate={[
                     userObj.location.longitude,
                     userObj.location.latitude,
-                  ]}>
+                  ]}
+                  allowOverlap={true}>
                   <View style={NightlightMapStyles.userMarkerView}>
                     <FontAwesome5
                       name='map-marker'

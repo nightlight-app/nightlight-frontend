@@ -45,8 +45,14 @@ export const MOOD_SPRING_CONFIG: WithSpringConfig = {
   mass: 0.75,
 }; // mood button spring animation config
 
+// Map
+export const DISPLAYED_GROUP_MEMBERS_LIMIT = 4;
+
 // Map Card
 export const MAP_CARD_WIDTH = 370; // width of the map card in points
+
+// Map Create Group Members
+export const GROUP_MEMBER_CIRCLE_DIAMETER: number = 60; // diameter of the group member circle in points
 
 // User Circle
 export const USER_CIRCLE_DIAMETER: number = 50; // diameter of the user circle in points

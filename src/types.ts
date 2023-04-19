@@ -40,6 +40,7 @@ export enum MapCardType {
   VENUE = 'Venue',
   USER = 'User',
   CREATE_GROUP = 'CreateGroup',
+  MANAGE_GROUP = 'ManageGroup',
   ERROR = 'Error',
 }
 
@@ -205,6 +206,8 @@ export interface UserCardProps extends MapCardProps {
 
 export interface CreateGroupCardProps extends MapCardProps {}
 
+export interface ManageGroupCardProps extends MapCardProps {}
+
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
 }
@@ -309,23 +312,6 @@ export interface NightlightMapProps {
   onError?: () => void;
 }
 
-export interface GroupMembersProps {
-  /**
-   * Function to call when a user circle is pressed.
-   * @param userToShow User to show when circle is pressed.
-   */
-  userOnPress: (userToShow?: User) => void;
-  /**
-   * Function to call when the add button is pressed.
-   */
-  addGroupOnPress: () => void;
-
-  /**
-   * Function to call when error occurs.
-   */
-  onError?: () => void;
-}
-
 export interface UserCircleProps {
   userId: string;
 }
@@ -348,10 +334,14 @@ export interface ToggleSettingProps extends ToggleButtonProps {
 export interface VenueReactButtonProps {
   venue: Venue;
   reaction: ReactionEmoji;
+  resetError?: () => void;
+  onError?: () => void;
 }
 
 export interface ExploreCardProps {
   venue: Venue;
+  resetError: () => void;
+  onError: () => void;
 }
 
 export interface SelectOption {
@@ -363,4 +353,9 @@ export interface SelectProps {
   options: SelectOption[];
   value: any;
   onChangeValue: (value: any) => void;
+}
+
+export interface DisplayedGroupMember {
+  userId: string;
+  isInvited: boolean;
 }
