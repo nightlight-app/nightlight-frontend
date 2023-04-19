@@ -98,7 +98,10 @@ const MapScreen = () => {
   return (
     <View testID={TabRoute.MAP} style={MapScreenStyles.container}>
       {/* The one and only nightlight map, by the one and only nightlight team */}
-      <NightlightMap onError={handleShowErrorCard} />
+      <NightlightMap
+        onUserMarkerPress={handleShowUserCard}
+        onError={handleShowErrorCard}
+      />
 
       {/* For development purpose */}
       {/* <View

@@ -29,13 +29,13 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
   const [lastActive, setLastActive] = useState<LastActive | undefined>();
   const [relativeTimeString, setRelativeTimeString] = useState<string>('...');
   const [statusColor, setStatusColor] = useState<string>(
-    COLORS.NIGHTLIGHT_GRAY
+    COLORS.NIGHTLIGHT_BLACK
   );
 
   const fetchUser = async () => {
     try {
       const data = await customFetch({
-        resourceUrl: `/users?${userId}`,
+        resourceUrl: `/users?userIds=${userId}`,
         options: {
           method: 'GET',
         },

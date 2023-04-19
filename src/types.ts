@@ -300,6 +300,7 @@ export interface BannerProps {
 }
 
 export interface NightlightMapProps {
+  onUserMarkerPress: (userId: string) => void;
   onError?: () => void;
 }
 
