@@ -21,10 +21,10 @@ export default StyleSheet.create({
   contactSeparator: {
     height: 2,
   },
-  // emptyContactsContainer: {
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
+  emptyContactsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   emptyAvailableUsersText: {
     color: COLORS.GRAY,
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -57,15 +57,17 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
   },
   notifList: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     width: '100%',
     paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 10,
   },
   notifListContent: {
     paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   notifCardSeparator: {
-    height: 5,
+    height: 2,
   }
 });

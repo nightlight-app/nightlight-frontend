@@ -22,9 +22,8 @@ const NotificationsScreen = () => {
       },
     })
       .then(res => {
-        setNotifications(res.notifications);
         let count = 0;
-        notifications.forEach(
+        res.notifications.forEach(
           (item: { data: { notificationType: string } }) => {
             if (
               item.data.notificationType === 'friendRequest' ||
@@ -35,6 +34,27 @@ const NotificationsScreen = () => {
           }
         );
         setCounter(count);
+
+        // sort notifications by time sent and type
+        {res.notifications
+          .sort(
+            (a, b) => {
+              if (
+                a.data.notificationType === 'friendRequest' ||
+                a.data.notificationType === 'groupInvite'
+              ) {
+                return -1;
+              } else if (
+                b.data.notificationType === 'friendRequest' ||
+                b.data.notificationType === 'groupInvite'
+              ) {
+                return 1;
+              } else {
+                return new Date(b.sentDateTime) - new Date(a.sentDateTime);
+              }
+            }
+          )}
+        setNotifications(res.notifications);
       })
       .catch(e => {
         console.log('Error: ', e);
