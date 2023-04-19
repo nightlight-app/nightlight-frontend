@@ -38,7 +38,7 @@ const NotificationsScreen = () => {
         // sort notifications by time sent and type
         {res.notifications
           .sort(
-            (a, b) => {
+            (a: Notification, b: Notification) => {
               if (
                 a.data.notificationType === 'friendRequest' ||
                 a.data.notificationType === 'groupInvite'
@@ -96,51 +96,6 @@ const NotificationsScreen = () => {
             <Text style={NotificationsScreenStyles.numberText}>{counter}</Text>
           </View>
         </View>
-        {/* <View style={NotificationsScreenStyles.notifList}>
-          {counter === 0 && renderEmptyGroup()}
-          {notifications
-            .sort(
-              (
-                a: { data: { notificationType: string } },
-                b: { data: { notificationType: string } }
-              ) => {
-                if (
-                  a.data.notificationType === 'friendRequest' ||
-                  a.data.notificationType === 'groupInvite'
-                ) {
-                  return -1;
-                } else if (
-                  b.data.notificationType === 'friendRequest' ||
-                  b.data.notificationType === 'groupInvite'
-                ) {
-                  return 1;
-                } else {
-                  return 0;
-                }
-              }
-            )
-            .map(
-              (
-                item: {
-                  body: string;
-                  data: {
-                    notificationType: string;
-                    sentDateTime: string;
-                    senderId: string;
-                  };
-                },
-                index
-              ) => (
-                <NotificationCard
-                  key={index}
-                  index={index}
-                  message={item.body}
-                  type={item.data.notificationType}
-                  time={item.data.sentDateTime}
-                  friendId={item.data.senderId}></NotificationCard>
-              )
-            )} */}
-        {/* </View> */}
         <FlatList 
         style={NotificationsScreenStyles.notifList}
           contentContainerStyle={NotificationsScreenStyles.notifListContent}
