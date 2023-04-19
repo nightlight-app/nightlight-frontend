@@ -312,7 +312,8 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
                   coordinate={[
                     userObj.location.longitude,
                     userObj.location.latitude,
-                  ]}>
+                  ]}
+                  allowOverlap={true}>
                   <View style={NightlightMapStyles.userMarkerView}>
                     <FontAwesome5
                       name='map-marker'
