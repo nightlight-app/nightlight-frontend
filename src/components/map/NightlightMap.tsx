@@ -294,7 +294,7 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
                     }>
                     <FontAwesome5
                       name='map-marker'
-                      size={50}
+                      size={60}
                       // TODO: use the status of the user as color
                       color={COLORS.GREEN}
                     />

@@ -18,9 +18,9 @@ describe('<UserCard />', () => {
     lastName,
     lastActive: {
       location,
-      time: new Date(),
+      time: new Date().toUTCString(),
     },
-    phoneNumber,
+    phone: phoneNumber,
   };
 
   test('it should have a functioning close button', () => {
@@ -28,7 +28,7 @@ describe('<UserCard />', () => {
     const mockOnClose = jest.fn();
 
     // render the component
-    render(<UserCard user={dummyUser} onClose={mockOnClose} />);
+    render(<UserCard userId={dummyUser._id} onClose={mockOnClose} />);
 
     // get the pressable (throw error if no exist)
     const pressable = screen.getByLabelText(TestingLabel.CLOSE_BUTTON);
@@ -43,7 +43,7 @@ describe('<UserCard />', () => {
   test('it should not render any children component', () => {
     // render the component
     render(
-      <UserCard user={dummyUser} onClose={() => {}}>
+      <UserCard userId={dummyUser._id} onClose={() => {}}>
         <Text>Hello</Text>
       </UserCard>
     );
@@ -57,7 +57,7 @@ describe('<UserCard />', () => {
 
   test('it should render the basic info of the user', () => {
     // render the component
-    render(<UserCard user={dummyUser} onClose={() => {}} />);
+    render(<UserCard userId={dummyUser._id} onClose={() => {}} />);
 
     // get user name (throw error if no exist)
     screen.getByText(firstName + ' ' + lastName);
@@ -85,7 +85,7 @@ describe('<UserCard />', () => {
     const mockHandlePingUser = jest.fn();
 
     // render component
-    render(<UserCard user={dummyUser} onClose={() => {}} />);
+    render(<UserCard userId={dummyUser._id} onClose={() => {}} />);
 
     // get the pressables (throw error if no exist)
     const press1 = screen.getByLabelText(

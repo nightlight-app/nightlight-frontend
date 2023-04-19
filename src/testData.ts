@@ -24,7 +24,7 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date(),
+      time: new Date().toUTCString(),
     },
     savedGroups: [],
   },
@@ -48,7 +48,7 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date('2023-02-28'),
+      time: new Date('2023-02-28').toUTCString(),
     },
     savedGroups: [
       {
@@ -77,7 +77,7 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date('2023-01-20'),
+      time: new Date('2023-01-20').toUTCString(),
     },
     savedGroups: [
       {
@@ -106,7 +106,7 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date('2023-01-20'),
+      time: new Date('2023-01-20').toUTCString(),
     },
     savedGroups: [
       {
@@ -135,7 +135,7 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date('2023-01-20'),
+      time: new Date('2023-01-20').toUTCString(),
     },
     savedGroups: [
       {

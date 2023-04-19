@@ -19,12 +19,15 @@ import {
 
 /**
  * Determine the relative time string from a given date.
- * @param {Date} date - The date to determine the relative time string from.
+ * @param {string} dateString - A UTC time string that represents the date to determine the relative time string from.
  * @returns {string} The relative time string.
  */
-export const getRelativeTimeString = (date: Date): string => {
+export const getRelativeTimeString = (dateString: string): string => {
   const now = new Date();
-  const seconds = Math.floor((now.getTime() - date.getTime()) / MS_PER_SECOND);
+  const dateObj = new Date(dateString);
+  const seconds = Math.floor(
+    (now.getTime() - dateObj.getTime()) / MS_PER_SECOND
+  );
   const minutes = Math.floor(seconds / SECONDS_PER_MINUTE);
   const hours = Math.floor(minutes / MINUTES_PER_HOUR);
   const days = Math.floor(hours / HOURS_PER_DAY);
@@ -51,13 +54,17 @@ export const getRelativeTimeString = (date: Date): string => {
  *  - Green if active in the last minute
  *  - Yellow if active in the last hour
  *  - Red if active more than an hour ago
- * @param {Date} lastActiveTime - The last active time of a user to determine the color from.
+ * @param {string} lastActiveTime - A UTC time string that represents the last active time of a user to determine the color from.
  * @returns {string} The color of the status indicator.
  */
-export const getStatusColor = (lastActiveTime: Date): string => {
+export const getStatusColor = (lastActiveTime: string): string => {
   const now = new Date();
+  const lastActiveTimeDate = new Date(lastActiveTime);
+
+  console.log('getStatusColor', now, lastActiveTimeDate);
+
   const seconds = Math.floor(
-    (now.getTime() - lastActiveTime.getTime()) / MS_PER_SECOND
+    (now.getTime() - lastActiveTimeDate.getTime()) / MS_PER_SECOND
   );
   if (seconds < SECONDS_PER_MINUTE) {
     // Green if active in the last minute

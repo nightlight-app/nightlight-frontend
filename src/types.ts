@@ -104,7 +104,7 @@ export interface Location {
 
 export interface LastActive {
   location: Location;
-  time: Date;
+  time: string;
 }
 
 export interface SavedGroup {
