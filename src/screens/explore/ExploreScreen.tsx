@@ -17,6 +17,7 @@ import {
 } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
+import Banner from '@nightlight/components/Banner';
 import { customFetch } from '@nightlight/src/api';
 
 const ExploreScreen = () => {
@@ -27,6 +28,7 @@ const ExploreScreen = () => {
     ExploreSortFilter | ReactionEmoji
   >(ExploreSortFilter.ALL); // sort by filter
   const [page, setPage] = useState<number>(1); // keep track of what page user is on
+  const [errorMessage, setErrorMessage] = useState<string>(''); // keep track of error message
 
   const { userDocument } = useAuthContext();
 
@@ -40,6 +42,8 @@ const ExploreScreen = () => {
 
   // filter / sort venues on search input or sort filter change
   useEffect(() => {
+    setErrorMessage('');
+
     let tempVenues = venues;
 
     if (venues.length > 0) {
@@ -95,6 +99,7 @@ const ExploreScreen = () => {
           }
           break;
         default:
+          setErrorMessage('Invalid sort filter. Please try again later.');
           console.error('[Explore] Invalid sort filter: ', sortFilter);
           break;
       }
@@ -107,6 +112,9 @@ const ExploreScreen = () => {
   useEffect(() => {
     // TODO: figure out backend and fallback response if no venues received
     console.log('[Explore] Fetching venues...');
+
+    setErrorMessage('');
+
     customFetch({
       resourceUrl: `/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
       options: {
@@ -119,12 +127,19 @@ const ExploreScreen = () => {
         setVenues(response.venues);
       })
       .catch(e => {
+        setErrorMessage('Failed to fetch venues. Please try again later.');
         console.error('[Explore]', JSON.stringify(e));
       });
   }, []);
 
   const renderVenueCard = ({ item }: ListRenderItemInfo<Venue>) => (
-    <ExploreCard venue={item} />
+    <ExploreCard
+      venue={item}
+      resetError={() => setErrorMessage('')}
+      onError={() =>
+        setErrorMessage('Failed to react to venue. Please try again later.')
+      }
+    />
   );
 
   const renderVenueCardSeparator = () => (
@@ -194,6 +209,9 @@ const ExploreScreen = () => {
           indicatorStyle='white'
         />
       </View>
+
+      {/* Error Banner */}
+      {errorMessage && <Banner message={errorMessage} />}
     </SafeAreaView>
   );
 };
