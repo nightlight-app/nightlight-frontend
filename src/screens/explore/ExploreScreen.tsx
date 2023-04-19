@@ -49,6 +49,7 @@ const ExploreScreen = () => {
     setErrorMessage('');
 
     try {
+      setVenues([]);
       const response = await customFetch({
         resourceUrl: `/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
         options: {
@@ -210,20 +211,31 @@ const ExploreScreen = () => {
             }
           )}
         </View>
-        <FlatList
-          style={ExploreScreenStyles.venueList}
-          contentContainerStyle={ExploreScreenStyles.venueListContent}
-          data={filteredVenues}
-          renderItem={renderVenueCard}
-          keyExtractor={venue => venue._id}
-          ListEmptyComponent={renderEmptyVenues}
-          scrollEnabled={filteredVenues.length > 0}
-          ItemSeparatorComponent={renderVenueCardSeparator}
-          indicatorStyle='white'
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-          }
-        />
+        {refreshing ? (
+          <View style={ExploreScreenStyles.emptyVenuesContainer}>
+            <Text style={ExploreScreenStyles.emptyVenuesText}>
+              Loading venues...
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            style={ExploreScreenStyles.venueList}
+            contentContainerStyle={ExploreScreenStyles.venueListContent}
+            data={filteredVenues}
+            renderItem={renderVenueCard}
+            keyExtractor={venue => venue._id}
+            ListEmptyComponent={renderEmptyVenues}
+            scrollEnabled={filteredVenues.length > 0}
+            ItemSeparatorComponent={renderVenueCardSeparator}
+            indicatorStyle='white'
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+              />
+            }
+          />
+        )}
       </View>
 
       {/* Error Banner */}
