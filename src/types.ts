@@ -325,10 +325,14 @@ export interface ToggleSettingProps extends ToggleButtonProps {
 export interface VenueReactButtonProps {
   venue: Venue;
   reaction: ReactionEmoji;
+  resetError?: () => void;
+  onError?: () => void;
 }
 
 export interface ExploreCardProps {
   venue: Venue;
+  resetError: () => void;
+  onError: () => void;
 }
 
 export interface SelectOption {

@@ -2,23 +2,57 @@ import { useState } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { ReactionEmoji, VenueReactButtonProps } from '@nightlight/src/types';
 import VenueReactButtonStyles from '@nightlight/components/VenueReactButton.styles';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { customFetch } from '@nightlight/src/api';
 
-const VenueReactButton = ({ venue, reaction }: VenueReactButtonProps) => {
+const VenueReactButton = ({
+  venue,
+  reaction,
+  resetError = () => {},
+  onError = () => {},
+}: VenueReactButtonProps) => {
+  const { userDocument } = useAuthContext();
+
   const [count, setCount] = useState(venue.reactions[reaction].count);
   const [didReact, setDidReact] = useState(venue.reactions[reaction].didReact);
 
-  const handleToggleReaction = (reaction: ReactionEmoji) => {
+  const handleToggleReaction = async (reaction: ReactionEmoji) => {
+    resetError();
+
+    const userId = userDocument?._id;
+
     // Preemptively update the count to avoid a delay in the UI
     setCount(prev => (didReact ? prev - 1 : prev + 1));
     setDidReact(prev => !prev);
 
-    // TODO: Asynchronously update reaction in DB
-    console.log(
-      `TODO: Toggle reaction for ${reaction} on venue ${venue._id} for user _!`
-    );
+    // Update reaction in DB
+    try {
+      await customFetch({
+        resourceUrl: `/venues/${venue._id}/react`,
+        options: {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: userDocument?._id,
+            emoji: reaction,
+          }),
+        },
+      });
+    } catch (error) {
+      onError();
 
-    // TODO: Revert the UI update if the DB update fails
-    // TODO: If DB update fails we should also show the error message similar to what we have in signup/login page.
+      // TODO: If DB update fails we should show the error message similar to what we have in signup/login page.
+      console.error(
+        `[VenueReactButton] Error toggling '${reaction}' reaction on venue ${venue._id} for user ${userId}:\n`,
+        error
+      );
+
+      // Revert the UI update
+      setCount(prev => (didReact ? prev + 1 : prev - 1));
+      setDidReact(prev => !prev);
+    }
   };
 
   return (

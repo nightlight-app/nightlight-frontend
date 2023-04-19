@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   ListRenderItemInfo,
+  RefreshControl,
 } from 'react-native';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import {
@@ -17,6 +18,7 @@ import {
 } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import ExploreCard from '@nightlight/components/explore/ExploreCard';
+import Banner from '@nightlight/components/Banner';
 import { customFetch } from '@nightlight/src/api';
 
 const ExploreScreen = () => {
@@ -27,6 +29,8 @@ const ExploreScreen = () => {
     ExploreSortFilter | ReactionEmoji
   >(ExploreSortFilter.ALL); // sort by filter
   const [page, setPage] = useState<number>(1); // keep track of what page user is on
+  const [errorMessage, setErrorMessage] = useState<string>(''); // keep track of error message
+  const [refreshing, setRefreshing] = useState<boolean>(false); // keep track of whether user is refreshing list of venues
 
   const { userDocument } = useAuthContext();
 
@@ -38,8 +42,46 @@ const ExploreScreen = () => {
 
   // TODO: IMPORTANT!! make a load more button to continue pagination
 
+  const fetchVenues = async () => {
+    // TODO: figure out backend and fallback response if no venues received
+    console.log('[Explore] Fetching venues...');
+
+    setErrorMessage('');
+
+    try {
+      setVenues([]);
+      const response = await customFetch({
+        resourceUrl: `/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
+        options: {
+          method: 'GET',
+        },
+      });
+
+      console.log('[Explore] Venues fetched!');
+      // TODO: pagination
+      // setPage(page + 1);
+      setVenues(response.venues);
+    } catch (error) {
+      setErrorMessage('Failed to fetch venues. Please try again later.');
+      console.error('[Explore]', JSON.stringify(error));
+    }
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchVenues();
+    setRefreshing(false);
+  };
+
+  // fetch venues on first render
+  useEffect(() => {
+    fetchVenues();
+  }, []);
+
   // filter / sort venues on search input or sort filter change
   useEffect(() => {
+    setErrorMessage('');
+
     let tempVenues = venues;
 
     if (venues.length > 0) {
@@ -95,6 +137,7 @@ const ExploreScreen = () => {
           }
           break;
         default:
+          setErrorMessage('Invalid sort filter. Please try again later.');
           console.error('[Explore] Invalid sort filter: ', sortFilter);
           break;
       }
@@ -103,28 +146,14 @@ const ExploreScreen = () => {
     setFilteredVenues(tempVenues);
   }, [venues, sortFilter, searchInput]);
 
-  // fetch venues on first render
-  useEffect(() => {
-    // TODO: figure out backend and fallback response if no venues received
-    console.log('[Explore] Fetching venues...');
-    customFetch({
-      resourceUrl: `/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(response => {
-        console.log('[Explore] Venues fetched!');
-        setPage(page + 1);
-        setVenues(response.venues);
-      })
-      .catch(e => {
-        console.error('[Explore]', JSON.stringify(e));
-      });
-  }, []);
-
   const renderVenueCard = ({ item }: ListRenderItemInfo<Venue>) => (
-    <ExploreCard venue={item} />
+    <ExploreCard
+      venue={item}
+      resetError={() => setErrorMessage('')}
+      onError={() =>
+        setErrorMessage('Failed to react to venue. Please try again later.')
+      }
+    />
   );
 
   const renderVenueCardSeparator = () => (
@@ -182,18 +211,35 @@ const ExploreScreen = () => {
             }
           )}
         </View>
-        <FlatList
-          style={ExploreScreenStyles.venueList}
-          contentContainerStyle={ExploreScreenStyles.venueListContent}
-          data={filteredVenues}
-          renderItem={renderVenueCard}
-          keyExtractor={venue => venue._id}
-          ListEmptyComponent={renderEmptyVenues}
-          scrollEnabled={filteredVenues.length > 0}
-          ItemSeparatorComponent={renderVenueCardSeparator}
-          indicatorStyle='white'
-        />
+        {refreshing ? (
+          <View style={ExploreScreenStyles.emptyVenuesContainer}>
+            <Text style={ExploreScreenStyles.emptyVenuesText}>
+              Loading venues...
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            style={ExploreScreenStyles.venueList}
+            contentContainerStyle={ExploreScreenStyles.venueListContent}
+            data={filteredVenues}
+            renderItem={renderVenueCard}
+            keyExtractor={venue => venue._id}
+            ListEmptyComponent={renderEmptyVenues}
+            scrollEnabled={filteredVenues.length > 0}
+            ItemSeparatorComponent={renderVenueCardSeparator}
+            indicatorStyle='white'
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+              />
+            }
+          />
+        )}
       </View>
+
+      {/* Error Banner */}
+      {errorMessage && <Banner message={errorMessage} />}
     </SafeAreaView>
   );
 };
