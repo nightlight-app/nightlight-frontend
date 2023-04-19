@@ -19,6 +19,7 @@ import {
   LocationServiceEvent,
   locationServiceHandler,
 } from '@nightlight/src/service/locationService';
+import { customFetch } from '@nightlight/src/api';
 
 // initial camera settings
 const initialCamera: CameraStop = {
@@ -129,22 +130,48 @@ const NightlightMap = ({ onUserMarkerPress, onError }: NightlightMapProps) => {
    * Source: https://reactnative.dev/docs/appstate
    */
   useEffect(() => {
+    if (userDocument?._id === undefined) return;
+
+    // notify server that user is online
+    if (AppState.currentState === 'active') {
+      console.log('[NightlightMap] App has come to the foreground!');
+      customFetch({
+        resourceUrl: `/users/${userDocument?._id}/go-online`,
+        options: { method: 'PATCH' },
+      });
+    }
+
+    // subscribe to app state changes
     const subscription = AppState.addEventListener('change', nextAppState => {
+      // notify server that user went online
       if (
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active'
       ) {
-        // TODO: send PATCH request to /users/:userId/go-online
-        console.log('App has come to the foreground!');
+        customFetch({
+          resourceUrl: `/users/${userDocument?._id}/go-online`,
+          options: { method: 'PATCH' },
+        });
       }
 
+      // notify server that user went offline
       if (
         appState.current === 'active' &&
         nextAppState.match(/inactive|background/)
       ) {
-        // TODO: send PATCH request to /users/:userId/go-offline
-        // alongside req.body.location = { latitude, longitude }
-        console.log('App has come to the background!');
+        customFetch({
+          resourceUrl: `/users/${userDocument?._id}/go-offline`,
+          options: {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              location: {
+                longitude: userLocation?.coords.longitude,
+                latitude: userLocation?.coords.latitude,
+              },
+            }),
+          },
+        });
       }
 
       // update appState
@@ -155,7 +182,7 @@ const NightlightMap = ({ onUserMarkerPress, onError }: NightlightMapProps) => {
       // remove event listener
       subscription.remove();
     };
-  }, []);
+  }, [userDocument]);
 
   /**
    * Update userMarkersRef on every render so socket can access the latest userMarkers
@@ -286,7 +313,8 @@ const NightlightMap = ({ onUserMarkerPress, onError }: NightlightMapProps) => {
                     userObj.location.longitude,
                     userObj.location.latitude,
                   ]}
-                  anchor={{ x: 0.5, y: 1 }}>
+                  anchor={{ x: 0.5, y: 1 }}
+                  allowOverlap={true}>
                   <Pressable
                     style={NightlightMapStyles.userMarkerView}
                     onPress={() => onUserMarkerPress(userId)}>
