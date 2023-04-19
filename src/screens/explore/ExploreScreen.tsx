@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   ListRenderItemInfo,
+  RefreshControl,
 } from 'react-native';
 import ExploreScreenStyles from '@nightlight/screens/explore/ExploreScreen.styles';
 import {
@@ -29,6 +30,7 @@ const ExploreScreen = () => {
   >(ExploreSortFilter.ALL); // sort by filter
   const [page, setPage] = useState<number>(1); // keep track of what page user is on
   const [errorMessage, setErrorMessage] = useState<string>(''); // keep track of error message
+  const [refreshing, setRefreshing] = useState<boolean>(false); // keep track of whether user is refreshing list of venues
 
   const { userDocument } = useAuthContext();
 
@@ -39,6 +41,40 @@ const ExploreScreen = () => {
   };
 
   // TODO: IMPORTANT!! make a load more button to continue pagination
+
+  const fetchVenues = async () => {
+    // TODO: figure out backend and fallback response if no venues received
+    console.log('[Explore] Fetching venues...');
+
+    setErrorMessage('');
+
+    try {
+      const response = await customFetch({
+        resourceUrl: `/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
+        options: {
+          method: 'GET',
+        },
+      });
+
+      console.log('[Explore] Venues fetched!');
+      // setPage(page + 1);
+      setVenues(response.venues);
+    } catch (error) {
+      setErrorMessage('Failed to fetch venues. Please try again later.');
+      console.error('[Explore]', JSON.stringify(error));
+    }
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchVenues();
+    setRefreshing(false);
+  };
+
+  // fetch venues on first render
+  useEffect(() => {
+    fetchVenues();
+  }, []);
 
   // filter / sort venues on search input or sort filter change
   useEffect(() => {
@@ -107,30 +143,6 @@ const ExploreScreen = () => {
 
     setFilteredVenues(tempVenues);
   }, [venues, sortFilter, searchInput]);
-
-  // fetch venues on first render
-  useEffect(() => {
-    // TODO: figure out backend and fallback response if no venues received
-    console.log('[Explore] Fetching venues...');
-
-    setErrorMessage('');
-
-    customFetch({
-      resourceUrl: `/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(response => {
-        console.log('[Explore] Venues fetched!');
-        setPage(page + 1);
-        setVenues(response.venues);
-      })
-      .catch(e => {
-        setErrorMessage('Failed to fetch venues. Please try again later.');
-        console.error('[Explore]', JSON.stringify(e));
-      });
-  }, []);
 
   const renderVenueCard = ({ item }: ListRenderItemInfo<Venue>) => (
     <ExploreCard
@@ -207,6 +219,9 @@ const ExploreScreen = () => {
           scrollEnabled={filteredVenues.length > 0}
           ItemSeparatorComponent={renderVenueCardSeparator}
           indicatorStyle='white'
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }
         />
       </View>
 
