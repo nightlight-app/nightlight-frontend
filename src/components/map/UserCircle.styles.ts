@@ -24,7 +24,7 @@ export default StyleSheet.create({
   initials: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     color: COLORS.WHITE,
-    fontSize: 28,
+    fontSize: 24,
   },
   emoji: {
     position: 'absolute',
