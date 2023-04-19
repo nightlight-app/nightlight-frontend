@@ -247,8 +247,13 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
                   coordinate={[
                     userObj.location.longitude,
                     userObj.location.latitude,
-                  ]}>
-                  <View style={NightlightMapStyles.userMarkerView}>
+                  ]}
+                  anchor={{ x: 0.5, y: 1 }}>
+                  <Pressable
+                    style={NightlightMapStyles.userMarkerView}
+                    onPress={() =>
+                      alert(`Pressed marker for user with ID ${userId}`)
+                    }>
                     <FontAwesome5
                       name='map-marker'
                       size={50}
@@ -256,13 +261,10 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
                       color={COLORS.GREEN}
                     />
                     <Image
-                      source={{
-                        // TODO: get the image source of the received user id
-                        uri: userObj.imgUrl,
-                      }}
+                      source={{ uri: userObj.imgUrl }}
                       style={NightlightMapStyles.userMarkerImage}
                     />
-                  </View>
+                  </Pressable>
                 </MapboxGL.MarkerView>
               );
             })}

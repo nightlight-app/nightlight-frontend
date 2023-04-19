@@ -15,8 +15,6 @@ export default StyleSheet.create({
     height: DEVICE_HEIGHT,
   },
   userMarkerView: {
-    position: 'relative',
-    bottom: '50%',
     alignItems: 'center',
   },
   userMarkerImage: {

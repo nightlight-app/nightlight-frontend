@@ -22,7 +22,6 @@ const UserCard = ({ user, onClose }: UserCardProps) => {
   const [location, setLocation] = useState(user.lastActive?.location);
   const [relativeTimeString, setRelativeTimeString] = useState('...');
 
-  // TODO: Update status color based on lastActive
   const [statusColor, setStatusColor] = useState(COLORS.NIGHTLIGHT_GRAY);
 
   // Update relative time string and status color every second
