@@ -3,7 +3,6 @@ import { COLORS, Fonts } from '@nightlight/src/global.styles';
 import {
   DEVICE_HEIGHT,
   GROUP_MEMBER_CIRCLE_DIAMETER,
-  USER_CIRCLE_DIAMETER,
 } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
@@ -35,7 +34,7 @@ export default StyleSheet.create({
     height: GROUP_MEMBER_CIRCLE_DIAMETER,
     width: GROUP_MEMBER_CIRCLE_DIAMETER,
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
-    borderRadius: 30,
+    borderRadius: GROUP_MEMBER_CIRCLE_DIAMETER / 2,
   },
   selectedUserName: {
     color: COLORS.WHITE,
