@@ -43,6 +43,16 @@ export default StyleSheet.create({
     position: 'absolute',
     top: DEVICE_HEIGHT * 0.2 - 150 / 2,
   },
+  initialsContainer: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  initials: {
+    fontSize: 65,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    color: COLORS.WHITE,
+  },
   profileDetailsContainer: {
     paddingTop: 150 / 2 + 10,
     alignItems: 'center',
