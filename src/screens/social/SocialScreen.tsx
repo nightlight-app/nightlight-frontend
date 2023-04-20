@@ -75,13 +75,13 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
         </View>
 
         <ScrollView>
-          <View style={SocialScreenStyles.rowView}>
+          {/* <View style={SocialScreenStyles.rowView}>
             <Text style={SocialScreenStyles.activeGroupText}>Active Group</Text>
             <View style={SocialScreenStyles.greenCircle}>
               <Text style={SocialScreenStyles.numberText}>{groupCount}</Text>
             </View>
-          </View>
-          <View style={SocialScreenStyles.activeBox}>
+          </View> */}
+          {/* <View style={SocialScreenStyles.activeBox}>
             {groupCount === 0 && renderEmptyGroup()}
             {activeGroup.map((item: { name: string }, index) => (
               <FriendCard
@@ -93,8 +93,8 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
               />
             ))}
             {/* TODO add glow  */}
-            <View style={SocialScreenStyles.glow} />
-          </View>
+            {/* <View style={SocialScreenStyles.glow} /> */}
+          {/* </View> */}
           <View style={SocialScreenStyles.rowView}>
             <Text style={SocialScreenStyles.allFriendsText}>All Friends</Text>
             <View style={SocialScreenStyles.grayCircle}>
