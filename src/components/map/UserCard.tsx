@@ -28,6 +28,8 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
   const { userDocument } = useAuthContext();
 
+  const isFriend = userDocument && userDocument.friends.includes(userId);
+
   const [user, setUser] = useState<User | null>(null);
   const [lastActive, setLastActive] = useState<LastActive | undefined>();
   const [relativeTimeString, setRelativeTimeString] = useState<string>('...');
@@ -68,7 +70,10 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
       });
 
     const interval = setInterval(() => {
-      console.log('checking again:', lastActive);
+      console.log(
+        '[UserCard] Checking last active object:',
+        JSON.stringify(lastActive, null, 2)
+      );
       if (!lastActive) return;
 
       const newRelativeTimeString = getRelativeTimeString(
@@ -93,8 +98,6 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
     );
     setStatusColor(getStatusColor(lastActive.time, user?.isActiveNow));
   }, [lastActive]);
-
-  const isFriend = userDocument && userDocument.friends.includes(userId);
 
   const handleStartNavigation = () => {
     if (!lastActive) {
