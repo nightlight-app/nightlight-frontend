@@ -104,7 +104,7 @@ export interface Location {
 
 export interface LastActive {
   location: Location;
-  time: Date;
+  time: string;
 }
 
 export interface SavedGroup {
@@ -125,10 +125,11 @@ export interface User {
   birthday: Date;
   currentGroup?: string; // mongoose ObjectId
   invitedGroups?: string[]; // mongoose ObjectId[]
-  friends?: string[]; // mongoose ObjectId[]
+  friends: string[]; // mongoose ObjectId[]
   friendRequests?: string[]; // mongoose ObjectId[]
   lastActive: LastActive;
   savedGroups?: SavedGroup[];
+  isActiveNow: boolean;
 }
 
 export interface Group {
@@ -199,12 +200,14 @@ export interface VenueCardProps extends MapCardProps {
 }
 
 export interface UserCardProps extends MapCardProps {
-  user: User;
+  userId: string;
 }
 
 export interface CreateGroupCardProps extends MapCardProps {}
 
-export interface ManageGroupCardProps extends MapCardProps {}
+export interface ManageGroupCardProps extends MapCardProps {
+  onGroupMemberPress: (userId: string) => void;
+}
 
 export interface ErrorCardProps extends MapCardProps {
   message?: string;
@@ -300,6 +303,7 @@ export interface BannerProps {
 }
 
 export interface NightlightMapProps {
+  onUserMarkerPress: (userId: string) => void;
   onError?: () => void;
 }
 

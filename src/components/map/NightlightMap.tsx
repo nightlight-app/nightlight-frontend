@@ -33,7 +33,7 @@ const initialCamera: CameraStop = {
 // pass the api key to Mapbox
 MapboxGL.setAccessToken(MAPBOX_API_KEY);
 
-const NightlightMap = ({ onError }: NightlightMapProps) => {
+const NightlightMap = ({ onUserMarkerPress, onError }: NightlightMapProps) => {
   const { userDocument } = useAuthContext();
   const groupId = userDocument?.currentGroup;
 
@@ -313,22 +313,22 @@ const NightlightMap = ({ onError }: NightlightMapProps) => {
                     userObj.location.longitude,
                     userObj.location.latitude,
                   ]}
+                  anchor={{ x: 0.5, y: 1 }}
                   allowOverlap={true}>
-                  <View style={NightlightMapStyles.userMarkerView}>
+                  <Pressable
+                    style={NightlightMapStyles.userMarkerView}
+                    onPress={() => onUserMarkerPress(userId)}>
                     <FontAwesome5
                       name='map-marker'
-                      size={50}
+                      size={55}
                       // TODO: use the status of the user as color
                       color={COLORS.GREEN}
                     />
                     <Image
-                      source={{
-                        // TODO: get the image source of the received user id
-                        uri: userObj.imgUrl,
-                      }}
+                      source={{ uri: userObj.imgUrl }}
                       style={NightlightMapStyles.userMarkerImage}
                     />
-                  </View>
+                  </Pressable>
                 </MapboxGL.MarkerView>
               );
             })}

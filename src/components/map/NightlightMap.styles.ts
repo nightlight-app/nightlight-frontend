@@ -15,15 +15,13 @@ export default StyleSheet.create({
     height: DEVICE_HEIGHT,
   },
   userMarkerView: {
-    position: 'relative',
-    bottom: '50%',
     alignItems: 'center',
   },
   userMarkerImage: {
     position: 'absolute',
-    borderRadius: 32 / 2,
-    height: 32,
-    width: 32,
+    borderRadius: 35 / 2,
+    height: 35,
+    width: 35,
     marginTop: 3,
   },
 });

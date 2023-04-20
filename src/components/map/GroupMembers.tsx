@@ -79,7 +79,7 @@ const GroupMembers = ({ onPress }: ButtonProps) => {
               style={[
                 GroupMembersStyles.memberContainer,
                 {
-                  zIndex: groupMembers.length - index - 2,
+                  zIndex: -displayedGroupMembers.length - index,
                 },
               ]}>
               <UserCircle userId={userId} />

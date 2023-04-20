@@ -5,10 +5,11 @@ import MapCardStyles from '@nightlight/components/map/MapCard.styles';
 import CloseButton from '@nightlight/components/CloseButton';
 import { MapCardProps } from '@nightlight/src/types';
 import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated';
+import { COLORS } from '@nightlight/src/global.styles';
 
 const MapCard = ({
   children,
-  borderColor = '',
+  borderColor = COLORS.NIGHTLIGHT_BLACK,
   shadowColor,
   buttonLeft,
   buttonRight,
