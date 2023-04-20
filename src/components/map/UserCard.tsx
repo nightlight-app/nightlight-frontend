@@ -18,13 +18,16 @@ import {
   getStatusColor,
 } from '@nightlight/src/utils/utils';
 import { customFetch } from '@nightlight/src/api';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
 // TODO: Get user from Firebase auth
-const myUser = {
-  friends: ['5f9f1b9b0b1b9c0017a1b1a2', '5e9f1c5b0f1c9c0b5c8b4566'],
-};
+// const myUser = {
+//   friends: ['5f9f1b9b0b1b9c0017a1b1a2', '5e9f1c5b0f1c9c0b5c8b4566'],
+// };
 
 const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
+  const { userDocument } = useAuthContext();
+
   const [user, setUser] = useState<User | null>(null);
   const [lastActive, setLastActive] = useState<LastActive | undefined>();
   const [relativeTimeString, setRelativeTimeString] = useState<string>('...');
@@ -81,7 +84,7 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
     setStatusColor(getStatusColor(lastActive.time));
   }, [lastActive]);
 
-  const isFriend = myUser.friends.includes(userId);
+  const isFriend = userDocument && userDocument.friends.includes(userId);
 
   const handleStartNavigation = () => {
     if (!lastActive) {
@@ -109,15 +112,45 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
     );
   };
 
-  const handlePingUser = () => {
+  const handlePingUser = async () => {
     if (!user) {
       console.error('[UserCard] Could not call user with ID', userId);
       return;
     }
 
-    alert(
-      `TODO: Pinging ${user.firstName} ${user.lastName} (ID: "${userId}")...`
-    );
+    try {
+      console.log(
+        `[UserCard] Pinging ${user.firstName} ${user.lastName} (ID: "${userId}")...`
+      );
+
+      const data = await customFetch({
+        resourceUrl: `/pings`,
+        options: {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            senderId: userDocument?._id,
+            recipientId: userId,
+            message: 'TODO: messages are irrelevant for now',
+            // TODO: expiration time should be configurable, but is currently hardcoded to 1 hour
+            expirationDatetime: new Date(
+              Date.now() + 60 * 60 * 1000
+            ).toUTCString(),
+          }),
+        },
+      });
+
+      console.log('[UserCard] Ping response:', JSON.stringify(data, null, 2));
+    } catch (error) {
+      console.error(
+        '[UserCard] There was an error pinging user with ID',
+        userId,
+        '\n',
+        error
+      );
+    }
   };
 
   return (

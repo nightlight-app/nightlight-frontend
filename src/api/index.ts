@@ -69,7 +69,9 @@ export const customFetch = async ({
       throw new Error(
         '[customFetch] Response was not OK: ' +
           response.status +
+          ' ' +
           response.statusText +
+          '\n' +
           JSON.stringify(response, null, 2)
       );
     }
