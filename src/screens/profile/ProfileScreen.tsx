@@ -43,6 +43,9 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
       }
     : TEST_USERS[0];
 
+  // compute user initials
+  const userInitials = user.firstName[0] + user.lastName[0];
+
   // TODO:
   const handleChangeCoverPicture = () => {
     Alert.alert('TODO: change cover picture');
@@ -94,10 +97,20 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
 
       {/* Profile Picture */}
       {/* TODO: add press action?? (expand or edit?) */}
-      <Image
-        source={{ uri: user.imgUrlProfileSmall }}
-        style={ProfileScreenStyles.profilePic}
-      />
+      {user.imgUrlProfileSmall ? (
+        <Image
+          source={{ uri: user.imgUrlProfileSmall }}
+          style={ProfileScreenStyles.profilePic}
+        />
+      ) : (
+        <View
+          style={[
+            ProfileScreenStyles.profilePic,
+            ProfileScreenStyles.initialsContainer,
+          ]}>
+          <Text style={ProfileScreenStyles.initials}>{userInitials}</Text>
+        </View>
+      )}
 
       {/* Profile Details */}
       <View style={ProfileScreenStyles.profileDetailsContainer}>

@@ -28,10 +28,17 @@ const UserCircle = ({ userId }: UserCircleProps) => {
       },
     })
       .then(data => {
-        const { imgUrlProfileLarge, lastActive, firstName, lastName } =
-          data.users[0];
+        const {
+          imgUrlProfileLarge,
+          lastActive,
+          firstName,
+          lastName,
+          isActiveNow,
+        } = data.users[0];
         const time = lastActive?.time;
-        const statusColor = time ? getStatusColor(new Date(time)) : COLORS.GRAY;
+        const statusColor = time
+          ? getStatusColor(time, isActiveNow)
+          : COLORS.GRAY;
         const initials = `${firstName[0]}${lastName[0]}`;
 
         setUserImgUrlProfile(imgUrlProfileLarge);

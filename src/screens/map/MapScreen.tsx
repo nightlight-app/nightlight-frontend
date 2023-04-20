@@ -21,8 +21,8 @@ const MapScreen = () => {
   const [activeMapCardType, setActiveMapCardType] =
     useState<MapCardType | null>(null);
 
-  // keep track of the user to show in the user card
-  const [activeUserCard, setActiveUserCard] = useState<User>();
+  // keep track of the ID of the user to show in the user card
+  const [activeUserCardId, setActiveUserCardId] = useState<string>();
 
   // handlers for map card buttons
   const handleShowVenueCard = () => {
@@ -38,23 +38,23 @@ const MapScreen = () => {
     setActiveMapCardType(MapCardType.ERROR);
   };
   // TODO: use loading indicator instead of TEST_USER
-  const handleShowUserCard = (userToShow = TEST_USERS[0]) => {
+  const handleShowUserCard = (userId = TEST_USERS[0]._id) => {
     setActiveMapCardType(MapCardType.USER);
-    setActiveUserCard(userToShow);
+    setActiveUserCardId(userId);
   };
   const handleCloseMapCard = () => {
     setActiveMapCardType(null);
-    setActiveUserCard(undefined);
+    setActiveUserCardId(undefined);
   };
 
   useEffect(() => {
     // if user to show changes to another user, close the map card (then it will be re-opened)
-    if (activeUserCard) setActiveMapCardType(null);
-  }, [activeUserCard]);
+    if (activeUserCardId) setActiveMapCardType(null);
+  }, [activeUserCardId]);
 
   useEffect(() => {
     // if map card is closed but there is a user to show, open the user card
-    if (activeMapCardType === null && activeUserCard)
+    if (activeMapCardType === null && activeUserCardId)
       setActiveMapCardType(MapCardType.USER);
   }, [activeMapCardType]);
 
@@ -68,14 +68,16 @@ const MapScreen = () => {
         );
 
       case MapCardType.USER:
-        if (!activeUserCard)
+        if (!activeUserCardId)
           return (
             <ErrorCard
               message='There was an error determining which user to show!'
               onClose={handleCloseMapCard}
             />
           );
-        return <UserCard user={activeUserCard} onClose={handleCloseMapCard} />;
+        return (
+          <UserCard userId={activeUserCardId} onClose={handleCloseMapCard} />
+        );
 
       case MapCardType.CREATE_GROUP:
         return (
@@ -86,7 +88,13 @@ const MapScreen = () => {
         );
 
       case MapCardType.MANAGE_GROUP:
-        return <ManageGroupCard onClose={handleCloseMapCard} />;
+        return (
+          <ManageGroupCard
+            onGroupMemberPress={handleShowUserCard}
+            onClose={handleCloseMapCard}
+            onError={handleShowErrorCard}
+          />
+        );
 
       default:
         return <ErrorCard onClose={handleCloseMapCard} />;
@@ -96,7 +104,10 @@ const MapScreen = () => {
   return (
     <View testID={TabRoute.MAP} style={MapScreenStyles.container}>
       {/* The one and only nightlight map, by the one and only nightlight team */}
-      <NightlightMap onError={handleShowErrorCard} />
+      <NightlightMap
+        onUserMarkerPress={handleShowUserCard}
+        onError={handleShowErrorCard}
+      />
 
       {/* For development purpose */}
       {/* <View
@@ -119,7 +130,7 @@ const MapScreen = () => {
           <Text>Show Venue Card</Text>
         </Pressable>
         <Pressable
-          onPress={() => handleShowUserCard(TEST_USERS[0])}
+          onPress={() => handleShowUserCard(TEST_USERS[0]._id)}
           style={{
             backgroundColor: COLORS.GREEN,
             padding: 10,

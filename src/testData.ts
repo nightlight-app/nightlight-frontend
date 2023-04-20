@@ -24,9 +24,10 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date(),
+      time: new Date().toUTCString(),
     },
     savedGroups: [],
+    isActiveNow: false,
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4567',
@@ -48,7 +49,7 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date('2023-02-28'),
+      time: new Date('2023-02-28').toUTCString(),
     },
     savedGroups: [
       {
@@ -56,6 +57,7 @@ export const TEST_USERS: User[] = [
         members: ['5e9f1c5b0f1c9c0b5c8b4567'],
       },
     ],
+    isActiveNow: false,
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4568',
@@ -77,7 +79,7 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date('2023-01-20'),
+      time: new Date('2023-01-20').toUTCString(),
     },
     savedGroups: [
       {
@@ -85,6 +87,7 @@ export const TEST_USERS: User[] = [
         members: ['5e9f1c5b0f1c9c0b5c8b4567'],
       },
     ],
+    isActiveNow: false,
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4569',
@@ -106,7 +109,7 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date('2023-01-20'),
+      time: new Date('2023-01-20').toUTCString(),
     },
     savedGroups: [
       {
@@ -114,6 +117,7 @@ export const TEST_USERS: User[] = [
         members: ['5e9f1c5b0f1c9c0b5c8b4567'],
       },
     ],
+    isActiveNow: false,
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4570',
@@ -135,7 +139,7 @@ export const TEST_USERS: User[] = [
         latitude: 36.1447,
         longitude: -86.8027,
       },
-      time: new Date('2023-01-20'),
+      time: new Date('2023-01-20').toUTCString(),
     },
     savedGroups: [
       {
@@ -143,6 +147,7 @@ export const TEST_USERS: User[] = [
         members: ['5e9f1c5b0f1c9c0b5c8b4567'],
       },
     ],
+    isActiveNow: false,
   },
 ];
 

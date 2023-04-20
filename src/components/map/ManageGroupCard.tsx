@@ -19,7 +19,11 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 import { checkUserPendingInvitation } from '@nightlight/src/utils/utils';
 
-const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
+const ManageGroupCard = ({
+  onGroupMemberPress,
+  onClose,
+  onError,
+}: ManageGroupCardProps) => {
   const { userSession, userDocument, updateUserDocument } = useAuthContext();
   const [availableUsers, setAvailableUsers] = useState<User[]>([]);
   const [displayedAvailableUsers, setDisplayedAvailableUsers] = useState<
@@ -250,10 +254,17 @@ const ManageGroupCard = ({ onClose, onError }: ManageGroupCardProps) => {
     const isLastItem = index === availableUsers.length - 1;
     const isSelected = selectedUsers.includes(item) || userIsInGroup;
 
+    const handleGroupMemberPress = () => {
+      if (userIsInGroup || userIsInvitedToGroup) {
+        onGroupMemberPress(item._id);
+      } else {
+        selectUser(item);
+      }
+    };
+
     return (
       <TouchableOpacity
-        disabled={userIsInGroup || userIsInvitedToGroup}
-        onPress={() => selectUser(item)}
+        onPress={handleGroupMemberPress}
         style={[
           ManageGroupCardStyles.availableUserContainer,
           isFirstItem && ManageGroupCardStyles.availableUserTopItem,
