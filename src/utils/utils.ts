@@ -2,8 +2,9 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   UserCredential,
-  User as FirebaseUser,
+  UserInfo,
 } from 'firebase/auth';
+import type { User as FirebaseUser } from 'firebase/auth';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import { Group, User } from '@nightlight/src/types';
@@ -120,7 +121,7 @@ export const getMonthText = (index: number): string => {
  *
  * @param email valid string email address
  * @param password valid password for user account
- * @returns {FirebaseUser | null} The Firebase User of the newly created user or null if an error occurred
+ * @returns {FirebaseUser | null} The Firebase user of the newly created user or null if an error occurred
  */
 export const handleFirebaseSignUp = async (
   email: string,
@@ -134,10 +135,10 @@ export const handleFirebaseSignUp = async (
       email,
       password
     );
-    // const firebaseUid: UserInfo['uid'] = user.uid;
+    const firebaseUid: UserInfo['uid'] = user.uid;
     console.log(
       '[Firebase] Successfully signed up new user! User ID:',
-      user.uid
+      firebaseUid
     );
     return user;
   } catch (error: any) {
