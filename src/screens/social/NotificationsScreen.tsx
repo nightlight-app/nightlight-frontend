@@ -12,11 +12,11 @@ const NotificationsScreen = () => {
 
   // user id
   const { userDocument } = useAuthContext();
-  let userid = userDocument?._id;
+  const userId = userDocument?._id;
 
   useEffect(() => {
     customFetch({
-      resourceUrl: `/notifications/?userId=${userid}`,
+      resourceUrl: `/notifications/?userId=${userId}`,
       options: {
         method: 'GET',
       },
@@ -77,7 +77,8 @@ const NotificationsScreen = () => {
       message={item.body}
       type={item.data.notificationType}
       time={item.data.sentDateTime}
-      friendId={item.data.senderId}></NotificationCard>
+      friendId={item.data.senderId}
+    />
   );
 
   const renderVenueCardSeparator = () => (

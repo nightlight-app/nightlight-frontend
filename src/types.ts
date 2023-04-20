@@ -239,10 +239,6 @@ export interface SearchUserCardProps {
   isRequested: boolean;
 }
 
-export interface FriendProfileScreenProps {
-  hidden: boolean;
-}
-
 /**
  * used for querying elements when using jest test
  *

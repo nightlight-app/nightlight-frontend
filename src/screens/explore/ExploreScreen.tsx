@@ -146,26 +146,6 @@ const ExploreScreen = () => {
     setFilteredVenues(tempVenues);
   }, [venues, sortFilter, searchInput]);
 
-  // fetch venues on first render
-  useEffect(() => {
-    // TODO: figure out backend and fallback response if no venues received
-    console.log('[Explore] Fetching venues...');
-    customFetch({
-      resourceUrl: `/venues/?count=${params.count}&page=${params.page}&userId=${userDocument?._id}`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(response => {
-        console.log('[Explore] Venues fetched!', response);
-        // setPage(page + 1);
-        setVenues(response.venues);
-      })
-      .catch(e => {
-        console.error('[Explore]', JSON.stringify(e));
-      });
-  }, []);
-
   const renderVenueCard = ({ item }: ListRenderItemInfo<Venue>) => (
     <ExploreCard
       venue={item}

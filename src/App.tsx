@@ -47,7 +47,7 @@ import SettingsScreen from '@nightlight/screens/settings/SettingsScreen';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
 import FriendSearchScreen from '@nightlight/screens/social/FriendSearchScreen';
 import NotificationsScreen from '@nightlight/screens/social/NotificationsScreen';
-import FriendProfileScreen from './screens/social/FriendProfileScreen';
+import FriendProfileScreen from '@nightlight/screens/social/FriendProfileScreen';
 
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();

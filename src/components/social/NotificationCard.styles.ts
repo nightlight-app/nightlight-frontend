@@ -53,7 +53,7 @@ export default StyleSheet.create({
     color: COLORS.GRAY,
     paddingRight: '3%',
   },
-  buttonrow: {
+  buttonRow: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -64,7 +64,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.GREEN,
     padding: 3,
     borderRadius: 5,
-    borderColor: '#2E491B',
+    borderColor: COLORS.DARK_GREEN,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -72,18 +72,18 @@ export default StyleSheet.create({
     backgroundColor: COLORS.RED,
     padding: 3,
     borderRadius: 5,
-    borderColor: '#732014',
+    borderColor: COLORS.DARK_RED,
     flexDirection: 'row',
     alignItems: 'center',
   },
   declineButtonText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 12,
-    color: '#732014',
+    color: COLORS.DARK_RED,
   },
   acceptButtonText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 12,
-    color: '#2E491B',
+    color: COLORS.DARK_GREEN,
   },
 });

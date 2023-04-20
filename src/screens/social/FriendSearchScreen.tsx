@@ -9,7 +9,7 @@ import {
   FlatList,
   Pressable,
 } from 'react-native';
-import FriendSearchScreenStyles from './FriendSearchScreen.styles';
+import FriendSearchScreenStyles from '@nightlight/screens/social/FriendSearchScreen.styles';
 import SearchUserCard from '@nightlight/components/social/SearchUserCard';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
@@ -59,17 +59,11 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
     const isFirstItem = index === 0;
     const isLastItem = index === displayedUsers.length - 1;
 
-    // check if user is already a friend
-    let isAdded = false;
-    if (userDocument?.friends?.includes(item._id)) {
-      isAdded = true;
-    }
+    const isAdded = userDocument && userDocument?.friends?.includes(item._id);
 
     // check if user has been requested
-    let isRequested = false;
-    if (userDocument?.sentFriendRequests?.includes(item._id)) {
-      isRequested = true;
-    }
+    const isRequested =
+      userDocument && userDocument?.sentFriendRequests?.includes(item._id);
 
     // check if user is self
     if (userDocument?._id === item._id) {

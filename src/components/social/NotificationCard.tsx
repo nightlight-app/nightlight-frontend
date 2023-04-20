@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, Pressable } from 'react-native';
 import { NotificationCardProps } from '@nightlight/src/types';
-import NotificationCardStyles from './NotificationCard.styles';
+import NotificationCardStyles from '@nightlight/components/social/NotificationCard.styles';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { customFetch } from '@nightlight/src/api';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { getRelativeTimeString } from '@nightlight/src/utils/utils';
 
 const NotificationCard = ({
   friendId,
@@ -15,12 +16,12 @@ const NotificationCard = ({
 }: NotificationCardProps) => {
   const { userSession, userDocument } = useAuthContext();
   // user id
-  let userId = userDocument?._id;
+  const userId = userDocument?._id;
   const isEvenIndex = index % 2 !== 0;
   const [userImage, setUserImage] = useState(
     '@nightlight/assets/images/anon.png'
   );
-  let [formattedTime, setFormattedTime] = useState('');
+  const [formattedTime, setFormattedTime] = useState('');
 
   // get user image from backend
   useEffect(() => {
@@ -44,24 +45,7 @@ const NotificationCard = ({
     const timeThen = new Date(time);
     let timeNow = new Date();
     let timeDiff = timeNow.getTime() - timeThen.getTime();
-    let timeDiffInHours = timeDiff / (1000 * 3600);
-    let timeDiffInDays = timeDiffInHours / 24;
-    let timeDiffInWeeks = timeDiffInDays / 7;
-    let timeDiffInMonths = timeDiffInDays / 30;
-    let timeDiffInYears = timeDiffInDays / 365;
-    if (timeDiffInHours < 1) {
-      setFormattedTime(`${Math.floor(timeDiff / 60000)} min`);
-    } else if (timeDiffInDays < 1) {
-      setFormattedTime(`${Math.floor(timeDiffInHours)} hr`);
-    } else if (timeDiffInWeeks < 1) {
-      setFormattedTime(`${Math.floor(timeDiffInDays)} dy`);
-    } else if (timeDiffInMonths < 1) {
-      setFormattedTime(`${Math.floor(timeDiffInWeeks)} wk`);
-    } else if (timeDiffInYears < 1) {
-      setFormattedTime(`${Math.floor(timeDiffInMonths)} mo`);
-    } else {
-      setFormattedTime(`${Math.floor(timeDiffInYears)} yr`);
-    }
+    setFormattedTime(getRelativeTimeString(new Date(timeDiff)));
   }, []);
 
   const handleAcceptRequest = () => {
@@ -77,7 +61,7 @@ const NotificationCard = ({
           console.log(res);
         })
         .catch(e => {
-          console.log('Error:', e);
+          console.error('Error:', e);
         });
     } else {
       customFetch({
@@ -90,7 +74,7 @@ const NotificationCard = ({
           console.log(res);
         })
         .catch(e => {
-          console.log('Error:', e);
+          console.error('Error:', e);
         });
     }
   };
@@ -108,7 +92,7 @@ const NotificationCard = ({
           console.log(res);
         })
         .catch(e => {
-          console.log('Error:', e);
+          console.error('Error:', e);
         });
     } else {
       customFetch({
@@ -121,7 +105,7 @@ const NotificationCard = ({
           console.log(res);
         })
         .catch(e => {
-          console.log('Error:', e);
+          console.error('Error:', e);
         });
     }
   };
@@ -147,7 +131,7 @@ const NotificationCard = ({
         <Text style={NotificationCardStyles.time}>{formattedTime} ago</Text>
       </View>
       {type === 'groupInvite' || type === 'friendRequest' ? (
-        <View style={NotificationCardStyles.buttonrow}>
+        <View style={NotificationCardStyles.buttonRow}>
           <Pressable
             style={NotificationCardStyles.decline}
             onPress={handleDeclineRequest}>

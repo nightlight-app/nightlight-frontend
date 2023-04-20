@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Image, Text } from 'react-native';
-import ProfileScreenStyles from '../profile/ProfileScreen.styles';
+import ProfileScreenStyles from '@nightlight/screens/profile/ProfileScreen.styles';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
 import { User } from '@nightlight/src/types';
