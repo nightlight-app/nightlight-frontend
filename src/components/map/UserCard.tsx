@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Pressable, Image } from 'react-native';
+import { Text, View, Pressable, Image, Alert } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -141,6 +141,11 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
           }),
         },
       });
+
+      Alert.alert(
+        'Ping sent!',
+        `${user.firstName} ${user.lastName} has been pinged!`
+      );
 
       console.log('[UserCard] Ping response:', JSON.stringify(data, null, 2));
     } catch (error) {
