@@ -88,7 +88,13 @@ const MapScreen = () => {
         );
 
       case MapCardType.MANAGE_GROUP:
-        return <ManageGroupCard onClose={handleCloseMapCard} />;
+        return (
+          <ManageGroupCard
+            onGroupMemberPress={handleShowUserCard}
+            onClose={handleCloseMapCard}
+            onError={handleShowErrorCard}
+          />
+        );
 
       default:
         return <ErrorCard onClose={handleCloseMapCard} />;
