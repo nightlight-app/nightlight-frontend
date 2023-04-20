@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         console.log(
           '[AuthContext] User is logging in for the first time. userDocument will be updated after user document is created.'
         );
+        setTimeout(() => updateUserDocument(user), 1000);
       } else {
         updateUserDocument(user);
       }
