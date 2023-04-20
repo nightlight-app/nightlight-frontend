@@ -68,7 +68,10 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
       });
 
     const interval = setInterval(() => {
-      console.log('checking again:', lastActive);
+      console.log(
+        '[UserCard] Checking last active object:',
+        JSON.stringify(lastActive, null, 2)
+      );
       if (!lastActive) return;
 
       const newRelativeTimeString = getRelativeTimeString(
