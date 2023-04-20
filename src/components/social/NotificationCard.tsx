@@ -42,10 +42,7 @@ const NotificationCard = ({
       });
 
     // format time
-    const timeThen = new Date(time);
-    let timeNow = new Date();
-    let timeDiff = timeNow.getTime() - timeThen.getTime();
-    setFormattedTime(getRelativeTimeString(new Date(timeDiff)));
+    setFormattedTime(getRelativeTimeString(time));
   }, []);
 
   const handleAcceptRequest = () => {
@@ -128,7 +125,7 @@ const NotificationCard = ({
         <View style={NotificationCardStyles.textbox}>
           <Text style={NotificationCardStyles.message}>{message}</Text>
         </View>
-        <Text style={NotificationCardStyles.time}>{formattedTime} ago</Text>
+        <Text style={NotificationCardStyles.time}>{formattedTime} </Text>
       </View>
       {type === 'groupInvite' || type === 'friendRequest' ? (
         <View style={NotificationCardStyles.buttonRow}>

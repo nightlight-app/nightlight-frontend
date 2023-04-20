@@ -32,6 +32,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    width: '90%'
   },
   message: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
