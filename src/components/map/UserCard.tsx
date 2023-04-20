@@ -153,10 +153,16 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
             }}
           />
         ) : (
-          <Text style={UserCardStyles.userProfilePicText}>
-            {user?.firstName[0]}
-            {user?.lastName[0]}
-          </Text>
+          <View
+            style={{
+              ...UserCardStyles.userProfilePic,
+              borderColor: statusColor,
+            }}>
+            <Text style={UserCardStyles.userProfilePicText}>
+              {user?.firstName[0]}
+              {user?.lastName[0]}
+            </Text>
+          </View>
         )}
         <Text style={UserCardStyles.userName}>
           {user?.firstName} {user?.lastName}

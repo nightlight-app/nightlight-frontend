@@ -10,7 +10,7 @@ export default StyleSheet.create({
   userProfilePic: {
     height: 40,
     width: 40,
-    backgroundColor: COLORS.GRAY,
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     borderWidth: 2,
     borderRadius: 20,
     marginRight: 5,
@@ -22,7 +22,7 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
     opacity: 0.8,
     fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 16,
+    fontSize: 24,
   },
   userName: {
     color: COLORS.WHITE,
