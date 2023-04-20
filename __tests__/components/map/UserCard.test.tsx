@@ -21,6 +21,11 @@ describe('<UserCard />', () => {
       time: new Date().toUTCString(),
     },
     phone: phoneNumber,
+    firebaseUid: '',
+    email: '',
+    birthday: new Date(),
+    friends: [],
+    isActiveNow: false,
   };
 
   test('it should have a functioning close button', () => {
