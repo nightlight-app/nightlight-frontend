@@ -129,6 +129,7 @@ export interface User {
   friendRequests?: string[]; // mongoose ObjectId[]
   lastActive: LastActive;
   savedGroups?: SavedGroup[];
+  isActiveNow: boolean;
 }
 
 export interface Group {

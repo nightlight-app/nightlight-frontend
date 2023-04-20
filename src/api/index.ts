@@ -65,18 +65,14 @@ export const customFetch = async ({
       },
     });
 
+    const data = await response?.json();
     if (!response.ok) {
       throw new Error(
-        '[customFetch] Response was not OK: ' +
-          response.status +
-          ' ' +
-          response.statusText +
-          '\n' +
+        `[customFetch] Response was not OK: ${response.status} ${response.statusText}\n` +
+          `Message: ${data?.message}\n` +
           JSON.stringify(response, null, 2)
       );
     }
-
-    const data = await response.json();
 
     return data;
   } catch (error: any) {

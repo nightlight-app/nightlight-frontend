@@ -27,6 +27,7 @@ export const TEST_USERS: User[] = [
       time: new Date().toUTCString(),
     },
     savedGroups: [],
+    isActiveNow: false,
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4567',
@@ -56,6 +57,7 @@ export const TEST_USERS: User[] = [
         members: ['5e9f1c5b0f1c9c0b5c8b4567'],
       },
     ],
+    isActiveNow: false,
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4568',
@@ -85,6 +87,7 @@ export const TEST_USERS: User[] = [
         members: ['5e9f1c5b0f1c9c0b5c8b4567'],
       },
     ],
+    isActiveNow: false,
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4569',
@@ -114,6 +117,7 @@ export const TEST_USERS: User[] = [
         members: ['5e9f1c5b0f1c9c0b5c8b4567'],
       },
     ],
+    isActiveNow: false,
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4570',
@@ -143,6 +147,7 @@ export const TEST_USERS: User[] = [
         members: ['5e9f1c5b0f1c9c0b5c8b4567'],
       },
     ],
+    isActiveNow: false,
   },
 ];
 

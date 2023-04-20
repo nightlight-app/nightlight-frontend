@@ -68,10 +68,18 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
       });
 
     const interval = setInterval(() => {
+      console.log('checking again:', lastActive);
       if (!lastActive) return;
 
-      setRelativeTimeString(getRelativeTimeString(lastActive.time));
-      setStatusColor(getStatusColor(lastActive.time));
+      const newRelativeTimeString = getRelativeTimeString(
+        lastActive.time,
+        user?.isActiveNow
+      );
+      const newStatusColor = getStatusColor(lastActive.time, user?.isActiveNow);
+      console.log(newRelativeTimeString, newStatusColor);
+
+      setRelativeTimeString(newRelativeTimeString);
+      setStatusColor(newStatusColor);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -80,8 +88,10 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
   useEffect(() => {
     if (!lastActive) return;
 
-    setRelativeTimeString(getRelativeTimeString(lastActive.time));
-    setStatusColor(getStatusColor(lastActive.time));
+    setRelativeTimeString(
+      getRelativeTimeString(lastActive.time, user?.isActiveNow)
+    );
+    setStatusColor(getStatusColor(lastActive.time, user?.isActiveNow));
   }, [lastActive]);
 
   const isFriend = userDocument && userDocument.friends.includes(userId);
@@ -214,7 +224,7 @@ const UserCard = ({ userId, onClose, onError }: UserCardProps) => {
       <View style={UserCardStyles.userDetailsContainer}>
         <View>
           <Text style={UserCardStyles.lastActiveText}>
-            Active {relativeTimeString} ago
+            Active {relativeTimeString}
           </Text>
           <Text style={UserCardStyles.phoneNumber}>{user?.phone}</Text>
         </View>

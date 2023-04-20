@@ -7,7 +7,7 @@ import {
 import type { User as FirebaseUser } from 'firebase/auth';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
-import { Group, User } from '@nightlight/src/types';
+import { User } from '@nightlight/src/types';
 import {
   DAYS_PER_MONTH,
   HOURS_PER_DAY,
@@ -20,9 +20,15 @@ import {
 /**
  * Determine the relative time string from a given date.
  * @param {string} dateString - A UTC time string that represents the date to determine the relative time string from.
+ * @param {boolean} isActiveNow - A boolean that represents whether the user is active now. Defaults to false.
  * @returns {string} The relative time string.
  */
-export const getRelativeTimeString = (dateString: string): string => {
+export const getRelativeTimeString = (
+  dateString: string,
+  isActiveNow: boolean = false
+): string => {
+  if (isActiveNow) return 'now';
+
   const now = new Date();
   const dateObj = new Date(dateString);
   const seconds = Math.floor(
@@ -35,17 +41,17 @@ export const getRelativeTimeString = (dateString: string): string => {
   const years = Math.floor(months / MONTHS_PER_YEAR);
 
   if (years > 0) {
-    return `${years} year${years !== 1 ? 's' : ''}`;
+    return `${years} year${years !== 1 ? 's' : ''} ago`;
   } else if (months > 0) {
-    return `${months} month${months !== 1 ? 's' : ''}`;
+    return `${months} month${months !== 1 ? 's' : ''} ago`;
   } else if (days > 0) {
-    return `${days} day${days !== 1 ? 's' : ''}`;
+    return `${days} day${days !== 1 ? 's' : ''} ago`;
   } else if (hours > 0) {
-    return `${hours} hour${hours !== 1 ? 's' : ''}`;
+    return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
   } else if (minutes > 0) {
-    return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+    return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
   } else {
-    return `${seconds} second${seconds !== 1 ? 's' : ''}`;
+    return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
   }
 };
 
@@ -55,9 +61,15 @@ export const getRelativeTimeString = (dateString: string): string => {
  *  - Yellow if active in the last hour
  *  - Red if active more than an hour ago
  * @param {string} lastActiveTime - A UTC time string that represents the last active time of a user to determine the color from.
+ * @param {boolean} isActiveNow - A boolean that represents whether the user is active now. Defaults to false.
  * @returns {string} The color of the status indicator.
  */
-export const getStatusColor = (lastActiveTime: string): string => {
+export const getStatusColor = (
+  lastActiveTime: string,
+  isActiveNow: boolean = false
+): string => {
+  if (isActiveNow) return COLORS.GREEN;
+
   const now = new Date();
   const lastActiveTimeDate = new Date(lastActiveTime);
 
