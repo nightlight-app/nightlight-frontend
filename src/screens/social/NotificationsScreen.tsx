@@ -1,6 +1,6 @@
 import { SocialRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View, FlatList } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, FlatList, RefreshControl } from 'react-native';
 import NotificationsScreenStyles from './NotificationsScreen.styles';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
@@ -13,8 +13,23 @@ const NotificationsScreen = () => {
   // user id
   const { userDocument } = useAuthContext();
   const userId = userDocument?._id;
+  const [refreshing, setRefreshing] = useState<boolean>(false); // keep track of whether user is refreshing list of venues
 
-  useEffect(() => {
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchNotifications();
+    setRefreshing(false);
+  };
+
+   // fetch venues on first render
+   useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+
+
+  const fetchNotifications = async() => {
+    console.log('[Notifications] Fetching notifications...')
     customFetch({
       resourceUrl: `/notifications/?userId=${userId}`,
       options: {
@@ -58,7 +73,7 @@ const NotificationsScreen = () => {
       .catch(e => {
         console.log('Error: ', e);
       });
-  }, []);
+  };
 
   // called when there are no notifications
   const renderEmptyGroup = () => (
@@ -105,6 +120,12 @@ const NotificationsScreen = () => {
         scrollEnabled={notifications.length > 0}
         ItemSeparatorComponent={renderVenueCardSeparator}
         indicatorStyle='white'
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+          />
+        }
       />
     </SafeAreaView>
   );
