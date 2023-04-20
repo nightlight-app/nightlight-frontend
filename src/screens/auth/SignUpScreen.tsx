@@ -152,7 +152,6 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         email,
         firebaseUid: firebaseUser.uid,
         phone: phoneNumber,
-        isEmergency: false,
       };
 
       const data = await customFetch({
@@ -165,8 +164,6 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
           body: JSON.stringify(body),
         },
       });
-
-      console.log('did this work? ', data);
 
       if (!data) {
         console.error('[MongoDB] Failed to create user in database.');
