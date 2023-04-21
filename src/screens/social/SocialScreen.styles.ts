@@ -1,42 +1,44 @@
+import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-import { Dimensions, StyleSheet } from 'react-native';
-
-const { height, width } = Dimensions.get('window');
+import {
+  DEVICE_HEIGHT,
+  DEVICE_WIDTH,
+  EMERGENCY_BUTTON_RADIUS,
+  NAVBAR_HEIGHT,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
-    display: 'flex',
-    flexGrow: 1,
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
+    height: DEVICE_HEIGHT,
   },
-  safeview: {
-    marginBottom: 114,
-    width: '100%',
-    maxWidth: 650,
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerButton: {
+    padding: 10,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 24,
     color: COLORS.WHITE,
-    alignSelf: 'center',
+    marginVertical: 10,
+    textAlign: 'center',
   },
-  topRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  notifButton: {
-    marginLeft: '3%',
-  },
-  addFriendsButton: {
-    marginRight: '3%',
-  },
+  // notifButton: {
+  //   marginLeft: '3%',
+  // },
+  // addFriendsButton: {
+  //   marginRight: '3%',
+  // },
+
   rowView: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -88,7 +90,6 @@ export default StyleSheet.create({
   },
   friendBox: {
     alignSelf: 'center',
-    display: 'flex',
     width: '90%',
     borderColor: COLORS.NIGHTLIGHT_BLACK,
     borderRadius: 10,
@@ -99,7 +100,7 @@ export default StyleSheet.create({
   greenCircle: {
     width: 20,
     height: 20,
-    borderRadius: width / 2,
+    borderRadius: DEVICE_WIDTH / 2,
     backgroundColor: COLORS.GREEN,
     alignItems: 'center',
     justifyContent: 'center',
@@ -108,7 +109,7 @@ export default StyleSheet.create({
   grayCircle: {
     width: 20,
     height: 20,
-    borderRadius: width / 2,
+    borderRadius: DEVICE_WIDTH / 2,
     backgroundColor: COLORS.GRAY,
     alignItems: 'center',
     justifyContent: 'center',

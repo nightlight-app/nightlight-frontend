@@ -1,3 +1,12 @@
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import { Feather, Ionicons } from '@expo/vector-icons';
 import FriendCard from '@nightlight/components/social/FriendCard';
 import AddFriendsSvg from '@nightlight/components/svgs/AddFriendsSvg';
 import NotificationSvg from '@nightlight/components/svgs/NotificationSvg';
@@ -6,11 +15,10 @@ import {
   SocialRoute,
   TabRoute,
 } from '@nightlight/src/types';
-import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
+import { COLORS } from '@nightlight/src/global.styles';
 
 const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   // current user ID
@@ -66,16 +74,26 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   };
 
   return (
-    <View testID={TabRoute.SOCIAL_STACK} style={SocialScreenStyles.container}>
-      <SafeAreaView style={SocialScreenStyles.safeview}>
-        <View style={SocialScreenStyles.topRow}>
-          <Pressable onPress={handleNavigateToNotifications}>
-            <NotificationSvg style={SocialScreenStyles.notifButton} />
-          </Pressable>
+    <SafeAreaView
+      testID={TabRoute.SOCIAL_STACK}
+      style={SocialScreenStyles.container}>
+      <View style={SocialScreenStyles.contentContainer}>
+        <View style={SocialScreenStyles.header}>
+          <TouchableOpacity
+            style={SocialScreenStyles.headerButton}
+            onPress={handleNavigateToNotifications}
+            activeOpacity={0.75}>
+            {/* <NotificationSvg /> */}
+            <Feather name='bell' size={30} color={COLORS.WHITE} />
+          </TouchableOpacity>
           <Text style={SocialScreenStyles.title}>Social</Text>
-          <Pressable onPress={handleNavigateToFindFriends}>
-            <AddFriendsSvg style={SocialScreenStyles.addFriendsButton} />
-          </Pressable>
+          <TouchableOpacity
+            style={SocialScreenStyles.headerButton}
+            onPress={handleNavigateToFindFriends}
+            activeOpacity={0.75}>
+            {/* <AddFriendsSvg /> */}
+            <Ionicons name='person-add' size={30} color={COLORS.WHITE} />
+          </TouchableOpacity>
         </View>
 
         <ScrollView>
@@ -128,8 +146,8 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             )}
           </View>
         </ScrollView>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
