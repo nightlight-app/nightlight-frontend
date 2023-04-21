@@ -13,37 +13,34 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 
 const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
+  // current user ID
+  const { userDocument } = useAuthContext();
+  const userId = userDocument?._id;
+
   // number of members in active group
   const [groupCount, setGroupCount] = useState(0);
   const [activeGroup, setActiveGroup] = useState([]);
 
-  // user id
-  const { userDocument } = useAuthContext();
-  let userid = userDocument?._id;
-
   // number of friends
-  const [friendCount, setFriendCount] = useState(0);
   const [friends, setFriends] = useState([]);
 
   // get active group and friend from backend
   useEffect(() => {
     //get friends
     customFetch({
-      resourceUrl: `/users/${userid}/friends/`,
+      resourceUrl: `/users/${userId}/friends/`,
       options: {
         method: 'GET',
       },
     })
       .then(res => {
         setFriends(res.friends);
-        setFriendCount(res.friends.length);
+        // setFriendCount(res.friends.length);
       })
       .catch(e => {
         console.error('Error: ', e);
       });
   }, []);
-
-  
 
   // called when there are no active group
   const renderEmptyGroup = () => (
@@ -95,12 +92,14 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
               />
             ))}
             {/* TODO add glow  */}
-            {/* <View style={SocialScreenStyles.glow} /> */}
+          {/* <View style={SocialScreenStyles.glow} /> */}
           {/* </View> */}
           <View style={SocialScreenStyles.rowView}>
             <Text style={SocialScreenStyles.allFriendsText}>All Friends</Text>
             <View style={SocialScreenStyles.grayCircle}>
-              <Text style={SocialScreenStyles.numberText}>{friendCount}</Text>
+              <Text style={SocialScreenStyles.numberText}>
+                {friends.length}
+              </Text>
             </View>
           </View>
           <View style={SocialScreenStyles.friendBox}>
