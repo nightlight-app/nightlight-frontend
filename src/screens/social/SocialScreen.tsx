@@ -24,22 +24,27 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   // number of friends
   const [friends, setFriends] = useState([]);
 
+  const getFriends = async () => {
+    try {
+      const response = await customFetch({
+        resourceUrl: `/users/${userId}/friends/`,
+        options: {
+          method: 'GET',
+        },
+      });
+
+      setFriends(response.friends);
+    } catch (error) {
+      console.error(
+        '[Social Screen] A problem occured while fetching friends:',
+        error
+      );
+    }
+  };
+
   // get active group and friend from backend
   useEffect(() => {
-    //get friends
-    customFetch({
-      resourceUrl: `/users/${userId}/friends/`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(res => {
-        setFriends(res.friends);
-        // setFriendCount(res.friends.length);
-      })
-      .catch(e => {
-        console.error('Error: ', e);
-      });
+    getFriends();
   }, []);
 
   // called when there are no active group
