@@ -89,6 +89,9 @@ export default StyleSheet.create({
     borderWidth: 2,
     borderColor: COLORS.GRAY,
     marginRight: 10,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   userName: {
     fontFamily: Fonts.COMFORTAA_BOLD,

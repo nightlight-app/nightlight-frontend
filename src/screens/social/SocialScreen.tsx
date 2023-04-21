@@ -91,7 +91,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
           isLastItem && SocialScreenStyles.bottomItem,
         ]}>
         <View style={SocialScreenStyles.userInfoContainer}>
-          {imgUrl && (
+          {imgUrl ? (
             <Image
               source={{ uri: imgUrl }}
               style={[
@@ -101,6 +101,12 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
                 },
               ]}
             />
+          ) : (
+            <View style={SocialScreenStyles.profileImage}>
+              <Text style={SocialScreenStyles.userName}>
+                {item.firstName[0]} {item.lastName[0]}
+              </Text>
+            </View>
           )}
           <Text style={SocialScreenStyles.userName}>
             {item.firstName} {item.lastName}
