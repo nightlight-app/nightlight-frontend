@@ -1,6 +1,13 @@
 import { SocialRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View, FlatList, RefreshControl } from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import NotificationsScreenStyles from './NotificationsScreen.styles';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
@@ -21,15 +28,13 @@ const NotificationsScreen = () => {
     setRefreshing(false);
   };
 
-   // fetch venues on first render
-   useEffect(() => {
+  // fetch venues on first render
+  useEffect(() => {
     fetchNotifications();
   }, []);
 
-
-
-  const fetchNotifications = async() => {
-    console.log('[Notifications] Fetching notifications...')
+  const fetchNotifications = async () => {
+    console.log('[Notifications] Fetching notifications...');
     customFetch({
       resourceUrl: `/notifications/?userId=${userId}`,
       options: {
@@ -121,10 +126,7 @@ const NotificationsScreen = () => {
         ItemSeparatorComponent={renderVenueCardSeparator}
         indicatorStyle='white'
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
-          />
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }
       />
     </SafeAreaView>
