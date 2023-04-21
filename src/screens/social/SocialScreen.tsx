@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import FriendCard from '@nightlight/components/social/FriendCard';
@@ -14,6 +15,7 @@ import {
   BottomTabScreenProps,
   SocialRoute,
   TabRoute,
+  User,
 } from '@nightlight/src/types';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
@@ -30,9 +32,10 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   const [activeGroup, setActiveGroup] = useState([]);
 
   // number of friends
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState<User[]>([]);
 
-  const getFriends = async () => {
+  // fetches user's list of friends
+  const fetchFriends = async () => {
     try {
       const response = await customFetch({
         resourceUrl: `/users/${userId}/friends/`,
@@ -50,20 +53,10 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
     }
   };
 
-  // get active group and friend from backend
+  // get active group and fetch friends
   useEffect(() => {
-    getFriends();
+    fetchFriends();
   }, []);
-
-  // called when there are no active group
-  const renderEmptyGroup = () => (
-    // TODO: figure out what to put here
-    <View>
-      <Text style={SocialScreenStyles.emptyAvailableUsersText}>
-        No active group
-      </Text>
-    </View>
-  );
 
   const handleNavigateToFindFriends = () => {
     navigation.navigate(SocialRoute.FRIEND_SEARCH);
@@ -72,6 +65,18 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   const handleNavigateToNotifications = () => {
     navigation.navigate(SocialRoute.NOTIFICATIONS);
   };
+
+  const renderEmptyActiveGroup = () => (
+    <View>
+      <Text style={SocialScreenStyles.emptyAvailableUsersText}>
+        No active group
+      </Text>
+    </View>
+  );
+
+  const renderContactSeparator = () => (
+    <View style={SocialScreenStyles.contactSeparator} />
+  );
 
   return (
     <SafeAreaView
@@ -96,7 +101,36 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
           </TouchableOpacity>
         </View>
 
-        <ScrollView>
+        <ScrollView indicatorStyle='white' style={{ paddingHorizontal: 10 }}>
+          <View style={SocialScreenStyles.sectionHeader}>
+            <Text
+              style={[
+                SocialScreenStyles.sectionHeaderTitle,
+                SocialScreenStyles.friendsSectionTitle,
+              ]}>
+              All Friends
+            </Text>
+            <View
+              style={[
+                SocialScreenStyles.sectionHeaderCountContainer,
+                SocialScreenStyles.friendsCountContainer,
+              ]}>
+              <Text style={SocialScreenStyles.sectionHeaderCount}>
+                {friends.length}
+              </Text>
+            </View>
+          </View>
+          <FlatList
+            style={SocialScreenStyles.friendsList}
+            data={friends}
+            renderItem={({ item }) => <Text>{item.firstName}</Text>}
+            keyExtractor={item => item._id}
+            ItemSeparatorComponent={renderContactSeparator}
+            // ListEmptyComponent={renderEmptyFriendsList}
+            scrollEnabled={false}
+            indicatorStyle='white'
+          />
+
           {/* <View style={SocialScreenStyles.rowView}>
             <Text style={SocialScreenStyles.activeGroupText}>Active Group</Text>
             <View style={SocialScreenStyles.greenCircle}>
@@ -117,7 +151,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             {/* TODO add glow  */}
           {/* <View style={SocialScreenStyles.glow} /> */}
           {/* </View> */}
-          <View style={SocialScreenStyles.rowView}>
+          {/* <View style={SocialScreenStyles.rowView}>
             <Text style={SocialScreenStyles.allFriendsText}>All Friends</Text>
             <View style={SocialScreenStyles.grayCircle}>
               <Text style={SocialScreenStyles.numberText}>
@@ -144,7 +178,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
                 />
               )
             )}
-          </View>
+          </View> */}
         </ScrollView>
       </View>
     </SafeAreaView>

@@ -31,12 +31,38 @@ export default StyleSheet.create({
     marginVertical: 10,
     textAlign: 'center',
   },
-  // notifButton: {
-  //   marginLeft: '3%',
-  // },
-  // addFriendsButton: {
-  //   marginRight: '3%',
-  // },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  sectionHeaderTitle: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 16,
+  },
+  friendsSectionTitle: {
+    color: COLORS.GRAY,
+  },
+  sectionHeaderCountContainer: {
+    marginLeft: 5,
+    borderRadius: 10,
+    height: 20,
+    minWidth: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 5,
+  },
+  friendsCountContainer: {
+    backgroundColor: COLORS.GRAY,
+  },
+  sectionHeaderCount: {
+    textAlign: 'center',
+    color: COLORS.WHITE,
+  },
+  friendsList: {},
+  contactSeparator: {
+    height: 2,
+  },
 
   rowView: {
     flexDirection: 'row',
