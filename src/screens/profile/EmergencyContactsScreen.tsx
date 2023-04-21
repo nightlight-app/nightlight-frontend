@@ -57,7 +57,6 @@ const EmergencyContactsScreen = () => {
 
   const handleSearchChange = (text: string) => setSearchInput(text);
 
-  // TODO: fix type?
   const renderContact = ({
     item,
     index,

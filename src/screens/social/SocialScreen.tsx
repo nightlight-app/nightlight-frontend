@@ -6,6 +6,8 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  ListRenderItemInfo,
+  Image,
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import FriendCard from '@nightlight/components/social/FriendCard';
@@ -21,6 +23,7 @@ import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 import { COLORS } from '@nightlight/src/global.styles';
+import { getStatusColor } from '@nightlight/src/utils/utils';
 
 const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   // current user ID
@@ -74,8 +77,41 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
     </View>
   );
 
-  const renderContactSeparator = () => (
-    <View style={SocialScreenStyles.contactSeparator} />
+  const renderFriendItem = ({ item, index }: ListRenderItemInfo<User>) => {
+    const isFirstItem = index === 0;
+    const isLastItem = index === friends.length - 1;
+    const imgUrl = item.imgUrlProfileSmall;
+    const statusColor = getStatusColor(item.lastActive.time);
+
+    return (
+      <View
+        style={[
+          SocialScreenStyles.itemContainer,
+          isFirstItem && SocialScreenStyles.topItem,
+          isLastItem && SocialScreenStyles.bottomItem,
+        ]}>
+        <View style={SocialScreenStyles.userInfoContainer}>
+          {imgUrl && (
+            <Image
+              source={{ uri: imgUrl }}
+              style={[
+                SocialScreenStyles.profileImage,
+                {
+                  borderColor: statusColor,
+                },
+              ]}
+            />
+          )}
+          <Text style={SocialScreenStyles.userName}>
+            {item.firstName} {item.lastName}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
+  const renderItemSeparator = () => (
+    <View style={SocialScreenStyles.itemSeparator} />
   );
 
   return (
@@ -123,9 +159,9 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
           <FlatList
             style={SocialScreenStyles.friendsList}
             data={friends}
-            renderItem={({ item }) => <Text>{item.firstName}</Text>}
+            renderItem={renderFriendItem}
             keyExtractor={item => item._id}
-            ItemSeparatorComponent={renderContactSeparator}
+            ItemSeparatorComponent={renderItemSeparator}
             // ListEmptyComponent={renderEmptyFriendsList}
             scrollEnabled={false}
             indicatorStyle='white'
