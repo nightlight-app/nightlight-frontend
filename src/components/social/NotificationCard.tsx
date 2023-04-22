@@ -23,16 +23,14 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
     data: { notificationType, sentDateTime, senderId },
   } = notification;
 
-  // TODO: is this necessary/smart?
+  // is notfication a prioritized type
   const isPrioritized =
     PRIORITIZED_NOTIFICATION_TYPES.includes(notificationType);
-  const isFriendRequest = notificationType === NotificationType.FRIEND_REQUEST;
-  const isGroupInvite = notificationType === NotificationType.GROUP_INVITE;
 
   // sender object
   const [sender, setSender] = useState<User>();
 
-  // TODO: notification should container entire sender object instead of just senderId
+  // TODO: notification should contain entire sender object instead of just senderId
   // so we don't have to make a separate request to get the sender's info
   const fetchSender = async () => {
     try {
@@ -123,8 +121,10 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       style={[
         NotificationCardStyles.container,
         isPrioritized && NotificationCardStyles.containerPrioritized,
-        isFriendRequest && NotificationCardStyles.containerBlueBorder,
-        isGroupInvite && NotificationCardStyles.containerGreenBorder,
+        notificationType === NotificationType.FRIEND_REQUEST &&
+          NotificationCardStyles.containerBlueBorder,
+        notificationType === NotificationType.GROUP_INVITE &&
+          NotificationCardStyles.containerGreenBorder,
       ]}>
       {sender && (
         <View style={NotificationCardStyles.senderImageContainer}>
