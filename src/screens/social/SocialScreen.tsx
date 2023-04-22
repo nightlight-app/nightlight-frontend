@@ -16,7 +16,6 @@ import {
   SocialRoute,
   TabRoute,
   User,
-  Notification,
 } from '@nightlight/src/types';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';

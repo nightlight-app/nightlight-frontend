@@ -9,7 +9,11 @@ import {
   ListRenderItemInfo,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { NativeStackScreenProps, SocialRoute, Notification } from '@nightlight/src/types';
+import {
+  NativeStackScreenProps,
+  SocialRoute,
+  Notification,
+} from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
@@ -26,6 +30,8 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
   const [sortedNotifications, setSortedNotifications] = useState<
     Notification[]
   >([]);
+  const [numPrioritizedNotifications, setNumPrioritizedNotifications] =
+    useState<number>(0);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const fetchNotifications = async () => {
@@ -50,8 +56,8 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
     fetchNotifications();
   }, []);
 
-  // sort notifications by time sent and type
   useEffect(() => {
+    // sort notifications by time sent and type
     const sortedNotifications = [...notifications];
     sortedNotifications.sort((a: Notification, b: Notification) => {
       const typeA = a.data.notificationType;
@@ -70,6 +76,15 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
     });
 
     setSortedNotifications(sortedNotifications);
+
+    // count number of prioritized notifications
+    const numPrioritizedNotifications = notifications.filter(notification =>
+      PRIORITIZED_NOTIFICATION_TYPES.includes(
+        notification.data.notificationType
+      )
+    ).length;
+
+    setNumPrioritizedNotifications(numPrioritizedNotifications);
   }, [notifications]);
 
   const handleBackPress = () => {
@@ -124,7 +139,9 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
           </TouchableOpacity>
           <Text style={NotificationsScreenStyles.title}>Notifications</Text>
           <View style={NotificationsScreenStyles.notificationCountContainer}>
-            <Text style={NotificationsScreenStyles.notificationCount}>8</Text>
+            <Text style={NotificationsScreenStyles.notificationCount}>
+              {numPrioritizedNotifications}
+            </Text>
           </View>
         </View>
         <FlatList
@@ -134,11 +151,14 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
           renderItem={renderNotifCard}
           keyExtractor={notification => notification._id}
           ListEmptyComponent={renderEmptyGroup}
-          scrollEnabled={sortedNotifications.length > 0}
           ItemSeparatorComponent={renderVenueCardSeparator}
           indicatorStyle='white'
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={COLORS.GRAY}
+            />
           }
         />
       </View>

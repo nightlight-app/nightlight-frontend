@@ -31,13 +31,14 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   notificationCountContainer: {
-    width: 25,
+    minWidth: 25,
     height: 25,
     borderRadius: 25 / 2,
     backgroundColor: COLORS.RED,
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 10,
+    paddingHorizontal: 5,
   },
   notificationCount: {
     fontFamily: Fonts.COMFORTAA_BOLD,
