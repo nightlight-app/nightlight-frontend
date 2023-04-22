@@ -104,6 +104,30 @@ export default StyleSheet.create({
   itemSeparator: {
     height: 2,
   },
+  emptyAvailableUsersContainer: {},
+  emptyAvailableUsersText: {
+    color: COLORS.GRAY,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 15,
+    marginHorizontal: 50,
+    lineHeight: 18,
+  },
+  addFriendsButton: {
+    alignSelf: 'center',
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    borderColor: COLORS.DARK_GRAY,
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 20,
+  },
+  addFriendsButtonText: {
+    color: COLORS.GRAY,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+  },
 
   // rowView: {
   //   flexDirection: 'row',

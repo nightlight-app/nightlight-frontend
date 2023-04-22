@@ -112,6 +112,22 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
     <View style={SocialScreenStyles.itemSeparator} />
   );
 
+  const renderEmptyFriendsList = () => (
+    <View style={SocialScreenStyles.emptyAvailableUsersContainer}>
+      <Text style={SocialScreenStyles.emptyAvailableUsersText}>
+        Well, what are you waiting for? Go make some friends!
+      </Text>
+      <TouchableOpacity
+        onPress={handleNavigateToFindFriends}
+        style={SocialScreenStyles.addFriendsButton}
+        activeOpacity={0.75}>
+        <Text style={SocialScreenStyles.addFriendsButtonText}>
+          + Add Friends
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
     <SafeAreaView
       testID={TabRoute.SOCIAL_STACK}
@@ -163,7 +179,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             renderItem={renderFriendItem}
             keyExtractor={item => item._id}
             ItemSeparatorComponent={renderItemSeparator}
-            // ListEmptyComponent={renderEmptyFriendsList}
+            ListEmptyComponent={renderEmptyFriendsList}
             scrollEnabled={false}
             indicatorStyle='white'
           />
