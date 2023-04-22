@@ -5,6 +5,9 @@ import { DEVICE_HEIGHT } from '@nightlight/src/constants';
 export default StyleSheet.create({
   container: {
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   senderImageContainer: {},
   senderImage: {
@@ -22,6 +25,29 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 18,
     color: COLORS.WHITE,
+  },
+  messageContainer: {
+    flex: 1,
+    paddingRight: 10,
+  },
+  senderName: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 16,
+    color: COLORS.WHITE,
+  },
+  message: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 14,
+    color: COLORS.WHITE,
+  },
+  timestampContainer: {
+    alignSelf: 'flex-start',
+  },
+  timestamp: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 12,
+    color: COLORS.GRAY,
+    textAlign: 'right',
   },
 
   // container: {

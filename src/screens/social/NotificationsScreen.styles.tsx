@@ -14,7 +14,7 @@ export default StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
   header: {
     flexDirection: 'row',

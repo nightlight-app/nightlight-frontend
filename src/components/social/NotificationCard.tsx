@@ -18,9 +18,8 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
     data: { notificationType: type, sentDateTime, senderId },
   } = notification;
 
-  // sender profile picture URI
-  const [senderImageUri, setSenderImageUri] = useState<string>('');
-  const [senderInitials, setSenderInitials] = useState<string>('');
+  // sender object
+  const [sender, setSender] = useState<User>();
 
   // TODO: notification should container entire sender object instead of just senderId
   // so we don't have to make a separate request to get the sender's info
@@ -34,10 +33,8 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
         },
       });
 
-      // set sender image
-      const sender: User = data.users[0];
-      setSenderImageUri(sender.imgUrlProfileSmall);
-      setSenderInitials(sender.firstName[0] + sender.lastName[0]);
+      // set sender
+      setSender(data.users[0]);
     } catch (error) {
       console.error('[NotificationCard] Error fetching sender:\n', error);
     }
@@ -113,18 +110,33 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   return (
     <View style={NotificationCardStyles.container}>
       <View style={NotificationCardStyles.senderImageContainer}>
-        {senderImageUri ? (
+        {sender?.imgUrlProfileSmall ? (
           <Image
             style={NotificationCardStyles.senderImage}
-            source={{ uri: senderImageUri }}
+            source={{ uri: sender.imgUrlProfileSmall }}
           />
         ) : (
           <View style={NotificationCardStyles.senderImage}>
             <Text style={NotificationCardStyles.senderInitials}>
-              {senderInitials}
+              {sender?.firstName[0]}
+              {sender?.lastName[0]}
             </Text>
           </View>
         )}
+      </View>
+      <View style={NotificationCardStyles.messageContainer}>
+        {/* TODO: message should not include first name; in fact, messages should probably only be specified in the frontend. only type/sender/group needs to be in the backend */}
+        <Text style={NotificationCardStyles.message}>
+          <Text style={NotificationCardStyles.senderName}>
+            {sender?.firstName} {sender?.lastName}{' '}
+          </Text>
+          {message}
+        </Text>
+      </View>
+      <View style={NotificationCardStyles.timestampContainer}>
+        <Text style={NotificationCardStyles.timestamp}>
+          {getRelativeTimeString(sentDateTime)}
+        </Text>
       </View>
     </View>
     // <View
