@@ -149,7 +149,13 @@ export interface Notification {
   userId: string; // mongoose ObjectId
   title: string;
   body: string;
-  data: Object;
+  data: {
+    notificationType: string;
+    sentDateTime: string;
+    senderId: string; // mongoose ObjectId TODO: should be 'sender' and populated?
+    senderFirstName: string; // TODO: just populate sender object?
+    senderLastName: string; // TODO: just populate sender object?
+  };
   delay: number;
 }
 

@@ -61,7 +61,9 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
             ) {
               return 1;
             } else {
-              return new Date(b.sentDateTime) - new Date(a.sentDateTime);
+              return (
+                new Date(b.data.sentDateTime) > new Date(a.data.sentDateTime)
+              );
             }
           });
         }
