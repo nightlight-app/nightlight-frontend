@@ -38,14 +38,18 @@ export default StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    marginTop: 15,
+    marginBottom: 10,
   },
   sectionHeaderTitle: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 18,
   },
+  activeGroupSectionTitle: {
+    color: COLORS.GREEN,
+  },
   friendsSectionTitle: {
-    color: COLORS.GRAY,
+    color: COLORS.WHITE,
   },
   sectionHeaderCountContainer: {
     marginLeft: 5,
@@ -56,6 +60,9 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 5,
   },
+  activeGroupCountContainer: {
+    backgroundColor: COLORS.GREEN,
+  },
   friendsCountContainer: {
     backgroundColor: COLORS.GRAY,
   },
@@ -63,7 +70,7 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 14,
     textAlign: 'center',
-    color: COLORS.WHITE,
+    color: COLORS.NIGHTLIGHT_GRAY,
   },
   friendsList: {},
   itemContainer: {
