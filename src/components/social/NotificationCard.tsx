@@ -1,151 +1,160 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, Pressable } from 'react-native';
-import { NotificationCardProps } from '@nightlight/src/types';
-import NotificationCardStyles from '@nightlight/components/social/NotificationCard.styles';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import { customFetch } from '@nightlight/src/api';
+import { NotificationCardProps, User } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { customFetch } from '@nightlight/src/api';
+import NotificationCardStyles from '@nightlight/components/social/NotificationCard.styles';
 import { getRelativeTimeString } from '@nightlight/src/utils/utils';
 
-const NotificationCard = ({
-  friendId,
-  index,
-  message,
-  time,
-  type,
-}: NotificationCardProps) => {
-  const { userSession, userDocument } = useAuthContext();
+const NotificationCard = ({ notification }: NotificationCardProps) => {
   // user id
+  const { userDocument } = useAuthContext();
   const userId = userDocument?._id;
-  const isEvenIndex = index % 2 !== 0;
-  const [userImage, setUserImage] = useState(
-    '@nightlight/assets/images/anon.png'
-  );
-  const [formattedTime, setFormattedTime] = useState('');
+
+  // notification data
+  const {
+    body: message,
+    data: { notificationType: type, sentDateTime, senderId },
+  } = notification;
+
+  // sender profile picture URI
+  const [senderImageUri, setSenderImageUri] = useState<string>('');
+
+  // TODO: notification should container entire sender object instead of just senderId
+  // so we don't have to make a separate request to get the sender's info
+  const fetchSender = async () => {
+    try {
+      console.log('[NotificationCard] Fetching sender...');
+      const data = await customFetch({
+        resourceUrl: `/users?userIds=${senderId}`,
+        options: {
+          method: 'GET',
+        },
+      });
+
+      // set sender image
+      const sender: User = data.users[0];
+      setSenderImageUri(sender.imgUrlProfileSmall);
+    } catch (error) {
+      console.error('[NotificationCard] Error fetching sender:\n', error);
+    }
+  };
 
   // get user image from backend
   useEffect(() => {
-    if (!userSession) return;
-
-    customFetch({
-      resourceUrl: `/users?userIds=${friendId}`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(res => {
-        setUserImage(res?.users[0].imgUrlProfileSmall);
-      })
-      .catch(e => {
-        // no profile photo found
-        console.log('[NotificationCard] Error: ', e);
-      });
-
-    // format time
-    setFormattedTime(getRelativeTimeString(time));
+    fetchSender();
   }, []);
 
   const handleAcceptRequest = () => {
     // check type of notification
-    if (type === 'friendRequest') {
-      customFetch({
-        resourceUrl: `/users/${userId}/accept-friend-request/?friendId=${friendId}`,
-        options: {
-          method: 'PATCH',
-        },
-      })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(e => {
-          console.error('Error:', e);
-        });
-    } else {
-      customFetch({
-        resourceUrl: `/users/${userId}/accept-group-invite/?groupId=${friendId}`,
-        options: {
-          method: 'PATCH',
-        },
-      })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(e => {
-          console.error('Error:', e);
-        });
-    }
+    // if (type === 'friendRequest') {
+    //   customFetch({
+    //     resourceUrl: `/users/${userId}/accept-friend-request/?friendId=${senderId}`,
+    //     options: {
+    //       method: 'PATCH',
+    //     },
+    //   })
+    //     .then(res => {
+    //       console.log(res);
+    //     })
+    //     .catch(e => {
+    //       console.error('Error:', e);
+    //     });
+    // } else {
+    //   customFetch({
+    //     resourceUrl: `/users/${userId}/accept-group-invite/?groupId=${senderId}`,
+    //     options: {
+    //       method: 'PATCH',
+    //     },
+    //   })
+    //     .then(res => {
+    //       console.log(res);
+    //     })
+    //     .catch(e => {
+    //       console.error('Error:', e);
+    //     });
+    // }
   };
 
   const handleDeclineRequest = () => {
-    console.log('decline request');
-    if (type === 'friendRequest') {
-      customFetch({
-        resourceUrl: `/users/${userId}/decline-friend-request/?friendId=${friendId}`,
-        options: {
-          method: 'PATCH',
-        },
-      })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(e => {
-          console.error('Error:', e);
-        });
-    } else {
-      customFetch({
-        resourceUrl: `/users/${userId}/decline-group-invite/?groupId=${friendId}`,
-        options: {
-          method: 'PATCH',
-        },
-      })
-        .then(res => {
-          console.log(res);
-        })
-        .catch(e => {
-          console.error('Error:', e);
-        });
-    }
+    // console.log('decline request');
+    // if (type === 'friendRequest') {
+    //   customFetch({
+    //     resourceUrl: `/users/${userId}/decline-friend-request/?friendId=${senderId}`,
+    //     options: {
+    //       method: 'PATCH',
+    //     },
+    //   })
+    //     .then(res => {
+    //       console.log(res);
+    //     })
+    //     .catch(e => {
+    //       console.error('Error:', e);
+    //     });
+    // } else {
+    //   customFetch({
+    //     resourceUrl: `/users/${userId}/decline-group-invite/?groupId=${notification.data.groupId}`,
+    //     options: {
+    //       method: 'PATCH',
+    //     },
+    //   })
+    //     .then(res => {
+    //       console.log(res);
+    //     })
+    //     .catch(e => {
+    //       console.error('Error:', e);
+    //     });
+    // }
   };
+
   return (
-    <View
-      style={[
-        NotificationCardStyles.container,
-        type === 'groupInvite' && NotificationCardStyles.containerGreen,
-        type === 'friendRequest' && NotificationCardStyles.containerBlue,
-      ]}>
-      <View style={NotificationCardStyles.card}>
-        <Image
-          source={
-            userImage != undefined
-              ? { uri: `${userImage}` }
-              : require('@nightlight/assets/images/anon.png')
-          }
-          style={NotificationCardStyles.profileImage}
-        />
-        <View style={NotificationCardStyles.textbox}>
-          <Text style={NotificationCardStyles.message}>{message}</Text>
-        </View>
-        <Text style={NotificationCardStyles.time}>{formattedTime} </Text>
+    <View style={NotificationCardStyles.container}>
+      <View>
+        <Image />
       </View>
-      {type === 'groupInvite' || type === 'friendRequest' ? (
-        <View style={NotificationCardStyles.buttonRow}>
-          <Pressable
-            style={NotificationCardStyles.decline}
-            onPress={handleDeclineRequest}>
-            <Feather name='x' size={20} color='#732014' />
-            <Text style={NotificationCardStyles.declineButtonText}>
-              Decline
-            </Text>
-          </Pressable>
-          <Pressable
-            style={NotificationCardStyles.accept}
-            onPress={handleAcceptRequest}>
-            <Ionicons name='checkmark' size={20} color='#2E491B' />
-            <Text style={NotificationCardStyles.acceptButtonText}>Accept</Text>
-          </Pressable>
-        </View>
-      ) : null}
     </View>
+    // <View
+    //   style={[
+    //     NotificationCardStyles.container,
+    //     type === 'groupInvite' && NotificationCardStyles.containerGreen,
+    //     type === 'friendRequest' && NotificationCardStyles.containerBlue,
+    //   ]}>
+    //   <View style={NotificationCardStyles.card}>
+    //     <Image
+    //       source={
+    //         userImage != undefined
+    //           ? { uri: `${userImage}` }
+    //           : require('@nightlight/assets/images/anon.png')
+    //       }
+    //       style={NotificationCardStyles.profileImage}
+    //     />
+    //     <View style={NotificationCardStyles.textbox}>
+    //       <Text style={NotificationCardStyles.message}>{message}</Text>
+    //     </View>
+    //     <Text style={NotificationCardStyles.time}>
+    //       {getRelativeTimeString(sentDateTime)}
+    //     </Text>
+    //   </View>
+    //   {type === 'groupInvite' || type === 'friendRequest' ? (
+    //     <View style={NotificationCardStyles.buttonRow}>
+    //       <Pressable
+    //         style={NotificationCardStyles.decline}
+    //         onPress={handleDeclineRequest}>
+    //         <Feather name='x' size={20} color='#732014' />
+    //         <Text style={NotificationCardStyles.declineButtonText}>
+    //           Decline
+    //         </Text>
+    //       </Pressable>
+    //       <Pressable
+    //         style={NotificationCardStyles.accept}
+    //         onPress={handleAcceptRequest}>
+    //         <Ionicons name='checkmark' size={20} color='#2E491B' />
+    //         <Text style={NotificationCardStyles.acceptButtonText}>Accept</Text>
+    //       </Pressable>
+    //     </View>
+    //   ) : null}
+    // </View>
   );
 };
 

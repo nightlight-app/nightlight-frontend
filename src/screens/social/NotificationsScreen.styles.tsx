@@ -46,7 +46,8 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
     textAlign: 'center',
   },
-
+  notificationsList: {},
+  notificationsListContent: {},
   emptyNotificationsContainer: {},
   emptyNotificationsText: {
     color: COLORS.GRAY,
@@ -55,6 +56,9 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
     marginHorizontal: 40,
+  },
+  notificationCardSeparator: {
+    height: 2,
   },
 
   // screenContainer: {

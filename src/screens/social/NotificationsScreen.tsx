@@ -105,22 +105,15 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
     </View>
   );
 
-  const renderNotifCard = ({
+  const renderNotificationCard = ({
     item,
     index,
   }: ListRenderItemInfo<Notification>) => (
-    <NotificationCard
-      key={index}
-      index={index}
-      message={item.body}
-      type={item.data.notificationType}
-      time={item.data.sentDateTime}
-      friendId={item.data.senderId}
-    />
+    <NotificationCard notification={item} />
   );
 
-  const renderVenueCardSeparator = () => (
-    <View style={NotificationsScreenStyles.notifCardSeparator} />
+  const renderNotificationCardSeparator = () => (
+    <View style={NotificationsScreenStyles.notificationCardSeparator} />
   );
 
   return (
@@ -143,13 +136,13 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
           </View>
         </View>
         <FlatList
-          style={NotificationsScreenStyles.notifList}
-          contentContainerStyle={NotificationsScreenStyles.notifListContent}
+          style={NotificationsScreenStyles.notificationsList}
+          contentContainerStyle={NotificationsScreenStyles.notificationsListContent}
           data={sortedNotifications}
-          renderItem={renderNotifCard}
+          renderItem={renderNotificationCard}
           keyExtractor={notification => notification._id}
           ListEmptyComponent={renderEmptyNotifications}
-          ItemSeparatorComponent={renderVenueCardSeparator}
+          ItemSeparatorComponent={renderNotificationCardSeparator}
           indicatorStyle='white'
           refreshControl={
             <RefreshControl
