@@ -223,10 +223,13 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
         {/* Content */}
         <ScrollView
           indicatorStyle='white'
-          style={{ paddingHorizontal: 10 }}
           contentContainerStyle={SocialScreenStyles.scrollViewContent}
           refreshControl={
-            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              tintColor={COLORS.GRAY}
+            />
           }>
           {/* Active group */}
           {/* <View style={SocialScreenStyles.sectionHeader}>
