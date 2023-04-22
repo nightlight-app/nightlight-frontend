@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import {
-  BottomTabScreenProps,
+  NativeStackScreenProps,
   SocialRoute,
   TabRoute,
   User,
@@ -22,7 +22,7 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 import { COLORS } from '@nightlight/src/global.styles';
 
-const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
+const SocialScreen = ({ navigation }: NativeStackScreenProps) => {
   // current user ID
   const { userDocument } = useAuthContext();
   const userId = userDocument?._id;
