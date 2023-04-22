@@ -14,11 +14,11 @@ export default StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 10,
   },
   headerButton: {
     padding: 10,
@@ -47,7 +47,10 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   notificationsList: {},
-  notificationsListContent: {},
+  notificationsListContent: {
+    paddingHorizontal: 10,
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+  },
   emptyNotificationsContainer: {},
   emptyNotificationsText: {
     color: COLORS.GRAY,
