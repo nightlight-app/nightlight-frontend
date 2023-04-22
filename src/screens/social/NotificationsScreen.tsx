@@ -68,14 +68,11 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
       const isPrioritizedA = PRIORITIZED_NOTIFICATION_TYPES.includes(typeA);
       const isPrioritizedB = PRIORITIZED_NOTIFICATION_TYPES.includes(typeB);
 
-      // only a is prioritized
-      if (isPrioritizedA && !isPrioritizedB) return -1;
-
-      // only b is prioritized
-      if (isPrioritizedB && !isPrioritizedA) return 1;
-
-      // both are prioritized or neither is prioritized, sort by time
-      return Math.abs(timeB - timeA);
+      return isPrioritizedA === isPrioritizedB
+        ? Math.abs(timeB - timeA) // XNOR gate (both are prioritized or neither is prioritized), sort by time
+        : isPrioritizedA
+        ? -1 // only a is prioritized
+        : 1; // only b is prioritized
     });
 
     setSortedNotifications(sortedNotifications);
