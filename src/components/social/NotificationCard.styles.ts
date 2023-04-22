@@ -7,8 +7,6 @@ export default StyleSheet.create({
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
     minHeight: 65,
   },
   containerPrioritized: {
@@ -24,6 +22,10 @@ export default StyleSheet.create({
   containerGreenBorder: {
     borderColor: COLORS.GREEN,
     borderWidth: 2,
+  },
+  containerInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   senderImageContainer: {},
   senderImage: {
@@ -64,6 +66,28 @@ export default StyleSheet.create({
     fontSize: 12,
     color: COLORS.GRAY,
     textAlign: 'right',
+  },
+  containerButtons: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+    borderRadius: 5,
+    padding: 5,
+  },
+  buttonRed: {
+    backgroundColor: COLORS.RED,
+  },
+  buttonGreen: {
+    backgroundColor: COLORS.GREEN,
+  },
+  buttonText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
+    color: COLORS.WHITE,
+    textAlign: 'center',
   },
 
   // container: {

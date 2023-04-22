@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, Text, Pressable } from 'react-native';
+import { View, Image, Text, Pressable, TouchableOpacity } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import {
   NotificationCardProps,
@@ -126,39 +126,61 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
         notificationType === NotificationType.GROUP_INVITE &&
           NotificationCardStyles.containerGreenBorder,
       ]}>
-      {sender && (
-        <View style={NotificationCardStyles.senderImageContainer}>
-          {sender.imgUrlProfileSmall ? (
-            <Image
-              style={NotificationCardStyles.senderImage}
-              source={{ uri: sender.imgUrlProfileSmall }}
-            />
-          ) : (
-            <View style={NotificationCardStyles.senderImage}>
-              <Text style={NotificationCardStyles.senderInitials}>
-                {sender.firstName[0]}
-                {sender.lastName[0]}
+      <View style={NotificationCardStyles.containerInfo}>
+        {sender && (
+          <View style={NotificationCardStyles.senderImageContainer}>
+            {sender.imgUrlProfileSmall ? (
+              <Image
+                style={NotificationCardStyles.senderImage}
+                source={{ uri: sender.imgUrlProfileSmall }}
+              />
+            ) : (
+              <View style={NotificationCardStyles.senderImage}>
+                <Text style={NotificationCardStyles.senderInitials}>
+                  {sender.firstName[0]}
+                  {sender.lastName[0]}
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
+        <View style={NotificationCardStyles.messageContainer}>
+          {/* TODO: message should not include first name; in fact, messages should probably only be specified in the frontend. only type/sender/group needs to be in the backend */}
+          <Text style={NotificationCardStyles.message}>
+            {sender && (
+              <Text style={NotificationCardStyles.senderName}>
+                {sender.firstName} {sender.lastName}{' '}
               </Text>
-            </View>
-          )}
+            )}
+            {message}
+          </Text>
+        </View>
+        <View style={NotificationCardStyles.timestampContainer}>
+          <Text style={NotificationCardStyles.timestamp}>
+            {getRelativeTimeString(sentDateTime)}
+          </Text>
+        </View>
+      </View>
+      {isPrioritized && (
+        <View style={NotificationCardStyles.containerButtons}>
+          <TouchableOpacity
+            style={[
+              NotificationCardStyles.button,
+              NotificationCardStyles.buttonRed,
+            ]}
+            activeOpacity={0.75}>
+            <Text style={NotificationCardStyles.buttonText}>Delete</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              NotificationCardStyles.button,
+              NotificationCardStyles.buttonGreen,
+            ]}
+            activeOpacity={0.75}>
+            <Text style={NotificationCardStyles.buttonText}>Accept</Text>
+          </TouchableOpacity>
         </View>
       )}
-      <View style={NotificationCardStyles.messageContainer}>
-        {/* TODO: message should not include first name; in fact, messages should probably only be specified in the frontend. only type/sender/group needs to be in the backend */}
-        <Text style={NotificationCardStyles.message}>
-          {sender && (
-            <Text style={NotificationCardStyles.senderName}>
-              {sender.firstName} {sender.lastName}{' '}
-            </Text>
-          )}
-          {message}
-        </Text>
-      </View>
-      <View style={NotificationCardStyles.timestampContainer}>
-        <Text style={NotificationCardStyles.timestamp}>
-          {getRelativeTimeString(sentDateTime)}
-        </Text>
-      </View>
     </View>
     // <View
     //   style={[
