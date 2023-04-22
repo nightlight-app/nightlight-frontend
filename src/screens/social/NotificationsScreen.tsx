@@ -65,13 +65,16 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
       const timeA = new Date(a.data.sentDateTime) as unknown as number;
       const timeB = new Date(b.data.sentDateTime) as unknown as number;
 
-      // a is prioritized
-      if (PRIORITIZED_NOTIFICATION_TYPES.includes(typeA)) return -1;
+      const isPrioritizedA = PRIORITIZED_NOTIFICATION_TYPES.includes(typeA);
+      const isPrioritizedB = PRIORITIZED_NOTIFICATION_TYPES.includes(typeB);
 
-      // b is prioritized
-      if (PRIORITIZED_NOTIFICATION_TYPES.includes(typeB)) return 1;
+      // only a is prioritized
+      if (isPrioritizedA && !isPrioritizedB) return -1;
 
-      // neither is prioritized, sort by time
+      // only b is prioritized
+      if (isPrioritizedB && !isPrioritizedA) return 1;
+
+      // both are prioritized or neither is prioritized, sort by time
       return Math.abs(timeB - timeA);
     });
 
@@ -137,7 +140,9 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
         </View>
         <FlatList
           style={NotificationsScreenStyles.notificationsList}
-          contentContainerStyle={NotificationsScreenStyles.notificationsListContent}
+          contentContainerStyle={
+            NotificationsScreenStyles.notificationsListContent
+          }
           data={sortedNotifications}
           renderItem={renderNotificationCard}
           keyExtractor={notification => notification._id}
