@@ -11,7 +11,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import FriendCard from '@nightlight/components/social/FriendCard';
 import {
   BottomTabScreenProps,
   SocialRoute,
