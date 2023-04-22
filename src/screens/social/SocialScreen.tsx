@@ -49,9 +49,9 @@ const SocialScreen = ({ navigation }: NativeStackScreenProps) => {
     }
   };
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    fetchFriends();
+    await fetchFriends();
     setIsRefreshing(false);
   }, []);
 
