@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
   },
   header: {
     flexDirection: 'row',
