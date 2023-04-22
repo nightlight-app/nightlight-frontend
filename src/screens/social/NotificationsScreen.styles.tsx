@@ -30,6 +30,21 @@ export default StyleSheet.create({
     marginVertical: 10,
     textAlign: 'center',
   },
+  notificationCountContainer: {
+    width: 25,
+    height: 25,
+    borderRadius: 25 / 2,
+    backgroundColor: COLORS.RED,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
+  },
+  notificationCount: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
+    color: COLORS.WHITE,
+    textAlign: 'center',
+  },
 
   // screenContainer: {
   //   backgroundColor: COLORS.NIGHTLIGHT_GRAY,

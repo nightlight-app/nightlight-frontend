@@ -2,6 +2,7 @@ import { Dimensions } from 'react-native';
 import {
   LocationVisibilityValue,
   MoodEmoji,
+  NotificationType,
   SelectOption,
 } from '@nightlight/src/types';
 import { WithSpringConfig } from 'react-native-reanimated';
@@ -92,4 +93,10 @@ export const LOCATION_VISIBILITY_OPTIONS: SelectOption[] = [
     label: 'Friends + Group',
     value: LocationVisibilityValue.FRIENDS_AND_GROUP,
   },
+];
+
+// Notifications
+export const PRIORITIZED_NOTIFICATION_TYPES: NotificationType[] = [
+  NotificationType.FRIEND_REQUEST,
+  NotificationType.GROUP_INVITE,
 ];

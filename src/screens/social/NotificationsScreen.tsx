@@ -9,12 +9,13 @@ import {
   ListRenderItemInfo,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { NativeStackScreenProps, SocialRoute } from '@nightlight/src/types';
+import { NativeStackScreenProps, SocialRoute, Notification } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
 import NotificationsScreenStyles from '@nightlight/screens/social/NotificationsScreen.styles';
 import { COLORS } from '@nightlight/src/global.styles';
+import { PRIORITIZED_NOTIFICATION_TYPES } from '@nightlight/src/constants';
 
 const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
   // user id
@@ -22,62 +23,54 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
   const userId = userDocument?._id;
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [counter, setCounter] = useState(0);
+  const [sortedNotifications, setSortedNotifications] = useState<
+    Notification[]
+  >([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const fetchNotifications = async () => {
-    console.log('[Notifications] Fetching notifications...');
-    customFetch({
-      resourceUrl: `/notifications/?userId=${userId}`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(res => {
-        let count = 0;
-        res.notifications.forEach(
-          (item: { data: { notificationType: string } }) => {
-            if (
-              item.data.notificationType === 'friendRequest' ||
-              item.data.notificationType === 'groupInvite'
-            ) {
-              count++;
-            }
-          }
-        );
-        setCounter(count);
+    try {
+      console.log('[Notifications] Fetching notifications...');
 
-        // sort notifications by time sent and type
-        {
-          res.notifications.sort((a: Notification, b: Notification) => {
-            if (
-              a.data.notificationType === 'friendRequest' ||
-              a.data.notificationType === 'groupInvite'
-            ) {
-              return -1;
-            } else if (
-              b.data.notificationType === 'friendRequest' ||
-              b.data.notificationType === 'groupInvite'
-            ) {
-              return 1;
-            } else {
-              return (
-                new Date(b.data.sentDateTime) > new Date(a.data.sentDateTime)
-              );
-            }
-          });
-        }
-        setNotifications(res.notifications);
-      })
-      .catch(e => {
-        console.log('Error: ', e);
+      const data = await customFetch({
+        resourceUrl: `/notifications/?userId=${userId}`,
+        options: {
+          method: 'GET',
+        },
       });
+
+      setNotifications(data.notifications);
+    } catch (error) {
+      console.error('[Notifications] Error fetching notifications:\n', error);
+    }
   };
 
   // fetch notifications on first render
   useEffect(() => {
     fetchNotifications();
   }, []);
+
+  // sort notifications by time sent and type
+  useEffect(() => {
+    const sortedNotifications = [...notifications];
+    sortedNotifications.sort((a: Notification, b: Notification) => {
+      const typeA = a.data.notificationType;
+      const typeB = b.data.notificationType;
+      const timeA = new Date(a.data.sentDateTime) as unknown as number;
+      const timeB = new Date(b.data.sentDateTime) as unknown as number;
+
+      // a is prioritized
+      if (PRIORITIZED_NOTIFICATION_TYPES.includes(typeA)) return -1;
+
+      // b is prioritized
+      if (PRIORITIZED_NOTIFICATION_TYPES.includes(typeB)) return 1;
+
+      // neither is prioritized, sort by time
+      return Math.abs(timeB - timeA);
+    });
+
+    setSortedNotifications(sortedNotifications);
+  }, [notifications]);
 
   const handleBackPress = () => {
     navigation.goBack();
@@ -130,18 +123,18 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
             <AntDesign name='left' size={24} color={COLORS.WHITE} />
           </TouchableOpacity>
           <Text style={NotificationsScreenStyles.title}>Notifications</Text>
-          <View style={NotificationsScreenStyles.notifCircle}>
-            <Text style={NotificationsScreenStyles.numberText}>{counter}</Text>
+          <View style={NotificationsScreenStyles.notificationCountContainer}>
+            <Text style={NotificationsScreenStyles.notificationCount}>8</Text>
           </View>
         </View>
         <FlatList
           style={NotificationsScreenStyles.notifList}
           contentContainerStyle={NotificationsScreenStyles.notifListContent}
-          data={notifications}
+          data={sortedNotifications}
           renderItem={renderNotifCard}
           keyExtractor={notification => notification._id}
           ListEmptyComponent={renderEmptyGroup}
-          scrollEnabled={notifications.length > 0}
+          scrollEnabled={sortedNotifications.length > 0}
           ItemSeparatorComponent={renderVenueCardSeparator}
           indicatorStyle='white'
           refreshControl={

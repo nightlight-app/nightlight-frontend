@@ -80,6 +80,12 @@ export enum LocationVisibilityValue {
   FRIENDS_AND_GROUP = 'FriendsAndGroup',
 }
 
+export enum NotificationType {
+  FRIEND_REQUEST = 'friendRequest',
+  GROUP_INVITE = 'groupInvite',
+  // TODO: add more notification types
+}
+
 export interface Reaction {
   count: number;
   didReact: boolean;
@@ -150,7 +156,7 @@ export interface Notification {
   title: string;
   body: string;
   data: {
-    notificationType: string;
+    notificationType: NotificationType;
     sentDateTime: string;
     senderId: string; // mongoose ObjectId TODO: should be 'sender' and populated?
     senderFirstName: string; // TODO: just populate sender object?
