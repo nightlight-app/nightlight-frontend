@@ -42,8 +42,6 @@ export default StyleSheet.create({
   sectionHeaderTitle: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 18,
-  },
-  friendsSectionTitle: {
     color: COLORS.WHITE,
   },
   sectionHeaderCountContainer: {
@@ -54,15 +52,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 5,
-  },
-  friendsCountContainer: {
-    backgroundColor: COLORS.GRAY,
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
   },
   sectionHeaderCount: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 14,
     textAlign: 'center',
-    color: COLORS.NIGHTLIGHT_GRAY,
+    color: COLORS.WHITE,
   },
   friendsList: {},
   itemContainer: {

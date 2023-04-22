@@ -157,18 +157,10 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
           }>
           {/* All friends */}
           <View style={SocialScreenStyles.sectionHeader}>
-            <Text
-              style={[
-                SocialScreenStyles.sectionHeaderTitle,
-                SocialScreenStyles.friendsSectionTitle,
-              ]}>
+            <Text style={SocialScreenStyles.sectionHeaderTitle}>
               All Friends
             </Text>
-            <View
-              style={[
-                SocialScreenStyles.sectionHeaderCountContainer,
-                SocialScreenStyles.friendsCountContainer,
-              ]}>
+            <View style={SocialScreenStyles.sectionHeaderCountContainer}>
               <Text style={SocialScreenStyles.sectionHeaderCount}>
                 {friends.length}
               </Text>
