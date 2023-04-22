@@ -53,7 +53,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
 
   // get user image from backend
   useEffect(() => {
-    fetchSender();
+    if (senderId) fetchSender();
   }, []);
 
   const handleAcceptRequest = () => {
@@ -126,27 +126,31 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
         isFriendRequest && NotificationCardStyles.containerBlueBorder,
         isGroupInvite && NotificationCardStyles.containerGreenBorder,
       ]}>
-      <View style={NotificationCardStyles.senderImageContainer}>
-        {sender?.imgUrlProfileSmall ? (
-          <Image
-            style={NotificationCardStyles.senderImage}
-            source={{ uri: sender.imgUrlProfileSmall }}
-          />
-        ) : (
-          <View style={NotificationCardStyles.senderImage}>
-            <Text style={NotificationCardStyles.senderInitials}>
-              {sender?.firstName[0]}
-              {sender?.lastName[0]}
-            </Text>
-          </View>
-        )}
-      </View>
+      {sender && (
+        <View style={NotificationCardStyles.senderImageContainer}>
+          {sender.imgUrlProfileSmall ? (
+            <Image
+              style={NotificationCardStyles.senderImage}
+              source={{ uri: sender.imgUrlProfileSmall }}
+            />
+          ) : (
+            <View style={NotificationCardStyles.senderImage}>
+              <Text style={NotificationCardStyles.senderInitials}>
+                {sender.firstName[0]}
+                {sender.lastName[0]}
+              </Text>
+            </View>
+          )}
+        </View>
+      )}
       <View style={NotificationCardStyles.messageContainer}>
         {/* TODO: message should not include first name; in fact, messages should probably only be specified in the frontend. only type/sender/group needs to be in the backend */}
         <Text style={NotificationCardStyles.message}>
-          <Text style={NotificationCardStyles.senderName}>
-            {sender?.firstName} {sender?.lastName}{' '}
-          </Text>
+          {sender && (
+            <Text style={NotificationCardStyles.senderName}>
+              {sender.firstName} {sender.lastName}{' '}
+            </Text>
+          )}
           {message}
         </Text>
       </View>

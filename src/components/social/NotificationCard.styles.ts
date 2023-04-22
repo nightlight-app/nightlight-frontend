@@ -9,6 +9,7 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
+    minHeight: 65,
   },
   containerPrioritized: {
     borderRadius: 10,
