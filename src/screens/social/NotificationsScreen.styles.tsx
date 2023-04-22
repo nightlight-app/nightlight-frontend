@@ -48,7 +48,6 @@ export default StyleSheet.create({
   },
   notificationsList: {},
   notificationsListContent: {
-    paddingHorizontal: 10,
     paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
   emptyNotificationsContainer: {},

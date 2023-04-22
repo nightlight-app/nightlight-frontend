@@ -5,7 +5,8 @@ import { DEVICE_HEIGHT } from '@nightlight/src/constants';
 export default StyleSheet.create({
   container: {
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -13,6 +14,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     marginVertical: 2,
     marginHorizontal: 10,
+    paddingHorizontal: 10,
   },
   containerBlueBorder: {
     borderColor: COLORS.NIGHTLIGHT_BLUE,
