@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Text, Pressable } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import { NotificationCardProps, User } from '@nightlight/src/types';
+import {
+  NotificationCardProps,
+  NotificationType,
+  User,
+} from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 import NotificationCardStyles from '@nightlight/components/social/NotificationCard.styles';
 import { getRelativeTimeString } from '@nightlight/src/utils/utils';
+import { PRIORITIZED_NOTIFICATION_TYPES } from '@nightlight/src/constants';
 
 const NotificationCard = ({ notification }: NotificationCardProps) => {
   // user id
@@ -15,8 +20,14 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   // notification data
   const {
     body: message,
-    data: { notificationType: type, sentDateTime, senderId },
+    data: { notificationType, sentDateTime, senderId },
   } = notification;
+
+  // TODO: is this necessary/smart?
+  const isPrioritized =
+    PRIORITIZED_NOTIFICATION_TYPES.includes(notificationType);
+  const isFriendRequest = notificationType === NotificationType.FRIEND_REQUEST;
+  const isGroupInvite = notificationType === NotificationType.GROUP_INVITE;
 
   // sender object
   const [sender, setSender] = useState<User>();
@@ -108,7 +119,13 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   };
 
   return (
-    <View style={NotificationCardStyles.container}>
+    <View
+      style={[
+        NotificationCardStyles.container,
+        isPrioritized && NotificationCardStyles.containerPrioritized,
+        isFriendRequest && NotificationCardStyles.containerBlueBorder,
+        isGroupInvite && NotificationCardStyles.containerGreenBorder,
+      ]}>
       <View style={NotificationCardStyles.senderImageContainer}>
         {sender?.imgUrlProfileSmall ? (
           <Image

@@ -9,6 +9,19 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  containerPrioritized: {
+    borderRadius: 10,
+    marginVertical: 2,
+    marginHorizontal: 10,
+  },
+  containerBlueBorder: {
+    borderColor: COLORS.NIGHTLIGHT_BLUE,
+    borderWidth: 2,
+  },
+  containerGreenBorder: {
+    borderColor: COLORS.GREEN,
+    borderWidth: 2,
+  },
   senderImageContainer: {},
   senderImage: {
     width: 45,
