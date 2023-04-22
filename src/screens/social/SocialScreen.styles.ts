@@ -43,9 +43,6 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 18,
   },
-  activeGroupSectionTitle: {
-    color: COLORS.GREEN,
-  },
   friendsSectionTitle: {
     color: COLORS.WHITE,
   },
@@ -57,9 +54,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 5,
-  },
-  activeGroupCountContainer: {
-    backgroundColor: COLORS.GREEN,
   },
   friendsCountContainer: {
     backgroundColor: COLORS.GRAY,
@@ -95,7 +89,7 @@ export default StyleSheet.create({
     height: 45,
     borderRadius: 45 / 2,
     borderWidth: 2,
-    borderColor: COLORS.GRAY,
+    borderColor: COLORS.WHITE,
     marginRight: 10,
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
     justifyContent: 'center',

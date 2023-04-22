@@ -12,8 +12,6 @@ import {
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import FriendCard from '@nightlight/components/social/FriendCard';
-import AddFriendsSvg from '@nightlight/components/svgs/AddFriendsSvg';
-import NotificationSvg from '@nightlight/components/svgs/NotificationSvg';
 import {
   BottomTabScreenProps,
   SocialRoute,
@@ -24,41 +22,14 @@ import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 import { COLORS } from '@nightlight/src/global.styles';
-import { getStatusColor } from '@nightlight/src/utils/utils';
 
 const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   // current user ID
   const { userDocument } = useAuthContext();
   const userId = userDocument?._id;
 
-  const [activeGroupMembers, setActiveGroupMembers] = useState<User[]>([]);
   const [friends, setFriends] = useState<User[]>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-
-  // TODO: populate user current group with members (in backend) so we don't have to fetch them here
-  // fetches user's active group members
-  const fetchActiveGroupMembers = async () => {
-    if (!userDocument?.currentGroup) {
-      console.log('[Social Screen] User has no active group');
-      return;
-    }
-
-    try {
-      const response = await customFetch({
-        resourceUrl: `/groups?groupId=${userDocument.currentGroup}`,
-        options: {
-          method: 'GET',
-        },
-      });
-
-      setActiveGroupMembers(response.group.members);
-    } catch (error) {
-      console.error(
-        '[Social Screen] A problem occured while fetching active group members:',
-        error
-      );
-    }
-  };
 
   // fetches user's list of friends
   const fetchFriends = async () => {
@@ -81,14 +52,12 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true);
-    // fetchActiveGroupMembers();
     fetchFriends();
     setIsRefreshing(false);
   }, []);
 
-  // get active group and fetch friends
+  // fetch friends
   useEffect(() => {
-    // fetchActiveGroupMembers();
     fetchFriends();
   }, []);
 
@@ -100,50 +69,10 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
     navigation.navigate(SocialRoute.NOTIFICATIONS);
   };
 
-  // const renderGroupMemberItem = ({ item, index }: ListRenderItemInfo<User>) => {
-  //   const isFirstItem = index === 0;
-  //   const isLastItem = index === activeGroupMembers.length - 1;
-  //   const imgUrl = item.imgUrlProfileSmall;
-  //   const statusColor = getStatusColor(item.lastActive.time);
-
-  //   return (
-  //     <View
-  //       style={[
-  //         SocialScreenStyles.itemContainer,
-  //         isFirstItem && SocialScreenStyles.topItem,
-  //         isLastItem && SocialScreenStyles.bottomItem,
-  //       ]}>
-  //       <View style={SocialScreenStyles.userInfoContainer}>
-  //         {imgUrl ? (
-  //           <Image
-  //             source={{ uri: imgUrl }}
-  //             style={[
-  //               SocialScreenStyles.profileImage,
-  //               {
-  //                 borderColor: statusColor,
-  //               },
-  //             ]}
-  //           />
-  //         ) : (
-  //           <View style={SocialScreenStyles.profileImage}>
-  //             <Text style={SocialScreenStyles.userName}>
-  //               {item.firstName[0]} {item.lastName[0]}
-  //             </Text>
-  //           </View>
-  //         )}
-  //         <Text style={SocialScreenStyles.userName}>
-  //           {item.firstName} {item.lastName}
-  //         </Text>
-  //       </View>
-  //     </View>
-  //   );
-  // };
-
   const renderFriendItem = ({ item, index }: ListRenderItemInfo<User>) => {
     const isFirstItem = index === 0;
     const isLastItem = index === friends.length - 1;
     const imgUrl = item.imgUrlProfileSmall;
-    const statusColor = getStatusColor(item.lastActive.time);
 
     return (
       <View
@@ -156,12 +85,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
           {imgUrl ? (
             <Image
               source={{ uri: imgUrl }}
-              style={[
-                SocialScreenStyles.profileImage,
-                {
-                  borderColor: statusColor,
-                },
-              ]}
+              style={SocialScreenStyles.profileImage}
             />
           ) : (
             <View style={SocialScreenStyles.profileImage}>
@@ -231,35 +155,6 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
               tintColor={COLORS.GRAY}
             />
           }>
-          {/* Active group */}
-          {/* <View style={SocialScreenStyles.sectionHeader}>
-            <Text
-              style={[
-                SocialScreenStyles.sectionHeaderTitle,
-                SocialScreenStyles.activeGroupSectionTitle,
-              ]}>
-              Active Group
-            </Text>
-            <View
-              style={[
-                SocialScreenStyles.sectionHeaderCountContainer,
-                SocialScreenStyles.activeGroupCountContainer,
-              ]}>
-              <Text style={SocialScreenStyles.sectionHeaderCount}>
-                {activeGroupMembers.length}
-              </Text>
-            </View>
-          </View>
-          <FlatList
-            style={SocialScreenStyles.friendsList}
-            data={activeGroupMembers}
-            renderItem={renderGroupMemberItem}
-            keyExtractor={item => item._id}
-            ItemSeparatorComponent={renderItemSeparator}
-            scrollEnabled={false}
-            indicatorStyle='white'
-          /> */}
-
           {/* All friends */}
           <View style={SocialScreenStyles.sectionHeader}>
             <Text
