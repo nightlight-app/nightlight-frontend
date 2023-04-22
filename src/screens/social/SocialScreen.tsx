@@ -69,14 +69,6 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
     navigation.navigate(SocialRoute.NOTIFICATIONS);
   };
 
-  const renderEmptyActiveGroup = () => (
-    <View>
-      <Text style={SocialScreenStyles.emptyAvailableUsersText}>
-        No active group
-      </Text>
-    </View>
-  );
-
   const renderFriendItem = ({ item, index }: ListRenderItemInfo<User>) => {
     const isFirstItem = index === 0;
     const isLastItem = index === friends.length - 1;
@@ -131,7 +123,7 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             onPress={handleNavigateToNotifications}
             activeOpacity={0.75}>
             {/* <NotificationSvg /> */}
-            <Feather name='bell' size={30} color={COLORS.WHITE} />
+            <Feather name='bell' size={26} color={COLORS.WHITE} />
           </TouchableOpacity>
           <Text style={SocialScreenStyles.title}>Social</Text>
           <TouchableOpacity
@@ -139,11 +131,14 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             onPress={handleNavigateToFindFriends}
             activeOpacity={0.75}>
             {/* <AddFriendsSvg /> */}
-            <Ionicons name='person-add' size={30} color={COLORS.WHITE} />
+            <Ionicons name='person-add' size={26} color={COLORS.WHITE} />
           </TouchableOpacity>
         </View>
 
-        <ScrollView indicatorStyle='white' style={{ paddingHorizontal: 10 }}>
+        <ScrollView
+          indicatorStyle='white'
+          style={{ paddingHorizontal: 10 }}
+          contentContainerStyle={SocialScreenStyles.scrollViewContent}>
           <View style={SocialScreenStyles.sectionHeader}>
             <Text
               style={[

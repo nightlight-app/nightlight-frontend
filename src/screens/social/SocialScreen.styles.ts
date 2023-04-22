@@ -32,6 +32,9 @@ export default StyleSheet.create({
     marginVertical: 10,
     textAlign: 'center',
   },
+  scrollViewContent: {
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+  },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
