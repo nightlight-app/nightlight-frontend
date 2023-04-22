@@ -209,7 +209,6 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             style={SocialScreenStyles.headerButton}
             onPress={handleNavigateToNotifications}
             activeOpacity={0.75}>
-            {/* <NotificationSvg /> */}
             <Feather name='bell' size={26} color={COLORS.WHITE} />
           </TouchableOpacity>
           <Text style={SocialScreenStyles.title}>Social</Text>
@@ -217,7 +216,6 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             style={SocialScreenStyles.headerButton}
             onPress={handleNavigateToFindFriends}
             activeOpacity={0.75}>
-            {/* <AddFriendsSvg /> */}
             <Ionicons name='person-add' size={26} color={COLORS.WHITE} />
           </TouchableOpacity>
         </View>
@@ -288,55 +286,6 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
             scrollEnabled={false}
             indicatorStyle='white'
           />
-
-          {/* <View style={SocialScreenStyles.rowView}>
-            <Text style={SocialScreenStyles.activeGroupText}>Active Group</Text>
-            <View style={SocialScreenStyles.greenCircle}>
-              <Text style={SocialScreenStyles.numberText}>{groupCount}</Text>
-            </View>
-          </View> */}
-          {/* <View style={SocialScreenStyles.activeBox}>
-            {groupCount === 0 && renderEmptyGroup()}
-            {activeGroup.map((item: { name: string }, index) => (
-              <FriendCard
-                key={index}
-                index={index}
-                name={item.name}
-                isInGroup
-                imgUrl='@nightlight/assets/images/anon.png'
-              />
-            ))}
-            {/* TODO add glow  */}
-          {/* <View style={SocialScreenStyles.glow} /> */}
-          {/* </View> */}
-          {/* <View style={SocialScreenStyles.rowView}>
-            <Text style={SocialScreenStyles.allFriendsText}>All Friends</Text>
-            <View style={SocialScreenStyles.grayCircle}>
-              <Text style={SocialScreenStyles.numberText}>
-                {friends.length}
-              </Text>
-            </View>
-          </View>
-          <View style={SocialScreenStyles.friendBox}>
-            {friends.map(
-              (
-                item: {
-                  firstName: string;
-                  lastName: string;
-                  imgUrlProfileSmall: string;
-                },
-                index
-              ) => (
-                <FriendCard
-                  key={index}
-                  index={index}
-                  name={item.firstName + ' ' + item.lastName}
-                  imgUrl={item.imgUrlProfileSmall}
-                  isInGroup={false}
-                />
-              )
-            )}
-          </View> */}
         </ScrollView>
       </View>
     </SafeAreaView>
