@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   FlatList,
   ListRenderItemInfo,
   Image,
+  RefreshControl,
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import FriendCard from '@nightlight/components/social/FriendCard';
@@ -30,9 +31,9 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
   const userId = userDocument?._id;
 
-  const [activeGroupMembers, setActiveGroupMembers] = useState([]);
+  const [activeGroupMembers, setActiveGroupMembers] = useState<User[]>([]);
   const [friends, setFriends] = useState<User[]>([]);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   // TODO: populate user current group with members (in backend) so we don't have to fetch them here
   // fetches user's active group members
@@ -77,6 +78,13 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
       );
     }
   };
+
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+    // fetchActiveGroupMembers();
+    fetchFriends();
+    setIsRefreshing(false);
+  }, []);
 
   // get active group and fetch friends
   useEffect(() => {
@@ -218,7 +226,10 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
         <ScrollView
           indicatorStyle='white'
           style={{ paddingHorizontal: 10 }}
-          contentContainerStyle={SocialScreenStyles.scrollViewContent}>
+          contentContainerStyle={SocialScreenStyles.scrollViewContent}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }>
           {/* Active group */}
           {/* <View style={SocialScreenStyles.sectionHeader}>
             <Text
