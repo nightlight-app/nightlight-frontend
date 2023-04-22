@@ -6,6 +6,23 @@ export default StyleSheet.create({
   container: {
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
   },
+  senderImageContainer: {},
+  senderImage: {
+    width: 45,
+    height: 45,
+    borderRadius: 45 / 2,
+    borderWidth: 2,
+    borderColor: COLORS.WHITE,
+    marginRight: 10,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  senderInitials: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 18,
+    color: COLORS.WHITE,
+  },
 
   // container: {
   //   backgroundColor: COLORS.NIGHTLIGHT_BLACK,

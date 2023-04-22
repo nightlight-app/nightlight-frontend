@@ -20,6 +20,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
 
   // sender profile picture URI
   const [senderImageUri, setSenderImageUri] = useState<string>('');
+  const [senderInitials, setSenderInitials] = useState<string>('');
 
   // TODO: notification should container entire sender object instead of just senderId
   // so we don't have to make a separate request to get the sender's info
@@ -36,6 +37,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       // set sender image
       const sender: User = data.users[0];
       setSenderImageUri(sender.imgUrlProfileSmall);
+      setSenderInitials(sender.firstName[0] + sender.lastName[0]);
     } catch (error) {
       console.error('[NotificationCard] Error fetching sender:\n', error);
     }
@@ -110,8 +112,19 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
 
   return (
     <View style={NotificationCardStyles.container}>
-      <View>
-        <Image />
+      <View style={NotificationCardStyles.senderImageContainer}>
+        {senderImageUri ? (
+          <Image
+            style={NotificationCardStyles.senderImage}
+            source={{ uri: senderImageUri }}
+          />
+        ) : (
+          <View style={NotificationCardStyles.senderImage}>
+            <Text style={NotificationCardStyles.senderInitials}>
+              {senderInitials}
+            </Text>
+          </View>
+        )}
       </View>
     </View>
     // <View

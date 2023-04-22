@@ -89,7 +89,7 @@ const SocialScreen = ({ navigation }: NativeStackScreenProps) => {
           ) : (
             <View style={SocialScreenStyles.profileImage}>
               <Text style={SocialScreenStyles.userName}>
-                {item.firstName[0]} {item.lastName[0]}
+                {item.firstName[0] + item.lastName[0]}
               </Text>
             </View>
           )}
