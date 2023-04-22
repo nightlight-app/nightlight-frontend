@@ -47,6 +47,16 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
 
+  emptyNotificationsContainer: {},
+  emptyNotificationsText: {
+    color: COLORS.GRAY,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 20,
+    marginHorizontal: 40,
+  },
+
   // screenContainer: {
   //   backgroundColor: COLORS.NIGHTLIGHT_GRAY,
   //   minHeight: '100%',

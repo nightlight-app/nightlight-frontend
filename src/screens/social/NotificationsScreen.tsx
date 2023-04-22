@@ -97,12 +97,10 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
     setRefreshing(false);
   };
 
-  // called when there are no notifications
-  const renderEmptyGroup = () => (
-    // TODO: figure out what to put here
-    <View>
-      <Text style={NotificationsScreenStyles.emptyAvailableUsersText}>
-        No notifications yet
+  const renderEmptyNotifications = () => (
+    <View style={NotificationsScreenStyles.emptyNotificationsContainer}>
+      <Text style={NotificationsScreenStyles.emptyNotificationsText}>
+        You haven't received any notifications yet!
       </Text>
     </View>
   );
@@ -150,7 +148,7 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
           data={sortedNotifications}
           renderItem={renderNotifCard}
           keyExtractor={notification => notification._id}
-          ListEmptyComponent={renderEmptyGroup}
+          ListEmptyComponent={renderEmptyNotifications}
           ItemSeparatorComponent={renderVenueCardSeparator}
           indicatorStyle='white'
           refreshControl={
