@@ -18,6 +18,7 @@ import CloseButton from '@nightlight/components/CloseButton';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 import { checkUserPendingInvitation } from '@nightlight/src/utils/utils';
+import { socket } from '@nightlight/src/service/socketService';
 
 const ManageGroupCard = ({
   onGroupMemberPress,
@@ -148,6 +149,9 @@ const ManageGroupCard = ({
       if (onError) onError();
       return;
     }
+
+    // emit a socket event to leave the group
+    socket.emit('leave-group', userDocument?.currentGroup);
 
     // send a PATCH request to the server to leave the group
     customFetch({
