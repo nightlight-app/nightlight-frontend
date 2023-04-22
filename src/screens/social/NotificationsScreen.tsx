@@ -1,37 +1,29 @@
-import { SocialRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   Text,
   View,
   FlatList,
   RefreshControl,
+  TouchableOpacity,
+  ListRenderItemInfo,
 } from 'react-native';
-import NotificationsScreenStyles from './NotificationsScreen.styles';
-import NotificationCard from '@nightlight/components/social/NotificationCard';
+import { AntDesign } from '@expo/vector-icons';
+import { NativeStackScreenProps, SocialRoute } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
-import NotificationCardStyles from '@nightlight/components/social/NotificationCard.styles';
-const NotificationsScreen = () => {
-  const [notifications, setNotifications] = useState([]);
-  const [counter, setCounter] = useState(0);
+import NotificationCard from '@nightlight/components/social/NotificationCard';
+import NotificationsScreenStyles from '@nightlight/screens/social/NotificationsScreen.styles';
+import { COLORS } from '@nightlight/src/global.styles';
 
+const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
   // user id
   const { userDocument } = useAuthContext();
   const userId = userDocument?._id;
-  const [refreshing, setRefreshing] = useState<boolean>(false); // keep track of whether user is refreshing list of venues
 
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    await fetchNotifications();
-    setRefreshing(false);
-  };
-
-  // fetch venues on first render
-  useEffect(() => {
-    fetchNotifications();
-  }, []);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [counter, setCounter] = useState(0);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const fetchNotifications = async () => {
     console.log('[Notifications] Fetching notifications...');
@@ -80,6 +72,21 @@ const NotificationsScreen = () => {
       });
   };
 
+  // fetch notifications on first render
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  const handleBackPress = () => {
+    navigation.goBack();
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchNotifications();
+    setRefreshing(false);
+  };
+
   // called when there are no notifications
   const renderEmptyGroup = () => (
     // TODO: figure out what to put here
@@ -90,7 +97,10 @@ const NotificationsScreen = () => {
     </View>
   );
 
-  const renderNotifCard = ({ item, index }) => (
+  const renderNotifCard = ({
+    item,
+    index,
+  }: ListRenderItemInfo<Notification>) => (
     <NotificationCard
       key={index}
       index={index}
@@ -108,27 +118,35 @@ const NotificationsScreen = () => {
   return (
     <SafeAreaView
       testID={SocialRoute.NOTIFICATIONS}
-      style={NotificationsScreenStyles.screenContainer}>
-      <View style={NotificationsScreenStyles.topRow}>
-        <Text style={NotificationsScreenStyles.title}>Notifications</Text>
-        <View style={NotificationsScreenStyles.notifCircle}>
-          <Text style={NotificationsScreenStyles.numberText}>{counter}</Text>
+      style={NotificationsScreenStyles.container}>
+      <View style={NotificationsScreenStyles.contentContainer}>
+        <View style={NotificationsScreenStyles.header}>
+          <TouchableOpacity
+            onPress={handleBackPress}
+            style={NotificationsScreenStyles.headerButton}
+            activeOpacity={0.75}>
+            <AntDesign name='left' size={24} color={COLORS.WHITE} />
+          </TouchableOpacity>
+          <Text style={NotificationsScreenStyles.title}>Notifications</Text>
+          <View style={NotificationsScreenStyles.notifCircle}>
+            <Text style={NotificationsScreenStyles.numberText}>{counter}</Text>
+          </View>
         </View>
+        <FlatList
+          style={NotificationsScreenStyles.notifList}
+          contentContainerStyle={NotificationsScreenStyles.notifListContent}
+          data={notifications}
+          renderItem={renderNotifCard}
+          keyExtractor={notification => notification._id}
+          ListEmptyComponent={renderEmptyGroup}
+          scrollEnabled={notifications.length > 0}
+          ItemSeparatorComponent={renderVenueCardSeparator}
+          indicatorStyle='white'
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
       </View>
-      <FlatList
-        style={NotificationsScreenStyles.notifList}
-        contentContainerStyle={NotificationsScreenStyles.notifListContent}
-        data={notifications}
-        renderItem={renderNotifCard}
-        keyExtractor={notification => notification._id}
-        ListEmptyComponent={renderEmptyGroup}
-        scrollEnabled={notifications.length > 0}
-        ItemSeparatorComponent={renderVenueCardSeparator}
-        indicatorStyle='white'
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
-        }
-      />
     </SafeAreaView>
   );
 };

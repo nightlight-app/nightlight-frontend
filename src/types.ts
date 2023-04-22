@@ -144,6 +144,15 @@ export interface Group {
   expirationDatetime: Date;
 }
 
+export interface Notification {
+  _id: string; // mongoose ObjectId
+  userId: string; // mongoose ObjectId
+  title: string;
+  body: string;
+  data: Object;
+  delay: number;
+}
+
 export interface ISvgProps extends SvgProps {
   xmlns?: string;
   xmlnsXlink?: string;
