@@ -49,6 +49,7 @@ export const customFetch = async ({
     return;
   }
 
+  let response;
   try {
     console.log(
       '[customFetch] Sending request...',
@@ -57,7 +58,7 @@ export const customFetch = async ({
       JSON.stringify(options, null, 2)
     );
 
-    const response = await fetch(`${SERVER_URL}${resourceUrl}`, {
+    response = await fetch(`${SERVER_URL}${resourceUrl}`, {
       ...options,
       headers: {
         ...options.headers,
@@ -81,6 +82,10 @@ export const customFetch = async ({
       `resourceUrl: ${resourceUrl}\n`,
       'options:',
       JSON.stringify(options, null, 2),
+      '\n',
+      'Response:',
+      JSON.stringify(response, null, 2),
+      '\n',
       error
     );
     throw new Error(error);

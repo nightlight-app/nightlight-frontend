@@ -161,6 +161,8 @@ export interface Notification {
     senderId: string; // mongoose ObjectId TODO: should be 'sender' and populated?
     senderFirstName: string; // TODO: just populate sender object?
     senderLastName: string; // TODO: just populate sender object?
+    groupId?: string; // mongoose ObjectId
+    groupName?: string;
   };
   delay: number;
 }

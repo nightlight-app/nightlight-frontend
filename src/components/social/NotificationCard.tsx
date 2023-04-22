@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, Text, Pressable, TouchableOpacity } from 'react-native';
-import { Ionicons, Feather } from '@expo/vector-icons';
+import { View, Image, Text, TouchableOpacity } from 'react-native';
 import {
   NotificationCardProps,
   NotificationType,
@@ -20,7 +19,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   // notification data
   const {
     body: message,
-    data: { notificationType, sentDateTime, senderId },
+    data: { notificationType, sentDateTime, senderId, groupId },
   } = notification;
 
   // is notfication a prioritized type
@@ -54,66 +53,114 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
     if (senderId) fetchSender();
   }, []);
 
-  const handleAcceptRequest = () => {
-    // check type of notification
-    // if (type === 'friendRequest') {
-    //   customFetch({
-    //     resourceUrl: `/users/${userId}/accept-friend-request/?friendId=${senderId}`,
-    //     options: {
-    //       method: 'PATCH',
-    //     },
-    //   })
-    //     .then(res => {
-    //       console.log(res);
-    //     })
-    //     .catch(e => {
-    //       console.error('Error:', e);
-    //     });
-    // } else {
-    //   customFetch({
-    //     resourceUrl: `/users/${userId}/accept-group-invite/?groupId=${senderId}`,
-    //     options: {
-    //       method: 'PATCH',
-    //     },
-    //   })
-    //     .then(res => {
-    //       console.log(res);
-    //     })
-    //     .catch(e => {
-    //       console.error('Error:', e);
-    //     });
-    // }
+  // friend request handlers
+  const acceptFriendRequest = async () => {
+    try {
+      console.log('[NotificationCard] Accepting friend request...');
+      const data = await customFetch({
+        resourceUrl: `/users/${userId}/accept-friend-request?friendId=${senderId}`,
+        options: {
+          method: 'PATCH',
+        },
+      });
+      console.log('[NotificationCard] Friend request accepted:\n', data);
+    } catch (error) {
+      console.error(
+        '[NotificationCard] Error accepting friend request:\n',
+        error
+      );
+    }
   };
 
-  const handleDeclineRequest = () => {
-    // console.log('decline request');
-    // if (type === 'friendRequest') {
-    //   customFetch({
-    //     resourceUrl: `/users/${userId}/decline-friend-request/?friendId=${senderId}`,
-    //     options: {
-    //       method: 'PATCH',
-    //     },
-    //   })
-    //     .then(res => {
-    //       console.log(res);
-    //     })
-    //     .catch(e => {
-    //       console.error('Error:', e);
-    //     });
-    // } else {
-    //   customFetch({
-    //     resourceUrl: `/users/${userId}/decline-group-invite/?groupId=${notification.data.groupId}`,
-    //     options: {
-    //       method: 'PATCH',
-    //     },
-    //   })
-    //     .then(res => {
-    //       console.log(res);
-    //     })
-    //     .catch(e => {
-    //       console.error('Error:', e);
-    //     });
-    // }
+  const declineFriendRequest = async () => {
+    try {
+      console.log('[NotificationCard] Declining friend request...');
+      const data = await customFetch({
+        resourceUrl: `/users/${userId}/decline-friend-request?friendId=${senderId}`,
+        options: {
+          method: 'PATCH',
+        },
+      });
+      console.log('[NotificationCard] Friend request declined:\n', data);
+    } catch (error) {
+      console.error(
+        '[NotificationCard] Error declining friend request:\n',
+        error
+      );
+    }
+  };
+
+  // group invite handlers
+  const acceptGroupInvite = async () => {
+    try {
+      console.log('[NotificationCard] Accepting group invite...');
+      const data = await customFetch({
+        resourceUrl: `/users/${userId}/accept-group-invitation?groupId=${groupId}`,
+        options: {
+          method: 'PATCH',
+        },
+      });
+      console.log('[NotificationCard] Group invite accepted:\n', data);
+    } catch (error) {
+      console.error(
+        '[NotificationCard] Error accepting group invite:\n',
+        error
+      );
+    }
+  };
+  
+  const declineGroupInvite = async () => {
+    try {
+      console.log('[NotificationCard] Declining group invite...');
+      const data = await customFetch({
+        resourceUrl: `/users/${userId}/decline-group-invitation?groupId=${groupId}`,
+        options: {
+          method: 'PATCH',
+        },
+      });
+      console.log('[NotificationCard] Group invite declined:\n', data);
+    } catch (error) {
+      console.error(
+        '[NotificationCard] Error declining group invite:\n',
+        error
+      );
+    }
+  };
+
+  // on accept press
+  const handleAccept = () => {
+    switch (notificationType) {
+      case NotificationType.FRIEND_REQUEST:
+        acceptFriendRequest();
+        break;
+      case NotificationType.GROUP_INVITE:
+        acceptGroupInvite();
+        break;
+      default:
+        console.error(
+          "[NotificationCard] You can't accept a noitification of type: ",
+          notificationType
+        );
+        break;
+    }
+  };
+
+  // on delete press
+  const handleDelete = () => {
+    switch (notificationType) {
+      case NotificationType.FRIEND_REQUEST:
+        declineFriendRequest();
+        break;
+      case NotificationType.GROUP_INVITE:
+        declineGroupInvite();
+        break;
+      default:
+        console.error(
+          "[NotificationCard] You can't delete a noitification of type: ",
+          notificationType
+        );
+        break;
+    }
   };
 
   return (
@@ -164,6 +211,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       {isPrioritized && (
         <View style={NotificationCardStyles.containerButtons}>
           <TouchableOpacity
+            onPress={handleDelete}
             style={[
               NotificationCardStyles.button,
               NotificationCardStyles.buttonRed,
@@ -172,6 +220,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
             <Text style={NotificationCardStyles.buttonText}>Delete</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={handleAccept}
             style={[
               NotificationCardStyles.button,
               NotificationCardStyles.buttonGreen,
