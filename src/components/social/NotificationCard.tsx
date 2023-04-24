@@ -108,7 +108,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
       );
     }
   };
-  
+
   const declineGroupInvite = async () => {
     try {
       console.log('[NotificationCard] Declining group invite...');
