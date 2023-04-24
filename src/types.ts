@@ -287,14 +287,6 @@ export interface MoodButtonProps {
   onClose: () => void;
 }
 
-export interface BottomTabScreenProps {
-  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
-}
-
-export interface NativeStackScreenProps {
-  navigation: NavigationHelpers<ParamListBase, NativeStackNavigationEventMap>;
-}
-
 export type RootTabParamList = {
   [TabRoute.MAP]: undefined;
   [TabRoute.SOCIAL_STACK]: undefined;
