@@ -62,6 +62,7 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
     sortedNotifications.sort((a: Notification, b: Notification) => {
       const typeA = a.data.notificationType;
       const typeB = b.data.notificationType;
+
       const timeA = new Date(a.data.sentDateTime) as unknown as number;
       const timeB = new Date(b.data.sentDateTime) as unknown as number;
 
@@ -69,7 +70,7 @@ const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
       const isPrioritizedB = PRIORITIZED_NOTIFICATION_TYPES.includes(typeB);
 
       return isPrioritizedA === isPrioritizedB
-        ? Math.abs(timeB - timeA) // XNOR gate (both are prioritized or neither is prioritized), sort by time
+        ? timeB - timeA // XNOR gate (both are prioritized or neither is prioritized), sort by time
         : isPrioritizedA
         ? -1 // only a is prioritized
         : 1; // only b is prioritized

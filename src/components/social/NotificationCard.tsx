@@ -231,47 +231,6 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
         </View>
       )}
     </View>
-    // <View
-    //   style={[
-    //     NotificationCardStyles.container,
-    //     type === 'groupInvite' && NotificationCardStyles.containerGreen,
-    //     type === 'friendRequest' && NotificationCardStyles.containerBlue,
-    //   ]}>
-    //   <View style={NotificationCardStyles.card}>
-    //     <Image
-    //       source={
-    //         userImage != undefined
-    //           ? { uri: `${userImage}` }
-    //           : require('@nightlight/assets/images/anon.png')
-    //       }
-    //       style={NotificationCardStyles.profileImage}
-    //     />
-    //     <View style={NotificationCardStyles.textbox}>
-    //       <Text style={NotificationCardStyles.message}>{message}</Text>
-    //     </View>
-    //     <Text style={NotificationCardStyles.time}>
-    //       {getRelativeTimeString(sentDateTime)}
-    //     </Text>
-    //   </View>
-    //   {type === 'groupInvite' || type === 'friendRequest' ? (
-    //     <View style={NotificationCardStyles.buttonRow}>
-    //       <Pressable
-    //         style={NotificationCardStyles.decline}
-    //         onPress={handleDeclineRequest}>
-    //         <Feather name='x' size={20} color='#732014' />
-    //         <Text style={NotificationCardStyles.declineButtonText}>
-    //           Decline
-    //         </Text>
-    //       </Pressable>
-    //       <Pressable
-    //         style={NotificationCardStyles.accept}
-    //         onPress={handleAcceptRequest}>
-    //         <Ionicons name='checkmark' size={20} color='#2E491B' />
-    //         <Text style={NotificationCardStyles.acceptButtonText}>Accept</Text>
-    //       </Pressable>
-    //     </View>
-    //   ) : null}
-    // </View>
   );
 };
 
