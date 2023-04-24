@@ -119,8 +119,8 @@ export interface SavedGroup {
 export interface User {
   _id: string; // mongoose ObjectId
   firebaseUid: string;
-  imgUrlProfileSmall: string;
-  imgUrlProfileLarge: string;
+  imgUrlProfileSmall?: string;
+  imgUrlProfileLarge?: string;
   imgUrlCover?: string;
   firstName: string;
   lastName: string;
