@@ -19,7 +19,14 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
   // notification data
   const {
     body: message,
-    data: { notificationType, sentDateTime, senderId, groupId },
+    data: {
+      notificationType,
+      sentDateTime,
+      senderId,
+      senderFirstName,
+      senderLastName,
+      groupId,
+    },
   } = notification;
 
   // is notfication a prioritized type
@@ -184,8 +191,8 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
             ) : (
               <View style={NotificationCardStyles.senderImage}>
                 <Text style={NotificationCardStyles.senderInitials}>
-                  {sender.firstName[0]}
-                  {sender.lastName[0]}
+                  {senderFirstName[0]}
+                  {senderLastName[0]}
                 </Text>
               </View>
             )}
@@ -196,7 +203,7 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
           <Text style={NotificationCardStyles.message}>
             {sender && (
               <Text style={NotificationCardStyles.senderName}>
-                {sender.firstName} {sender.lastName}{' '}
+                {senderFirstName} {senderLastName}{' '}
               </Text>
             )}
             {message}
