@@ -3,10 +3,7 @@ import {
   EntryExitAnimationFunction,
   SharedValue,
 } from 'react-native-reanimated';
-import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
-import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 import type { User as FirebaseUser } from 'firebase/auth';
-import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
 
 // TODO: Organize these types into separate files (probably in /src/interfaces?)
 
