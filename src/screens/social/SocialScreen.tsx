@@ -10,10 +10,11 @@ import {
   Image,
   RefreshControl,
 } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import {
-  NativeStackScreenProps,
   SocialRoute,
+  SocialStackParamList,
   TabRoute,
   User,
 } from '@nightlight/src/types';
@@ -22,7 +23,9 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 import { COLORS } from '@nightlight/src/global.styles';
 
-const SocialScreen = ({ navigation }: NativeStackScreenProps) => {
+const SocialScreen = ({
+  navigation,
+}: NativeStackScreenProps<SocialStackParamList, SocialRoute.SOCIAL>) => {
   // current user ID
   const { userDocument } = useAuthContext();
   const userId = userDocument?._id;

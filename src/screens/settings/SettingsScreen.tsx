@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Text, SafeAreaView, View, Alert } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import SettingsScreenStyles from '@nightlight/screens/settings/SettingsScreen.styles';
 import Button from '@nightlight/components/Button';
 import { COLORS } from '@nightlight/src/global.styles';
@@ -7,11 +8,18 @@ import { handleFirebaseSignOut } from '@nightlight/src/utils/utils';
 import ToggleSetting from '@nightlight/components/settings/ToggleSetting';
 import HorizontalSelect from '@nightlight/components/settings/HorizontalSelect';
 import { LOCATION_VISIBILITY_OPTIONS } from '@nightlight/src/constants';
-import { LocationVisibilityValue } from '@nightlight/src/types';
+import {
+  LocationVisibilityValue,
+  ProfileRoute,
+  ProfileStackParamList,
+} from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
 
-const SettingsScreen = () => {
+const SettingsScreen = ({}: NativeStackScreenProps<
+  ProfileStackParamList,
+  ProfileRoute.SETTINGS
+>) => {
   const { userDocument } = useAuthContext();
 
   const [locationVisibility, setLocationVisibility] = useState<

@@ -8,13 +8,15 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Path } from 'react-native-svg';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import ProfileScreenStyles from '@nightlight/screens/profile/ProfileScreen.styles';
 import PartySvg from '@nightlight/components/svgs/PartySvg';
 import BottleSvg from '@nightlight/components/svgs/BottleSvg';
 import {
   ProfileRoute,
-  BottomTabScreenProps,
+  ProfileStackParamList,
   TabRoute,
   User,
 } from '@nightlight/src/types';
@@ -24,14 +26,14 @@ import {
   formatPhoneNumber,
   getMonthText,
   getNumFriends,
-  handleFirebaseSignOut,
 } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
-import { Path } from 'react-native-svg';
 import Button from '@nightlight/components/Button';
 
-const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
+const ProfileScreen = ({
+  navigation,
+}: NativeStackScreenProps<ProfileStackParamList, ProfileRoute.PROFILE>) => {
   const { userDocument } = useAuthContext();
 
   // TODO: change TEST_USER[0] to a fallback user with defualt data

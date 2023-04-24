@@ -33,7 +33,7 @@ export enum SocialRoute {
   SOCIAL = 'Social',
   FRIEND_SEARCH = 'FriendSearch',
   NOTIFICATIONS = 'Notifications',
-  FRIEND_PROFILE = 'FriendProfile',
+  USER_PROFILE = 'UserProfile',
 }
 
 export enum MapCardType {
@@ -294,6 +294,32 @@ export interface BottomTabScreenProps {
 export interface NativeStackScreenProps {
   navigation: NavigationHelpers<ParamListBase, NativeStackNavigationEventMap>;
 }
+
+export type RootTabParamList = {
+  [TabRoute.MAP]: undefined;
+  [TabRoute.SOCIAL_STACK]: undefined;
+  [TabRoute.EMERGENCY_BUTTON]: undefined;
+  [TabRoute.EXPLORE]: undefined;
+  [TabRoute.PROFILE_STACK]: undefined;
+};
+
+export type AuthStackParamList = {
+  [AuthRoute.SIGN_IN]: undefined;
+  [AuthRoute.SIGN_UP]: undefined;
+};
+
+export type SocialStackParamList = {
+  [SocialRoute.SOCIAL]: undefined;
+  [SocialRoute.FRIEND_SEARCH]: undefined;
+  [SocialRoute.NOTIFICATIONS]: undefined;
+  [SocialRoute.USER_PROFILE]: { user: User };
+};
+
+export type ProfileStackParamList = {
+  [ProfileRoute.PROFILE]: undefined;
+  [ProfileRoute.EMERGENCY_CONTACTS]: undefined;
+  [ProfileRoute.SETTINGS]: undefined;
+};
 
 export interface EmergencyContact {
   name: string;

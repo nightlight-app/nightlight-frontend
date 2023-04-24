@@ -20,9 +20,11 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { User as FirebaseUser } from 'firebase/auth';
 import {
-  NativeStackScreenProps,
+  AuthRoute,
+  AuthStackParamList,
   SignUpInputField,
   User,
 } from '@nightlight/src/types';
@@ -43,7 +45,9 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import SmileyFaceSvg from '@nightlight/components/svgs/SmileyFaceSvg';
 import { customFetch } from '@nightlight/src/api';
 
-const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
+const SignUpScreen = ({
+  navigation,
+}: NativeStackScreenProps<AuthStackParamList, AuthRoute.SIGN_UP>) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const [firstName, setFirstName] = useState('');

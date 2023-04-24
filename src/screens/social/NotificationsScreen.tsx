@@ -8,11 +8,12 @@ import {
   TouchableOpacity,
   ListRenderItemInfo,
 } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AntDesign } from '@expo/vector-icons';
 import {
-  NativeStackScreenProps,
   SocialRoute,
   Notification,
+  SocialStackParamList,
 } from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
@@ -21,7 +22,9 @@ import NotificationsScreenStyles from '@nightlight/screens/social/NotificationsS
 import { COLORS } from '@nightlight/src/global.styles';
 import { PRIORITIZED_NOTIFICATION_TYPES } from '@nightlight/src/constants';
 
-const NotificationsScreen = ({ navigation }: NativeStackScreenProps) => {
+const NotificationsScreen = ({
+  navigation,
+}: NativeStackScreenProps<SocialStackParamList, SocialRoute.NOTIFICATIONS>) => {
   // user id
   const { userDocument } = useAuthContext();
   const userId = userDocument?._id;

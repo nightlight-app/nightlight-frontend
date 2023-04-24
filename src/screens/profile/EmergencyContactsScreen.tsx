@@ -8,7 +8,12 @@ import {
   ListRenderItemInfo,
   Alert,
 } from 'react-native';
-import { EmergencyContact, ProfileRoute } from '@nightlight/src/types';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import {
+  EmergencyContact,
+  ProfileRoute,
+  ProfileStackParamList,
+} from '@nightlight/src/types';
 import EmergencyContactsScreenStyles from '@nightlight/screens/profile/EmergencyContactsScreen.styles';
 import ContactCard from '@nightlight/components/profile/ContactCard';
 import Button from '@nightlight/components/Button';
@@ -38,7 +43,10 @@ const addContact = () => {
   Alert.alert('TODO: add contact');
 };
 
-const EmergencyContactsScreen = () => {
+const EmergencyContactsScreen = ({}: NativeStackScreenProps<
+  ProfileStackParamList,
+  ProfileRoute.EMERGENCY_CONTACTS
+>) => {
   // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
   const [displayedContacts, setDisplayedContacts] =

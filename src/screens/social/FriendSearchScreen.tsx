@@ -1,4 +1,3 @@
-import { BottomTabScreenProps, SocialRoute, User } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -9,16 +8,16 @@ import {
   FlatList,
   Pressable,
 } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { SocialRoute, SocialStackParamList, User } from '@nightlight/src/types';
 import FriendSearchScreenStyles from '@nightlight/screens/social/FriendSearchScreen.styles';
 import SearchUserCard from '@nightlight/components/social/SearchUserCard';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
-import {
-  NativeStackScreenProps,
-  createNativeStackNavigator,
-} from '@react-navigation/native-stack';
 
-const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
+const FriendSearchScreen = ({
+  navigation,
+}: NativeStackScreenProps<SocialStackParamList, SocialRoute.FRIEND_SEARCH>) => {
   const { userDocument } = useAuthContext();
   // keep track of user's search input
   const [searchInput, setSearchInput] = useState<string>('');
@@ -59,11 +58,12 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
     const isFirstItem = index === 0;
     const isLastItem = index === displayedUsers.length - 1;
 
-    const isAdded = userDocument && userDocument?.friends?.includes(item._id);
+    const isAdded = (userDocument &&
+      userDocument?.friends?.includes(item._id)) as boolean;
 
     // check if user has been requested
-    const isRequested =
-      userDocument && userDocument?.sentFriendRequests?.includes(item._id);
+    const isRequested = (userDocument &&
+      userDocument.sentFriendRequests?.includes(item._id)) as boolean;
 
     // check if user is self
     if (userDocument?._id === item._id) {
@@ -72,7 +72,7 @@ const FriendSearchScreen = ({ navigation }: BottomTabScreenProps) => {
       return (
         <Pressable
           onPress={() => {
-            navigation.navigate(SocialRoute.FRIEND_PROFILE, { item });
+            navigation.navigate(SocialRoute.USER_PROFILE, { user: item });
           }}>
           <SearchUserCard
             index={myIndex++}
