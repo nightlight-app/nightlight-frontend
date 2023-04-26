@@ -84,6 +84,10 @@ const FriendSearchScreen = ({
     navigation.goBack();
   };
 
+  const handleUserPress = (user: User) => {
+    navigation.navigate(SocialRoute.USER_PROFILE, { user });
+  };
+
   // // TODO: fix type?
 
   // let myIndex = 0;
@@ -133,12 +137,14 @@ const FriendSearchScreen = ({
     const imgUrl = item.imgUrlProfileSmall;
 
     return (
-      <View
+      <TouchableOpacity
+        onPress={() => handleUserPress(item)}
         style={[
           FriendSearchScreenStyles.itemContainer,
           isFirstItem && FriendSearchScreenStyles.topItem,
           isLastItem && FriendSearchScreenStyles.bottomItem,
-        ]}>
+        ]}
+        activeOpacity={0.75}>
         <View style={FriendSearchScreenStyles.userInfoContainer}>
           {imgUrl ? (
             <Image
@@ -156,7 +162,7 @@ const FriendSearchScreen = ({
             {item.firstName} {item.lastName}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
