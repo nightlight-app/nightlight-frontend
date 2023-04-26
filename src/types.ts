@@ -83,6 +83,12 @@ export enum NotificationType {
   // TODO: add more notification types
 }
 
+export enum FriendStatus {
+  ADD = 'Add',
+  REQUESTED = 'Requested',
+  FRIEND = 'Friend',
+}
+
 export interface Reaction {
   count: number;
   didReact: boolean;
@@ -248,15 +254,9 @@ export interface NotificationCardProps {
 }
 
 export interface SearchUserCardProps {
-  firstName: string;
-  lastName: string;
-  index: number;
-  isAdded: boolean;
   isFirstItem: boolean;
   isLastItem: boolean;
-  image: string;
-  friendId: string;
-  isRequested: boolean;
+  user: User;
 }
 
 /**

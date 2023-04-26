@@ -45,41 +45,6 @@ export default StyleSheet.create({
   userListContent: {
     paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
-  itemContainer: {
-    flexDirection: 'row',
-    padding: 10,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
-  },
-  topItem: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
-  bottomItem: {
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-  },
-  userInfoContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profileImage: {
-    width: 45,
-    height: 45,
-    borderRadius: 45 / 2,
-    borderWidth: 2,
-    borderColor: COLORS.WHITE,
-    marginRight: 10,
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  userName: {
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 18,
-    color: COLORS.WHITE,
-  },
   itemSeparator: {
     height: 2,
   },

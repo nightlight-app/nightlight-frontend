@@ -6,10 +6,8 @@ import {
   TextInput,
   ListRenderItemInfo,
   FlatList,
-  Pressable,
   TouchableOpacity,
   RefreshControl,
-  Image,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AntDesign } from '@expo/vector-icons';
@@ -89,85 +87,16 @@ const FriendSearchScreen = ({
     navigation.goBack();
   };
 
-  const handleUserPress = (user: User) => {
-    navigation.navigate(SocialRoute.USER_PROFILE, { user });
-  };
-
-  // // TODO: fix type?
-
-  // let myIndex = 0;
-  // const renderUser = ({ item, index }: ListRenderItemInfo<User>) => {
-  //   const isFirstItem = index === 0;
-  //   const isLastItem = index === displayedUsers.length - 1;
-
-  //   const isAdded = (userDocument &&
-  //     userDocument?.friends?.includes(item._id)) as boolean;
-
-  //   // check if user has been requested
-  //   const isRequested = (userDocument &&
-  //     userDocument.sentFriendRequests?.includes(item._id)) as boolean;
-
-  //   // check if user is self
-  //   if (userDocument?._id === item._id) {
-  //     return null;
-  //   } else {
-  //     return (
-  //       <Pressable
-  //         onPress={() => {
-  //           navigation.navigate(SocialRoute.USER_PROFILE, { user: item });
-  //         }}>
-  //         <SearchUserCard
-  //           index={myIndex++}
-  //           firstName={item.firstName}
-  //           lastName={item.lastName}
-  //           isFirstItem={isFirstItem}
-  //           isLastItem={isLastItem}
-  //           isAdded={isAdded}
-  //           isRequested={isRequested}
-  //           image={
-  //             !item?.imgUrlProfileSmall
-  //               ? '@nightlight/assets/images/anon.png'
-  //               : item.imgUrlProfileSmall
-  //           }
-  //           friendId={item._id}
-  //         />
-  //       </Pressable>
-  //     );
-  //   }
-  // };
-
   const renderUserItem = ({ item, index }: ListRenderItemInfo<User>) => {
-    const isFirstItem = index === 0;
-    const isLastItem = index === displayedUsers.length - 1;
-    const imgUrl = item.imgUrlProfileSmall;
+    const isFirstItem: boolean = index === 0;
+    const isLastItem: boolean = index === displayedUsers.length - 1;
 
     return (
-      <TouchableOpacity
-        onPress={() => handleUserPress(item)}
-        style={[
-          FriendSearchScreenStyles.itemContainer,
-          isFirstItem && FriendSearchScreenStyles.topItem,
-          isLastItem && FriendSearchScreenStyles.bottomItem,
-        ]}
-        activeOpacity={0.75}>
-        <View style={FriendSearchScreenStyles.userInfoContainer}>
-          {imgUrl ? (
-            <Image
-              source={{ uri: imgUrl }}
-              style={FriendSearchScreenStyles.profileImage}
-            />
-          ) : (
-            <View style={FriendSearchScreenStyles.profileImage}>
-              <Text style={FriendSearchScreenStyles.userName}>
-                {item.firstName[0] + item.lastName[0]}
-              </Text>
-            </View>
-          )}
-          <Text style={FriendSearchScreenStyles.userName}>
-            {item.firstName} {item.lastName}
-          </Text>
-        </View>
-      </TouchableOpacity>
+      <SearchUserCard
+        isFirstItem={isFirstItem}
+        isLastItem={isLastItem}
+        user={item}
+      />
     );
   };
 
