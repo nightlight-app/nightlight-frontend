@@ -9,6 +9,7 @@ import {
   Pressable,
   TouchableOpacity,
   RefreshControl,
+  Image,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AntDesign } from '@expo/vector-icons';
@@ -83,56 +84,89 @@ const FriendSearchScreen = ({
     navigation.goBack();
   };
 
-  // TODO: fix type?
+  // // TODO: fix type?
 
-  let myIndex = 0;
-  const renderUser = ({ item, index }: ListRenderItemInfo<User>) => {
+  // let myIndex = 0;
+  // const renderUser = ({ item, index }: ListRenderItemInfo<User>) => {
+  //   const isFirstItem = index === 0;
+  //   const isLastItem = index === displayedUsers.length - 1;
+
+  //   const isAdded = (userDocument &&
+  //     userDocument?.friends?.includes(item._id)) as boolean;
+
+  //   // check if user has been requested
+  //   const isRequested = (userDocument &&
+  //     userDocument.sentFriendRequests?.includes(item._id)) as boolean;
+
+  //   // check if user is self
+  //   if (userDocument?._id === item._id) {
+  //     return null;
+  //   } else {
+  //     return (
+  //       <Pressable
+  //         onPress={() => {
+  //           navigation.navigate(SocialRoute.USER_PROFILE, { user: item });
+  //         }}>
+  //         <SearchUserCard
+  //           index={myIndex++}
+  //           firstName={item.firstName}
+  //           lastName={item.lastName}
+  //           isFirstItem={isFirstItem}
+  //           isLastItem={isLastItem}
+  //           isAdded={isAdded}
+  //           isRequested={isRequested}
+  //           image={
+  //             !item?.imgUrlProfileSmall
+  //               ? '@nightlight/assets/images/anon.png'
+  //               : item.imgUrlProfileSmall
+  //           }
+  //           friendId={item._id}
+  //         />
+  //       </Pressable>
+  //     );
+  //   }
+  // };
+
+  const renderUserItem = ({ item, index }: ListRenderItemInfo<User>) => {
     const isFirstItem = index === 0;
     const isLastItem = index === displayedUsers.length - 1;
+    const imgUrl = item.imgUrlProfileSmall;
 
-    const isAdded = (userDocument &&
-      userDocument?.friends?.includes(item._id)) as boolean;
-
-    // check if user has been requested
-    const isRequested = (userDocument &&
-      userDocument.sentFriendRequests?.includes(item._id)) as boolean;
-
-    // check if user is self
-    if (userDocument?._id === item._id) {
-      return null;
-    } else {
-      return (
-        <Pressable
-          onPress={() => {
-            navigation.navigate(SocialRoute.USER_PROFILE, { user: item });
-          }}>
-          <SearchUserCard
-            index={myIndex++}
-            firstName={item.firstName}
-            lastName={item.lastName}
-            isFirstItem={isFirstItem}
-            isLastItem={isLastItem}
-            isAdded={isAdded}
-            isRequested={isRequested}
-            image={
-              !item?.imgUrlProfileSmall
-                ? '@nightlight/assets/images/anon.png'
-                : item.imgUrlProfileSmall
-            }
-            friendId={item._id}
-          />
-        </Pressable>
-      );
-    }
+    return (
+      <View
+        style={[
+          FriendSearchScreenStyles.itemContainer,
+          isFirstItem && FriendSearchScreenStyles.topItem,
+          isLastItem && FriendSearchScreenStyles.bottomItem,
+        ]}>
+        <View style={FriendSearchScreenStyles.userInfoContainer}>
+          {imgUrl ? (
+            <Image
+              source={{ uri: imgUrl }}
+              style={FriendSearchScreenStyles.profileImage}
+            />
+          ) : (
+            <View style={FriendSearchScreenStyles.profileImage}>
+              <Text style={FriendSearchScreenStyles.userName}>
+                {item.firstName[0] + item.lastName[0]}
+              </Text>
+            </View>
+          )}
+          <Text style={FriendSearchScreenStyles.userName}>
+            {item.firstName} {item.lastName}
+          </Text>
+        </View>
+      </View>
+    );
   };
 
-  const renderUserSeparator = () => (
-    <View style={FriendSearchScreenStyles.contactSeparator} />
+  const renderItemSeparator = () => (
+    <View style={FriendSearchScreenStyles.itemSeparator} />
   );
 
   const renderEmptyUsers = () => (
-    <View style={FriendSearchScreenStyles.emptyContactsContainer}>
-      <Text style={FriendSearchScreenStyles.emptyContactsText}>
+    <View style={FriendSearchScreenStyles.emptyUsersContainer}>
+      <Text style={FriendSearchScreenStyles.emptyUsersText}>
         Seems a bit empty here... 🦗
       </Text>
     </View>
@@ -159,11 +193,12 @@ const FriendSearchScreen = ({
           placeholder='Search by name to find your friends!'
         />
         <FlatList
-          style={FriendSearchScreenStyles.contactList}
+          style={FriendSearchScreenStyles.userList}
+          contentContainerStyle={FriendSearchScreenStyles.userListContent}
           data={displayedUsers}
-          renderItem={renderUser}
-          keyExtractor={(_, index) => index.toString()}
-          ItemSeparatorComponent={renderUserSeparator}
+          renderItem={renderUserItem}
+          keyExtractor={item => item._id}
+          ItemSeparatorComponent={renderItemSeparator}
           ListEmptyComponent={renderEmptyUsers}
           indicatorStyle='white'
           refreshControl={
