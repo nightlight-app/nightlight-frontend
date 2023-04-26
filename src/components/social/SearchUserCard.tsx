@@ -35,40 +35,79 @@ const SearchUserCard = ({
     navigation.navigate(SocialRoute.USER_PROFILE, { user });
   };
 
-  // const handlePress = () => {
-  //   setAdded(prev => !prev);
-  //   setStatusText(added ? 'ADD' : 'REQUESTED');
+  const handleAddFriend = async () => {
+    setFriendStatus(FriendStatus.REQUESTED);
 
-  //   // send request to backend to request friend
-  //   if (!added) {
-  //     customFetch({
-  //       resourceUrl: `/users/${userDocument?._id}/request-friend/?friendId=${friendId}`,
-  //       options: {
-  //         method: 'PATCH',
-  //       },
-  //     })
-  //       .then(response => {
-  //         console.log(response);
-  //       })
-  //       .catch(e => {
-  //         console.error('Error: ', e.response.message);
-  //       });
-  //   } else {
-  //     // send request to backend to remove friend
-  //     customFetch({
-  //       resourceUrl: `/users/${userDocument?._id}/remove-friend/?friendId=${friendId}`,
-  //       options: {
-  //         method: 'PATCH',
-  //       },
-  //     })
-  //       .then(response => {
-  //         console.log(response);
-  //       })
-  //       .catch(e => {
-  //         console.error('Error: ', e.response.message);
-  //       });
-  //   }
-  // };
+    try {
+      await customFetch({
+        resourceUrl: `/users/${userDocument?._id}/request-friend?friendId=${user._id}`,
+        options: {
+          method: 'PATCH',
+        },
+      });
+    } catch (error) {
+      console.error(
+        '[SeachUserCard] An error occurred while adding friend:\n',
+        error
+      );
+      setFriendStatus(FriendStatus.ADD);
+    }
+  };
+
+  const handleRemoveFriend = async () => {
+    setFriendStatus(FriendStatus.ADD);
+
+    try {
+      await customFetch({
+        resourceUrl: `/users/${userDocument?._id}/remove-friend?friendId=${user._id}`,
+        options: {
+          method: 'PATCH',
+        },
+      });
+    } catch (error) {
+      console.error(
+        '[SeachUserCard] An error occurred while removing friend:\n',
+        error
+      );
+      setFriendStatus(FriendStatus.FRIEND);
+    }
+  };
+
+  const handleCancelFriendRequest = async () => {
+    setFriendStatus(FriendStatus.ADD);
+
+    try {
+      await customFetch({
+        resourceUrl: `/users/${userDocument?._id}/remove-friend-request?friendId=${user._id}`,
+        options: {
+          method: 'PATCH',
+        },
+      });
+    } catch (error) {
+      console.error(
+        '[SeachUserCard] An error occurred while cancelling friend request:\n',
+        error
+      );
+      setFriendStatus(FriendStatus.REQUESTED);
+    }
+  };
+
+  const handleFriendButtonPress = () => {
+    switch (friendStatus) {
+      case FriendStatus.ADD:
+        handleAddFriend();
+        break;
+      case FriendStatus.REQUESTED:
+        handleCancelFriendRequest();
+        break;
+      case FriendStatus.FRIEND:
+        handleRemoveFriend();
+        break;
+      default:
+        console.warn('[SearchUserCard] Invalid friend status:', friendStatus);
+        return;
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -94,6 +133,7 @@ const SearchUserCard = ({
         </Text>
       </View>
       <TouchableOpacity
+        onPress={handleFriendButtonPress}
         style={[
           UserCardStyles.friendButton,
           (friendStatus === FriendStatus.FRIEND ||
