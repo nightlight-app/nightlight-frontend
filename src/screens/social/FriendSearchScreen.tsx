@@ -8,6 +8,7 @@ import {
   FlatList,
   Pressable,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AntDesign } from '@expo/vector-icons';
@@ -165,6 +166,13 @@ const FriendSearchScreen = ({
           ItemSeparatorComponent={renderUserSeparator}
           ListEmptyComponent={renderEmptyUsers}
           indicatorStyle='white'
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              tintColor={COLORS.GRAY}
+            />
+          }
         />
       </View>
     </SafeAreaView>
