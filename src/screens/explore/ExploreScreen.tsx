@@ -225,7 +225,6 @@ const ExploreScreen = () => {
             renderItem={renderVenueCard}
             keyExtractor={venue => venue._id}
             ListEmptyComponent={renderEmptyVenues}
-            scrollEnabled={filteredVenues.length > 0}
             ItemSeparatorComponent={renderVenueCardSeparator}
             indicatorStyle='white'
             refreshControl={

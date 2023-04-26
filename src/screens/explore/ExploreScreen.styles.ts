@@ -12,7 +12,6 @@ export default StyleSheet.create({
     height: DEVICE_HEIGHT,
   },
   contentContainer: {
-    paddingHorizontal: 10,
     flex: 1,
   },
   title: {
@@ -35,6 +34,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginVertical: 20,
+    paddingHorizontal: 10,
   },
   filterButton: {
     backgroundColor: COLORS.DARK_GRAY,
@@ -61,7 +61,9 @@ export default StyleSheet.create({
   filterTextActive: {
     color: COLORS.WHITE,
   },
-  venueList: {},
+  venueList: {
+    paddingHorizontal: 10,
+  },
   venueListContent: {
     paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
