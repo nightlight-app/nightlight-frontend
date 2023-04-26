@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -24,34 +24,57 @@ const FriendSearchScreen = ({
   const { userDocument } = useAuthContext();
 
   const [searchInput, setSearchInput] = useState<string>('');
+  const [users, setUsers] = useState<User[]>([]);
   const [displayedUsers, setDisplayedUsers] = useState<User[]>([]);
   const [page, setPage] = useState(1);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
-  // TODO: improve search algorithm?
-  useEffect(() => {
-    customFetch({
-      resourceUrl: `/users/search/?query=${searchInput}&count=${300}&page=${page}`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(response => {
-        setDisplayedUsers(response.users);
-        // TODO: important! fix pagination
-        // setPage(page + 1);
-      })
-      .catch(e => {
-        console.error('Error: ', e.response.message);
-        setDisplayedUsers([]);
+  const fetchUsers = async () => {
+    try {
+      const response = await customFetch({
+        resourceUrl: `/users/search/?query=${searchInput}&count=${300}&page=${page}`,
+        options: {
+          method: 'GET',
+        },
       });
-    setDisplayedUsers(
-      displayedUsers.filter(
+
+      setUsers(response.users);
+    } catch (error) {
+      console.error(
+        '[FriendSearchScreen] A problem occured while fetching users:',
+        error
+      );
+    }
+  };
+
+  const onRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchUsers();
+    setIsRefreshing(false);
+  }, []);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    // sort users alphabetically by first and last name
+    let filteredUsers = [...users].sort((a: User, b: User) =>
+      (a.firstName + a.lastName).localeCompare(b.firstName + b.lastName)
+    );
+
+    // filter users by search input
+    // TODO: improve search algorithm?
+    if (searchInput) {
+      filteredUsers = filteredUsers.filter(
         (user: User) =>
           user.firstName.toLowerCase().includes(searchInput.toLowerCase()) ||
           user.lastName.toLowerCase().includes(searchInput.toLowerCase())
-      )
-    );
-  }, [searchInput]);
+      );
+    }
+
+    setDisplayedUsers(filteredUsers);
+  }, [users, searchInput]);
 
   const handleSearchChange = (text: string) => setSearchInput(text);
 
@@ -91,7 +114,7 @@ const FriendSearchScreen = ({
             isAdded={isAdded}
             isRequested={isRequested}
             image={
-              item.imgUrlProfileSmall === undefined
+              !item?.imgUrlProfileSmall
                 ? '@nightlight/assets/images/anon.png'
                 : item.imgUrlProfileSmall
             }
@@ -109,7 +132,7 @@ const FriendSearchScreen = ({
   const renderEmptyUsers = () => (
     <View style={FriendSearchScreenStyles.emptyContactsContainer}>
       <Text style={FriendSearchScreenStyles.emptyContactsText}>
-        Hmm... We can't seem to find any users with that name.
+        Seems a bit empty here... 🦗
       </Text>
     </View>
   );
@@ -141,7 +164,6 @@ const FriendSearchScreen = ({
           keyExtractor={(_, index) => index.toString()}
           ItemSeparatorComponent={renderUserSeparator}
           ListEmptyComponent={renderEmptyUsers}
-          scrollEnabled={displayedUsers.length > 0}
           indicatorStyle='white'
         />
       </View>
