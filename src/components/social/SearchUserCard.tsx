@@ -17,7 +17,7 @@ const SearchUserCard = ({
   isLastItem,
   user,
 }: SearchUserCardProps) => {
-  const { userDocument } = useAuthContext();
+  const { userSession, userDocument, updateUserDocument } = useAuthContext();
 
   const navigation = useNavigation<NavigationProp<SocialStackParamList>>();
 
@@ -45,6 +45,7 @@ const SearchUserCard = ({
           method: 'PATCH',
         },
       });
+      if (userSession) updateUserDocument(userSession);
     } catch (error) {
       console.error(
         '[SeachUserCard] An error occurred while adding friend:\n',
@@ -64,6 +65,7 @@ const SearchUserCard = ({
           method: 'PATCH',
         },
       });
+      if (userSession) updateUserDocument(userSession);
     } catch (error) {
       console.error(
         '[SeachUserCard] An error occurred while removing friend:\n',
@@ -83,6 +85,7 @@ const SearchUserCard = ({
           method: 'PATCH',
         },
       });
+      if (userSession) updateUserDocument(userSession);
     } catch (error) {
       console.error(
         '[SeachUserCard] An error occurred while cancelling friend request:\n',
