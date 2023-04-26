@@ -7,22 +7,24 @@ import {
   ListRenderItemInfo,
   FlatList,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AntDesign } from '@expo/vector-icons';
 import { SocialRoute, SocialStackParamList, User } from '@nightlight/src/types';
 import FriendSearchScreenStyles from '@nightlight/screens/social/FriendSearchScreen.styles';
 import SearchUserCard from '@nightlight/components/social/SearchUserCard';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
+import { COLORS } from '@nightlight/src/global.styles';
 
 const FriendSearchScreen = ({
   navigation,
 }: NativeStackScreenProps<SocialStackParamList, SocialRoute.FRIEND_SEARCH>) => {
   const { userDocument } = useAuthContext();
-  // keep track of user's search input
+
   const [searchInput, setSearchInput] = useState<string>('');
   const [displayedUsers, setDisplayedUsers] = useState<User[]>([]);
-  const handleSearchChange = (text: string) => setSearchInput(text);
   const [page, setPage] = useState(1);
 
   // TODO: improve search algorithm?
@@ -50,6 +52,12 @@ const FriendSearchScreen = ({
       )
     );
   }, [searchInput]);
+
+  const handleSearchChange = (text: string) => setSearchInput(text);
+
+  const handleBackPress = () => {
+    navigation.goBack();
+  };
 
   // TODO: fix type?
 
@@ -101,7 +109,7 @@ const FriendSearchScreen = ({
   const renderEmptyUsers = () => (
     <View style={FriendSearchScreenStyles.emptyContactsContainer}>
       <Text style={FriendSearchScreenStyles.emptyContactsText}>
-        Hmm.. We can't seem to find any users with that name.
+        Hmm... We can't seem to find any users with that name.
       </Text>
     </View>
   );
@@ -109,24 +117,34 @@ const FriendSearchScreen = ({
   return (
     <SafeAreaView
       testID={SocialRoute.FRIEND_SEARCH}
-      style={FriendSearchScreenStyles.screenContainer}>
-      <Text style={FriendSearchScreenStyles.title}>Friend Search</Text>
-      <TextInput
-        value={searchInput}
-        onChangeText={handleSearchChange}
-        style={FriendSearchScreenStyles.searchBar}
-        placeholder='Search by name to find your friends!'
-      />
-      <FlatList
-        style={FriendSearchScreenStyles.contactList}
-        data={displayedUsers}
-        renderItem={renderUser}
-        keyExtractor={(_, index) => index.toString()}
-        ItemSeparatorComponent={renderUserSeparator}
-        ListEmptyComponent={renderEmptyUsers}
-        scrollEnabled={displayedUsers.length > 0}
-        indicatorStyle='white'
-      />
+      style={FriendSearchScreenStyles.container}>
+      <View style={FriendSearchScreenStyles.contentContainer}>
+        <View style={FriendSearchScreenStyles.header}>
+          <TouchableOpacity
+            onPress={handleBackPress}
+            style={FriendSearchScreenStyles.headerButton}
+            activeOpacity={0.75}>
+            <AntDesign name='left' size={24} color={COLORS.WHITE} />
+          </TouchableOpacity>
+          <Text style={FriendSearchScreenStyles.title}>Find Friends</Text>
+        </View>
+        <TextInput
+          value={searchInput}
+          onChangeText={handleSearchChange}
+          style={FriendSearchScreenStyles.searchBar}
+          placeholder='Search by name to find your friends!'
+        />
+        <FlatList
+          style={FriendSearchScreenStyles.contactList}
+          data={displayedUsers}
+          renderItem={renderUser}
+          keyExtractor={(_, index) => index.toString()}
+          ItemSeparatorComponent={renderUserSeparator}
+          ListEmptyComponent={renderEmptyUsers}
+          scrollEnabled={displayedUsers.length > 0}
+          indicatorStyle='white'
+        />
+      </View>
     </SafeAreaView>
   );
 };

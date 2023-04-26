@@ -1,28 +1,41 @@
 import { StyleSheet } from 'react-native';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
 import {
+  DEVICE_HEIGHT,
   EMERGENCY_BUTTON_RADIUS,
   NAVBAR_HEIGHT,
 } from '@nightlight/src/constants';
 
 export default StyleSheet.create({
-  screenContainer: {
+  container: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    minHeight: '100%',
+    height: DEVICE_HEIGHT,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  headerButton: {
+    padding: 10,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 24,
     color: COLORS.WHITE,
-    textAlign: 'center',
     marginVertical: 10,
+    textAlign: 'center',
   },
+
   searchBar: {
     backgroundColor: COLORS.WHITE,
     color: COLORS.GRAY,
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 14,
-    marginVertical: 20,
+    marginBottom: 20,
     marginHorizontal: 20,
     padding: 10,
     borderRadius: 10,
