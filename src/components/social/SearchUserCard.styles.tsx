@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-import { EMERGENCY_BUTTON_RADIUS, NAVBAR_HEIGHT } from '@nightlight/src/constants';
+import {
+  EMERGENCY_BUTTON_RADIUS,
+  NAVBAR_HEIGHT,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   itemContainer: {

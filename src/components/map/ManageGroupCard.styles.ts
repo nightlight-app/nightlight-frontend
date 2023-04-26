@@ -41,7 +41,7 @@ export default StyleSheet.create({
   selectedUserInitials: {
     color: COLORS.WHITE,
     fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: GROUP_MEMBER_CIRCLE_DIAMETER * 0.40,
+    fontSize: GROUP_MEMBER_CIRCLE_DIAMETER * 0.4,
   },
   selectedUserName: {
     color: COLORS.WHITE,
