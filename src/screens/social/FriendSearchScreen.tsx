@@ -75,6 +75,11 @@ const FriendSearchScreen = ({
       );
     }
 
+    // filter out self
+    filteredUsers = filteredUsers.filter(
+      (user: User) => user._id !== userDocument?._id
+    );
+
     setDisplayedUsers(filteredUsers);
   }, [users, searchInput]);
 
