@@ -10,6 +10,7 @@ import {
   Image,
   RefreshControl,
 } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import {
@@ -52,15 +53,19 @@ const SocialScreen = ({
     }
   };
 
+  const isFocused = useIsFocused();
+
+  // fetch friends when screen is focused
+  useEffect(() => {
+    if (isFocused) {
+      fetchFriends();
+    }
+  }, [isFocused]);
+
   const onRefresh = useCallback(async () => {
     setIsRefreshing(true);
     await fetchFriends();
     setIsRefreshing(false);
-  }, []);
-
-  // fetch friends
-  useEffect(() => {
-    fetchFriends();
   }, []);
 
   const handleNavigateToFindFriends = () => {

@@ -21,7 +21,7 @@ import { COLORS } from '@nightlight/src/global.styles';
 const FriendSearchScreen = ({
   navigation,
 }: NativeStackScreenProps<SocialStackParamList, SocialRoute.FRIEND_SEARCH>) => {
-  const { userDocument } = useAuthContext();
+  const { userSession, userDocument, updateUserDocument } = useAuthContext();
 
   const [searchInput, setSearchInput] = useState<string>('');
   const [users, setUsers] = useState<User[]>([]);
@@ -54,6 +54,7 @@ const FriendSearchScreen = ({
   }, []);
 
   useEffect(() => {
+    if (userSession) updateUserDocument(userSession); // in case friends list has changed (other user has accepted/declined a friend request)
     fetchUsers();
   }, []);
 
