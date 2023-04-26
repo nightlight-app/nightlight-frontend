@@ -131,10 +131,18 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
   const renderSelectedUser = ({ item }: ListRenderItemInfo<User>) => {
     return (
       <View style={CreateGroupCardStyles.selectedUserContainer}>
-        <Image
-          style={CreateGroupCardStyles.selectedUserImg}
-          source={{ uri: item.imgUrlProfileSmall }}
-        />
+        {item?.imgUrlProfileSmall ? (
+          <Image
+            style={CreateGroupCardStyles.selectedUserImg}
+            source={{ uri: item.imgUrlProfileSmall }}
+          />
+        ) : (
+          <View style={CreateGroupCardStyles.selectedUserImg}>
+            <Text style={CreateGroupCardStyles.selectedUserInitials}>
+              {item.firstName[0] + item.lastName[0]}
+            </Text>
+          </View>
+        )}
         <CloseButton
           onPress={() => deselectUser(item)}
           size={8}
@@ -159,10 +167,18 @@ const CreateGroupCard = ({ onClose, onError }: CreateGroupCardProps) => {
           isLastItem && CreateGroupCardStyles.availableUserBottomItem,
         ]}
         activeOpacity={0.75}>
-        <Image
-          style={CreateGroupCardStyles.availableUserImg}
-          source={{ uri: item.imgUrlProfileSmall }}
-        />
+        {item?.imgUrlProfileSmall ? (
+          <Image
+            style={CreateGroupCardStyles.availableUserImg}
+            source={{ uri: item.imgUrlProfileSmall }}
+          />
+        ) : (
+          <View style={CreateGroupCardStyles.availableUserImg}>
+            <Text style={CreateGroupCardStyles.availableUserInitials}>
+              {item.firstName[0] + item.lastName[0]}
+            </Text>
+          </View>
+        )}
         <Text style={CreateGroupCardStyles.availableUserName}>
           {item.firstName} {item.lastName}
         </Text>

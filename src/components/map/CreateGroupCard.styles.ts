@@ -28,13 +28,20 @@ export default StyleSheet.create({
     minHeight: 82,
   },
   selectedUserContainer: {
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   },
   selectedUserImg: {
     height: GROUP_MEMBER_CIRCLE_DIAMETER,
     width: GROUP_MEMBER_CIRCLE_DIAMETER,
-    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     borderRadius: GROUP_MEMBER_CIRCLE_DIAMETER / 2,
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  selectedUserInitials: {
+    color: COLORS.WHITE,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: GROUP_MEMBER_CIRCLE_DIAMETER * 0.40,
   },
   selectedUserName: {
     color: COLORS.WHITE,
@@ -85,7 +92,16 @@ export default StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: 20,
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: COLORS.WHITE,
+    borderWidth: 2,
+  },
+  availableUserInitials: {
+    color: COLORS.WHITE,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 18,
   },
   availableUserName: {
     color: COLORS.WHITE,
