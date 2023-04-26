@@ -11,7 +11,10 @@ import NotificationCardStyles from '@nightlight/components/social/NotificationCa
 import { getRelativeTimeString } from '@nightlight/src/utils/utils';
 import { PRIORITIZED_NOTIFICATION_TYPES } from '@nightlight/src/constants';
 
-const NotificationCard = ({ notification }: NotificationCardProps) => {
+const NotificationCard = ({
+  notification,
+  onActionSuccess,
+}: NotificationCardProps) => {
   // user id
   const { userDocument } = useAuthContext();
   const userId = userDocument?._id;
@@ -70,6 +73,9 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
           method: 'PATCH',
         },
       });
+
+      onActionSuccess();
+
       console.log('[NotificationCard] Friend request accepted:\n', data);
     } catch (error) {
       console.error(
@@ -88,6 +94,9 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
           method: 'PATCH',
         },
       });
+
+      onActionSuccess();
+
       console.log('[NotificationCard] Friend request declined:\n', data);
     } catch (error) {
       console.error(
@@ -107,6 +116,9 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
           method: 'PATCH',
         },
       });
+
+      onActionSuccess();
+
       console.log('[NotificationCard] Group invite accepted:\n', data);
     } catch (error) {
       console.error(
@@ -125,6 +137,9 @@ const NotificationCard = ({ notification }: NotificationCardProps) => {
           method: 'PATCH',
         },
       });
+
+      onActionSuccess();
+
       console.log('[NotificationCard] Group invite declined:\n', data);
     } catch (error) {
       console.error(

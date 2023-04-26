@@ -244,6 +244,7 @@ export interface FriendCardProps {
 
 export interface NotificationCardProps {
   notification: Notification;
+  onActionSuccess: () => void;
 }
 
 export interface SearchUserCardProps {

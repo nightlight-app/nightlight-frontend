@@ -101,6 +101,15 @@ const NotificationsScreen = ({
     setRefreshing(false);
   };
 
+  // remove notification card from list
+  const removeNotificationCard = (notificationId: Notification['_id']) => {
+    const updatedNotifications = notifications.filter(
+      notification => notification._id !== notificationId
+    );
+
+    setNotifications(updatedNotifications);
+  };
+
   const renderEmptyNotifications = () => (
     <View style={NotificationsScreenStyles.emptyNotificationsContainer}>
       <Text style={NotificationsScreenStyles.emptyNotificationsText}>
@@ -111,9 +120,11 @@ const NotificationsScreen = ({
 
   const renderNotificationCard = ({
     item,
-    index,
   }: ListRenderItemInfo<Notification>) => (
-    <NotificationCard notification={item} />
+    <NotificationCard
+      notification={item}
+      onActionSuccess={() => removeNotificationCard(item._id)}
+    />
   );
 
   const renderNotificationCardSeparator = () => (
