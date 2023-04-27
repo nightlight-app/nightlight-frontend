@@ -59,7 +59,7 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
   },
   userInfoContainer: {
-    marginVertical: 10,
+    marginTop: 10,
   },
   userName: {
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -82,7 +82,7 @@ export default StyleSheet.create({
   },
   statsContainer: {
     flexDirection: 'row',
-    marginVertical: 20,
+    marginVertical: 25,
   },
   statContainer: {
     alignItems: 'center',
@@ -107,6 +107,24 @@ export default StyleSheet.create({
     backgroundColor: COLORS.WHITE,
     width: 2,
     borderRadius: 2,
+  },
+  favoriteBarContainer: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  favoriteBarTextContainer: {
+    marginLeft: 10,
+  },
+  favoriteBarText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 20,
+    color: COLORS.WHITE,
+    marginVertical: 5,
+  },
+  favoriteBarDescription: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 12,
+    color: COLORS.GRAY,
   },
 
   // changeCoverButton: {

@@ -161,6 +161,18 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
             <Text style={ProfileScreenStyles.statText}>minutes safe</Text>
           </View>
         </View>
+
+        {/* Favorite Bar */}
+        <View style={ProfileScreenStyles.favoriteBarContainer}>
+          <PartySvg />
+          <View style={ProfileScreenStyles.favoriteBarTextContainer}>
+            {/* TODO: need field on user doc */}
+            <Text style={ProfileScreenStyles.favoriteBarText}>TODO:</Text>
+            <Text style={ProfileScreenStyles.favoriteBarDescription}>
+              seems to be your favorite bar these days
+            </Text>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );
@@ -248,18 +260,6 @@ export default ProfileScreen;
 //       </Text>
 //       <Text style={ProfileScreenStyles.profileStatDesc}>
 //         your special day
-//       </Text>
-//     </View>
-//   </View>
-
-//   {/* Favorite Bar */}
-//   <View style={ProfileScreenStyles.favoriteBarContainer}>
-//     <PartySvg />
-//     <View style={ProfileScreenStyles.favoriteBarTextContainer}>
-//       {/* TODO: need field on user doc */}
-//       <Text style={ProfileScreenStyles.favoriteBarText}>Underground</Text>
-//       <Text style={ProfileScreenStyles.favoriteBarDesc}>
-//         seems to be your favorite bar these days
 //       </Text>
 //     </View>
 //   </View>
