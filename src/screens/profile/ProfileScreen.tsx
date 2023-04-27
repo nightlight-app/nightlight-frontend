@@ -141,6 +141,26 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
             </Text>
           </View>
         </View>
+
+        {/* Stats */}
+        <View style={ProfileScreenStyles.statsContainer}>
+          <View style={ProfileScreenStyles.statContainer}>
+            <Text style={ProfileScreenStyles.statNumber}>
+              {getNumFriends(user)}
+            </Text>
+            <Text style={ProfileScreenStyles.statText}>friends</Text>
+          </View>
+          <View style={ProfileScreenStyles.statDelimiter} />
+          <View style={ProfileScreenStyles.statContainer}>
+            <Text style={ProfileScreenStyles.statNumber}>TODO:</Text>
+            <Text style={ProfileScreenStyles.statText}>groups made</Text>
+          </View>
+          <View style={ProfileScreenStyles.statDelimiter} />
+          <View style={ProfileScreenStyles.statContainer}>
+            <Text style={ProfileScreenStyles.statNumber}>TODO:</Text>
+            <Text style={ProfileScreenStyles.statText}>minutes safe</Text>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );

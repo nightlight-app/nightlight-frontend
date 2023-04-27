@@ -80,6 +80,34 @@ export default StyleSheet.create({
     color: COLORS.GRAY,
     marginBottom: 5,
   },
+  statsContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+  },
+  statContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
+  statNumber: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 24,
+    color: COLORS.WHITE,
+    textAlign: 'center',
+  },
+  statText: {
+    fontFamily: Fonts.COMFORTAA_REGULAR,
+    fontSize: 14,
+    color: COLORS.GRAY,
+    textAlign: 'center',
+  },
+  statDelimiter: {
+    backgroundColor: COLORS.WHITE,
+    width: 2,
+    borderRadius: 2,
+  },
 
   // changeCoverButton: {
   //   position: 'absolute',
