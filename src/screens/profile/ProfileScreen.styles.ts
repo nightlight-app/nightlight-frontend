@@ -8,9 +8,11 @@ import {
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
+  scrollView: {
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+  },
   scrollViewContainer: {
     minHeight: '100%',
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
   },
   coverPicContainer: {
     width: '100%',

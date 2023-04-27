@@ -18,10 +18,7 @@ import {
   User,
 } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
-import {
-  formatPhoneNumber,
-  getNumFriends,
-} from '@nightlight/src/utils/utils';
+import { formatPhoneNumber, getNumFriends } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
 import Button from '@nightlight/components/Button';
@@ -63,6 +60,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   return (
     <ScrollView
       testID={TabRoute.PROFILE_STACK}
+      style={ProfileScreenStyles.scrollView}
       contentContainerStyle={ProfileScreenStyles.scrollViewContainer}>
       {/* Cover Picture */}
       <View style={ProfileScreenStyles.coverPicContainer}>
