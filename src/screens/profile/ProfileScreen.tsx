@@ -11,24 +11,19 @@ import {
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import ProfileScreenStyles from '@nightlight/screens/profile/ProfileScreen.styles';
 import PartySvg from '@nightlight/components/svgs/PartySvg';
-import BottleSvg from '@nightlight/components/svgs/BottleSvg';
 import {
   ProfileRoute,
   BottomTabScreenProps,
   TabRoute,
   User,
 } from '@nightlight/src/types';
-import { MONTHS_PER_YEAR } from '@nightlight/src/constants';
 import { COLORS } from '@nightlight/src/global.styles';
 import {
   formatPhoneNumber,
-  getMonthText,
   getNumFriends,
-  handleFirebaseSignOut,
 } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
-import { Path } from 'react-native-svg';
 import Button from '@nightlight/components/Button';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
@@ -103,11 +98,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
           style={ProfileScreenStyles.profilePic}
         />
       ) : (
-        <View
-          style={[
-            ProfileScreenStyles.profilePic,
-            ProfileScreenStyles.initialsContainer,
-          ]}>
+        <View style={ProfileScreenStyles.profilePic}>
           <Text style={ProfileScreenStyles.initials}>{userInitials}</Text>
         </View>
       )}
@@ -167,26 +158,6 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
               seems to be your favorite bar these days
             </Text>
           </View>
-        </View>
-
-        {/* Calendar */}
-        <View style={ProfileScreenStyles.calendarContainer}>
-          {[...Array(MONTHS_PER_YEAR)].map((_, index) => (
-            <View key={index} style={ProfileScreenStyles.monthView}>
-              <BottleSvg>
-                {/* <Path d={BottleSvg} fill="#c4c4c4" /> */}
-                <Path
-                  d={`M20,180 L80,180 L80,${180 - 0.5 * 140} L20,${
-                    180 - 0.5 * 140
-                  }Z`}
-                  fill='#0080ff'
-                />
-              </BottleSvg>
-              <Text style={ProfileScreenStyles.monthText}>
-                {getMonthText(index)}
-              </Text>
-            </View>
-          ))}
         </View>
 
         {/* Emergency Contacts Button */}

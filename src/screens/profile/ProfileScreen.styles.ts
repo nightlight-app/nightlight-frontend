@@ -42,8 +42,6 @@ export default StyleSheet.create({
     alignSelf: 'center',
     position: 'absolute',
     top: DEVICE_HEIGHT * 0.2 - 150 / 2,
-  },
-  initialsContainer: {
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     justifyContent: 'center',
     alignItems: 'center',
@@ -120,26 +118,7 @@ export default StyleSheet.create({
     fontSize: 12,
     color: COLORS.GRAY,
   },
-  calendarContainer: {
-    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
-    marginHorizontal: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    padding: 10,
-    borderRadius: 10,
-  },
-  monthView: {
-    alignItems: 'center',
-    marginHorizontal: 4,
-  },
-  monthText: {
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 14,
-    color: COLORS.GRAY,
-    marginTop: 8,
-  },
   emergencyContactsButton: {
-    marginVertical: 30,
     // TODO: refactor this to work with home button
     marginBottom:
       SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,

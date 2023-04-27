@@ -121,23 +121,6 @@ export const formatPhoneNumber = (phoneNumberString: string): string | null => {
 };
 
 /**
- * Determines the text to display for a given month index on the profile calendar
- *
- * @param {number} index The index of the month (0-11)
- * @returns {string} The string 'Jan' for index 0, 'Dec' for index 11, and the index + 1 for all other indices
- */
-export const getMonthText = (index: number): string => {
-  switch (index) {
-    case 0:
-      return 'Jan';
-    case 11:
-      return 'Dec';
-    default:
-      return (index + 1).toString();
-  }
-};
-
-/**
  * Sign up new user with Firebase Authentication using email and password.
  *
  * @param email valid string email address
