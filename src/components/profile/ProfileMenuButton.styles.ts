@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     flexDirection: 'row',
-    padding: 10,
+    padding: 15,
     alignItems: 'center',
   },
   topItem: {
