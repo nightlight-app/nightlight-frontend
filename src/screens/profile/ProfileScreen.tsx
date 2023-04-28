@@ -100,7 +100,8 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   return (
     <ScrollView
       testID={TabRoute.PROFILE_STACK}
-      style={ProfileScreenStyles.scrollView}>
+      style={ProfileScreenStyles.scrollView}
+      contentContainerStyle={ProfileScreenStyles.scrollViewContent}>
       {/* Cover Pic */}
       <View style={ProfileScreenStyles.coverPicContainer}>
         <Image

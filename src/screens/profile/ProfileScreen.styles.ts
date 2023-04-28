@@ -11,6 +11,10 @@ export default StyleSheet.create({
   scrollView: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
   },
+  scrollViewContent: {
+    paddingBottom:
+      SAFE_AREA_BOTTOM_MARGIN + NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+  },
   coverPicContainer: {
     width: '100%',
     // borderBottomWidth: 2,
