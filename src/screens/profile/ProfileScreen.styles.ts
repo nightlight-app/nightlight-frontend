@@ -111,6 +111,7 @@ export default StyleSheet.create({
   favoriteBarContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
+    marginBottom: 20,
   },
   favoriteBarTextContainer: {
     marginLeft: 10,
@@ -125,6 +126,13 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 12,
     color: COLORS.GRAY,
+  },
+  emergencyContactsButtonContainer: {
+    marginVertical: 10,
+  },
+  profileMenuContainer: {},
+  itemSeparator: {
+    height: 2,
   },
 
   // changeCoverButton: {

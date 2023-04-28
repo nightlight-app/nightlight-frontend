@@ -5,11 +5,13 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
-  Alert,
+  ListRenderItemInfo,
 } from 'react-native';
 import {
+  AntDesign,
+  MaterialIcons,
   MaterialCommunityIcons,
+  Entypo,
   FontAwesome,
   Ionicons,
 } from '@expo/vector-icons';
@@ -20,12 +22,14 @@ import {
   BottomTabScreenProps,
   TabRoute,
   User,
+  ProfileMenuButtonProps,
 } from '@nightlight/src/types';
 import { COLORS } from '@nightlight/src/global.styles';
 import { formatPhoneNumber, getNumFriends } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
-import Button from '@nightlight/components/Button';
+import ProfileMenuButton from '@nightlight/components/profile/ProfileMenuButton';
+import { FlatList } from 'react-native-gesture-handler';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
@@ -42,24 +46,56 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   // compute user initials
   const userInitials = user.firstName[0] + user.lastName[0];
 
-  // TODO:
-  const handleChangeCoverPicture = () => {
-    Alert.alert('TODO: change cover picture');
-  };
+  // array of buttons to render in the profile menu
+  const profileMenuButtons: ProfileMenuButtonProps[] = [
+    {
+      icon: <Entypo name='lock' size={24} color={COLORS.WHITE} />,
+      text: 'Reset Password',
+      onPress: () => alert('TODO: reset password'),
+    },
+    {
+      icon: <Ionicons name='settings' size={24} color={COLORS.WHITE} />,
+      text: 'Settings',
+      onPress: () => navigation.navigate(ProfileRoute.SETTINGS),
+    },
+    {
+      icon: <AntDesign name='questioncircle' size={24} color={COLORS.WHITE} />,
+      text: 'Support',
+      onPress: () => alert('TODO: support'),
+    },
+  ];
 
-  // TODO:
-  const handleSettingsPress = () => {
-    navigation.navigate(ProfileRoute.SETTINGS);
-  };
-
-  // TODO:
   const handleEditProfile = () => {
-    Alert.alert('TODO: make fields editable edit profile');
+    alert('TODO: make fields editable edit profile');
+  };
+
+  const handleChangeCoverPicture = () => {
+    alert('TODO: change cover picture');
   };
 
   const handleNavigateToEmergencyContacts = () => {
     navigation.navigate(ProfileRoute.EMERGENCY_CONTACTS);
   };
+
+  const renderProfileMenuButton = ({
+    item,
+    index,
+  }: ListRenderItemInfo<ProfileMenuButtonProps>) => {
+    const isFirstItem: boolean = index === 0;
+    const isLastItem: boolean = index === profileMenuButtons.length - 1;
+
+    return (
+      <ProfileMenuButton
+        {...item}
+        isFirstItem={isFirstItem}
+        isLastItem={isLastItem}
+      />
+    );
+  };
+
+  const renderItemSeparator = () => (
+    <View style={ProfileScreenStyles.itemSeparator} />
+  );
 
   return (
     <ScrollView
@@ -173,6 +209,33 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
             </Text>
           </View>
         </View>
+
+        {/* Emergency Contacts Link */}
+        <View style={ProfileScreenStyles.emergencyContactsButtonContainer}>
+          <ProfileMenuButton
+            icon={
+              <MaterialIcons
+                name='medical-services'
+                size={24}
+                color={COLORS.WHITE}
+              />
+            }
+            text='Emergency Contacts'
+            onPress={handleNavigateToEmergencyContacts}
+            isFirstItem
+            isLastItem
+          />
+        </View>
+
+        {/* Profile Menu */}
+        <FlatList
+          style={ProfileScreenStyles.profileMenuContainer}
+          data={profileMenuButtons}
+          renderItem={renderProfileMenuButton}
+          keyExtractor={(_, index) => index.toString()}
+          scrollEnabled={false}
+          ItemSeparatorComponent={renderItemSeparator}
+        />
       </View>
     </ScrollView>
   );

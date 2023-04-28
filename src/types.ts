@@ -354,3 +354,11 @@ export interface DisplayedGroupMember {
   userId: string;
   isInvited: boolean;
 }
+
+export interface ProfileMenuButtonProps {
+  icon?: React.ReactNode;
+  text: string;
+  onPress: () => void;
+  isFirstItem?: boolean;
+  isLastItem?: boolean;
+}
