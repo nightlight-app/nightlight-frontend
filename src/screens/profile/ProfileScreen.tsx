@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import {
   Text,
   View,
@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ListRenderItemInfo,
+  FlatList,
 } from 'react-native';
 import {
   AntDesign,
@@ -29,7 +30,6 @@ import { formatPhoneNumber, getNumFriends } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { TEST_USERS } from '@nightlight/src/testData';
 import ProfileMenuButton from '@nightlight/components/profile/ProfileMenuButton';
-import { FlatList } from 'react-native-gesture-handler';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
