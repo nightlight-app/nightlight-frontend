@@ -48,18 +48,24 @@ export default StyleSheet.create({
     fontFamily: Fonts.COMFORTAA_BOLD,
     color: COLORS.WHITE,
   },
+  editButtonsContainer: {
+    flexDirection: 'row',
+  },
   editProfileButton: {
     backgroundColor: COLORS.NIGHTLIGHT_BLACK,
     borderColor: COLORS.WHITE,
-    borderWidth: 1,
     paddingVertical: 8,
     paddingHorizontal: 10,
     borderRadius: 5,
     marginTop: 10,
+    marginLeft: 10,
+  },
+  saveEditsButton: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
   },
   editProfileText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 12,
+    fontSize: 14,
     color: COLORS.WHITE,
   },
   userInfoContainer: {
@@ -112,21 +118,21 @@ export default StyleSheet.create({
     width: 2,
     borderRadius: 2,
   },
-  favoriteBarContainer: {
+  favoriteVenueContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
     marginBottom: 20,
   },
-  favoriteBarTextContainer: {
+  favoriteVenueTextContainer: {
     marginLeft: 10,
   },
-  favoriteBarText: {
+  favoriteVenueText: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 20,
     color: COLORS.WHITE,
     marginVertical: 5,
   },
-  favoriteBarDescription: {
+  favoriteVenueDescription: {
     fontFamily: Fonts.COMFORTAA_REGULAR,
     fontSize: 12,
     color: COLORS.GRAY,

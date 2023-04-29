@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -34,17 +34,24 @@ import ProfileMenuButton from '@nightlight/components/profile/ProfileMenuButton'
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
 
-  // TODO: change TEST_USER[0] to a fallback user with defualt data
-  const user: User = userDocument
-    ? {
+  const [user, setUser] = useState<User | null | undefined>();
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [newFirstName, setNewFirstName] = useState<string>();
+  const [newLastName, setNewLastName] = useState<string>();
+  const [newEmail, setNewEmail] = useState<string>();
+  const [newPhone, setNewPhone] = useState<string>();
+  const [newBirthday, setNewBirthday] = useState<Date>();
+  const [newFavoriteVenue, setNewFavoriteVenue] = useState<string>();
+
+  useEffect(() => {
+    if (userDocument) {
+      setUser({
         ...userDocument,
         // parse the birthday into Date object
         birthday: new Date(userDocument.birthday),
-      }
-    : TEST_USERS[0];
-
-  // compute user initials
-  const userInitials = user.firstName[0] + user.lastName[0];
+      });
+    }
+  }, [userDocument]);
 
   // array of buttons to render in the profile menu
   const profileMenuButtons: ProfileMenuButtonProps[] = [
@@ -65,8 +72,12 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
     },
   ];
 
-  const handleEditProfile = () => {
-    alert('TODO: make fields editable edit profile');
+  const toggleEditMode = () => {
+    setIsEditing(prev => !prev);
+  };
+
+  const handleSaveEdits = () => {
+    alert('TODO: save edits');
   };
 
   const handleChangeCoverPicture = () => {
@@ -114,32 +125,47 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
       <View style={ProfileScreenStyles.contentContainer}>
         <View style={ProfileScreenStyles.contentHeader}>
           {/* Profile Pic */}
-          {user.imgUrlProfileSmall ? (
+          {user?.imgUrlProfileSmall ? (
             <Image
               source={{ uri: user.imgUrlProfileSmall }}
               style={ProfileScreenStyles.profilePic}
             />
           ) : (
             <View style={ProfileScreenStyles.profilePic}>
-              <Text style={ProfileScreenStyles.initials}>{userInitials}</Text>
+              <Text style={ProfileScreenStyles.initials}>
+                {user && user.firstName[0] + user.lastName[0]}
+              </Text>
             </View>
           )}
 
           {/* Edit Button */}
-          <TouchableOpacity
-            onPress={handleEditProfile}
-            activeOpacity={0.75}
-            style={ProfileScreenStyles.editProfileButton}>
-            <Text style={ProfileScreenStyles.editProfileText}>
-              Edit Profile
-            </Text>
-          </TouchableOpacity>
+          <View style={ProfileScreenStyles.editButtonsContainer}>
+            {isEditing && (
+              <TouchableOpacity
+                onPress={handleSaveEdits}
+                activeOpacity={0.75}
+                style={[
+                  ProfileScreenStyles.editProfileButton,
+                  ProfileScreenStyles.saveEditsButton,
+                ]}>
+                <Text style={ProfileScreenStyles.editProfileText}>Save</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity
+              onPress={toggleEditMode}
+              activeOpacity={0.75}
+              style={ProfileScreenStyles.editProfileButton}>
+              <Text style={ProfileScreenStyles.editProfileText}>
+                {isEditing ? 'Cancel' : 'Edit Profile'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* User Info */}
         <View style={ProfileScreenStyles.userInfoContainer}>
           <Text style={ProfileScreenStyles.userName}>
-            {user.firstName} {user.lastName}
+            {user && user.firstName + ' ' + user.lastName}
           </Text>
           <View style={ProfileScreenStyles.userDetailContainer}>
             <MaterialCommunityIcons
@@ -148,7 +174,9 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
               color={COLORS.GRAY}
               style={ProfileScreenStyles.userDetailIcon}
             />
-            <Text style={ProfileScreenStyles.userDetailText}>{user.email}</Text>
+            <Text style={ProfileScreenStyles.userDetailText}>
+              {user && user.email}
+            </Text>
           </View>
           <View style={ProfileScreenStyles.userDetailContainer}>
             <FontAwesome
@@ -158,7 +186,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
               style={ProfileScreenStyles.userDetailIcon}
             />
             <Text style={ProfileScreenStyles.userDetailText}>
-              {formatPhoneNumber(user.phone)}
+              {user && formatPhoneNumber(user.phone)}
             </Text>
           </View>
           <View style={ProfileScreenStyles.userDetailContainer}>
@@ -169,12 +197,13 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
               style={ProfileScreenStyles.userDetailIcon}
             />
             <Text style={ProfileScreenStyles.userDetailText}>
-              {user.birthday.toLocaleString('en-US', {
-                timeZone: 'UTC',
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              {user &&
+                user.birthday.toLocaleString('en-US', {
+                  timeZone: 'UTC',
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
             </Text>
           </View>
         </View>
@@ -183,7 +212,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
         <View style={ProfileScreenStyles.statsContainer}>
           <View style={ProfileScreenStyles.statContainer}>
             <Text style={ProfileScreenStyles.statNumber}>
-              {getNumFriends(user)}
+              {user && getNumFriends(user)}
             </Text>
             <Text style={ProfileScreenStyles.statText}>friends</Text>
           </View>
@@ -199,14 +228,14 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
           </View>
         </View>
 
-        {/* Favorite Bar */}
-        <View style={ProfileScreenStyles.favoriteBarContainer}>
+        {/* Favorite Venue */}
+        <View style={ProfileScreenStyles.favoriteVenueContainer}>
           <PartySvg />
-          <View style={ProfileScreenStyles.favoriteBarTextContainer}>
+          <View style={ProfileScreenStyles.favoriteVenueTextContainer}>
             {/* TODO: need field on user doc */}
-            <Text style={ProfileScreenStyles.favoriteBarText}>TODO:</Text>
-            <Text style={ProfileScreenStyles.favoriteBarDescription}>
-              seems to be your favorite bar these days
+            <Text style={ProfileScreenStyles.favoriteVenueText}>TODO:</Text>
+            <Text style={ProfileScreenStyles.favoriteVenueDescription}>
+              seems to be your favorite venue these days
             </Text>
           </View>
         </View>
