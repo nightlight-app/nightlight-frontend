@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   ListRenderItemInfo,
   FlatList,
+  TextInput,
 } from 'react-native';
+import DatePicker from 'react-native-date-picker';
 import {
   AntDesign,
   MaterialIcons,
@@ -28,7 +30,6 @@ import {
 import { COLORS } from '@nightlight/src/global.styles';
 import { formatPhoneNumber, getNumFriends } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
-import { TEST_USERS } from '@nightlight/src/testData';
 import ProfileMenuButton from '@nightlight/components/profile/ProfileMenuButton';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
@@ -40,7 +41,9 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const [newLastName, setNewLastName] = useState<string>();
   const [newEmail, setNewEmail] = useState<string>();
   const [newPhone, setNewPhone] = useState<string>();
+  const [formattedNewPhone, setFormattedNewPhone] = useState<string | null>();
   const [newBirthday, setNewBirthday] = useState<Date>();
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
   const [newFavoriteVenue, setNewFavoriteVenue] = useState<string>();
 
   useEffect(() => {
@@ -52,6 +55,24 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
       });
     }
   }, [userDocument]);
+
+  useEffect(() => {
+    // if no longer editing, reset the new values to the user's current values
+    if (!isEditing && user) {
+      setNewFirstName(user.firstName);
+      setNewLastName(user.lastName);
+      setNewEmail(user.email);
+      setNewPhone(user.phone);
+      setFormattedNewPhone(formatPhoneNumber(user.phone));
+      setNewBirthday(user.birthday);
+      // setNewFavoriteVenue(user.favoriteVenue); // TODO: uncomment when favoriteVenue is added to User
+    }
+  }, [isEditing, user]);
+
+  // Determine formatted phone number as user types
+  useEffect(() => {
+    if (newPhone) setFormattedNewPhone(formatPhoneNumber(newPhone));
+  }, [newPhone]);
 
   // array of buttons to render in the profile menu
   const profileMenuButtons: ProfileMenuButtonProps[] = [
@@ -77,6 +98,9 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   };
 
   const handleSaveEdits = () => {
+    // TODO: add validation
+    // TODO: add country code to phone number
+    // TODO: parse birthday into Date object
     alert('TODO: save edits');
   };
 
@@ -86,6 +110,11 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
 
   const handleNavigateToEmergencyContacts = () => {
     navigation.navigate(ProfileRoute.EMERGENCY_CONTACTS);
+  };
+
+  const handlePhoneChange = (text: string) => {
+    // only allow numbers
+    setNewPhone(text.replace(/\D/g, ''));
   };
 
   const renderProfileMenuButton = ({
@@ -164,48 +193,106 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
 
         {/* User Info */}
         <View style={ProfileScreenStyles.userInfoContainer}>
-          <Text style={ProfileScreenStyles.userName}>
-            {user && user.firstName + ' ' + user.lastName}
-          </Text>
-          <View style={ProfileScreenStyles.userDetailContainer}>
-            <MaterialCommunityIcons
-              name='email'
-              size={20}
-              color={COLORS.GRAY}
-              style={ProfileScreenStyles.userDetailIcon}
-            />
-            <Text style={ProfileScreenStyles.userDetailText}>
-              {user && user.email}
-            </Text>
-          </View>
-          <View style={ProfileScreenStyles.userDetailContainer}>
-            <FontAwesome
-              name='phone'
-              size={20}
-              color={COLORS.GRAY}
-              style={ProfileScreenStyles.userDetailIcon}
-            />
-            <Text style={ProfileScreenStyles.userDetailText}>
-              {user && formatPhoneNumber(user.phone)}
-            </Text>
-          </View>
-          <View style={ProfileScreenStyles.userDetailContainer}>
-            <MaterialCommunityIcons
-              name='cake-variant'
-              size={20}
-              color={COLORS.GRAY}
-              style={ProfileScreenStyles.userDetailIcon}
-            />
-            <Text style={ProfileScreenStyles.userDetailText}>
-              {user &&
-                user.birthday.toLocaleString('en-US', {
-                  timeZone: 'UTC',
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric',
-                })}
-            </Text>
-          </View>
+          {isEditing ? (
+            <>
+              <TextInput
+                value={newFirstName}
+                onChangeText={setNewFirstName}
+                style={ProfileScreenStyles.textInput}
+                placeholder='First Name'
+              />
+              <TextInput
+                value={newLastName}
+                onChangeText={setNewLastName}
+                style={ProfileScreenStyles.textInput}
+                placeholder='Last Name'
+              />
+              <TextInput
+                value={newEmail}
+                onChangeText={setNewEmail}
+                style={ProfileScreenStyles.textInput}
+                placeholder='Email'
+              />
+              <TextInput
+                value={formattedNewPhone || newPhone}
+                onChangeText={handlePhoneChange}
+                style={ProfileScreenStyles.textInput}
+                placeholder='Phone'
+              />
+              <TouchableOpacity
+                onPress={() => setIsDatePickerOpen(true)}
+                style={ProfileScreenStyles.textInput}
+                activeOpacity={0.75}>
+                <Text style={ProfileScreenStyles.datePickerButtonText}>
+                  {newBirthday?.toLocaleString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
+                </Text>
+              </TouchableOpacity>
+              <DatePicker
+                modal
+                open={isDatePickerOpen}
+                date={newBirthday || new Date()}
+                onConfirm={(date: Date) => {
+                  setIsDatePickerOpen(false);
+                  setNewBirthday(date);
+                }}
+                onCancel={() => {
+                  setIsDatePickerOpen(false);
+                }}
+                mode='date'
+                theme='dark'
+              />
+            </>
+          ) : (
+            <>
+              <Text style={ProfileScreenStyles.userName}>
+                {user && user.firstName + ' ' + user.lastName}
+              </Text>
+              <View style={ProfileScreenStyles.userDetailContainer}>
+                <MaterialCommunityIcons
+                  name='email'
+                  size={20}
+                  color={COLORS.GRAY}
+                  style={ProfileScreenStyles.userDetailIcon}
+                />
+                <Text style={ProfileScreenStyles.userDetailText}>
+                  {user && user.email}
+                </Text>
+              </View>
+              <View style={ProfileScreenStyles.userDetailContainer}>
+                <FontAwesome
+                  name='phone'
+                  size={20}
+                  color={COLORS.GRAY}
+                  style={ProfileScreenStyles.userDetailIcon}
+                />
+                <Text style={ProfileScreenStyles.userDetailText}>
+                  {user && formatPhoneNumber(user.phone)}
+                </Text>
+              </View>
+              <View style={ProfileScreenStyles.userDetailContainer}>
+                <MaterialCommunityIcons
+                  name='cake-variant'
+                  size={20}
+                  color={COLORS.GRAY}
+                  style={ProfileScreenStyles.userDetailIcon}
+                />
+                <Text style={ProfileScreenStyles.userDetailText}>
+                  {user &&
+                    user.birthday.toLocaleString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                </Text>
+              </View>
+            </>
+          )}
         </View>
 
         {/* Stats */}

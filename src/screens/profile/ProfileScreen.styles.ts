@@ -77,6 +77,23 @@ export default StyleSheet.create({
     color: COLORS.WHITE,
     marginBottom: 5,
   },
+  textInput: {
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    padding: 5,
+    marginBottom: 5,
+    borderWidth: 1,
+    borderColor: COLORS.DARK_GRAY,
+    borderRadius: 5,
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    color: COLORS.WHITE,
+    fontSize: 20,
+    flex: 1,
+  },
+  datePickerButtonText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    color: COLORS.WHITE,
+    fontSize: 20,
+  },
   userDetailContainer: {
     flexDirection: 'row',
     alignItems: 'baseline',
