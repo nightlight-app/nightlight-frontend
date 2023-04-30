@@ -320,7 +320,16 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
           <PartySvg />
           <View style={ProfileScreenStyles.favoriteVenueTextContainer}>
             {/* TODO: need field on user doc */}
-            <Text style={ProfileScreenStyles.favoriteVenueText}>TODO:</Text>
+            {isEditing ? (
+              <TextInput
+                value={newFavoriteVenue}
+                onChangeText={setNewFavoriteVenue}
+                style={ProfileScreenStyles.textInput}
+                placeholder='Favorite Venue'
+              />
+            ) : (
+              <Text style={ProfileScreenStyles.favoriteVenueText}>TODO:</Text>
+            )}
             <Text style={ProfileScreenStyles.favoriteVenueDescription}>
               seems to be your favorite venue these days
             </Text>
