@@ -32,6 +32,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
+  profilePicContainer: {},
   profilePic: {
     height: 150,
     width: 150,
@@ -47,6 +48,17 @@ export default StyleSheet.create({
     fontSize: 65,
     fontFamily: Fonts.COMFORTAA_BOLD,
     color: COLORS.WHITE,
+  },
+  changeProfilePictureButton: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: COLORS.WHITE,
+    width: 45,
+    height: 45,
+    borderRadius: 45 / 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   editButtonsContainer: {
     flexDirection: 'row',
