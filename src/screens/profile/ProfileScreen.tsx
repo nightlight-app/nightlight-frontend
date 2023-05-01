@@ -245,6 +245,7 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
                 }}
                 mode='date'
                 theme='dark'
+                timeZoneOffsetInMinutes={0}
               />
             </>
           ) : (
