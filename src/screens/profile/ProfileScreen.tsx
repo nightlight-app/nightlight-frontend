@@ -31,6 +31,7 @@ import { COLORS } from '@nightlight/src/global.styles';
 import { formatPhoneNumber, getNumFriends } from '@nightlight/src/utils/utils';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import ProfileMenuButton from '@nightlight/components/profile/ProfileMenuButton';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
   const { userDocument } = useAuthContext();
@@ -200,24 +201,51 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
                 onChangeText={setNewFirstName}
                 style={ProfileScreenStyles.textInput}
                 placeholder='First Name'
+                autoCapitalize='words'
+                autoComplete='name-given'
+                autoCorrect={false}
+                returnKeyType='done'
+                clearButtonMode='while-editing'
+                keyboardAppearance='dark'
               />
               <TextInput
                 value={newLastName}
                 onChangeText={setNewLastName}
                 style={ProfileScreenStyles.textInput}
                 placeholder='Last Name'
+                autoCapitalize='words'
+                autoComplete='name-family'
+                autoCorrect={false}
+                returnKeyType='done'
+                clearButtonMode='while-editing'
+                keyboardAppearance='dark'
               />
               <TextInput
                 value={newEmail}
                 onChangeText={setNewEmail}
                 style={ProfileScreenStyles.textInput}
                 placeholder='Email'
+                autoCapitalize='none'
+                autoComplete='email'
+                autoCorrect={false}
+                keyboardType='email-address'
+                returnKeyType='done'
+                clearButtonMode='while-editing'
+                keyboardAppearance='dark'
               />
               <TextInput
                 value={formattedNewPhone || newPhone}
                 onChangeText={handlePhoneChange}
                 style={ProfileScreenStyles.textInput}
                 placeholder='Phone'
+                autoCapitalize='none'
+                autoComplete='tel'
+                autoCorrect={false}
+                keyboardType='phone-pad'
+                returnKeyType='done'
+                maxLength={14}
+                clearButtonMode='while-editing'
+                keyboardAppearance='dark'
               />
               <TouchableOpacity
                 onPress={() => setIsDatePickerOpen(true)}
@@ -327,6 +355,12 @@ const ProfileScreen = ({ navigation }: BottomTabScreenProps) => {
                 onChangeText={setNewFavoriteVenue}
                 style={ProfileScreenStyles.textInput}
                 placeholder='Favorite Venue'
+                autoCapitalize='none'
+                autoComplete='off'
+                autoCorrect={false}
+                returnKeyType='done'
+                clearButtonMode='while-editing'
+                keyboardAppearance='dark'
               />
             ) : (
               <Text style={ProfileScreenStyles.favoriteVenueText}>TODO:</Text>
