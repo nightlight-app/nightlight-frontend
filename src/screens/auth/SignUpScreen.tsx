@@ -20,9 +20,11 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { User as FirebaseUser } from 'firebase/auth';
 import {
-  NativeStackScreenProps,
+  AuthRoute,
+  AuthStackParamList,
   SignUpInputField,
   User,
 } from '@nightlight/src/types';
@@ -43,7 +45,9 @@ import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import SmileyFaceSvg from '@nightlight/components/svgs/SmileyFaceSvg';
 import { customFetch } from '@nightlight/src/api';
 
-const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
+const SignUpScreen = ({
+  navigation,
+}: NativeStackScreenProps<AuthStackParamList, AuthRoute.SIGN_UP>) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const [firstName, setFirstName] = useState('');
@@ -152,6 +156,13 @@ const SignUpScreen = ({ navigation }: NativeStackScreenProps) => {
         email,
         firebaseUid: firebaseUser.uid,
         phone: phoneNumber,
+        isActiveNow: false,
+        isEmergency: false,
+        birthday: new Date().toUTCString(),
+        // TODO: Replace below (these are just placeholders for fun)
+        imgUrlCover: 'https://picsum.photos/1000',
+        imgUrlProfileLarge: 'https://picsum.photos/800',
+        imgUrlProfileSmall: 'https://picsum.photos/400',
       };
 
       const data = await customFetch({

@@ -1,91 +1,152 @@
 import React, { useState } from 'react';
-import { View, Image, Text, Pressable } from 'react-native';
-import UserCardStyles from '@nightlight/components/social/SearchUserCard.styles';
-import { SearchUserCardProps } from '@nightlight/src/types';
+import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import {
+  SearchUserCardProps,
+  SocialRoute,
+  SocialStackParamList,
+  User,
+  FriendStatus,
+} from '@nightlight/src/types';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import UserCardStyles from '@nightlight/components/social/SearchUserCard.styles';
 import { customFetch } from '@nightlight/src/api';
 
 const SearchUserCard = ({
-  firstName,
-  lastName,
-  index,
-  isAdded,
-  image,
-  friendId,
+  isFirstItem,
+  isLastItem,
+  user,
 }: SearchUserCardProps) => {
-  let isEvenIndex = index % 2 !== 0;
-  const [added, setAdded] = useState(isAdded);
-  const [addText, setAddText] = useState(added ? 'ADDED' : 'ADD');
-  const { userDocument } = useAuthContext();
+  const { userSession, userDocument, updateUserDocument } = useAuthContext();
 
-  const handlePress = () => {
-    setAdded(prev => !prev);
-    setAddText(added ? 'ADD' : 'ADDED');
+  const navigation = useNavigation<NavigationProp<SocialStackParamList>>();
 
-    // send request to backend to add friend
-    if (!added) {
-      customFetch({
-        resourceUrl: `/users/${userDocument?._id}/request-friend/?friendId=${friendId}`,
+  const imgUrl: string | undefined = user.imgUrlProfileSmall;
+
+  const [friendStatus, setFriendStatus] = useState<FriendStatus>(
+    userDocument && userDocument.friends.includes(user._id)
+      ? FriendStatus.FRIEND
+      : userDocument && userDocument.sentFriendRequests?.includes(user._id)
+      ? FriendStatus.REQUESTED
+      : FriendStatus.ADD
+  );
+
+  const handleUserPress = (user: User) => {
+    navigation.navigate(SocialRoute.USER_PROFILE, { user });
+  };
+
+  const handleAddFriend = async () => {
+    setFriendStatus(FriendStatus.REQUESTED);
+
+    try {
+      await customFetch({
+        resourceUrl: `/users/${userDocument?._id}/request-friend?friendId=${user._id}`,
         options: {
           method: 'PATCH',
         },
-      })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(e => {
-          console.error('Error: ', e.response.message);
-        });
-    } else {
-      // send request to backend to remove friend
-      customFetch({
-        resourceUrl: `/users/${userDocument?._id}/remove-friend/?friendId=${friendId}`,
+      });
+      if (userSession) updateUserDocument(userSession);
+    } catch (error) {
+      console.error(
+        '[SeachUserCard] An error occurred while adding friend:\n',
+        error
+      );
+      setFriendStatus(FriendStatus.ADD);
+    }
+  };
+
+  const handleRemoveFriend = async () => {
+    setFriendStatus(FriendStatus.ADD);
+
+    try {
+      await customFetch({
+        resourceUrl: `/users/${userDocument?._id}/remove-friend?friendId=${user._id}`,
         options: {
           method: 'PATCH',
         },
-      })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(e => {
-          console.error('Error: ', e.response.message);
-        });
+      });
+      if (userSession) updateUserDocument(userSession);
+    } catch (error) {
+      console.error(
+        '[SeachUserCard] An error occurred while removing friend:\n',
+        error
+      );
+      setFriendStatus(FriendStatus.FRIEND);
+    }
+  };
+
+  const handleCancelFriendRequest = async () => {
+    setFriendStatus(FriendStatus.ADD);
+
+    try {
+      await customFetch({
+        resourceUrl: `/users/${userDocument?._id}/remove-friend-request?friendId=${user._id}`,
+        options: {
+          method: 'PATCH',
+        },
+      });
+      if (userSession) updateUserDocument(userSession);
+    } catch (error) {
+      console.error(
+        '[SeachUserCard] An error occurred while cancelling friend request:\n',
+        error
+      );
+      setFriendStatus(FriendStatus.REQUESTED);
+    }
+  };
+
+  const handleFriendButtonPress = () => {
+    switch (friendStatus) {
+      case FriendStatus.ADD:
+        handleAddFriend();
+        break;
+      case FriendStatus.REQUESTED:
+        handleCancelFriendRequest();
+        break;
+      case FriendStatus.FRIEND:
+        handleRemoveFriend();
+        break;
+      default:
+        console.warn('[SearchUserCard] Invalid friend status:', friendStatus);
+        return;
     }
   };
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => handleUserPress(user)}
       style={[
-        UserCardStyles.container,
-        isEvenIndex && UserCardStyles.containerAlt,
-      ]}>
-      <View style={UserCardStyles.leftSide}>
-        <Image
-          source={
-            image === '@nightlight/assets/images/anon.png'
-              ? require('@nightlight/assets/images/anon.png')
-              : { uri: `${image}` }
-          }
-          style={UserCardStyles.profileImage}
-        />
-        <View>
-          <Text style={UserCardStyles.name}>
-            {firstName} {lastName}
-          </Text>
-        </View>
+        UserCardStyles.itemContainer,
+        isFirstItem && UserCardStyles.topItem,
+        isLastItem && UserCardStyles.bottomItem,
+      ]}
+      activeOpacity={0.75}>
+      <View style={UserCardStyles.userInfoContainer}>
+        {imgUrl ? (
+          <Image source={{ uri: imgUrl }} style={UserCardStyles.profileImage} />
+        ) : (
+          <View style={UserCardStyles.profileImage}>
+            <Text style={UserCardStyles.userName}>
+              {user.firstName[0] + user.lastName[0]}
+            </Text>
+          </View>
+        )}
+        <Text style={UserCardStyles.userName}>
+          {user.firstName} {user.lastName}
+        </Text>
       </View>
-      <View style={UserCardStyles.rowview}>
-        <Pressable
-          onPress={handlePress}
-          style={[
-            UserCardStyles.addButton,
-            added && UserCardStyles.addedButton,
-          ]}>
-          <Text style={UserCardStyles.addButtonText}>{addText}</Text>
-        </Pressable>
-        {/* <EllipseSvg style={UserCardStyles.ellipse} /> */}
-      </View>
-    </View>
+      <TouchableOpacity
+        onPress={handleFriendButtonPress}
+        style={[
+          UserCardStyles.friendButton,
+          (friendStatus === FriendStatus.FRIEND ||
+            friendStatus === FriendStatus.REQUESTED) &&
+            UserCardStyles.grayedOutButton,
+        ]}
+        activeOpacity={0.75}>
+        <Text style={UserCardStyles.statusText}>{friendStatus}</Text>
+      </TouchableOpacity>
+    </TouchableOpacity>
   );
 };
 

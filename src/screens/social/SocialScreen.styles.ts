@@ -1,124 +1,105 @@
+import { StyleSheet } from 'react-native';
 import { COLORS, Fonts } from '@nightlight/src/global.styles';
-import { Dimensions, StyleSheet } from 'react-native';
-
-const { height, width } = Dimensions.get('window');
+import {
+  DEVICE_HEIGHT,
+  EMERGENCY_BUTTON_RADIUS,
+  NAVBAR_HEIGHT,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
   container: {
-    display: 'flex',
-    flexGrow: 1,
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
+    height: DEVICE_HEIGHT,
   },
-  safeview: {
-    marginBottom: 114,
-    width: '100%',
-    maxWidth: 650,
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: 15,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerButton: {
+    padding: 10,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 24,
     color: COLORS.WHITE,
-    alignSelf: 'center',
+    marginVertical: 10,
+    textAlign: 'center',
   },
-  topRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+  scrollViewContent: {
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
   },
-  notifButton: {
-    marginLeft: '3%',
-  },
-  addFriendsButton: {
-    marginRight: '3%',
-  },
-  rowView: {
-    display: 'flex',
+  sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 15,
+    marginBottom: 10,
   },
-  activeGroupText: {
-    alignSelf: 'flex-start',
-    marginLeft: '6%',
+  sectionHeaderTitle: {
     fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 16,
-    color: COLORS.GREEN,
-    textShadowColor: COLORS.NIGHTLIGHT_BLACK,
-    textShadowOffset: { width: 0, height: 4 },
-    textShadowRadius: 4,
-    paddingTop: 5,
-  },
-  activeBox: {
-    width: '90%',
-    // borderColor: COLORS.GREEN,
-    borderRadius: 10,
-    // borderWidth: 2,
-    marginTop: 5,
-    alignSelf: 'center',
-    // shadowColor: COLORS.GREEN,
-    // shadowOffset: { width: 0, height: 0 },
-    // shadowRadius: 10,
-    // shadowOpacity: 0.5,
-  },
-  glow: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-    borderColor: COLORS.GREEN,
-    borderWidth: 2,
-    shadowColor: COLORS.GREEN,
-    shadowOffset: { width: 0, height: 0 },
-    shadowRadius: 10,
-    shadowOpacity: 0.75,
-    borderRadius: 10,
-  },
-  allFriendsText: {
-    marginLeft: '6%',
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 16,
-    color: COLORS.GRAY,
-    textShadowColor: COLORS.NIGHTLIGHT_BLACK,
-    textShadowOffset: { width: 0, height: 4 },
-    textShadowRadius: 4,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  friendBox: {
-    alignSelf: 'center',
-    display: 'flex',
-    width: '90%',
-    borderColor: COLORS.NIGHTLIGHT_BLACK,
-    borderRadius: 10,
-    borderWidth: 1,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 4,
-  },
-  greenCircle: {
-    width: 20,
-    height: 20,
-    borderRadius: width / 2,
-    backgroundColor: COLORS.GREEN,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 5,
-  },
-  grayCircle: {
-    width: 20,
-    height: 20,
-    borderRadius: width / 2,
-    backgroundColor: COLORS.GRAY,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 5,
-  },
-  numberText: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 14,
+    fontSize: 18,
     color: COLORS.WHITE,
   },
+  sectionHeaderCountContainer: {
+    marginLeft: 5,
+    borderRadius: 11,
+    height: 22,
+    minWidth: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 5,
+    backgroundColor: COLORS.NIGHTLIGHT_BLUE,
+  },
+  sectionHeaderCount: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
+    textAlign: 'center',
+    color: COLORS.WHITE,
+  },
+  friendsList: {},
+  itemContainer: {
+    flexDirection: 'row',
+    padding: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+  },
+  topItem: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  bottomItem: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  userInfoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  profileImage: {
+    width: 45,
+    height: 45,
+    borderRadius: 45 / 2,
+    borderWidth: 2,
+    borderColor: COLORS.WHITE,
+    marginRight: 10,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userName: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 18,
+    color: COLORS.WHITE,
+  },
+  itemSeparator: {
+    height: 2,
+  },
+  emptyAvailableUsersContainer: {},
   emptyAvailableUsersText: {
     color: COLORS.GRAY,
     fontFamily: Fonts.COMFORTAA_BOLD,
@@ -128,5 +109,18 @@ export default StyleSheet.create({
     marginBottom: 15,
     marginHorizontal: 50,
     lineHeight: 18,
+  },
+  addFriendsButton: {
+    alignSelf: 'center',
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
+    borderColor: COLORS.DARK_GRAY,
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 20,
+  },
+  addFriendsButtonText: {
+    color: COLORS.GRAY,
+    fontFamily: Fonts.COMFORTAA_BOLD,
   },
 });

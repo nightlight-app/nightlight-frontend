@@ -1,76 +1,72 @@
-import FriendCard from '@nightlight/components/social/FriendCard';
-import AddFriendsSvg from '@nightlight/components/svgs/AddFriendsSvg';
-import NotificationSvg from '@nightlight/components/svgs/NotificationSvg';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  BottomTabScreenProps,
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
+  ListRenderItemInfo,
+  Image,
+  RefreshControl,
+} from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import {
   SocialRoute,
+  SocialStackParamList,
   TabRoute,
+  User,
 } from '@nightlight/src/types';
-import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import SocialScreenStyles from '@nightlight/screens/social/SocialScreen.styles';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 import { customFetch } from '@nightlight/src/api';
+import { COLORS } from '@nightlight/src/global.styles';
 
-const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
-  // number of members in active group
-  const [groupCount, setGroupCount] = useState(0);
-  const [activeGroup, setActiveGroup] = useState([]);
-
-  // user id
+const SocialScreen = ({
+  navigation,
+}: NativeStackScreenProps<SocialStackParamList, SocialRoute.SOCIAL>) => {
+  // current user ID
   const { userDocument } = useAuthContext();
-  let userid = userDocument?._id;
+  const userId = userDocument?._id;
 
-  // number of friends
-  const [friendCount, setFriendCount] = useState(0);
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState<User[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
-  // get active group and friend from backend
-  useEffect(() => {
-    //get friends
-    customFetch({
-      resourceUrl: `/users/${userid}/friends/`,
-      options: {
-        method: 'GET',
-      },
-    })
-      .then(res => {
-        setFriends(res.friends);
-        setFriendCount(friends.length);
-      })
-      .catch(e => {
-        console.error('Error: ', e);
+  // fetches user's list of friends
+  const fetchFriends = async () => {
+    try {
+      const response = await customFetch({
+        resourceUrl: `/users/${userId}/friends/`,
+        options: {
+          method: 'GET',
+        },
       });
 
-    //get active group
-    // let groupid = userDocument?.currentGroup;
-    // if (groupid) {
-    //   customFetch({
-    //     resourceUrl: `/groups/?groupId=${groupid}`,
-    //     options: {
-    //       method: 'GET',
-    //     },
-    //   })
-    //     .then(res => {
-    //       console.log(res);
-    //       setActiveGroup(res.group);
-    //       setGroupCount(activeGroup.length);
-    //     })
-    //     .catch(e => {
-    //       console.log('Error: ', e);
-    //     });
-    // }
-  }, []);
+      setFriends(response.friends);
+    } catch (error) {
+      console.error(
+        '[Social Screen] A problem occured while fetching friends:',
+        error
+      );
+    }
+  };
 
-  // called when there are no active group
-  const renderEmptyGroup = () => (
-    // TODO: figure out what to put here
-    <View>
-      <Text style={SocialScreenStyles.emptyAvailableUsersText}>
-        No active group
-      </Text>
-    </View>
-  );
+  const isFocused = useIsFocused();
+
+  // fetch friends when screen is focused
+  useEffect(() => {
+    if (isFocused) {
+      fetchFriends();
+    }
+  }, [isFocused]);
+
+  const onRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchFriends();
+    setIsRefreshing(false);
+  }, []);
 
   const handleNavigateToFindFriends = () => {
     navigation.navigate(SocialRoute.FRIEND_SEARCH);
@@ -80,69 +76,116 @@ const SocialScreen = ({ navigation }: BottomTabScreenProps) => {
     navigation.navigate(SocialRoute.NOTIFICATIONS);
   };
 
+  const renderFriendItem = ({ item, index }: ListRenderItemInfo<User>) => {
+    const isFirstItem = index === 0;
+    const isLastItem = index === friends.length - 1;
+    const imgUrl = item.imgUrlProfileSmall;
+
+    return (
+      <View
+        style={[
+          SocialScreenStyles.itemContainer,
+          isFirstItem && SocialScreenStyles.topItem,
+          isLastItem && SocialScreenStyles.bottomItem,
+        ]}>
+        <View style={SocialScreenStyles.userInfoContainer}>
+          {imgUrl ? (
+            <Image
+              source={{ uri: imgUrl }}
+              style={SocialScreenStyles.profileImage}
+            />
+          ) : (
+            <View style={SocialScreenStyles.profileImage}>
+              <Text style={SocialScreenStyles.userName}>
+                {item.firstName[0] + item.lastName[0]}
+              </Text>
+            </View>
+          )}
+          <Text style={SocialScreenStyles.userName}>
+            {item.firstName} {item.lastName}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
+  const renderItemSeparator = () => (
+    <View style={SocialScreenStyles.itemSeparator} />
+  );
+
+  const renderEmptyFriendsList = () => (
+    <View style={SocialScreenStyles.emptyAvailableUsersContainer}>
+      <Text style={SocialScreenStyles.emptyAvailableUsersText}>
+        Well, what are you waiting for? Go make some friends!
+      </Text>
+      <TouchableOpacity
+        onPress={handleNavigateToFindFriends}
+        style={SocialScreenStyles.addFriendsButton}
+        activeOpacity={0.75}>
+        <Text style={SocialScreenStyles.addFriendsButtonText}>
+          + Add Friends
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   return (
-    <View testID={TabRoute.SOCIAL_STACK} style={SocialScreenStyles.container}>
-      <SafeAreaView style={SocialScreenStyles.safeview}>
-        <View style={SocialScreenStyles.topRow}>
-          <Pressable onPress={handleNavigateToNotifications}>
-            <NotificationSvg style={SocialScreenStyles.notifButton} />
-          </Pressable>
+    <SafeAreaView
+      testID={TabRoute.SOCIAL_STACK}
+      style={SocialScreenStyles.container}>
+      <View style={SocialScreenStyles.contentContainer}>
+        {/* Header */}
+        <View style={SocialScreenStyles.header}>
+          <TouchableOpacity
+            style={SocialScreenStyles.headerButton}
+            onPress={handleNavigateToNotifications}
+            activeOpacity={0.75}>
+            <Feather name='bell' size={26} color={COLORS.WHITE} />
+          </TouchableOpacity>
           <Text style={SocialScreenStyles.title}>Social</Text>
-          <Pressable onPress={handleNavigateToFindFriends}>
-            <AddFriendsSvg style={SocialScreenStyles.addFriendsButton} />
-          </Pressable>
+          <TouchableOpacity
+            style={SocialScreenStyles.headerButton}
+            onPress={handleNavigateToFindFriends}
+            activeOpacity={0.75}>
+            <Ionicons name='person-add' size={26} color={COLORS.WHITE} />
+          </TouchableOpacity>
         </View>
 
-        <ScrollView>
-          <View style={SocialScreenStyles.rowView}>
-            <Text style={SocialScreenStyles.activeGroupText}>Active Group</Text>
-            <View style={SocialScreenStyles.greenCircle}>
-              <Text style={SocialScreenStyles.numberText}>{groupCount}</Text>
+        {/* Content */}
+        <ScrollView
+          indicatorStyle='white'
+          contentContainerStyle={SocialScreenStyles.scrollViewContent}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              tintColor={COLORS.GRAY}
+            />
+          }>
+          {/* All friends */}
+          <View style={SocialScreenStyles.sectionHeader}>
+            <Text style={SocialScreenStyles.sectionHeaderTitle}>
+              All Friends
+            </Text>
+            <View style={SocialScreenStyles.sectionHeaderCountContainer}>
+              <Text style={SocialScreenStyles.sectionHeaderCount}>
+                {friends.length}
+              </Text>
             </View>
           </View>
-          <View style={SocialScreenStyles.activeBox}>
-            {groupCount === 0 && renderEmptyGroup()}
-            {activeGroup.map((item: { name: string }, index) => (
-              <FriendCard
-                key={index}
-                index={index}
-                name={item.name}
-                isInGroup
-                imgUrl='@nightlight/assets/images/anon.png'
-              />
-            ))}
-            {/* TODO add glow  */}
-            <View style={SocialScreenStyles.glow} />
-          </View>
-          <View style={SocialScreenStyles.rowView}>
-            <Text style={SocialScreenStyles.allFriendsText}>All Friends</Text>
-            <View style={SocialScreenStyles.grayCircle}>
-              <Text style={SocialScreenStyles.numberText}>{friendCount}</Text>
-            </View>
-          </View>
-          <View style={SocialScreenStyles.friendBox}>
-            {friends.map(
-              (
-                item: {
-                  firstName: string;
-                  lastName: string;
-                  imgUrlProfileSmall: string;
-                },
-                index
-              ) => (
-                <FriendCard
-                  key={index}
-                  index={index}
-                  name={item.firstName + ' ' + item.lastName}
-                  imgUrl={item.imgUrlProfileSmall}
-                  isInGroup={false}
-                />
-              )
-            )}
-          </View>
+          <FlatList
+            style={SocialScreenStyles.friendsList}
+            data={friends}
+            renderItem={renderFriendItem}
+            keyExtractor={item => item._id}
+            ItemSeparatorComponent={renderItemSeparator}
+            ListEmptyComponent={renderEmptyFriendsList}
+            scrollEnabled={false}
+            indicatorStyle='white'
+          />
         </ScrollView>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,68 +1,64 @@
 import { StyleSheet } from 'react-native';
-import { DEVICE_WIDTH } from '@nightlight/src/constants';
+import {
+  DEVICE_HEIGHT,
+  EMERGENCY_BUTTON_RADIUS,
+  NAVBAR_HEIGHT,
+} from '@nightlight/src/constants';
 import { Fonts, COLORS } from '@nightlight/src/global.styles';
 
 export default StyleSheet.create({
-  screenContainer: {
+  container: {
     backgroundColor: COLORS.NIGHTLIGHT_GRAY,
-    minHeight: '100%',
+    height: DEVICE_HEIGHT,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  headerButton: {
+    padding: 10,
   },
   title: {
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 24,
     color: COLORS.WHITE,
-    textAlign: 'center',
     marginVertical: 10,
+    textAlign: 'center',
   },
-  searchBar: {
-    backgroundColor: COLORS.WHITE,
-    color: COLORS.GRAY,
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 14,
-    marginVertical: 20,
-    marginHorizontal: 20,
-    padding: 10,
-    borderRadius: 10,
-  },
-  contactList: {
-    marginHorizontal: 10,
-  },
-  contactSeparator: {
-    height: 2,
-  },
-  emptyContactsContainer: {
-    justifyContent: 'center',
+  notificationCountContainer: {
+    minWidth: 25,
+    height: 25,
+    borderRadius: 25 / 2,
+    backgroundColor: COLORS.RED,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 10,
+    paddingHorizontal: 5,
   },
-  emptyAvailableUsersText: {
+  notificationCount: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
+    color: COLORS.WHITE,
+    textAlign: 'center',
+  },
+  notificationsList: {},
+  notificationsListContent: {
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+  },
+  emptyNotificationsContainer: {},
+  emptyNotificationsText: {
     color: COLORS.GRAY,
     fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 14,
     textAlign: 'center',
     marginTop: 20,
-    marginBottom: 15,
-    marginHorizontal: 50,
-    lineHeight: 18,
+    marginHorizontal: 40,
   },
-  topRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingLeft: '5%',
-  },
-  notifCircle: {
-    width: 25,
-    height: 25,
-    borderRadius: DEVICE_WIDTH / 2,
-    backgroundColor: COLORS.RED,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: '3%',
-  },
-  numberText: {
-    fontFamily: Fonts.COMFORTAA_BOLD,
-    fontSize: 14,
-    color: COLORS.WHITE,
+  notificationCardSeparator: {
+    height: 2,
   },
 });

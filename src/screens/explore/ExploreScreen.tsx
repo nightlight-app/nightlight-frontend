@@ -36,7 +36,7 @@ const ExploreScreen = () => {
 
   // TODO: pagination query params
   const params = {
-    count: 10,
+    count: 100,
     page: page,
   };
 
@@ -84,7 +84,7 @@ const ExploreScreen = () => {
 
     let tempVenues = venues;
 
-    if (venues.length > 0) {
+    if (venues?.length > 0) {
       console.log(
         `[Explore] Searching venues by '${searchInput}' and sorting venues by '${sortFilter}'...`
       );
@@ -225,7 +225,6 @@ const ExploreScreen = () => {
             renderItem={renderVenueCard}
             keyExtractor={venue => venue._id}
             ListEmptyComponent={renderEmptyVenues}
-            scrollEnabled={filteredVenues.length > 0}
             ItemSeparatorComponent={renderVenueCardSeparator}
             indicatorStyle='white'
             refreshControl={

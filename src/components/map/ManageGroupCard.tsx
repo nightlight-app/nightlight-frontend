@@ -222,10 +222,18 @@ const ManageGroupCard = ({
 
     return (
       <View style={ManageGroupCardStyles.selectedUserContainer}>
-        <Image
-          style={ManageGroupCardStyles.selectedUserImg}
-          source={{ uri: item.imgUrlProfileSmall }}
-        />
+        {item?.imgUrlProfileSmall ? (
+          <Image
+            style={ManageGroupCardStyles.selectedUserImg}
+            source={{ uri: item.imgUrlProfileSmall }}
+          />
+        ) : (
+          <View style={ManageGroupCardStyles.selectedUserImg}>
+            <Text style={ManageGroupCardStyles.selectedUserInitials}>
+              {item.firstName[0] + item.lastName[0]}
+            </Text>
+          </View>
+        )}
         {/* Only render close button if the user isn't already in the group */}
         {!userIsInGroup && !userIsInvitedToGroup && (
           <CloseButton
@@ -271,10 +279,18 @@ const ManageGroupCard = ({
           isLastItem && ManageGroupCardStyles.availableUserBottomItem,
         ]}
         activeOpacity={0.75}>
-        <Image
-          style={ManageGroupCardStyles.availableUserImg}
-          source={{ uri: item.imgUrlProfileSmall }}
-        />
+        {item?.imgUrlProfileSmall ? (
+          <Image
+            style={ManageGroupCardStyles.availableUserImg}
+            source={{ uri: item.imgUrlProfileSmall }}
+          />
+        ) : (
+          <View style={ManageGroupCardStyles.availableUserImg}>
+            <Text style={ManageGroupCardStyles.availableUserInitials}>
+              {item.firstName[0] + item.lastName[0]}
+            </Text>
+          </View>
+        )}
         <Text style={ManageGroupCardStyles.availableUserName}>
           {item.firstName} {item.lastName}
         </Text>

@@ -10,6 +10,7 @@ import {
   Keyboard,
   Alert,
 } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { signInWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import SignInScreenStyles from '@nightlight/screens/auth/SignInScreen.styles';
@@ -17,7 +18,7 @@ import NightlightLogoSvg from '@nightlight/components/svgs/NightlightLogoSvg';
 import { COLORS } from '@nightlight/src/global.styles';
 import { auth } from '@nightlight/src/config/firebaseConfig';
 import Banner from '@nightlight/components/Banner';
-import { AuthRoute, NativeStackScreenProps } from '@nightlight/src/types';
+import { AuthRoute, AuthStackParamList } from '@nightlight/src/types';
 import Button from '@nightlight/components/Button';
 import BackgroundStaticMapSvg from '@nightlight/components/svgs/BackgroundStaticMapSvg';
 import {
@@ -26,7 +27,9 @@ import {
 } from '@nightlight/src/constants';
 import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
 
-const SignInScreen = ({ navigation }: NativeStackScreenProps) => {
+const SignInScreen = ({
+  navigation,
+}: NativeStackScreenProps<AuthStackParamList, AuthRoute.SIGN_IN>) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);

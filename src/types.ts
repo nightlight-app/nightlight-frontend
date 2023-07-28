@@ -3,10 +3,7 @@ import {
   EntryExitAnimationFunction,
   SharedValue,
 } from 'react-native-reanimated';
-import { NavigationHelpers, ParamListBase } from '@react-navigation/native';
-import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 import type { User as FirebaseUser } from 'firebase/auth';
-import { NativeStackNavigationEventMap } from '@react-navigation/native-stack';
 
 // TODO: Organize these types into separate files (probably in /src/interfaces?)
 
@@ -33,6 +30,7 @@ export enum SocialRoute {
   SOCIAL = 'Social',
   FRIEND_SEARCH = 'FriendSearch',
   NOTIFICATIONS = 'Notifications',
+  USER_PROFILE = 'UserProfile',
 }
 
 export enum MapCardType {
@@ -79,6 +77,18 @@ export enum LocationVisibilityValue {
   FRIENDS_AND_GROUP = 'FriendsAndGroup',
 }
 
+export enum NotificationType {
+  FRIEND_REQUEST = 'friendRequest',
+  GROUP_INVITE = 'groupInvite',
+  // TODO: add more notification types
+}
+
+export enum FriendStatus {
+  ADD = 'Add',
+  REQUESTED = 'Requested',
+  FRIEND = 'Friend',
+}
+
 export interface Reaction {
   count: number;
   didReact: boolean;
@@ -108,38 +118,65 @@ export interface LastActive {
 }
 
 export interface SavedGroup {
+  _id?: string;
   name: string;
   members: string[]; // mongoose ObjectId[]
 }
 
 export interface User {
-  _id: string; // mongoose ObjectId
+  _id: string;
   firebaseUid: string;
-  imgUrlProfileSmall?: string;
-  imgUrlProfileLarge?: string;
-  imgUrlCover?: string;
+  notificationToken?: string;
+  imgUrlProfileSmall: string;
+  imgUrlProfileLarge: string;
+  imgUrlCover: string;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  birthday: Date;
-  currentGroup?: string; // mongoose ObjectId
-  invitedGroups?: string[]; // mongoose ObjectId[]
-  friends: string[]; // mongoose ObjectId[]
-  friendRequests?: string[]; // mongoose ObjectId[]
-  lastActive: LastActive;
-  savedGroups?: SavedGroup[];
   isActiveNow: boolean;
+  isEmergency: boolean;
+  birthday: Date;
+  currentGroup?: string;
+  receivedGroupInvites?: string[];
+  friends?: string[];
+  receivedFriendRequests?: string[];
+  sentFriendRequests?: string[];
+  lastActive?: LastActive;
+  savedGroups: SavedGroup[];
+  emergencyContacts: EmergencyContact[];
+  sentPings: string[];
+  receivedPings: string[];
 }
 
 export interface Group {
-  _id?: string; // mongoose ObjectId
+  _id?: string;
   name: string;
-  members: string[]; // mongoose ObjectId[]
-  invitedMembers: string[]; // mongoose ObjectId[]
-  expectedDestination?: Location;
-  creationDatetime: Date;
-  expirationDatetime: Date;
+  members: string[];
+  invitedMembers: string[];
+  creationDatetime: string;
+  expirationDatetime: string;
+  expectedDestination?: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
+export interface Notification {
+  _id: string; // mongoose ObjectId
+  userId: string; // mongoose ObjectId
+  title: string;
+  body: string;
+  data: {
+    notificationType: NotificationType;
+    sentDateTime: string;
+    senderId: string; // mongoose ObjectId TODO: should be 'sender' and populated?
+    senderFirstName: string; // TODO: just populate sender object?
+    senderLastName: string; // TODO: just populate sender object?
+    groupId?: string; // mongoose ObjectId
+    groupName?: string;
+  };
+  delay: number;
 }
 
 export interface ISvgProps extends SvgProps {
@@ -221,20 +258,14 @@ export interface FriendCardProps {
 }
 
 export interface NotificationCardProps {
-  index: number;
-  message: string;
-  userId: string;
+  notification: Notification;
+  onActionSuccess: () => void;
 }
 
 export interface SearchUserCardProps {
-  firstName: string;
-  lastName: string;
-  index: number;
-  isAdded: boolean;
   isFirstItem: boolean;
   isLastItem: boolean;
-  image: string;
-  friendId: string;
+  user: User;
 }
 
 /**
@@ -263,13 +294,31 @@ export interface MoodButtonProps {
   onClose: () => void;
 }
 
-export interface BottomTabScreenProps {
-  navigation: NavigationHelpers<ParamListBase, BottomTabNavigationEventMap>;
-}
+export type RootTabParamList = {
+  [TabRoute.MAP]: undefined;
+  [TabRoute.SOCIAL_STACK]: undefined;
+  [TabRoute.EMERGENCY_BUTTON]: undefined;
+  [TabRoute.EXPLORE]: undefined;
+  [TabRoute.PROFILE_STACK]: undefined;
+};
 
-export interface NativeStackScreenProps {
-  navigation: NavigationHelpers<ParamListBase, NativeStackNavigationEventMap>;
-}
+export type AuthStackParamList = {
+  [AuthRoute.SIGN_IN]: undefined;
+  [AuthRoute.SIGN_UP]: undefined;
+};
+
+export type SocialStackParamList = {
+  [SocialRoute.SOCIAL]: undefined;
+  [SocialRoute.FRIEND_SEARCH]: undefined;
+  [SocialRoute.NOTIFICATIONS]: undefined;
+  [SocialRoute.USER_PROFILE]: { user: User };
+};
+
+export type ProfileStackParamList = {
+  [ProfileRoute.PROFILE]: undefined;
+  [ProfileRoute.EMERGENCY_CONTACTS]: undefined;
+  [ProfileRoute.SETTINGS]: undefined;
+};
 
 export interface EmergencyContact {
   name: string;

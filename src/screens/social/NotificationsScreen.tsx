@@ -1,51 +1,175 @@
-import { SocialRoute } from '@nightlight/src/types';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
-import NotificationsScreenStyles from './NotificationsScreen.styles';
-import { TEST_NOTIFICATIONS } from '@nightlight/src/testData';
+import {
+  SafeAreaView,
+  Text,
+  View,
+  FlatList,
+  RefreshControl,
+  TouchableOpacity,
+  ListRenderItemInfo,
+} from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AntDesign } from '@expo/vector-icons';
+import {
+  SocialRoute,
+  Notification,
+  SocialStackParamList,
+} from '@nightlight/src/types';
+import { useAuthContext } from '@nightlight/src/contexts/AuthContext';
+import { customFetch } from '@nightlight/src/api';
 import NotificationCard from '@nightlight/components/social/NotificationCard';
-const NotificationsScreen = () => {
-  const [notifications, setNotifications] = useState(TEST_NOTIFICATIONS);
-  const [counter, setCounter] = useState(0);
-  //TODO: need to pull notifications from backend (getNotifications)
+import NotificationsScreenStyles from '@nightlight/screens/social/NotificationsScreen.styles';
+import { COLORS } from '@nightlight/src/global.styles';
+import { PRIORITIZED_NOTIFICATION_TYPES } from '@nightlight/src/constants';
 
-  //   useEffect(() => {
-  //     setCounter(notifications.length)
-  //   });
+const NotificationsScreen = ({
+  navigation,
+}: NativeStackScreenProps<SocialStackParamList, SocialRoute.NOTIFICATIONS>) => {
+  // user id
+  const { userDocument } = useAuthContext();
+  const userId = userDocument?._id;
 
-  // called when there are no active group
-  const renderEmptyGroup = () => (
-    // TODO: figure out what to put here
-    <View>
-      <Text style={NotificationsScreenStyles.emptyAvailableUsersText}>
-        No active group
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [sortedNotifications, setSortedNotifications] = useState<
+    Notification[]
+  >([]);
+  const [numPrioritizedNotifications, setNumPrioritizedNotifications] =
+    useState<number>(0);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const fetchNotifications = async () => {
+    try {
+      console.log('[Notifications] Fetching notifications...');
+
+      const data = await customFetch({
+        resourceUrl: `/notifications/?userId=${userId}`,
+        options: {
+          method: 'GET',
+        },
+      });
+
+      setNotifications(data.notifications);
+    } catch (error) {
+      console.error('[Notifications] Error fetching notifications:\n', error);
+    }
+  };
+
+  // fetch notifications on first render
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  useEffect(() => {
+    // sort notifications by time sent and type
+    const sortedNotifications = [...notifications];
+    sortedNotifications.sort((a: Notification, b: Notification) => {
+      const typeA = a.data.notificationType;
+      const typeB = b.data.notificationType;
+
+      const timeA = new Date(a.data.sentDateTime) as unknown as number;
+      const timeB = new Date(b.data.sentDateTime) as unknown as number;
+
+      const isPrioritizedA = PRIORITIZED_NOTIFICATION_TYPES.includes(typeA);
+      const isPrioritizedB = PRIORITIZED_NOTIFICATION_TYPES.includes(typeB);
+
+      return isPrioritizedA === isPrioritizedB
+        ? timeB - timeA // XNOR gate (both are prioritized or neither is prioritized), sort by time
+        : isPrioritizedA
+        ? -1 // only a is prioritized
+        : 1; // only b is prioritized
+    });
+
+    setSortedNotifications(sortedNotifications);
+
+    // count number of prioritized notifications
+    const numPrioritizedNotifications = notifications.filter(notification =>
+      PRIORITIZED_NOTIFICATION_TYPES.includes(
+        notification.data.notificationType
+      )
+    ).length;
+
+    setNumPrioritizedNotifications(numPrioritizedNotifications);
+  }, [notifications]);
+
+  const handleBackPress = () => {
+    navigation.goBack();
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchNotifications();
+    setRefreshing(false);
+  };
+
+  // remove notification card from list
+  const removeNotificationCard = (notificationId: Notification['_id']) => {
+    const updatedNotifications = notifications.filter(
+      notification => notification._id !== notificationId
+    );
+
+    setNotifications(updatedNotifications);
+  };
+
+  const renderEmptyNotifications = () => (
+    <View style={NotificationsScreenStyles.emptyNotificationsContainer}>
+      <Text style={NotificationsScreenStyles.emptyNotificationsText}>
+        You haven't received any notifications yet!
       </Text>
     </View>
+  );
+
+  const renderNotificationCard = ({
+    item,
+  }: ListRenderItemInfo<Notification>) => (
+    <NotificationCard
+      notification={item}
+      onActionSuccess={() => removeNotificationCard(item._id)}
+    />
+  );
+
+  const renderNotificationCardSeparator = () => (
+    <View style={NotificationsScreenStyles.notificationCardSeparator} />
   );
 
   return (
     <SafeAreaView
       testID={SocialRoute.NOTIFICATIONS}
-      style={NotificationsScreenStyles.screenContainer}>
-      <ScrollView>
-        <View style={NotificationsScreenStyles.topRow}>
+      style={NotificationsScreenStyles.container}>
+      <View style={NotificationsScreenStyles.contentContainer}>
+        <View style={NotificationsScreenStyles.header}>
+          <TouchableOpacity
+            onPress={handleBackPress}
+            style={NotificationsScreenStyles.headerButton}
+            activeOpacity={0.75}>
+            <AntDesign name='left' size={24} color={COLORS.WHITE} />
+          </TouchableOpacity>
           <Text style={NotificationsScreenStyles.title}>Notifications</Text>
-          <View style={NotificationsScreenStyles.notifCircle}>
-            <Text style={NotificationsScreenStyles.numberText}>{counter}</Text>
+          <View style={NotificationsScreenStyles.notificationCountContainer}>
+            <Text style={NotificationsScreenStyles.notificationCount}>
+              {numPrioritizedNotifications}
+            </Text>
           </View>
         </View>
-        <View>
-          {notifications.map(
-            (item: { body: string; userId: { $oid: string } }, index) => (
-              <NotificationCard
-                key={index}
-                index={index}
-                message={item.body}
-                userId={item.userId.$oid}></NotificationCard>
-            )
-          )}
-        </View>
-      </ScrollView>
+        <FlatList
+          style={NotificationsScreenStyles.notificationsList}
+          contentContainerStyle={
+            NotificationsScreenStyles.notificationsListContent
+          }
+          data={sortedNotifications}
+          renderItem={renderNotificationCard}
+          keyExtractor={notification => notification._id}
+          ListEmptyComponent={renderEmptyNotifications}
+          ItemSeparatorComponent={renderNotificationCardSeparator}
+          indicatorStyle='white'
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={COLORS.GRAY}
+            />
+          }
+        />
+      </View>
     </SafeAreaView>
   );
 };

@@ -30,6 +30,10 @@ import {
   ProfileRoute,
   TabRoute,
   SocialRoute,
+  RootTabParamList,
+  AuthStackParamList,
+  SocialStackParamList,
+  ProfileStackParamList,
 } from '@nightlight/src/types';
 import {
   AuthProvider,
@@ -47,11 +51,12 @@ import SettingsScreen from '@nightlight/screens/settings/SettingsScreen';
 import { registerForPushNotificationsAsync } from '@nightlight/src/service/pushNotificationService';
 import FriendSearchScreen from '@nightlight/screens/social/FriendSearchScreen';
 import NotificationsScreen from '@nightlight/screens/social/NotificationsScreen';
+import UserProfile from '@nightlight/screens/social/UserProfileScreen';
 
-const Tab = createBottomTabNavigator();
-const AuthStack = createNativeStackNavigator();
-const ProfileStack = createNativeStackNavigator();
-const SocialStack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
+const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const SocialStack = createNativeStackNavigator<SocialStackParamList>();
+const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
 
 // Prevent hiding the splash screen
 preventAutoHideAsync();
@@ -88,6 +93,10 @@ const SocialScreenStack = () => {
       <SocialStack.Screen
         name={SocialRoute.NOTIFICATIONS}
         component={NotificationsScreen}
+      />
+      <SocialStack.Screen
+        name={SocialRoute.USER_PROFILE}
+        component={UserProfile}
       />
     </SocialStack.Navigator>
   );
@@ -128,7 +137,6 @@ const Main = () => {
           <Tab.Screen
             name={TabRoute.SOCIAL_STACK}
             component={SocialScreenStack}
-            initialParams={{ screen: SocialRoute.SOCIAL }}
           />
 
           {/* Placeholder to allocate space for emergency button to render in tab bar */}
@@ -141,7 +149,6 @@ const Main = () => {
           <Tab.Screen
             name={TabRoute.PROFILE_STACK}
             component={ProfileScreenStack}
-            initialParams={{ screen: ProfileRoute.PROFILE }}
           />
         </Tab.Navigator>
       ) : (

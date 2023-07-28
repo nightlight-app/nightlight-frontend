@@ -1,71 +1,74 @@
-import { COLORS, Fonts } from '@nightlight/src/global.styles';
-import { DEVICE_HEIGHT } from '@nightlight/src/constants';
 import { StyleSheet } from 'react-native';
+import { COLORS, Fonts } from '@nightlight/src/global.styles';
+import {
+  EMERGENCY_BUTTON_RADIUS,
+  NAVBAR_HEIGHT,
+} from '@nightlight/src/constants';
 
 export default StyleSheet.create({
-  container: {
-    display: 'flex',
+  itemContainer: {
     flexDirection: 'row',
+    padding: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
-    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    backgroundColor: COLORS.NIGHTLIGHT_BLACK,
   },
-  containerAlt: {
-    backgroundColor: '#1E1E1E', // TODO: use color from global.styles
+  topItem: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
-  profileImage: {
-    width: DEVICE_HEIGHT * 0.05,
-    height: DEVICE_HEIGHT * 0.05,
-    borderRadius: (DEVICE_HEIGHT * 0.15) / 2,
-    borderWidth: 3,
-    borderColor: COLORS.WHITE,
-    margin: 10,
+  bottomItem: {
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
-  leftSide: {
-    display: 'flex',
+  userInfoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  name: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
+  profileImage: {
+    width: 45,
+    height: 45,
+    borderRadius: 45 / 2,
+    borderWidth: 2,
+    borderColor: COLORS.WHITE,
+    marginRight: 10,
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userName: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
     fontSize: 18,
     color: COLORS.WHITE,
   },
-  activeText: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 10,
+  itemSeparator: {
+    height: 2,
+  },
+  emptyUsersContainer: {
+    paddingBottom: NAVBAR_HEIGHT + EMERGENCY_BUTTON_RADIUS + 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 50,
+  },
+  emptyUsersText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
     color: COLORS.GRAY,
+    textAlign: 'center',
   },
-  ellipse: {
-    margin: 15,
-  },
-  rowview: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  addButton: {
-    padding: 6,
+  friendButton: {
     backgroundColor: COLORS.NIGHTLIGHT_BLUE,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginRight: 10,
-    // marginRight: 10,
-    // marginBottom: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 5,
   },
-  addedButton: {
-    padding: 6,
-    backgroundColor: COLORS.GRAY,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginRight: 10,
+  grayedOutButton: {
+    backgroundColor: COLORS.NIGHTLIGHT_GRAY,
   },
-  addButtonText: {
-    fontFamily: Fonts.COMFORTAA_REGULAR,
-    fontSize: 13,
+  statusText: {
+    fontFamily: Fonts.COMFORTAA_BOLD,
+    fontSize: 14,
     color: COLORS.WHITE,
+    textAlign: 'center',
   },
 });
