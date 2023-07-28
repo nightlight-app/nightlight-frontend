@@ -28,6 +28,10 @@ export const TEST_USERS: User[] = [
     },
     savedGroups: [],
     isActiveNow: false,
+    isEmergency: false,
+    emergencyContacts: [],
+    sentPings: [],
+    receivedPings: [],
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4567',
@@ -58,6 +62,10 @@ export const TEST_USERS: User[] = [
       },
     ],
     isActiveNow: false,
+    isEmergency: false,
+    emergencyContacts: [],
+    sentPings: [],
+    receivedPings: [],
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4568',
@@ -88,6 +96,10 @@ export const TEST_USERS: User[] = [
       },
     ],
     isActiveNow: false,
+    isEmergency: false,
+    emergencyContacts: [],
+    sentPings: [],
+    receivedPings: [],
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4569',
@@ -118,6 +130,10 @@ export const TEST_USERS: User[] = [
       },
     ],
     isActiveNow: false,
+    isEmergency: false,
+    emergencyContacts: [],
+    sentPings: [],
+    receivedPings: [],
   },
   {
     _id: '5e9f1c5b0f1c9c0b5c8b4570',
@@ -148,6 +164,10 @@ export const TEST_USERS: User[] = [
       },
     ],
     isActiveNow: false,
+    isEmergency: false,
+    emergencyContacts: [],
+    sentPings: [],
+    receivedPings: [],
   },
 ];
 

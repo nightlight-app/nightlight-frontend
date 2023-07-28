@@ -118,39 +118,48 @@ export interface LastActive {
 }
 
 export interface SavedGroup {
+  _id?: string;
   name: string;
   members: string[]; // mongoose ObjectId[]
 }
 
 export interface User {
-  _id: string; // mongoose ObjectId
+  _id: string;
   firebaseUid: string;
-  imgUrlProfileSmall?: string;
-  imgUrlProfileLarge?: string;
-  imgUrlCover?: string;
+  notificationToken?: string;
+  imgUrlProfileSmall: string;
+  imgUrlProfileLarge: string;
+  imgUrlCover: string;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  birthday: Date;
-  currentGroup?: string; // mongoose ObjectId
-  invitedGroups?: string[]; // mongoose ObjectId[]
-  friends: string[]; // mongoose ObjectId[]
-  friendRequests?: string[]; // mongoose ObjectId[]
-  sentFriendRequests?: string[]; // mongoose ObjectId[]
-  lastActive: LastActive;
-  savedGroups?: SavedGroup[];
   isActiveNow: boolean;
+  isEmergency: boolean;
+  birthday: Date;
+  currentGroup?: string;
+  receivedGroupInvites?: string[];
+  friends?: string[];
+  receivedFriendRequests?: string[];
+  sentFriendRequests?: string[];
+  lastActive?: LastActive;
+  savedGroups: SavedGroup[];
+  emergencyContacts: EmergencyContact[];
+  sentPings: string[];
+  receivedPings: string[];
 }
 
 export interface Group {
-  _id?: string; // mongoose ObjectId
+  _id?: string;
   name: string;
-  members: string[]; // mongoose ObjectId[]
-  invitedMembers: string[]; // mongoose ObjectId[]
-  expectedDestination?: Location;
-  creationDatetime: Date;
-  expirationDatetime: Date;
+  members: string[];
+  invitedMembers: string[];
+  creationDatetime: string;
+  expirationDatetime: string;
+  expectedDestination?: {
+    latitude: number;
+    longitude: number;
+  };
 }
 
 export interface Notification {

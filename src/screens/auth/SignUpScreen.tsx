@@ -156,6 +156,13 @@ const SignUpScreen = ({
         email,
         firebaseUid: firebaseUser.uid,
         phone: phoneNumber,
+        isActiveNow: false,
+        isEmergency: false,
+        birthday: new Date().toUTCString(),
+        // TODO: Replace below (these are just placeholders for fun)
+        imgUrlCover: 'https://picsum.photos/1000',
+        imgUrlProfileLarge: 'https://picsum.photos/800',
+        imgUrlProfileSmall: 'https://picsum.photos/400',
       };
 
       const data = await customFetch({
